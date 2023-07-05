@@ -5,7 +5,7 @@ library(prompter)
 # Define server for application
 function(input, output, session) {
   output$menu <- renderUI({
-    selectInput("niveau", "Choisir le plus haut diplôme atteint :", transformed_list, selected = "Ensemble des sortants")
+    selectInput("niveau", "Choisir le plus haut diplôme atteint :", list_degre1_2, selected = "Ensemble des sortants")
   })
 
   code <- reactive({
