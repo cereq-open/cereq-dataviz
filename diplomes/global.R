@@ -23,7 +23,7 @@ generatePlot <- function(db_diplome, niveau) {
       values_to = "taux"
     )
   
-  colors <- c("#008B99", "#4C9A9A", "#C0C0C2")
+  colors <- c("taux_emploi"="#008B99", "taux_chomage"="#4C9A9A", "autre_situations"="#C0C0C2")
   
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
     geom_bar(stat = "identity", width = 0.5) + coord_flip() +
