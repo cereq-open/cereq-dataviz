@@ -28,7 +28,9 @@ generatePlot <- function(db_diplome, niveau) {
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
     geom_bar(stat = "identity", width = 0.5) + coord_flip() +
     geom_text(aes(label = taux),
-              position = position_stack(vjust = .5)) +
+              position = position_stack(vjust = .5),
+              colour = "white",
+              size = 10) +
     scale_fill_manual(values = colors)
     
 }
