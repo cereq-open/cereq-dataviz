@@ -89,13 +89,24 @@ shinyServer(function(input, output, session){
           values_to = "taux"
         )
       
-      colors <- c("#008B99", "#007580", "#C0C0C2")
+      DT$emploi[DT$emploi == "taux_emploi"] <- "En emploi"
+      DT$emploi[DT$emploi == "taux_chomage"] <- "Au chômage"
+      DT$emploi[DT$emploi == "autre_situations"] <- "Autres situations"
+      DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
+      DT$taux_str <- paste0(DT$taux, "%")
+      
+      colors <- c("En emploi"="#008B99", "Au chômage"="#4C9A9A", "Autres situations"="#C0C0C2")
       
       ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
         geom_bar(stat = "identity", width = 0.5) + coord_flip() +
-        geom_text(aes(label = taux),
-                  position = position_stack(vjust = .5)) +
-        scale_fill_manual(values = colors)
+        geom_text(aes(label = taux_str),
+                  position = position_stack(vjust = .5),
+                  colour = "white",
+                  size = 10) +
+        scale_fill_manual(values = colors) +
+        theme(legend.position = "bottom",    # Place la légende en bas
+              legend.direction = "horizontal",    # Orientation de la légende en ligne
+              legend.box = "horizontal")    # Boîte de la légende en ligne
     })
   })
   
@@ -131,7 +142,7 @@ shinyServer(function(input, output, session){
         geom_bar(width = 1, stat = "identity", color = "white") +
         coord_polar("y", start = 0)+
         geom_text(aes(label = taux), position = position_stack(vjust = .5), color = "black") +
-        scale_fill_manual(values = colors)
+        scale_fill_manual(values = colors) 
     })
   })
   
@@ -143,12 +154,12 @@ shinyServer(function(input, output, session){
         select(Code, Libelle_Menu, sec_industries_btp,	sec_commerce,	sec_administration,	sec_a_services,	sec_autres)
       
       if (isTruthy(code_niveau3())) {
-        print(code_niveau3())
+        # print(code_niveau3())
         DT <- filter(DT, Code == code_niveau3())
       }
 
       if (isTruthy(input$degre3)) {
-        print(input$degre3)
+        # print(input$degre3)
         DT <- filter(DT, Libelle_Menu == input$degre3)
       }
       DT <- DT %>% 

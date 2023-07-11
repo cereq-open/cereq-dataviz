@@ -23,24 +23,24 @@ fluidPage(
     class = "logo-container", # Classe CSS pour le conteneur du logo
     includeHTML("www/logo.svg") # Inclus le logo
   ),
-  tags$div(
-    class = "social-icons",
-    tags$a(
-      href = "url_linkedin",
-      target = "_blank",
-      tags$i(class = "fab fa-linkedin fa-lg")
-    ),
-    tags$a(
-      href = "url_facebook",
-      target = "_blank",
-      tags$i(class = "fab fa-facebook fa-lg")
-    ),
-    tags$a(
-      href = "url_twitter",
-      target = "_blank",
-      tags$i(class = "fab fa-twitter fa-lg")
-    )
-  ),
+  # tags$div(
+  #   class = "social-icons",
+  #   tags$a(
+  #     href = "url_linkedin",
+  #     target = "_blank",
+  #     tags$i(class = "fab fa-linkedin fa-lg")
+  #   ),
+  #   tags$a(
+  #     href = "url_facebook",
+  #     target = "_blank",
+  #     tags$i(class = "fab fa-facebook fa-lg")
+  #   ),
+  #   tags$a(
+  #     href = "url_twitter",
+  #     target = "_blank",
+  #     tags$i(class = "fab fa-twitter fa-lg")
+  #   )
+  # ),
   div(
     class = "row align-items-end",
     column(
@@ -79,6 +79,7 @@ fluidPage(
       div(class = "form-group", actionButton("clear", "Déselectionner"))
     )
   ),
+  br(),
   fluidRow(
     column(
       width = 12,
@@ -133,6 +134,7 @@ fluidPage(
       plotOutput("graph_situation_apres_3_ans")
     )
   ),
+  br(),
   fluidRow(
     column(
       width = 12,

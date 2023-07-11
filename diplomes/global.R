@@ -23,16 +23,38 @@ generatePlot <- function(db_diplome, niveau) {
       values_to = "taux"
     )
   
-  colors <- c("taux_emploi"="#008B99", "taux_chomage"="#4C9A9A", "autre_situations"="#C0C0C2")
+  DT$emploi[DT$emploi == "taux_emploi"] <- "En emploi"
+  DT$emploi[DT$emploi == "taux_chomage"] <- "Au chômage"
+  DT$emploi[DT$emploi == "autre_situations"] <- "Autres situations"
+  DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
+  DT$taux_str <- paste0(DT$taux, "%")
+  
+  colors <- c("En emploi"="#008B99", "Au chômage"="#4C9A9A", "Autres situations"="#C0C0C2")
+  
+  caption <- paste0("Lecture : ",
+                    "Trois ans après leur sortie de formation initiale ",
+                    DT$taux_str[1],
+                    " des jeunes de la Génération 2017 sont en emploi, ",
+                    DT$taux_str[2],
+                    " au chômage et ",
+                    DT$taux_str[3],
+                    " dans une autre situation.")
   
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
     geom_bar(stat = "identity", width = 0.5) + coord_flip() +
-    geom_text(aes(label = taux),
+    geom_text(aes(label = taux_str),
               position = position_stack(vjust = .5),
-              colour = "white",
+              color = "white",
               size = 10) +
-    scale_fill_manual(values = colors)
-    
+    scale_fill_manual(values = colors) +
+    labs(caption = caption) +
+    theme(legend.position = "bottom",    # Place la légende en bas
+          legend.direction = "horizontal",    # Orientation de la légende en ligne
+          legend.box = "horizontal",    # Boîte de la légende en ligne
+          plot.caption.position = "plot",
+          plot.caption = element_text(hjust = 0,
+                                      color="gray",
+                                      margin = margin(t = 10)))
 }
 
 ######### Create Pie charts ########################
