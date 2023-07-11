@@ -1,0 +1,41 @@
+---
+title: ""
+output: pdf_document
+date: "`r format(Sys.time(), '%e %B %Y')`"
+params:
+  niveau: "Non diplômés"
+---
+
+![This is a figure.](www/cereq_logo.png)
+![This is a figure.](www/cereq_logo.png)
+
+# `r params$niveau`
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(arrow)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+```{r plot, echo=FALSE}
+data <- read_parquet("/Users/mouna/Desktop/Work/GitHub/cereq-dataviz/diplomes/data/diplome.parquet")
+  DT <- data %>%
+    select(Libelle_Menu, taux_emploi, taux_chomage) %>%
+    mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
+    filter(Libelle_Menu %in% c("Ensemble des sortants", params$niveau)) %>%
+    pivot_longer(
+      cols = c("taux_emploi", "taux_chomage", "autre_situations"),
+      names_to = "emploi",
+      values_to = "taux"
+    )
+  
+  ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
+    geom_bar(stat = "identity", width = 0.5) + coord_flip() +
+    geom_text(aes(label = taux),
+              position = position_stack(vjust = .5))
+```
+
+![This is a figure.](www/cereq_logo.png)
+![This is a figure.](www/cereq_logo.png)

@@ -1,67 +1,229 @@
 library(shiny)
-library(shinydashboard)
-library(prompter)
+library(bslib)
+library(shinyWidgets)
 
-dashboardPage(
-  skin = "blue",
-  dashboardHeader(
-    title = "Génération 2017",
-    titleWidth = 200,
-    tags$li(
-      a(
-        href = "https://www.cereq.fr/",
-        img(src = "cereq_logo.png", height = "30px")
-      ),
-      class = "dropdown"
+fluidPage(
+  theme = bs_theme(version = 5),
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"), # CSS personnalisé
+    tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"), # Librarie font-awesome
+    tags$script(src = "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"), # Web Font Loader
+    tags$script(
+      "
+  WebFont.load({
+    google: {
+      families: ['Arial']
+    }
+  });
+  "
+    ) # Pour que Arial soit toujours disponible dans le navigateur de l'utilisateur
+  ),
+  br(),
+  tags$div(
+    class = "logo-container", # Classe CSS pour le conteneur du logo
+    includeHTML("www/logo.svg") # Inclus le logo
+  ),
+  tags$div(
+    class = "social-icons",
+    tags$a(
+      href = "url_linkedin",
+      target = "_blank",
+      tags$i(class = "fab fa-linkedin fa-lg")
+    ),
+    tags$a(
+      href = "url_facebook",
+      target = "_blank",
+      tags$i(class = "fab fa-facebook fa-lg")
+    ),
+    tags$a(
+      href = "url_twitter",
+      target = "_blank",
+      tags$i(class = "fab fa-twitter fa-lg")
     )
   ),
-  dashboardSidebar(disable = TRUE),
-  dashboardBody(
-    
-        fluidRow(
-          column(width = 6,
-          box(status = "primary", width = NULL,
-              tags$head(tags$style(".option:first-child, 
-              .option optgroup:first-child option:first-child {
-                         font-weight:bold;
-                       }")),
-            uiOutput("menu"),
-            conditionalPanel(
-              condition = "output.sousniveau == true",
-              selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2),
-              actionButton("clear", "Déselectionner")
-            ), 
-            box(status = "primary", width = NULL, 
-                use_prompt(),
-                valueBoxOutput("ibox1"), 
-                valueBoxOutput("ibox2"))
-            
-          )),
-          column(width = 6, 
-                 box(
-            title = "Quels emplois ?", status = "primary", width = NULL, solidHeader = TRUE, 
-            collapsible = TRUE,
-            valueBoxOutput("ibox3"),
-            valueBoxOutput("ibox4"),
-            valueBoxOutput("ibox5")
-            
+  div(
+    class = "row align-items-end",
+    column(
+      width = 2,
+      pickerInput(
+        inputId = "niveau",
+        label = "Choisir le plus haut diplôme atteint",
+        choices = list_degre1_2,
+        choicesOpt = list(
+          style = c(
+            "font-weight: bold;",
+            "font-weight: bold;",
+            "font-weight: bold;",
+            "",
+            "",
+            "",
+            "",
+            "font-weight: bold;",
+            "",
+            "",
+            "",
+            "",
+            "font-weight: bold;",
+            "",
+            "",
+            ""
           ))
-          ),
-        fluidRow(
-          column(width = 6, box(status = "primary", width = NULL, 
-                                plotOutput("plot"))),
-          column(width = 3, box(title = "Répartition par profession", status = "primary", solidHeader = TRUE, collapsible = TRUE,  width = NULL,
-                                plotOutput("pieprofession"))),
-          column(width = 3, box(title = "Répartition par secteur", status = "primary", solidHeader = TRUE, collapsible = TRUE,  width = NULL,
-                                plotOutput("piesecteur")))),
-        fluidRow(
-          column(width = 6),
-          column(width = 6, 
-          box(status = "primary", width = NULL,
-              valueBoxOutput("ibox6", width = 6), 
-              valueBoxOutput("ibox7", width = 6)
-              )
-          )   
+      )
+    ),
+    column(
+      width = 2,
+      selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2)
+    ),
+    column(
+      width = 2,
+      div(class = "form-group", actionButton("clear", "Déselectionner"))
+    )
+  ),
+  fluidRow(
+    column(
+      width = 12,
+      tags$h1("Trois ans après la sortie de formation")
+    ),
+    column(
+      width = 6,
+      tags$h3(
+        tags$span(
+          style = "color: #008B99;",
+          "En emploi"
+        ),
+        tags$i(
+          class = "fas fa-info-circle",
+          style = "margin-left: 5px;",
+          title = "Proportion de jeunes de la génération 2017 en emploi trois ans après leur sortie de formation initiale."
+        ),
+        tags$span(
+          style = "color: #008B99;",
+          textOutput("tx_en_emploi")
         )
+      )
+    ),
+    column(
+      width = 6,
+      tags$h3(
+        tags$span(
+          style = "color: #008B99;",
+          "Taux de chômage"
+        ),
+        tags$i(
+          class = "fas fa-info-circle",
+          style = "margin-left: 5px;",
+          title = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+        ),
+        tags$span(
+          style = "color: #008B99;",
+          textOutput("tx_chomage")
+        )
+      )
+    )
+  ),
+  fluidRow(
+    column(
+      width = 12,
+      plotOutput("graph_situation_apres_3_ans")
+    )
+  ),
+  fluidRow(
+    column(
+      width = 12,
+      tags$h1("Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?")
+    ),
+    column(
+      width = 4,
+      tags$h3(
+        tags$span(
+          style = "color: #008B99;",
+          textOutput("tx_en_edi"),
+          "En emploi à durée indéterminée"
+        ),
+        tags$i(
+          class = "fas fa-info-circle",
+          style = "margin-left: 5px;",
+          title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+        )
+      )
+    ),
+    column(
+      width = 4,
+      tags$h3(
+        tags$span(
+          style = "color: #008B99;",
+          textOutput("tx_a_tps_partiel"),
+          "à temps partiel",
+        ),
+        tags$i(
+          class = "fas fa-info-circle",
+          style = "margin-left: 5px;",
+          title = "Texte informatif affiché au survol"
+        )
+      )
+    ),
+    column(
+      width = 4,
+      tags$h3(
+        tags$span(
+          style = "color: #008B99;",
+          textOutput("revenu_median"),
+          "Revenu mensuel médian",
+        ),
+        tags$i(
+          class = "fas fa-info-circle",
+          style = "margin-left: 5px;",
+          title = "Le revenu médian est le niveau de revenu tel que 50% des jeunes de la Génération 2017 en emploi salarié ou non salarié gagnent davantage et 50% gagnent moins."
+        )
+      )
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 6,
+      tags$h3(
+        tags$span(
+          style = "color: #008B99;",
+          "Répartition par profession"
+        ),
+        tags$i(
+          class = "fas fa-info-circle",
+          style = "margin-left: 5px;",
+          title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+        )
+      )
+    ),
+    column(
+      width = 6,
+      tags$h3(
+        tags$span(
+          style = "color: #008B99;",
+          "Répartition par secteur"
+        ),
+        tags$i(
+          class = "fas fa-info-circle",
+          style = "margin-left: 5px;",
+          title = "Texte informatif affiché au survol"
+        )
+      )
+    )
+  ),
+  fluidRow(
+    column(
+      width = 6,
+      plotOutput("plot_repartition_par_profession")
+    ),
+    column(
+      width = 6,
+      plotOutput("plot_repartition_par_secteur")
+    )
+  ),
+  fluidRow(
+    column(
+      width = 12,
+      uiOutput("tx_jugent_coherent"),
+      uiOutput("tx_estiment_ss_employes")
+    )
   )
 )
