@@ -58,12 +58,7 @@ generatePlot <- function(db_diplome, niveau) {
     labs(caption = caption) +
     theme(legend.position = "bottom",    # Place la légende en bas
           legend.direction = "horizontal",    # Orientation de la légende en ligne
-          legend.box = "horizontal",    # Boîte de la légende en ligne
-          plot.caption.position = "plot",
-          plot.caption = element_text(hjust = 0,
-                                      color="gray",
-                                      #face = "bold",
-                                      margin = margin(t = 10)))
+          legend.box = "horizontal")    # Boîte de la légende en ligne
 }
 
 generatePlotSpec <- function(db_diplome, niveau, libelle) {
@@ -112,10 +107,7 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
     labs(caption = caption) +
     theme(legend.position = "bottom",    # Place la légende en bas
           legend.direction = "horizontal",    # Orientation de la légende en ligne
-          legend.box = "horizontal",    # Boîte de la légende en ligne
-          plot.caption = element_text(hjust = 0,
-                                      color="#303032",
-                                      margin = margin(t = 10)))
+          legend.box = "horizontal")    # Boîte de la légende en ligne
 } 
 
 ######### Create Pie charts ########################
@@ -188,7 +180,10 @@ theme_set(
     legend.background = element_rect(color = "#D6D8DD", linewidth = 0.1),
     plot.title = element_text(face = "bold", size = 20),
     plot.caption.position = "plot",
-    plot.caption = element_text(size = 11),
+    plot.caption = element_text(hjust = 0,
+                                color="#303032",
+                                margin = margin(t = 10),
+                                size = 11),
     legend.text = element_text(family = "Open Sans", size = 12),
     legend.title = element_blank()
   )
