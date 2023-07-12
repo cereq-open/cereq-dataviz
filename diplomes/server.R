@@ -48,7 +48,7 @@ shinyServer(function(input, output, session){
     as.numeric(filter(db_diplome, Code %in% sequence) %>% pull(Code))
   })
   
-  ###################### Define the datastreams according to the levels selected ###################### 
+  ###################### Define the data streams according to the levels selected ###################### 
   
   filtered_data <- reactive({
     
@@ -87,13 +87,13 @@ shinyServer(function(input, output, session){
   
   observeEvent(input$niveau, {
     output$plot_repartition_par_profession <- renderPlot({
-      generatePieProfession(db_diplome, input$niveau)
+      generateDonutProfession(db_diplome, input$niveau)
     })
   })
   
   observeEvent(input$niveau, {
     output$plot_repartition_par_secteur <- renderPlot({
-      generatePieSecteur(db_diplome, input$niveau)
+      generateDonutSecteur(db_diplome, input$niveau)
     })
   })
   
@@ -103,19 +103,26 @@ shinyServer(function(input, output, session){
       DT <- db_diplome %>%
         select(Code, Libelle_Menu, pos_cadres,	pos_prof_int,	pos_emp_ouv_q,	pos_emp_ouv_nq,	pos_autres) %>%
         filter(Code == code_niveau3() & Libelle_Menu == input$degre3) %>%
+        mutate(across(everything(), ~ gsub(",", ".", .))) %>%
         pivot_longer(
           cols = c("pos_cadres",	"pos_prof_int",	"pos_emp_ouv_q",	"pos_emp_ouv_nq",	"pos_autres"),
           names_to = "profession",
-          values_to = "taux"
-        )
+          values_to = "taux") %>% 
+        mutate(taux = as.numeric(taux)) %>% 
+        mutate(fraction = taux / sum(taux), # Calculer les pourcentages
+               ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
+               ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
+               labelPosition = (ymax + ymin) / 2,
+               label = paste0(profession, "\n ", taux)) 
       
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
       
-      ggplot(DT, aes(x = "", y = taux, fill = profession)) +
-        geom_bar(width = 1, stat = "identity", color = "white") +
-        coord_polar("y", start = 0)+
-        geom_text(aes(label = taux), position = position_stack(vjust = .5), color = "black") +
-        scale_fill_manual(values = colors) 
+      ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
+        geom_rect() +
+        coord_polar(theta = "y") + 
+        xlim(c(2, 4)) + 
+        geom_label(x = 3.5, aes(y = labelPosition, label = taux), size = 6) +
+        scale_fill_manual(values = colors)
     })
   })
   
@@ -136,16 +143,26 @@ shinyServer(function(input, output, session){
         DT <- filter(DT, Libelle_Menu == input$degre3)
       }
       DT <- DT %>% 
+        mutate(across(everything(), ~ gsub(",", ".", .))) %>% 
         pivot_longer(
           cols = c("sec_industries_btp",	"sec_commerce",	"sec_administration",	"sec_a_services",	"sec_autres"),
           names_to = "secteur",
-          values_to = "taux"
-        )
+          values_to = "taux") %>% 
+        mutate(taux = as.numeric(taux)) %>% 
+        mutate(fraction = taux / sum(taux), # Calculer les pourcentages
+               ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
+               ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
+               labelPosition = (ymax + ymin) / 2,
+               label = paste0(secteur, "\n ", taux)) 
       
-      ggplot(DT, aes(x = "", y = taux, fill = secteur)) +
-        geom_bar(width = 1, stat = "identity", color = "black") +
-        coord_polar("y", start = 0)+
-        geom_text(aes(label = taux), position = position_stack(vjust = .5), color = "black") 
+      colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
+      
+      ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
+        geom_rect() +
+        coord_polar(theta = "y") +
+        xlim(c(2, 4)) + 
+        geom_label(x = 3.5, aes(y = labelPosition, label = taux), size = 6) +
+        scale_fill_manual(values = colors)
     })
   })
   
@@ -189,7 +206,7 @@ shinyServer(function(input, output, session){
     
     output$tx_en_emploi <- renderText({
       
-      paste0(filtered_data()$taux_emploi, "%")
+      paste(paste0(filtered_data()$taux_emploi, "% "),"(",paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
       
     })
     
@@ -296,11 +313,11 @@ shinyServer(function(input, output, session){
     })
     
     output$plot_repartition_par_profession <- renderPlot({
-      generatePieProfession(db_diplome, input$niveau)
+      generateDonutProfession(db_diplome, input$niveau)
     })
     
     output$plot_repartition_par_secteur <- renderPlot({
-      generatePieSecteur(db_diplome, input$niveau)
+      generateDonutSecteur(db_diplome, input$niveau)
     })
     
     output$tx_jugent_coherent <- renderUI({
