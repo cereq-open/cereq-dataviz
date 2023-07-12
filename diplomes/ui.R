@@ -19,9 +19,11 @@ fluidPage(
     ) # Pour que Arial soit toujours disponible dans le navigateur de l'utilisateur
   ),
   br(),
+  tags$span(
+    tags$div(class = "card", "Génération 2017"),
   tags$div(
     class = "logo-container", # Classe CSS pour le conteneur du logo
-    includeHTML("www/logo.svg") # Inclus le logo
+    includeHTML("www/logo.svg")) # Inclus le logo
   ),
   # tags$div(
   #   class = "social-icons",

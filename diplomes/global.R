@@ -30,7 +30,7 @@ generatePlot <- function(db_diplome, niveau) {
   DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
   DT$taux_str <- paste0(DT$taux, "%")
   
-  colors <- c("En emploi"="#008B99", "Au chômage"="#4C9A9A", "Autres situations"="#C0C0C2")
+  colors <- c("En emploi"="#008B99", "Au chômage"="#EF5350", "Autres situations"="#F8AC00")
   
   caption <- paste0("Lecture : ",
                     "Trois ans après leur sortie de formation initiale ",
@@ -50,7 +50,7 @@ generatePlot <- function(db_diplome, niveau) {
   
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
     geom_bar(stat = "identity", width = 0.5) + coord_flip() +
-    geom_text(aes(label = taux_str),
+    geom_text(aes(label = taux),
               position = position_stack(vjust = .5),
               color = "white",
               size = 10) +
@@ -62,6 +62,7 @@ generatePlot <- function(db_diplome, niveau) {
           plot.caption.position = "plot",
           plot.caption = element_text(hjust = 0,
                                       color="gray",
+                                      #face = "bold",
                                       margin = margin(t = 10)))
 }
 
@@ -83,18 +84,38 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
   DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
   DT$taux_str <- paste0(DT$taux, "%")
   
-  colors <- c("En emploi"="#008B99", "Au chômage"="#4C9A9A", "Autres situations"="#C0C0C2")
+  colors <- c("En emploi"="#008B99", "Au chômage"="#EF5350", "Autres situations"="#F8AC00")
+  
+  caption <- paste0("Lecture : ",
+                    "Trois ans après leur sortie de formation initiale ",
+                    DT$taux_str[1],
+                    " des jeunes de la Génération 2017 sont en emploi, ",
+                    DT$taux_str[2],
+                    " au chômage et ",
+                    DT$taux_str[3],
+                    " dans une autre situation.",
+                    "\n",
+                    "Champ : ",
+                    "Ensemble de la Génération 2017.",
+                    "\n",
+                    "Source : ",
+                    "Céreq, enquête Génération 2017 à trois ans."
+  )
   
   ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
     geom_bar(stat = "identity", width = 0.5) + coord_flip() +
-    geom_text(aes(label = taux_str),
+    geom_text(aes(label = taux),
               position = position_stack(vjust = .5),
               colour = "white",
               size = 10) +
     scale_fill_manual(values = colors) +
+    labs(caption = caption) +
     theme(legend.position = "bottom",    # Place la légende en bas
           legend.direction = "horizontal",    # Orientation de la légende en ligne
-          legend.box = "horizontal")    # Boîte de la légende en ligne
+          legend.box = "horizontal",    # Boîte de la légende en ligne
+          plot.caption = element_text(hjust = 0,
+                                      color="#303032",
+                                      margin = margin(t = 10)))
 } 
 
 ######### Create Pie charts ########################
@@ -129,7 +150,7 @@ generatePieSecteur <- function(db_diplome, niveau) {
       values_to = "taux"
     )
   
-  colors <- c("#008B99", "#FAC05E", "#4C9A9A", "#FF7043", "#6E88A4")
+  colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
   
   ggplot(DT, aes(x = "", y = taux, fill = secteur)) +
     geom_bar(width = 1, stat = "identity", color = "white") +
@@ -166,7 +187,8 @@ theme_set(
     plot.title.position = "plot",
     legend.background = element_rect(color = "#D6D8DD", linewidth = 0.1),
     plot.title = element_text(face = "bold", size = 20),
-    plot.caption = element_text(face = "bold", size = 11),
+    plot.caption.position = "plot",
+    plot.caption = element_text(size = 11),
     legend.text = element_text(family = "Open Sans", size = 12),
     legend.title = element_blank()
   )

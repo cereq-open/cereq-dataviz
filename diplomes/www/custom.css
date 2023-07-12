@@ -39,7 +39,6 @@ p {
 }
 
 .logo-container {
-  text-align: center;
   padding: 10px;
 }
 
@@ -52,4 +51,14 @@ p {
 
 .social-icons a {
   margin-right: 5px;
+}
+
+.card {
+  background-color: #008B99;
+  border-color: #ffffff;
+  color: #ffffff;
+  padding: 0;
+  border-radius: 1rem;
+  margin-bottom: 3rem;
+  text-align: center;
 }
