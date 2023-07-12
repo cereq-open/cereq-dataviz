@@ -96,7 +96,7 @@ fluidPage(
         tags$i(
           class = "fas fa-info-circle",
           style = "margin-left: 5px;",
-          title = "Proportion de jeunes de la génération 2017 en emploi trois ans après leur sortie de formation initiale."
+          title = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
         ),
         tags$span(
           style = "color: #008B99;",
@@ -114,7 +114,7 @@ fluidPage(
         tags$i(
           class = "fas fa-info-circle",
           style = "margin-left: 5px;",
-          title = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+          title = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
         ),
         tags$span(
           style = "color: #008B99;",
@@ -182,7 +182,7 @@ fluidPage(
         tags$i(
           class = "fas fa-info-circle",
           style = "margin-left: 5px;",
-          title = "Le revenu médian est le niveau de revenu tel que 50% des jeunes de la Génération 2017 en emploi salarié ou non salarié gagnent davantage et 50% gagnent moins."
+          title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
         )
       )
     )
