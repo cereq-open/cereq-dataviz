@@ -38,7 +38,14 @@ generatePlot <- function(db_diplome, niveau) {
                     DT$taux_str[2],
                     " au chômage et ",
                     DT$taux_str[3],
-                    " dans une autre situation.")
+                    " dans une autre situation.",
+                    "\n",
+                    "Champ : ",
+                    "Ensemble de la Génération 2017.",
+                    "\n",
+                    "Source : ",
+                    "Céreq, enquête Génération 2017 à trois ans."
+                    )
   
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
     geom_bar(stat = "identity", width = 0.5) + coord_flip() +

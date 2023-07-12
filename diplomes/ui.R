@@ -67,7 +67,8 @@ fluidPage(
             "",
             "",
             ""
-          ))
+          )
+        )
       )
     ),
     column(
@@ -198,7 +199,7 @@ fluidPage(
         tags$i(
           class = "fas fa-info-circle",
           style = "margin-left: 5px;",
-          title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+          title = "Les professions sont présentées de façon agrégée, à partir d’une nomenclature plus détaillée, celle des professions et catégories socioprofessionnelles de l’INSEE de 2022."
         )
       )
     ),
@@ -212,7 +213,7 @@ fluidPage(
         tags$i(
           class = "fas fa-info-circle",
           style = "margin-left: 5px;",
-          title = "Texte informatif affiché au survol"
+          title = "Les secteurs sont présentés de façon agrégée, à partir d’une nomenclature plus détaillée : la nomenclature des activités françaises de l’INSEE de 2022 (NAF)."
         )
       )
     )
