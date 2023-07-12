@@ -1,8 +1,9 @@
-library(readxl)
+suppressPackageStartupMessages({library(readxl)
 library(dplyr)
 library(stringr)
 library(tidyr)
 library(ggplot2)
+})
 
 options(shiny.useragg = TRUE)
 
@@ -63,6 +64,38 @@ generatePlot <- function(db_diplome, niveau) {
                                       color="gray",
                                       margin = margin(t = 10)))
 }
+
+generatePlotSpec <- function(db_diplome, niveau, libelle) {
+  
+  DT <- db_diplome %>%
+    filter(Code %in% c(niveau, 100) & Libelle_Menu %in% c(libelle, "Ensemble des sortants")) %>%
+    select(Code, Libelle_Menu, Libelle_complet, taux_emploi, taux_chomage) %>%
+    mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
+    pivot_longer(
+      cols = c("taux_emploi", "taux_chomage", "autre_situations"),
+      names_to = "emploi",
+      values_to = "taux"
+    )
+  
+  DT$emploi[DT$emploi == "taux_emploi"] <- "En emploi"
+  DT$emploi[DT$emploi == "taux_chomage"] <- "Au chômage"
+  DT$emploi[DT$emploi == "autre_situations"] <- "Autres situations"
+  DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
+  DT$taux_str <- paste0(DT$taux, "%")
+  
+  colors <- c("En emploi"="#008B99", "Au chômage"="#4C9A9A", "Autres situations"="#C0C0C2")
+  
+  ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
+    geom_bar(stat = "identity", width = 0.5) + coord_flip() +
+    geom_text(aes(label = taux_str),
+              position = position_stack(vjust = .5),
+              colour = "white",
+              size = 10) +
+    scale_fill_manual(values = colors) +
+    theme(legend.position = "bottom",    # Place la légende en bas
+          legend.direction = "horizontal",    # Orientation de la légende en ligne
+          legend.box = "horizontal")    # Boîte de la légende en ligne
+} 
 
 ######### Create Pie charts ########################
 

@@ -79,34 +79,7 @@ shinyServer(function(input, output, session){
   observeEvent(input$degre3, {
     output$graph_situation_apres_3_ans <- renderPlot({
       req(selectedValue()) # Make sure that the selected value is not NULL before rendering the plot.
-      DT <- db_diplome %>%
-        filter(Code %in% c(code_niveau3(), 100) & Libelle_Menu %in% c(input$degre3, "Ensemble des sortants")) %>%
-        select(Code, Libelle_Menu, Libelle_complet, taux_emploi, taux_chomage) %>%
-        mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
-        pivot_longer(
-          cols = c("taux_emploi", "taux_chomage", "autre_situations"),
-          names_to = "emploi",
-          values_to = "taux"
-        )
-      
-      DT$emploi[DT$emploi == "taux_emploi"] <- "En emploi"
-      DT$emploi[DT$emploi == "taux_chomage"] <- "Au chômage"
-      DT$emploi[DT$emploi == "autre_situations"] <- "Autres situations"
-      DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
-      DT$taux_str <- paste0(DT$taux, "%")
-      
-      colors <- c("En emploi"="#008B99", "Au chômage"="#4C9A9A", "Autres situations"="#C0C0C2")
-      
-      ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
-        geom_bar(stat = "identity", width = 0.5) + coord_flip() +
-        geom_text(aes(label = taux_str),
-                  position = position_stack(vjust = .5),
-                  colour = "white",
-                  size = 10) +
-        scale_fill_manual(values = colors) +
-        theme(legend.position = "bottom",    # Place la légende en bas
-              legend.direction = "horizontal",    # Orientation de la légende en ligne
-              legend.box = "horizontal")    # Boîte de la légende en ligne
+      generatePlotSpec(db_diplome,code_niveau3(),input$degre3)
     })
   })
   

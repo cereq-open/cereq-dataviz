@@ -6,7 +6,7 @@ fluidPage(
   theme = bs_theme(version = 5),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"), # CSS personnalisé
-    tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"), # Librarie font-awesome
+    tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"), # Librairie font-awesome
     tags$script(src = "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"), # Web Font Loader
     tags$script(
       "
@@ -73,10 +73,7 @@ fluidPage(
     ),
     column(
       width = 2,
-      selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2)
-    ),
-    column(
-      width = 2,
+      selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2),
       div(class = "form-group", actionButton("clear", "Déselectionner"))
     )
   ),
