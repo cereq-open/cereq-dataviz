@@ -253,3 +253,88 @@ theme_set(
     legend.title = element_blank()
   )
 )
+
+
+
+
+labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
+  tagList(
+    tags$p(
+      tags$span(
+        style = "color: #008B99;",
+        info_str
+      ),
+      tags$i(
+        class = "fas fa-info-circle",
+        style = "margin-left: 5px;",
+        title = infobulle_str
+      )
+    ),
+    tags$p(
+      tags$span(
+        style = "color: #008B99;",
+        stat1_str
+      ),
+      if (!is.null(stat2_str)) tags$span(
+        style = "color: #C0C0C2;",
+        stat2_str
+      )
+      
+    )
+  )
+}
+
+labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
+  tagList(
+    tags$p(
+      tags$span(
+        style = "color: #008B99;",
+        stat1_str
+      ),
+      if (!is.null(stat2_str)) tags$span(
+        style = "color: #C0C0C2;",
+        stat2_str
+      )
+      
+    ),
+    tags$p(
+      tags$span(
+        style = "color: #008B99;",
+        info_str
+      ),
+      tags$i(
+        class = "fas fa-info-circle",
+        style = "margin-left: 5px;",
+        title = infobulle_str
+      )
+    )
+  )
+}
+
+
+labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
+  tagList(
+
+      tags$span(
+        style = "color: #008B99;",
+        stat1_str
+      ),
+      if (!is.null(stat2_str)) tags$span(
+        style = "color: #C0C0C2;",
+        stat2_str
+      
+      
+    ),
+    
+      tags$span(
+        style = "color: #008B99;",
+        info_str
+      ),
+      tags$i(
+        class = "fas fa-info-circle",
+        style = "margin-left: 5px;",
+        title = infobulle_str
+      
+    )
+  )
+}

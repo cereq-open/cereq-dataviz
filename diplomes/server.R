@@ -6,26 +6,24 @@ library(ggplot2)
 
 # Define Server ----------------------------------------------------------------
 
-shinyServer(function(input, output, session){
-  
-  ###################### Create the scrolling menu ###################### 
-  
+shinyServer(function(input, output, session) {
+  ###################### Create the scrolling menu ######################
+
   code <- reactive({
     req(input$niveau)
     as.numeric(filter(db_diplome, Libelle_Menu %in% input$niveau) %>% pull(Code))
   })
-  
+
   # Do not display the second SeletInput when the first or the second level are selected (set condition as output from server).
   output$sousniveau <- reactive(str_sub(code(), -2, -1) != "00")
   outputOptions(output, "sousniveau", suspendWhenHidden = FALSE)
-  
+
   observeEvent(code(), {
     if (!is.null(code()) & str_sub(code(), -2, -1) != "00") {
       from <- as.numeric(code() + 1)
       to <- as.numeric(code() + 9)
       sequence <- seq(from, to, by = 1)
       values <- dplyr::filter(db_diplome, Code %in% sequence) %>% pull(Libelle_Menu)
-      
     } else {
       values <- character()
     }
@@ -35,11 +33,11 @@ shinyServer(function(input, output, session){
       choices = values
     )
   })
-  
+
   niveau3 <- reactive({
     req(input$degre3)
   })
-  
+
   code_niveau3 <- reactive({
     req(input$niveau)
     from <- as.numeric(code() + 1)
@@ -47,112 +45,114 @@ shinyServer(function(input, output, session){
     sequence <- seq(from, to, by = 1)
     as.numeric(filter(db_diplome, Code %in% sequence) %>% pull(Code))
   })
-  
-  ###################### Define the data streams according to the levels selected ###################### 
-  
+
+  ###################### Define the data streams according to the levels selected ######################
+
   filtered_data <- reactive({
-    
     generateDataForLevel(db_diplome, input$niveau)
-    
   })
-  
+
   filtered_data_level3 <- reactive({
-    
     generateDataForLevel3(db_diplome, code_niveau3(), input$degre3)
-    
   })
-  
-  ###################### Create the graph_situation_apres_3_ans plots according to the selected level from the scrolling menu ###################### 
-  
+
+  ###################### Create the graph_situation_apres_3_ans plots according to the selected level from the scrolling menu ######################
+
   observeEvent(input$niveau, {
-    output$graph_situation_apres_3_ans<- renderPlot({
+    output$graph_situation_apres_3_ans <- renderPlot({
       generatePlot(db_diplome, input$niveau)
     })
   })
-  
+
   selectedValue <- reactiveVal(NULL) # Use the reactive value selectedValue to keep track of the selected value from the second list of third levels.
-  
+
   observeEvent(input$degre3, {
     selectedValue(input$degre3)
   })
-  
+
   observeEvent(input$degre3, {
     output$graph_situation_apres_3_ans <- renderPlot({
       req(selectedValue()) # Make sure that the selected value is not NULL before rendering the plot.
-      generatePlotSpec(db_diplome,code_niveau3(),input$degre3)
+      generatePlotSpec(db_diplome, code_niveau3(), input$degre3)
     })
   })
-  
-  ###################### Create Pie Plots ###################### 
-  
+
+  ###################### Create Pie Plots ######################
+
   observeEvent(input$niveau, {
     output$plot_repartition_par_profession <- renderPlot({
       generateDonutProfession(db_diplome, input$niveau)
     })
   })
-  
+
   observeEvent(input$niveau, {
     output$plot_repartition_par_secteur <- renderPlot({
       generateDonutSecteur(db_diplome, input$niveau)
     })
   })
-  
+
   observeEvent(input$degre3, {
     output$plot_repartition_par_profession <- renderPlot({
       req(selectedValue(), code_niveau3(), input$degre3) # Make sure that the selected value is not NULL before rendering the plot.
       DT <- db_diplome %>%
-        select(Code, Libelle_Menu, pos_cadres,	pos_prof_int,	pos_emp_ouv_q,	pos_emp_ouv_nq,	pos_autres) %>%
+        select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
         filter(Code == code_niveau3() & Libelle_Menu == input$degre3) %>%
         mutate(across(everything(), ~ gsub(",", ".", .))) %>%
         pivot_longer(
-          cols = c("pos_cadres",	"pos_prof_int",	"pos_emp_ouv_q",	"pos_emp_ouv_nq",	"pos_autres"),
+          cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
           names_to = "profession",
-          values_to = "taux") %>% 
-        mutate(taux = as.numeric(taux)) %>% 
-        mutate(fraction = taux / sum(taux), # Calculer les pourcentages
-               ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-               ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
-               labelPosition = (ymax + ymin) / 2,
-               label = paste0(profession, "\n ", taux))
-      
+          values_to = "taux"
+        ) %>%
+        mutate(taux = as.numeric(taux)) %>%
+        mutate(
+          fraction = taux / sum(taux), # Calculer les pourcentages
+          ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
+          ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
+          labelPosition = (ymax + ymin) / 2,
+          label = paste0(profession, "\n ", taux)
+        )
+
       DT$profession[DT$profession == "pos_cadres"] <- "Cadres"
       DT$profession[DT$profession == "pos_prof_int"] <- "Professions intermédiaires"
       DT$profession[DT$profession == "pos_emp_ouv_q"] <- "Ouvriers et employés qualifiés"
       DT$profession[DT$profession == "pos_emp_ouv_nq"] <- "Ouvriers et employés non qualifiés"
       DT$profession[DT$profession == "pos_autres"] <- "Autres professions"
-      
-      DT$profession <- factor(DT$profession, levels = c("Cadres", "Professions intermédiaires",
-                                                        "Ouvriers et employés qualifiés",
-                                                        "Ouvriers et employés non qualifiés",
-                                                        "Autres professions"))
-      
+
+      DT$profession <- factor(DT$profession, levels = c(
+        "Cadres", "Professions intermédiaires",
+        "Ouvriers et employés qualifiés",
+        "Ouvriers et employés non qualifiés",
+        "Autres professions"
+      ))
+
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
-      
-      caption <- paste0('<span style="color:#008B99;">Champ : </span>',
-                        "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-                        '<br>',
-                        '<span style="color:#008B99;">Source : </span>',
-                        "Céreq, enquête Génération 2017 à trois ans."
+
+      caption <- paste0(
+        '<span style="color:#008B99;">Champ : </span>',
+        "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
+        "<br>",
+        '<span style="color:#008B99;">Source : </span>',
+        "Céreq, enquête Génération 2017 à trois ans."
       )
-      
+
       ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
         geom_rect() +
-        coord_polar(theta = "y") + 
-        xlim(c(2, 4)) + 
+        coord_polar(theta = "y") +
+        xlim(c(2, 4)) +
         geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
         scale_fill_manual(values = colors) +
         labs(caption = caption) +
         theme(legend.position = "left")
     })
   })
-  
+
   observeEvent(input$degre3, {
     output$plot_repartition_par_secteur <- renderPlot({
       req(selectedValue()) # Make sure that the selected value is not NULL before rendering the plot.
-      
+
       DT <- db_diplome %>%
-        select(Code, Libelle_Menu, sec_industries_btp,	sec_commerce,	sec_administration,	sec_a_services,	sec_autres)
-      
+        select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres)
+
       if (isTruthy(code_niveau3())) {
         # print(code_niveau3())
         DT <- filter(DT, Code == code_niveau3())
@@ -162,472 +162,231 @@ shinyServer(function(input, output, session){
         # print(input$degre3)
         DT <- filter(DT, Libelle_Menu == input$degre3)
       }
-      DT <- DT %>% 
-        mutate(across(everything(), ~ gsub(",", ".", .))) %>% 
+      DT <- DT %>%
+        mutate(across(everything(), ~ gsub(",", ".", .))) %>%
         pivot_longer(
-          cols = c("sec_industries_btp",	"sec_commerce",	"sec_administration",	"sec_a_services",	"sec_autres"),
+          cols = c("sec_industries_btp", "sec_commerce", "sec_administration", "sec_a_services", "sec_autres"),
           names_to = "secteur",
-          values_to = "taux") %>% 
-        mutate(taux = as.numeric(taux)) %>% 
-        mutate(fraction = taux / sum(taux), # Calculer les pourcentages
-               ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-               ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
-               labelPosition = (ymax + ymin) / 2,
-               label = paste0(secteur, "\n ", taux)) 
-      
+          values_to = "taux"
+        ) %>%
+        mutate(taux = as.numeric(taux)) %>%
+        mutate(
+          fraction = taux / sum(taux), # Calculer les pourcentages
+          ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
+          ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
+          labelPosition = (ymax + ymin) / 2,
+          label = paste0(secteur, "\n ", taux)
+        )
+
       DT$secteur[DT$secteur == "sec_industries_btp"] <- "Industrie et BTP"
       DT$secteur[DT$secteur == "sec_commerce"] <- "Commerce"
       DT$secteur[DT$secteur == "sec_administration"] <- "Administration"
       DT$secteur[DT$secteur == "sec_a_services"] <- "Autres services"
       DT$secteur[DT$secteur == "sec_autres"] <- "Autres secteurs"
-      
-      DT$secteur <- factor(DT$secteur, levels = c("Industrie et BTP", "Commerce",
-                                                  "Administration",
-                                                  "Autres services",
-                                                  "Autres secteurs"))
-      
+
+      DT$secteur <- factor(DT$secteur, levels = c(
+        "Industrie et BTP", "Commerce",
+        "Administration",
+        "Autres services",
+        "Autres secteurs"
+      ))
+
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
-      
-      caption <- paste0('<span style="color:#008B99;">Champ : </span>',
-                        "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-                        '<br>',
-                        '<span style="color:#008B99;">Source : </span>',
-                        "Céreq, enquête Génération 2017 à trois ans."
+
+      caption <- paste0(
+        '<span style="color:#008B99;">Champ : </span>',
+        "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
+        "<br>",
+        '<span style="color:#008B99;">Source : </span>',
+        "Céreq, enquête Génération 2017 à trois ans."
       )
-      
+
       ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
         geom_rect() +
         coord_polar(theta = "y") +
-        xlim(c(2, 4)) + 
+        xlim(c(2, 4)) +
         geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
         scale_fill_manual(values = colors) +
         labs(caption = caption) +
         theme(legend.position = "left")
     })
   })
-  
-  
-  ###################### Create Statistics ###################### 
+
+
+  ###################### Create Statistics ######################
   ####### input$niveau #########
   
-  observeEvent(input$niveau, {
-    
-    output$tx_en_emploi <- renderUI({
+  text_info_reactive <- reactive({
+    if (is.null(input$degre3)) {
+      paste0(ensemble_de_sortants_data$taux_emploi, "%")
+    } else {
       
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            "En emploi"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          )
-          )
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$taux_emploi, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
-        
-       tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-       output <- tagList(
-         
-         tags$h3(
-           tags$span(
-             style = "color: #008B99;",
-             "En emploi"
-           ),
-           tags$i(
-             class = "fas fa-info-circle",
-             style = "margin-left: 5px;",
-             title = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-           ),
-           tags$span(
-             style = "color: #008B99;",
-             text_info2
-           )
-         )
-         ,
-         tags$h3(
-           tags$span(
-             style = "color: #C0C0C2;",
-            text_info3
-         ))
-         
-         )
-       
-       return(output)
-      }
-      
-    })
-    
-    output$tx_chomage <- renderUI({
-      
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            "Taux de chômage"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          )
-          )
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$taux_chomage, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              "Taux de chômage"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            )
-          )
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
-        )
-        
-        return(output)
-      }
-      
-    })
+    }
+  })
+  
+  output$tx_en_emploi <- renderUI({
+    req(input$niveau)
+    if (input$niveau %in% "Ensemble des sortants") {
+      text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
+      labellize_stats_middle_i(
+         stat1_str = text_info1, stat2_str = NULL, 
+         info_str = "En emploi",
+         infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
 
-    output$tx_en_edi <- renderUI({
-      
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            "En emploi à durée indéterminée"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$taux_edi, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_edi, "%)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              "En emploi à durée indéterminée"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Fonctionnaires et salariés en contrats à durée indéterminée."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
-        )
-        
-        return(output)
-      }
-      
-    })
-   
-    output$tx_a_tps_partiel <- renderUI({
-      
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            "à temps partiel"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Texte informatif affiché au survol."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              "à temps partiel"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
-        )
-        
-        return(output)
-      }
-      
-    })
-    
-    output$revenu_median <- renderUI({
-      
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            "Revenu mensuel médian"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$revenu_travail, "€")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$revenu_travail, "€)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              "Revenu mensuel médian"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
-        )
-        
-        return(output)
-      }
-      
-    })
-    
-    output$tx_jugent_coherent <- renderUI({
-      
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
-        text_info3 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
-        )
-        
-        return(output)
-      }
+    } else {
+      text_info2 <- paste0(filtered_data()$taux_emploi, "%")
+      text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
+      labellize_stats_middle_i(
+        stat1_str = text_info2, stat2_str = text_info3, 
+        info_str = "En emploi",
+        infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+    }
+  })
 
-        })
-    
-    output$tx_estiment_ss_employes <- renderUI({
+  output$tx_chomage <- renderUI({
+    req(input$niveau)
+    if (input$niveau %in% "Ensemble des sortants") {
+      text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
+      labellize_stats_middle_i(
+        stat1_str = text_info1, stat2_str = NULL, 
+        info_str = "Taux de chômage",
+        infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
+      )
       
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'estiment être employés sous leur niveau de compétence')
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$competence_ok, "%", ' ' ,'estiment être employés sous leur niveau de compétence')
-        text_info3 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
+    } else {
+      text_info2 <- paste0(filtered_data()$taux_chomage, "%")
+      text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
+      labellize_stats_middle_i(
+        stat1_str = text_info2, stat2_str = text_info3, 
+        info_str = "Taux de chômage",
+        infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
         )
-        
-        return(output)
-      }
-      
-    })
+    }
     
   })
   
-  ####### input$degre3 #########
-  
-  observeEvent(input$degre3, {
+  output$tx_en_edi <- renderUI({
     
-    output$tx_en_emploi <- renderUI({
+    req(input$niveau)
+    if (input$niveau %in% "Ensemble des sortants") {
+      text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
+      labellize_stats_end_i(
+        stat1_str = text_info1, stat2_str = NULL, 
+        info_str = "En emploi à durée indéterminée",
+        infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+      )
       
+    } else {
+      text_info2 <- paste0(filtered_data()$taux_edi, "%")
+      text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
+      labellize_stats_end_i(
+        stat1_str = text_info2, stat2_str = text_info3, 
+        info_str = "En emploi à durée indéterminée",
+        infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+      )
+   }
+
+  })
+  
+  output$tx_a_tps_partiel <- renderUI({
+    
+    req(input$niveau)
+    if (input$niveau %in% "Ensemble des sortants") {
+      text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
+      labellize_stats_end_i(
+        stat1_str = text_info1, stat2_str = NULL, 
+        info_str = "A temps partiel",
+        infobulle_str = "Texte informatif affiché au survol."
+      )
+      
+    } else {
+      text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
+      text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
+      labellize_stats_end_i(
+        stat1_str = text_info2, stat2_str = text_info3, 
+        info_str = "A temps partiel",
+        infobulle_str = "Texte informatif affiché au survol."
+      )
+    }
+
+  })
+  
+  output$revenu_median <- renderUI({
+    
+    req(input$niveau)
+    if (input$niveau %in% "Ensemble des sortants") {
+      text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
+      labellize_stats_end_i(
+        stat1_str = text_info1, stat2_str = NULL, 
+        info_str = "Revenu mensuel médian",
+        infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+      )
+      
+    } else {
+      text_info2 <- paste0(filtered_data()$revenu_travail, " €")
+      text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
+      labellize_stats_end_i(
+        stat1_str = text_info2, stat2_str = text_info3, 
+        info_str = "Revenu mensuel médian",
+        infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+      )
+    }
+   })
+  
+  output$tx_jugent_coherent <- renderUI({
+    
+    req(input$niveau)
+    if (input$niveau %in% "Ensemble des sortants") {
+      text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
+      labellize_stats_row_i(
+        stat1_str = text_info1, stat2_str = NULL, 
+        info_str = "jugent leur emploi cohérent avec leur formation initiale",
+        infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+      )
+      
+    } else {
+      text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
+      text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
+      labellize_stats_row_i(
+        stat1_str = text_info2, stat2_str = text_info3, 
+        info_str = "jugent leur emploi cohérent avec leur formation initiale",
+        infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+      )
+    }
+
+  })
+
+  output$tx_estiment_ss_employes <- renderUI({
+    
+    req(input$niveau)
+    if (input$niveau %in% "Ensemble des sortants") {
+      text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
+      labellize_stats_row_i(
+        stat1_str = text_info1, stat2_str = NULL, 
+        info_str = "estiment être employés sous leur niveau de compétence",
+        infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+      )
+      
+    } else {
+      text_info2 <- paste0(filtered_data()$competence_ok, "%")
+      text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
+      labellize_stats_row_i(
+        stat1_str = text_info2, stat2_str = text_info3, 
+        info_str = "estiment être employés sous leur niveau de compétence",
+        infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+      )
+    }
+
+  })
+  
+
+  
+
+
+  ####### input$degre3 #########
+
+  observeEvent(input$degre3, {
+    output$tx_en_emploi <- renderUI({
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
@@ -647,18 +406,17 @@ shinyServer(function(input, output, session){
           )
         )
       } else {
-        
         text_info2 <- paste0(filtered_data_level3()$taux_emploi, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
-        
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
+
         tags$h3(
           tags$span(
             style = "color: #C0C0C2;",
             text_info3
-          ))
-        
+          )
+        )
+
         output <- tagList(
-          
           tags$h3(
             tags$span(
               style = "color: #008B99;",
@@ -673,23 +431,20 @@ shinyServer(function(input, output, session){
               style = "color: #008B99;",
               text_info2
             )
-          )
-          ,
+          ),
           tags$h3(
             tags$span(
               style = "color: #C0C0C2;",
               text_info3
-            ))
-          
+            )
+          )
         )
-        
+
         return(output)
       }
-      
     })
-    
+
     output$tx_chomage <- renderUI({
-      
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
@@ -709,18 +464,17 @@ shinyServer(function(input, output, session){
           )
         )
       } else {
-        
         text_info2 <- paste0(filtered_data_level3()$taux_chomage, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
-        
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
+
         tags$h3(
           tags$span(
             style = "color: #C0C0C2;",
             text_info3
-          ))
-        
+          )
+        )
+
         output <- tagList(
-          
           tags$h3(
             tags$span(
               style = "color: #008B99;",
@@ -735,23 +489,20 @@ shinyServer(function(input, output, session){
               style = "color: #008B99;",
               text_info2
             )
-          )
-          ,
+          ),
           tags$h3(
             tags$span(
               style = "color: #C0C0C2;",
               text_info3
-            ))
-          
+            )
+          )
         )
-        
+
         return(output)
       }
-      
     })
-    
+
     output$tx_en_edi <- renderUI({
-      
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
@@ -768,20 +519,20 @@ shinyServer(function(input, output, session){
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
             title = "Fonctionnaires et salariés en contrats à durée indéterminée."
-          ))
+          )
+        )
       } else {
-        
         text_info2 <- paste0(filtered_data_level3()$taux_edi, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_edi, "%)"))
-        
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
+
         tags$h3(
           tags$span(
             style = "color: #C0C0C2;",
             text_info3
-          ))
-        
+          )
+        )
+
         output <- tagList(
-          
           tags$h3(
             tags$span(
               style = "color: #008B99;",
@@ -795,23 +546,21 @@ shinyServer(function(input, output, session){
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
               title = "Fonctionnaires et salariés en contrats à durée indéterminée."
-            ))
-          ,
+            )
+          ),
           tags$h3(
             tags$span(
               style = "color: #C0C0C2;",
               text_info3
-            ))
-          
+            )
+          )
         )
-        
+
         return(output)
       }
-      
     })
-    
+
     output$tx_a_tps_partiel <- renderUI({
-      
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
@@ -827,21 +576,22 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
+
             title = "Texte informatif affiché au survol."
           ))
+
       } else {
-        
         text_info2 <- paste0(filtered_data_level3()$part_tps_partiel, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
-        
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
+
         tags$h3(
           tags$span(
             style = "color: #C0C0C2;",
             text_info3
-          ))
-        
+          )
+        )
+
         output <- tagList(
-          
           tags$h3(
             tags$span(
               style = "color: #008B99;",
@@ -854,27 +604,27 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
+
               title = "Texte informatif affiché au survol."
             ))
           ,
+
           tags$h3(
             tags$span(
               style = "color: #C0C0C2;",
               text_info3
-            ))
-          
+            )
+          )
         )
-        
+
         return(output)
       }
-      
     })
-    
+
     output$revenu_median <- renderUI({
-      
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
         tags$h3(
           tags$span(
             style = "color: #008B99;",
@@ -888,20 +638,21 @@ shinyServer(function(input, output, session){
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
             title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+
           ))
+
       } else {
-        
-        text_info2 <- paste0(filtered_data_level3()$revenu_travail, "€")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$revenu_travail, "€)"))
-        
+        text_info2 <- paste0(filtered_data_level3()$revenu_travail, " €")
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
+
         tags$h3(
           tags$span(
             style = "color: #C0C0C2;",
             text_info3
-          ))
-        
+          )
+        )
+
         output <- tagList(
-          
           tags$h3(
             tags$span(
               style = "color: #008B99;",
@@ -915,26 +666,24 @@ shinyServer(function(input, output, session){
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
               title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
-            ))
-          ,
+            )
+          ),
           tags$h3(
             tags$span(
               style = "color: #C0C0C2;",
               text_info3
-            ))
-          
+            )
+          )
         )
-        
+
         return(output)
       }
-      
     })
-    
+
     output$tx_jugent_coherent <- renderUI({
-      
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
+        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%", " ", "jugent leur emploi cohérent avec leur formation initiale")
         tags$h3(
           tags$span(
             style = "color: #008B99;",
@@ -943,21 +692,22 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
+
             title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
+
       } else {
-        
-        text_info2 <- paste0(filtered_data_level3()$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
+        text_info2 <- paste0(filtered_data_level3()$correspondance_ok, "%", " ", "jugent leur emploi cohérent avec leur formation initiale")
         text_info3 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        
+
         tags$h3(
           tags$span(
             style = "color: #C0C0C2;",
             text_info3
-          ))
-        
+          )
+        )
+
         output <- tagList(
-          
           tags$h3(
             tags$span(
               style = "color: #008B99;",
@@ -966,27 +716,29 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
+
               title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
+
           tags$h3(
             tags$span(
               style = "color: #C0C0C2;",
               text_info3
-            ))
-          
+            )
+          )
         )
-        
+
         return(output)
       }
-      
     })
-    
+
     output$tx_estiment_ss_employes <- renderUI({
-      
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
+
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'estiment être employés sous leur niveau de compétence')
+
         tags$h3(
           tags$span(
             style = "color: #008B99;",
@@ -995,21 +747,22 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
+
             title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
+
       } else {
-        
-        text_info2 <- paste0(filtered_data_level3()$competence_ok, "%", ' ' ,'estiment être employés sous leur niveau de compétence')
+        text_info2 <- paste0(filtered_data_level3()$competence_ok, "%", " ", "estiment être employés sous leur niveau de compétence")
         text_info3 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        
+
         tags$h3(
           tags$span(
             style = "color: #C0C0C2;",
             text_info3
-          ))
-        
+          )
+        )
+
         output <- tagList(
-          
           tags$h3(
             tags$span(
               style = "color: #008B99;",
@@ -1018,161 +771,80 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
+
               title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
+
           tags$h3(
             tags$span(
               style = "color: #C0C0C2;",
               text_info3
-            ))
-          
+            )
+          )
         )
-        
+
         return(output)
       }
-      
     })
   })
-  
+
   ######### Click on the Clear button ########################
-  
+
   observeEvent(input$clear, {
     updateSelectInput(session, "degre3", selected = character()) # When the clear button is clicked, we update the selectInput to have a selected value of NULL.
     selectedValue(NULL) # We set selectedValue to NULL as well.
-    
+
     output$graph_situation_apres_3_ans <- renderPlot({
       generatePlot(db_diplome, input$niveau)
     })
-    
+
     output$plot_repartition_par_profession <- renderPlot({
       generateDonutProfession(db_diplome, input$niveau)
     })
-    
+
     output$plot_repartition_par_secteur <- renderPlot({
       generateDonutSecteur(db_diplome, input$niveau)
     })
-    
+
     output$tx_en_emploi <- renderUI({
-      
       req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
+      if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            "En emploi"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          )
-        )
+        labellize_stats_middle_i(
+          stat1_str = text_info1, stat2_str = NULL, 
+          info_str = "En emploi",
+          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+        
       } else {
-        
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              "En emploi"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            )
-          )
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
-        )
-        
-        return(output)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
+        labellize_stats_middle_i(
+          stat1_str = text_info2, stat2_str = text_info3, 
+          info_str = "En emploi",
+          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
       }
-      
     })
     
+    
     output$tx_chomage <- renderUI({
-      
       req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
+      if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            "Taux de chômage"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          )
+        labellize_stats_middle_i(
+          stat1_str = text_info1, stat2_str = NULL, 
+          info_str = "Taux de chômage",
+          infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
         )
+        
       } else {
-        
         text_info2 <- paste0(filtered_data()$taux_chomage, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              "Taux de chômage"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            )
-          )
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
+        labellize_stats_middle_i(
+          stat1_str = text_info2, stat2_str = text_info3, 
+          info_str = "Taux de chômage",
+          infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
         )
-        
-        return(output)
       }
       
     })
@@ -1180,287 +852,120 @@ shinyServer(function(input, output, session){
     output$tx_en_edi <- renderUI({
       
       req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
+      if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            "En emploi à durée indéterminée"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$taux_edi, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$taux_edi, "%)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              "En emploi à durée indéterminée"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Fonctionnaires et salariés en contrats à durée indéterminée."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
+        labellize_stats_end_i(
+          stat1_str = text_info1, stat2_str = NULL, 
+          info_str = "En emploi à durée indéterminée",
+          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
         )
         
-        return(output)
+      } else {
+        text_info2 <- paste0(filtered_data()$taux_edi, "%")
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
+        labellize_stats_end_i(
+          stat1_str = text_info2, stat2_str = text_info3, 
+          info_str = "En emploi à durée indéterminée",
+          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+        )
       }
       
     })
     
     output$tx_a_tps_partiel <- renderUI({
       
+      
       req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
+      if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            "à temps partiel"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Texte informatif affiché au survol."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              "à temps partiel"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
+        labellize_stats_end_i(
+          stat1_str = text_info1, stat2_str = NULL, 
+          info_str = "A temps partiel",
+          infobulle_str = "Texte informatif affiché au survol."
         )
         
-        return(output)
+      } else {
+        text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
+        labellize_stats_end_i(
+          stat1_str = text_info2, stat2_str = text_info3, 
+          info_str = "A temps partiel",
+          infobulle_str = "Texte informatif affiché au survol."
+        )
       }
+      
       
     })
     
     output$revenu_median <- renderUI({
       
       req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, "%")
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$span(
-            style = "color: #008B99;",
-            "Revenu mensuel médian"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$revenu_travail, "€")
-        text_info3 <- paste0("(",paste0(ensemble_de_sortants_data$revenu_travail, "€)"))
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$span(
-              style = "color: #008B99;",
-              "Revenu mensuel médian"
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
+      if (input$niveau %in% "Ensemble des sortants") {
+        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
+        labellize_stats_end_i(
+          stat1_str = text_info1, stat2_str = NULL, 
+          info_str = "Revenu mensuel médian",
+          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
         )
         
-        return(output)
+      } else {
+        text_info2 <- paste0(filtered_data()$revenu_travail, " €")
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
+        labellize_stats_end_i(
+          stat1_str = text_info2, stat2_str = text_info3, 
+          info_str = "Revenu mensuel médian",
+          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+        )
+      }
+    })
+
+    output$tx_jugent_coherent <- renderUI({
+      
+      req(input$niveau)
+      if (input$niveau %in% "Ensemble des sortants") {
+        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
+        labellize_stats_row_i(
+          stat1_str = text_info1, stat2_str = NULL, 
+          info_str = "jugent leur emploi cohérent avec leur formation initiale",
+          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+        )
+        
+      } else {
+        text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
+        labellize_stats_row_i(
+          stat1_str = text_info2, stat2_str = text_info3, 
+          info_str = "jugent leur emploi cohérent avec leur formation initiale",
+          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+        )
       }
       
     })
     
-    output$tx_jugent_coherent <- renderUI({
-      
-      req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
-        text_info3 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
-        )
-        
-        return(output)
-      }
-      
-    })
+    
     
     output$tx_estiment_ss_employes <- renderUI({
       
       req(input$niveau)
-      if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'estiment être employés sous leur niveau de compétence')
-        tags$h3(
-          tags$span(
-            style = "color: #008B99;",
-            text_info1
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
-            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-          ))
-      } else {
-        
-        text_info2 <- paste0(filtered_data()$competence_ok, "%", ' ' ,'estiment être employés sous leur niveau de compétence')
-        text_info3 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        
-        tags$h3(
-          tags$span(
-            style = "color: #C0C0C2;",
-            text_info3
-          ))
-        
-        output <- tagList(
-          
-          tags$h3(
-            tags$span(
-              style = "color: #008B99;",
-              text_info2
-            ),
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "margin-left: 5px;",
-              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
-            ))
-          ,
-          tags$h3(
-            tags$span(
-              style = "color: #C0C0C2;",
-              text_info3
-            ))
-          
+      if (input$niveau %in% "Ensemble des sortants") {
+        text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
+        labellize_stats_row_i(
+          stat1_str = text_info1, stat2_str = NULL, 
+          info_str = "estiment être employés sous leur niveau de compétence",
+          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
         )
         
-        return(output)
+      } else {
+        text_info2 <- paste0(filtered_data()$competence_ok, "%")
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
+        labellize_stats_row_i(
+          stat1_str = text_info2, stat2_str = text_info3, 
+          info_str = "estiment être employés sous leur niveau de compétence",
+          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+        )
       }
       
     })
-    
-  })
-  
+
+     })
 })
