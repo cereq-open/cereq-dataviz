@@ -178,7 +178,7 @@ generateDonutProfession <- function(db_diplome, niveau) {
     scale_fill_manual(values = colors) +
     labs(caption = caption) +
     theme(legend.position = "left",
-          axis.text.y = element_blank()) +theme_void()
+          axis.text.y = element_blank())
 }
 
 generateDonutSecteur <- function(db_diplome, niveau) {
@@ -254,9 +254,6 @@ theme_set(
   )
 )
 
-
-
-
 labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
     tags$p(
@@ -311,7 +308,6 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
   )
 }
 
-
 labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
 
@@ -322,8 +318,7 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       if (!is.null(stat2_str)) tags$span(
         style = "color: #C0C0C2;",
         stat2_str
-      
-      
+        
     ),
     
       tags$span(
