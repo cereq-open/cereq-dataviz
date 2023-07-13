@@ -4,6 +4,7 @@ library(dplyr)
 library(stringr)
 library(tidyr)
 library(ggplot2)
+library(ggtext) 
 })
 
 options(shiny.useragg = TRUE)
@@ -51,7 +52,9 @@ generatePlot <- function(db_diplome, niveau) {
   
   colors <- c("En emploi"="#008B99", "Au chômage"="#EF5350", "Autres situations"="#F8AC00")
   
-  caption <- paste0("Lecture : ",
+  #caption_text <- "This is the <span style='color:red;'>red</span> part of the caption. This part will be regular."
+  
+  caption <- paste0('<span style="color:#008B99;">Lecture : </span>',
                     "Trois ans après leur sortie de formation initiale ",
                     DT$taux_str[1],
                     " des jeunes de la Génération 2017 sont en emploi, ",
@@ -59,11 +62,11 @@ generatePlot <- function(db_diplome, niveau) {
                     " au chômage et ",
                     DT$taux_str[3],
                     " dans une autre situation.",
-                    "\n",
-                    "Champ : ",
+                    '<br>',
+                    '<span style="color:#008B99;">Champ : </span>',
                     "Ensemble de la Génération 2017.",
-                    "\n",
-                    "Source : ",
+                    '<br>',
+                    '<span style="color:#008B99;">Source : </span>',
                     "Céreq, enquête Génération 2017 à trois ans."
                     )
   
@@ -101,7 +104,7 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
   
   colors <- c("En emploi"="#008B99", "Au chômage"="#EF5350", "Autres situations"="#F8AC00")
   
-  caption <- paste0("Lecture : ",
+  caption <- paste0('<span style="color:#008B99;">Lecture : </span>',
                     "Trois ans après leur sortie de formation initiale ",
                     DT$taux_str[1],
                     " des jeunes de la Génération 2017 sont en emploi, ",
@@ -109,11 +112,11 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
                     " au chômage et ",
                     DT$taux_str[3],
                     " dans une autre situation.",
-                    "\n",
-                    "Champ : ",
+                    '<br>',
+                    '<span style="color:#008B99;">Champ : </span>',
                     "Ensemble de la Génération 2017.",
-                    "\n",
-                    "Source : ",
+                    '<br>',
+                    '<span style="color:#008B99;">Source : </span>',
                     "Céreq, enquête Génération 2017 à trois ans."
   )
   
@@ -200,10 +203,11 @@ theme_set(
     legend.background = element_rect(color = "#D6D8DD", linewidth = 0.1),
     plot.title = element_text(face = "bold", size = 20),
     plot.caption.position = "plot",
-    plot.caption = element_text(hjust = 0,
+    plot.caption = element_markdown(family = "Open Sans",
+                                hjust = 0,
                                 color="#303032",
                                 margin = margin(t = 10),
-                                size = 11),
+                                size = 14),
     legend.text = element_text(family = "Open Sans", size = 12),
     legend.title = element_blank()
   )
