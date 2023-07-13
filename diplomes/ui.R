@@ -75,8 +75,10 @@ fluidPage(
     ),
     column(
       width = 2,
+      conditionalPanel(
+        condition = "output.sousniveau == true",
       selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2),
-      div(class = "form-group", actionButton("clear", "Déselectionner"))
+      div(class = "form-group", actionButton("clear", "Déselectionner")))
     )
   ),
   br(),
@@ -87,39 +89,11 @@ fluidPage(
     ),
     column(
       width = 6,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          "En emploi"
-        ),
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "margin-left: 5px;",
-          title = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-        ),
-        tags$span(
-          style = "color: #008B99;",
-          textOutput("tx_en_emploi")
-        )
-      )
+      uiOutput("tx_en_emploi")
     ),
     column(
       width = 6,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          "Taux de chômage"
-        ),
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "margin-left: 5px;",
-          title = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
-        ),
-        tags$span(
-          style = "color: #008B99;",
-          textOutput("tx_chomage")
-        )
-      )
+      uiOutput("tx_chomage")
     )
   ),
   fluidRow(
@@ -136,48 +110,15 @@ fluidPage(
     ),
     column(
       width = 4,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          textOutput("tx_en_edi"),
-          "En emploi à durée indéterminée"
-        ),
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "margin-left: 5px;",
-          title = "Fonctionnaires et salariés en contrats à durée indéterminée."
-        )
-      )
+      uiOutput("tx_en_edi")
     ),
     column(
       width = 4,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          textOutput("tx_a_tps_partiel"),
-          "à temps partiel",
-        ),
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "margin-left: 5px;",
-          title = "Texte informatif affiché au survol"
-        )
-      )
+      uiOutput("tx_a_tps_partiel")
     ),
     column(
       width = 6,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          textOutput("revenu_median"),
-          "Revenu mensuel médian",
-        ),
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "margin-left: 5px;",
-          title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
-        )
-      )
+      uiOutput("revenu_median")
     )
   ),
   br(),

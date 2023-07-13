@@ -8,7 +8,7 @@ library(ggtext)
 })
 
 options(shiny.useragg = TRUE)
-
+ 
 db_diplome <- read_excel("data/db_diplome.xls")
 
 # Keep only the levels whose code should not start with 0.
@@ -51,8 +51,6 @@ generatePlot <- function(db_diplome, niveau) {
   DT$taux_str <- paste0(DT$taux, "%")
   
   colors <- c("En emploi"="#008B99", "Au chômage"="#EF5350", "Autres situations"="#F8AC00")
-  
-  #caption_text <- "This is the <span style='color:red;'>red</span> part of the caption. This part will be regular."
   
   caption <- paste0('<span style="color:#008B99;">Lecture : </span>',
                     "Trois ans après leur sortie de formation initiale ",
@@ -179,7 +177,8 @@ generateDonutProfession <- function(db_diplome, niveau) {
     geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
     scale_fill_manual(values = colors) +
     labs(caption = caption) +
-    theme(legend.position = "left")
+    theme(legend.position = "left",
+          axis.text.y = element_blank())
 }
 
 generateDonutSecteur <- function(db_diplome, niveau) {
@@ -226,7 +225,8 @@ generateDonutSecteur <- function(db_diplome, niveau) {
     geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
     scale_fill_manual(values = colors) +
     labs(caption = caption) +
-    theme(legend.position = "left")
+    theme(legend.position = "left",
+          axis.text.y = element_blank())
 }
 
 theme_set(
