@@ -413,7 +413,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Texte informatif affiché au survol."
           ))
       } else {
         
@@ -440,7 +440,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+              title = "Texte informatif affiché au survol."
             ))
           ,
           tags$h3(
@@ -473,7 +473,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
           ))
       } else {
         
@@ -529,7 +529,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
       } else {
         
@@ -552,7 +552,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
+              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
           tags$h3(
@@ -572,7 +572,7 @@ shinyServer(function(input, output, session){
       
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
+        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'estiment être employés sous leur niveau de compétence')
         tags$h3(
           tags$span(
             style = "color: #008B99;",
@@ -581,7 +581,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
       } else {
         
@@ -604,7 +604,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
+              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
           tags$h3(
@@ -827,7 +827,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Texte informatif affiché au survol."
           ))
       } else {
         
@@ -854,7 +854,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+              title = "Texte informatif affiché au survol."
             ))
           ,
           tags$h3(
@@ -887,7 +887,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
           ))
       } else {
         
@@ -943,7 +943,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
       } else {
         
@@ -966,7 +966,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
+              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
           tags$h3(
@@ -986,7 +986,7 @@ shinyServer(function(input, output, session){
       
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
+        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'estiment être employés sous leur niveau de compétence')
         tags$h3(
           tags$span(
             style = "color: #008B99;",
@@ -995,7 +995,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
       } else {
         
@@ -1018,7 +1018,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
+              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
           tags$h3(
@@ -1254,7 +1254,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Texte informatif affiché au survol."
           ))
       } else {
         
@@ -1281,7 +1281,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+              title = "Texte informatif affiché au survol."
             ))
           ,
           tags$h3(
@@ -1314,7 +1314,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
           ))
       } else {
         
@@ -1370,7 +1370,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
       } else {
         
@@ -1393,7 +1393,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
+              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
           tags$h3(
@@ -1413,7 +1413,7 @@ shinyServer(function(input, output, session){
       
       req(input$niveau)
       if (input$niveau == "Ensemble des sortants") {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'jugent leur emploi cohérent avec leur formation initiale')
+        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%" , ' ' ,'estiment être employés sous leur niveau de compétence')
         tags$h3(
           tags$span(
             style = "color: #008B99;",
@@ -1422,7 +1422,7 @@ shinyServer(function(input, output, session){
           tags$i(
             class = "fas fa-info-circle",
             style = "margin-left: 5px;",
-            title = "Fonctionnaires et salariés en contrats à durée indéterminée."
+            title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
           ))
       } else {
         
@@ -1445,7 +1445,7 @@ shinyServer(function(input, output, session){
             tags$i(
               class = "fas fa-info-circle",
               style = "margin-left: 5px;",
-              title = "Texte informatif affiché au survol."
+              title = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
             ))
           ,
           tags$h3(

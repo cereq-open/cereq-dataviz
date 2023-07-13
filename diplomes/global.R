@@ -178,7 +178,7 @@ generateDonutProfession <- function(db_diplome, niveau) {
     scale_fill_manual(values = colors) +
     labs(caption = caption) +
     theme(legend.position = "left",
-          axis.text.y = element_blank())
+          axis.text.y = element_blank()) +theme_void()
 }
 
 generateDonutSecteur <- function(db_diplome, niveau) {
