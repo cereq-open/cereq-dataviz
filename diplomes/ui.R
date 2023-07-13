@@ -165,7 +165,7 @@ fluidPage(
       )
     ),
     column(
-      width = 4,
+      width = 6,
       tags$h3(
         tags$span(
           style = "color: #008B99;",
@@ -184,43 +184,42 @@ fluidPage(
   fluidRow(
     column(
       width = 6,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          "Répartition par profession"
+      div(
+        style = "border: 2px solid #008B99; padding: 10px;",
+        tags$h3(
+          tags$span(
+            style = "color: #008B99;",
+            "Répartition par profession"
+          ),
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "margin-left: 5px;",
+            title = "Les professions sont présentées de façon agrégée, à partir d’une nomenclature plus détaillée, celle des professions et catégories socioprofessionnelles de l’INSEE de 2022."
+          )
         ),
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "margin-left: 5px;",
-          title = "Les professions sont présentées de façon agrégée, à partir d’une nomenclature plus détaillée, celle des professions et catégories socioprofessionnelles de l’INSEE de 2022."
-        )
+        plotOutput("plot_repartition_par_profession")
       )
     ),
     column(
       width = 6,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          "Répartition par secteur"
+      div(
+        style = "border: 2px solid #008B99; padding: 10px;",
+        tags$h3(
+          tags$span(
+            style = "color: #008B99;",
+            "Répartition par secteur"
+          ),
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "margin-left: 5px;",
+            title = "Les secteurs sont présentés de façon agrégée, à partir d’une nomenclature plus détaillée : la nomenclature des activités françaises de l’INSEE de 2022 (NAF)."
+          )
         ),
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "margin-left: 5px;",
-          title = "Les secteurs sont présentés de façon agrégée, à partir d’une nomenclature plus détaillée : la nomenclature des activités françaises de l’INSEE de 2022 (NAF)."
-        )
+        plotOutput("plot_repartition_par_secteur")
       )
     )
   ),
-  fluidRow(
-    column(
-      width = 6,
-      plotOutput("plot_repartition_par_profession")
-    ),
-    column(
-      width = 6,
-      plotOutput("plot_repartition_par_secteur")
-    )
-  ),
+  br(),
   fluidRow(
     column(
       width = 12,

@@ -150,16 +150,36 @@ generateDonutProfession <- function(db_diplome, niveau) {
            ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
            ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
            labelPosition = (ymax + ymin) / 2,
-           label = paste0(profession, "\n ", taux)) 
+           label = paste0(profession, "\n ", taux))
+  
+  DT$profession[DT$profession == "pos_cadres"] <- "Cadres"
+  DT$profession[DT$profession == "pos_prof_int"] <- "Professions intermédiaires"
+  DT$profession[DT$profession == "pos_emp_ouv_q"] <- "Ouvriers et employés qualifiés"
+  DT$profession[DT$profession == "pos_emp_ouv_nq"] <- "Ouvriers et employés non qualifiés"
+  DT$profession[DT$profession == "pos_autres"] <- "Autres professions"
+  
+  DT$profession <- factor(DT$profession, levels = c("Cadres", "Professions intermédiaires",
+                                                    "Ouvriers et employés qualifiés",
+                                                    "Ouvriers et employés non qualifiés",
+                                                    "Autres professions"))
   
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
+  
+  caption <- paste0('<span style="color:#008B99;">Champ : </span>',
+                    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
+                    '<br>',
+                    '<span style="color:#008B99;">Source : </span>',
+                    "Céreq, enquête Génération 2017 à trois ans."
+  )
   
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
     geom_rect() +
     coord_polar(theta = "y") + 
     xlim(c(2, 4)) + 
     geom_label(x = 3.5, aes(y = labelPosition, label = taux), size = 6) +
-    scale_fill_manual(values = colors)
+    scale_fill_manual(values = colors) +
+    labs(caption = caption) +
+    theme(legend.position = "left")
 }
 
 generateDonutSecteur <- function(db_diplome, niveau) {
@@ -177,16 +197,36 @@ generateDonutSecteur <- function(db_diplome, niveau) {
            ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
            ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
            labelPosition = (ymax + ymin) / 2,
-           label = paste0(secteur, "\n ", taux)) 
+           label = paste0(secteur, "\n ", taux))
+  
+  DT$secteur[DT$secteur == "sec_industries_btp"] <- "Industrie et BTP"
+  DT$secteur[DT$secteur == "sec_commerce"] <- "Commerce"
+  DT$secteur[DT$secteur == "sec_administration"] <- "Administration"
+  DT$secteur[DT$secteur == "sec_a_services"] <- "Autres services"
+  DT$secteur[DT$secteur == "sec_autres"] <- "Autres secteurs"
+
+  DT$secteur <- factor(DT$secteur, levels = c("Industrie et BTP", "Commerce",
+                                                    "Administration",
+                                                    "Autres services",
+                                                    "Autres secteurs"))
   
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
+  
+  caption <- paste0('<span style="color:#008B99;">Champ : </span>',
+                    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
+                    '<br>',
+                    '<span style="color:#008B99;">Source : </span>',
+                    "Céreq, enquête Génération 2017 à trois ans."
+  )
   
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
     geom_rect() +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) + 
     geom_label(x = 3.5, aes(y = labelPosition, label = taux), size = 6) +
-    scale_fill_manual(values = colors)
+    scale_fill_manual(values = colors) +
+    labs(caption = caption) +
+    theme(legend.position = "left")
 }
 
 theme_set(
