@@ -125,12 +125,6 @@ fluidPage(
   fluidRow(
     column(
       width = 12,
-      tags$h3(
-        tags$span(
-          style = "color: #008B99;",
-          "Répartition des sortants selon leur situation d'activité"
-        )
-      ),
       plotOutput("graph_situation_apres_3_ans")
     )
   ),

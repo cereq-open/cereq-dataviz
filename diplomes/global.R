@@ -77,6 +77,7 @@ generatePlot <- function(db_diplome, niveau) {
               color = "white",
               size = 10) +
     scale_fill_manual(values = colors) +
+    ggtitle("Répartition des sortants selon leur situation d'activité") +
     labs(caption = caption) +
     theme(legend.position = "bottom",    # Place la légende en bas
           legend.direction = "horizontal",    # Orientation de la légende en ligne
@@ -201,7 +202,7 @@ theme_set(
     axis.title = element_blank(),
     plot.title.position = "plot",
     legend.background = element_rect(color = "#D6D8DD", linewidth = 0.1),
-    plot.title = element_text(face = "bold", size = 20),
+    plot.title = element_text(size = 24, color = "#008B99", family = "Arial"),
     plot.caption.position = "plot",
     plot.caption = element_markdown(family = "Open Sans",
                                 hjust = 0,
