@@ -139,7 +139,7 @@ shinyServer(function(input, output, session){
         geom_rect() +
         coord_polar(theta = "y") + 
         xlim(c(2, 4)) + 
-        geom_label(x = 3.5, aes(y = labelPosition, label = taux), size = 6) +
+        geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
         scale_fill_manual(values = colors) +
         labs(caption = caption) +
         theme(legend.position = "left")
@@ -199,7 +199,7 @@ shinyServer(function(input, output, session){
         geom_rect() +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) + 
-        geom_label(x = 3.5, aes(y = labelPosition, label = taux), size = 6) +
+        geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
         scale_fill_manual(values = colors) +
         labs(caption = caption) +
         theme(legend.position = "left")
