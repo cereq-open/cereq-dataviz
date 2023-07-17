@@ -752,4 +752,16 @@ shinyServer(function(input, output, session) {
     })
 
      })
+  
+  # Download Data --------------------------------------------------------------
+  
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste('db_diplome-', Sys.Date(), '.csv', sep='')
+    },
+    content = function(file) {
+      write.csv(db_diplome, file)
+    }
+  )
+  
 })

@@ -27,6 +27,13 @@ fluidPage(
       includeHTML("www/logo.svg")
     ) # Inclus le logo
   ),
+  br(),
+  fluidRow(
+    column(
+      width = 12,
+      downloadButton("downloadData", "Télécharger les données")
+    )
+  ),
   div(
     class = "row align-items-end",
     column(
