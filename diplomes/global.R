@@ -7,12 +7,13 @@ library(ggplot2)
 library(ggtext)
 library(ggiraph) 
 library(gdtools)
+library(arrow)
 })
 
 options(shiny.useragg = TRUE)
 
 set_girafe_defaults(
-  opts_hover_inv = opts_hover_inv(css = "stroke-width:3px;"),
+  opts_hover_inv = opts_hover_inv(css = "stroke-width:2px; opacity:.5;"),
   opts_hover = opts_hover(css = ""),
   opts_selection = opts_selection(type = "none"),
   opts_toolbar = opts_toolbar(saveaspng = FALSE)
@@ -20,7 +21,8 @@ set_girafe_defaults(
 
 register_gfont("Arimo")
  
-db_diplome <- read_excel("data/db_diplome.xls")
+db_diplome <- read_parquet("data/diplome.parquet") %>%
+  rename(Libelle_complet = `Libelle complet`)
 
 # Keep only the levels whose code should not start with 0.
 list_degre1_2 <- as.list(filter(db_diplome, str_sub(Code, -1, -1)  == "0")  %>% pull(`Libelle_Menu`))
@@ -53,13 +55,17 @@ generatePlot <- function(db_diplome, niveau) {
       cols = c("taux_emploi", "taux_chomage", "autre_situations"),
       names_to = "emploi",
       values_to = "taux"
+    ) %>%
+    mutate(
+      emploi = case_when(
+        emploi == "taux_emploi" ~ "En emploi",
+        emploi == "taux_chomage" ~ "Au chômage",
+        emploi == "autre_situations" ~ "Autres situations",
+        TRUE ~ emploi
+      ),
+      emploi = factor(emploi, levels = c("En emploi", "Au chômage", "Autres situations")),
+      taux_str = paste0(taux, "%")
     )
-  
-  DT$emploi[DT$emploi == "taux_emploi"] <- "En emploi"
-  DT$emploi[DT$emploi == "taux_chomage"] <- "Au chômage"
-  DT$emploi[DT$emploi == "autre_situations"] <- "Autres situations"
-  DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
-  DT$taux_str <- paste0(DT$taux, "%")
   
   colors <- c("En emploi"="#008B99", "Au chômage"="#EF5350", "Autres situations"="#F8AC00")
   
@@ -104,13 +110,18 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
       cols = c("taux_emploi", "taux_chomage", "autre_situations"),
       names_to = "emploi",
       values_to = "taux"
+    ) %>%
+    mutate(
+      Libelle_complet = sub("(\\-)([^\\-]*)$", "\n\\2", Libelle_complet),
+      emploi = case_when(
+        emploi == "taux_emploi" ~ "En emploi",
+        emploi == "taux_chomage" ~ "Au chômage",
+        emploi == "autre_situations" ~ "Autres situations",
+        TRUE ~ emploi
+      ),
+      emploi = factor(emploi, levels = c("En emploi", "Au chômage", "Autres situations")),
+      taux_str = paste0(taux, "%")
     )
-  
-  DT$emploi[DT$emploi == "taux_emploi"] <- "En emploi"
-  DT$emploi[DT$emploi == "taux_chomage"] <- "Au chômage"
-  DT$emploi[DT$emploi == "autre_situations"] <- "Autres situations"
-  DT$emploi <- factor(DT$emploi, levels = c("En emploi", "Au chômage", "Autres situations"))
-  DT$taux_str <- paste0(DT$taux, "%")
   
   colors <- c("En emploi"="#008B99", "Au chômage"="#EF5350", "Autres situations"="#F8AC00")
   
@@ -131,12 +142,12 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
   )
   
   ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
-    geom_bar(stat = "identity", width = 0.5) + coord_flip() +
+    geom_col_interactive(width = 0.5, color = "white",mapping = aes(data_id = emploi)) + coord_flip() +
     geom_text(aes(label = taux),
               position = position_stack(vjust = .5),
-              colour = "white",
-              size = 10) +
+              colour = "white") +
     scale_fill_manual(values = colors) +
+    scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(legend.position = "bottom",    # Place la légende en bas
           legend.direction = "horizontal",    # Orientation de la légende en ligne
@@ -159,18 +170,20 @@ generateDonutProfession <- function(db_diplome, niveau) {
            ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
            ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
            labelPosition = (ymax + ymin) / 2,
-           label = paste0(profession, "\n ", taux))
-  
-  DT$profession[DT$profession == "pos_cadres"] <- "Cadres"
-  DT$profession[DT$profession == "pos_prof_int"] <- "Professions intermédiaires"
-  DT$profession[DT$profession == "pos_emp_ouv_q"] <- "Ouvriers et employés qualifiés"
-  DT$profession[DT$profession == "pos_emp_ouv_nq"] <- "Ouvriers et employés non qualifiés"
-  DT$profession[DT$profession == "pos_autres"] <- "Autres professions"
-  
-  DT$profession <- factor(DT$profession, levels = c("Cadres", "Professions intermédiaires",
-                                                    "Ouvriers et employés qualifiés",
-                                                    "Ouvriers et employés non qualifiés",
-                                                    "Autres professions"))
+           label = paste0(profession, "\n ", taux),
+           profession = case_when(
+             profession == "pos_cadres" ~ "Cadres",
+             profession == "pos_prof_int" ~ "Professions intermédiaires",
+             profession == "pos_emp_ouv_q" ~ "Ouvriers et employés qualifiés",
+             profession == "pos_emp_ouv_nq" ~ "Ouvriers et employés non qualifiés",
+             profession == "pos_autres" ~ "Autres professions",
+             TRUE ~ profession
+             ),
+           profession = factor(profession, levels = c("Cadres", "Professions intermédiaires",
+                                                      "Ouvriers et employés qualifiés",
+                                                      "Ouvriers et employés non qualifiés",
+                                                      "Autres professions"))
+           )
   
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
   
@@ -180,13 +193,13 @@ generateDonutProfession <- function(db_diplome, niveau) {
                     '<span style="color:#008B99;">Source : </span>',
                     "Céreq, enquête Génération 2017 à trois ans."
   )
-  
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-    geom_rect() +
+    geom_rect_interactive(mapping = aes(data_id = profession), color = "gray") +
     coord_polar(theta = "y") + 
     xlim(c(2, 4)) + 
-    geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
+    geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
     scale_fill_manual(values = colors) +
+    scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(legend.position = "left",
           axis.text.y = element_blank())
@@ -207,18 +220,20 @@ generateDonutSecteur <- function(db_diplome, niveau) {
            ymax = cumsum(fraction),  # Calculer les pourcentages cumulés (en haut de chaque rectangle)
            ymin = c(0, head(ymax, n=-1)), # Calculer le bas de chaque rectangle
            labelPosition = (ymax + ymin) / 2,
-           label = paste0(secteur, "\n ", taux))
-  
-  DT$secteur[DT$secteur == "sec_industries_btp"] <- "Industrie et BTP"
-  DT$secteur[DT$secteur == "sec_commerce"] <- "Commerce"
-  DT$secteur[DT$secteur == "sec_administration"] <- "Administration"
-  DT$secteur[DT$secteur == "sec_a_services"] <- "Autres services"
-  DT$secteur[DT$secteur == "sec_autres"] <- "Autres secteurs"
-
-  DT$secteur <- factor(DT$secteur, levels = c("Industrie et BTP", "Commerce",
-                                                    "Administration",
-                                                    "Autres services",
-                                                    "Autres secteurs"))
+           label = paste0(secteur, "\n ", taux),
+           secteur = case_when(
+             secteur == "sec_industries_btp" ~ "Industrie et BTP",
+             secteur == "sec_commerce" ~ "Commerce",
+             secteur == "sec_administration" ~ "Administration",
+             secteur == "sec_a_services" ~ "Autres services",
+             secteur == "sec_autres" ~ "Autres secteurs",
+             TRUE ~ secteur
+           ),
+           secteur = factor(secteur, levels = c("Industrie et BTP", "Commerce",
+                                                "Administration",
+                                                "Autres services",
+                                                "Autres secteurs"))
+           )
   
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
   
@@ -230,11 +245,12 @@ generateDonutSecteur <- function(db_diplome, niveau) {
   )
   
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-    geom_rect() +
+    geom_rect_interactive(mapping = aes(data_id = secteur), color = "gray") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) + 
-    geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
+    geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
     scale_fill_manual(values = colors) +
+    scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(legend.position = "left",
           axis.text.y = element_blank())
@@ -294,7 +310,7 @@ labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, info
 
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
-    tags$p(
+    tags$p(class = "stat_info",
       tags$span(
         style = "color: #008B99;",
         stat1_str
@@ -305,7 +321,7 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       )
       
     ),
-    tags$p(
+    tags$p(class = "stat_info",
       tags$span(
         style = "color: #008B99;",
         info_str
@@ -321,7 +337,7 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
 
 labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
-
+    
       tags$span(
         style = "color: #008B99;",
         stat1_str
@@ -333,14 +349,14 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
     ),
     
       tags$span(
-        style = "color: #008B99;",
-        info_str
+                style = "color: #008B99;",
+                info_str
       ),
       tags$i(
         class = "fas fa-info-circle",
         style = "margin-left: 5px;",
         title = infobulle_str
-      
-    )
+        
+      )
   )
 }

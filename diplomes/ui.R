@@ -16,34 +16,17 @@ fluidPage(
     }
   });
   "
-    ) # Pour que Arial soit toujours disponible dans le navigateur de l'utilisateur
+    ) # Pour que Arimo soit toujours disponible dans le navigateur de l'utilisateur
   ),
   br(),
   gfontHtmlDependency(family = "Arimo"),
   tags$span(
     tags$div(class = "card", "Génération 2017"),
-  tags$div(
-    class = "logo-container", # Classe CSS pour le conteneur du logo
-    includeHTML("www/logo.svg")) # Inclus le logo
+    tags$div(
+      class = "logo-container", # Classe CSS pour le conteneur du logo
+      includeHTML("www/logo.svg")
+    ) # Inclus le logo
   ),
-  # tags$div(
-  #   class = "social-icons",
-  #   tags$a(
-  #     href = "url_linkedin",
-  #     target = "_blank",
-  #     tags$i(class = "fab fa-linkedin fa-lg")
-  #   ),
-  #   tags$a(
-  #     href = "url_facebook",
-  #     target = "_blank",
-  #     tags$i(class = "fab fa-facebook fa-lg")
-  #   ),
-  #   tags$a(
-  #     href = "url_twitter",
-  #     target = "_blank",
-  #     tags$i(class = "fab fa-twitter fa-lg")
-  #   )
-  # ),
   div(
     class = "row align-items-end",
     column(
@@ -78,8 +61,9 @@ fluidPage(
       width = 2,
       conditionalPanel(
         condition = "output.sousniveau == true",
-      selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2),
-      div(class = "form-group", actionButton("clear", "Déselectionner")))
+        selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2),
+        div(class = "form-group", actionButton("clear", "Déselectionner"))
+      )
     )
   ),
   br(),
@@ -100,8 +84,9 @@ fluidPage(
   fluidRow(
     column(
       width = 12,
-      div(style = "max-width:800px; margin-left:auto; margin-right:auto;",
-      girafeOutput("graph_situation_apres_3_ans", height = NULL)
+      div(
+        style = "max-width:800px; margin-left:auto; margin-right:auto;",
+        girafeOutput("graph_situation_apres_3_ans", height = NULL)
       )
     )
   ),
@@ -120,7 +105,7 @@ fluidPage(
       uiOutput("tx_a_tps_partiel")
     ),
     column(
-      width = 6,
+      width = 4,
       uiOutput("revenu_median")
     )
   ),
@@ -130,7 +115,7 @@ fluidPage(
       width = 6,
       div(
         style = "border: 2px solid #008B99; padding: 10px;",
-        tags$h3(
+        tags$p(class = "stat_info",
           tags$span(
             style = "color: #008B99;",
             "Répartition par profession"
@@ -141,14 +126,17 @@ fluidPage(
             title = "Les professions sont présentées de façon agrégée, à partir d’une nomenclature plus détaillée, celle des professions et catégories socioprofessionnelles de l’INSEE de 2022."
           )
         ),
-        plotOutput("plot_repartition_par_profession")
+        div(
+          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          girafeOutput("plot_repartition_par_profession", height = NULL)
+        )
       )
     ),
     column(
       width = 6,
       div(
         style = "border: 2px solid #008B99; padding: 10px;",
-        tags$h3(
+        tags$p(class = "stat_info",
           tags$span(
             style = "color: #008B99;",
             "Répartition par secteur"
@@ -159,7 +147,10 @@ fluidPage(
             title = "Les secteurs sont présentés de façon agrégée, à partir d’une nomenclature plus détaillée : la nomenclature des activités françaises de l’INSEE de 2022 (NAF)."
           )
         ),
-        plotOutput("plot_repartition_par_secteur")
+        div(
+          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          girafeOutput("plot_repartition_par_secteur", height = NULL)
+        )
       )
     )
   ),

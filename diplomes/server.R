@@ -74,28 +74,37 @@ shinyServer(function(input, output, session) {
   })
 
   observeEvent(input$degre3, {
-    output$graph_situation_apres_3_ans <- renderPlot({
+    output$graph_situation_apres_3_ans <- renderGirafe({
       req(selectedValue()) # Make sure that the selected value is not NULL before rendering the plot.
-      generatePlotSpec(db_diplome, code_niveau3(), input$degre3)
+      gg <- generatePlotSpec(db_diplome, code_niveau3(), input$degre3)
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 2.5)
     })
   })
 
   ###################### Create Pie Plots ######################
 
   observeEvent(input$niveau, {
-    output$plot_repartition_par_profession <- renderPlot({
-      generateDonutProfession(db_diplome, input$niveau)
+    output$plot_repartition_par_profession <- renderGirafe({
+      gg <- generateDonutProfession(db_diplome, input$niveau)
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 4)
     })
   })
 
   observeEvent(input$niveau, {
-    output$plot_repartition_par_secteur <- renderPlot({
-      generateDonutSecteur(db_diplome, input$niveau)
+    output$plot_repartition_par_secteur <- renderGirafe({
+      gg <- generateDonutSecteur(db_diplome, input$niveau)
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 4)
     })
   })
 
   observeEvent(input$degre3, {
-    output$plot_repartition_par_profession <- renderPlot({
+    output$plot_repartition_par_profession <- renderGirafe({
       req(selectedValue(), code_niveau3(), input$degre3) # Make sure that the selected value is not NULL before rendering the plot.
       DT <- db_diplome %>%
         select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
@@ -112,21 +121,20 @@ shinyServer(function(input, output, session) {
           ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
           ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
           labelPosition = (ymax + ymin) / 2,
-          label = paste0(profession, "\n ", taux)
+          label = paste0(profession, "\n ", taux),
+          profession = case_when(
+            profession == "pos_cadres" ~ "Cadres",
+            profession == "pos_prof_int" ~ "Professions intermédiaires",
+            profession == "pos_emp_ouv_q" ~ "Ouvriers et employés qualifiés",
+            profession == "pos_emp_ouv_nq" ~ "Ouvriers et employés non qualifiés",
+            profession == "pos_autres" ~ "Autres professions",
+            TRUE ~ profession
+          ),
+          profession = factor(profession, levels = c("Cadres", "Professions intermédiaires",
+                                                     "Ouvriers et employés qualifiés",
+                                                     "Ouvriers et employés non qualifiés",
+                                                     "Autres professions"))
         )
-
-      DT$profession[DT$profession == "pos_cadres"] <- "Cadres"
-      DT$profession[DT$profession == "pos_prof_int"] <- "Professions intermédiaires"
-      DT$profession[DT$profession == "pos_emp_ouv_q"] <- "Ouvriers et employés qualifiés"
-      DT$profession[DT$profession == "pos_emp_ouv_nq"] <- "Ouvriers et employés non qualifiés"
-      DT$profession[DT$profession == "pos_autres"] <- "Autres professions"
-
-      DT$profession <- factor(DT$profession, levels = c(
-        "Cadres", "Professions intermédiaires",
-        "Ouvriers et employés qualifiés",
-        "Ouvriers et employés non qualifiés",
-        "Autres professions"
-      ))
 
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
 
@@ -138,31 +146,35 @@ shinyServer(function(input, output, session) {
         "Céreq, enquête Génération 2017 à trois ans."
       )
 
-      ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-        geom_rect() +
+      gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
+        geom_rect_interactive(mapping = aes(data_id = profession), color = "gray") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
+        geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
         scale_fill_manual(values = colors) +
+        scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
-        theme(legend.position = "left")
+        theme(legend.position = "left",
+              axis.text.y = element_blank())
+      
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 4)
     })
   })
 
   observeEvent(input$degre3, {
-    output$plot_repartition_par_secteur <- renderPlot({
+    output$plot_repartition_par_secteur <- renderGirafe({
       req(selectedValue()) # Make sure that the selected value is not NULL before rendering the plot.
 
       DT <- db_diplome %>%
         select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres)
 
       if (isTruthy(code_niveau3())) {
-        # print(code_niveau3())
         DT <- filter(DT, Code == code_niveau3())
       }
 
       if (isTruthy(input$degre3)) {
-        # print(input$degre3)
         DT <- filter(DT, Libelle_Menu == input$degre3)
       }
       DT <- DT %>%
@@ -178,21 +190,20 @@ shinyServer(function(input, output, session) {
           ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
           ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
           labelPosition = (ymax + ymin) / 2,
-          label = paste0(secteur, "\n ", taux)
+          label = paste0(secteur, "\n ", taux),
+          secteur = case_when(
+            secteur == "sec_industries_btp" ~ "Industrie et BTP",
+            secteur == "sec_commerce" ~ "Commerce",
+            secteur == "sec_administration" ~ "Administration",
+            secteur == "sec_a_services" ~ "Autres services",
+            secteur == "sec_autres" ~ "Autres secteurs",
+            TRUE ~ secteur
+          ),
+          secteur = factor(secteur, levels = c("Industrie et BTP", "Commerce",
+                                               "Administration",
+                                               "Autres services",
+                                               "Autres secteurs"))
         )
-
-      DT$secteur[DT$secteur == "sec_industries_btp"] <- "Industrie et BTP"
-      DT$secteur[DT$secteur == "sec_commerce"] <- "Commerce"
-      DT$secteur[DT$secteur == "sec_administration"] <- "Administration"
-      DT$secteur[DT$secteur == "sec_a_services"] <- "Autres services"
-      DT$secteur[DT$secteur == "sec_autres"] <- "Autres secteurs"
-
-      DT$secteur <- factor(DT$secteur, levels = c(
-        "Industrie et BTP", "Commerce",
-        "Administration",
-        "Autres services",
-        "Autres secteurs"
-      ))
 
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
 
@@ -204,14 +215,20 @@ shinyServer(function(input, output, session) {
         "Céreq, enquête Génération 2017 à trois ans."
       )
 
-      ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-        geom_rect() +
+      gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
+        geom_rect_interactive(mapping = aes(data_id = secteur), color = "gray") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(aes(x = 3.5, y = labelPosition, label = taux), size = 6) +
+        geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
         scale_fill_manual(values = colors) +
+        scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
-        theme(legend.position = "left")
+        theme(legend.position = "left",
+              axis.text.y = element_blank())
+      
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 4)
     })
   })
 
@@ -298,8 +315,8 @@ shinyServer(function(input, output, session) {
       text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
       labellize_stats_end_i(
         stat1_str = text_info1, stat2_str = NULL, 
-        info_str = "A temps partiel",
-        infobulle_str = "Texte informatif affiché au survol."
+        info_str = "À temps partiel",
+        infobulle_str = ""
       )
       
     } else {
@@ -307,7 +324,7 @@ shinyServer(function(input, output, session) {
       text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
       labellize_stats_end_i(
         stat1_str = text_info2, stat2_str = text_info3, 
-        info_str = "A temps partiel",
+        info_str = "À temps partiel",
         infobulle_str = "Texte informatif affiché au survol."
       )
     }
@@ -462,7 +479,7 @@ shinyServer(function(input, output, session) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "A temps partiel",
+          info_str = "À temps partiel",
           infobulle_str = "Texte informatif affiché au survol."
         )
         
@@ -471,7 +488,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "A temps partiel",
+          info_str = "À temps partiel",
           infobulle_str = "Texte informatif affiché au survol."
         )
       }
@@ -554,16 +571,26 @@ shinyServer(function(input, output, session) {
     updateSelectInput(session, "degre3", selected = character()) # When the clear button is clicked, we update the selectInput to have a selected value of NULL.
     selectedValue(NULL) # We set selectedValue to NULL as well.
 
-    output$graph_situation_apres_3_ans <- renderPlot({
-      generatePlot(db_diplome, input$niveau)
+    output$graph_situation_apres_3_ans <- renderGirafe({
+       gg <- generatePlot(db_diplome, input$niveau)
+       girafe(ggobj = gg,
+              width_svg = 6,
+              height_svg = 6)
+       
     })
 
-    output$plot_repartition_par_profession <- renderPlot({
-      generateDonutProfession(db_diplome, input$niveau)
+    output$plot_repartition_par_profession <- renderGirafe({
+      gg <- generateDonutProfession(db_diplome, input$niveau)
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 6)
     })
 
-    output$plot_repartition_par_secteur <- renderPlot({
-      generateDonutSecteur(db_diplome, input$niveau)
+    output$plot_repartition_par_secteur <- renderGirafe({
+      gg <- generateDonutSecteur(db_diplome, input$niveau)
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 6)
     })
 
     output$tx_en_emploi <- renderUI({
@@ -639,7 +666,7 @@ shinyServer(function(input, output, session) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "A temps partiel",
+          info_str = "À temps partiel",
           infobulle_str = "Texte informatif affiché au survol."
         )
         
@@ -648,7 +675,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "A temps partiel",
+          info_str = "À temps partiel",
           infobulle_str = "Texte informatif affiché au survol."
         )
       }
