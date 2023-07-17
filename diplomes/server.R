@@ -59,8 +59,11 @@ shinyServer(function(input, output, session) {
   ###################### Create the graph_situation_apres_3_ans plots according to the selected level from the scrolling menu ######################
 
   observeEvent(input$niveau, {
-    output$graph_situation_apres_3_ans <- renderPlot({
-      generatePlot(db_diplome, input$niveau)
+    output$graph_situation_apres_3_ans <- renderGirafe({
+      gg <- generatePlot(db_diplome, input$niveau)
+      girafe(ggobj = gg,
+             width_svg = 6,
+             height_svg = 2.5)
     })
   })
 

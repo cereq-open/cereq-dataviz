@@ -12,13 +12,14 @@ fluidPage(
       "
   WebFont.load({
     google: {
-      families: ['Arial']
+      families: ['Arimo']
     }
   });
   "
     ) # Pour que Arial soit toujours disponible dans le navigateur de l'utilisateur
   ),
   br(),
+  gfontHtmlDependency(family = "Arimo"),
   tags$span(
     tags$div(class = "card", "Génération 2017"),
   tags$div(
@@ -99,7 +100,9 @@ fluidPage(
   fluidRow(
     column(
       width = 12,
-      plotOutput("graph_situation_apres_3_ans")
+      div(style = "max-width:800px; margin-left:auto; margin-right:auto;",
+      girafeOutput("graph_situation_apres_3_ans", height = NULL)
+      )
     )
   ),
   br(),

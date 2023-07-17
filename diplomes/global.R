@@ -4,10 +4,21 @@ library(dplyr)
 library(stringr)
 library(tidyr)
 library(ggplot2)
-library(ggtext) 
+library(ggtext)
+library(ggiraph) 
+library(gdtools)
 })
 
 options(shiny.useragg = TRUE)
+
+set_girafe_defaults(
+  opts_hover_inv = opts_hover_inv(css = "stroke-width:3px;"),
+  opts_hover = opts_hover(css = ""),
+  opts_selection = opts_selection(type = "none"),
+  opts_toolbar = opts_toolbar(saveaspng = FALSE)
+)
+
+register_gfont("Arimo")
  
 db_diplome <- read_excel("data/db_diplome.xls")
 
@@ -69,12 +80,12 @@ generatePlot <- function(db_diplome, niveau) {
                     )
   
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
-    geom_bar(stat = "identity", width = 0.5) + coord_flip() +
+    geom_col_interactive(width = 0.5, color = "white",mapping = aes(data_id = emploi)) + coord_flip() +
     geom_text(aes(label = taux),
               position = position_stack(vjust = .5),
-              color = "white",
-              size = 10) +
+              color = "white") +
     scale_fill_manual(values = colors) +
+    scale_y_continuous(trans = "reverse") + 
     ggtitle("Répartition des sortants selon leur situation d'activité") +
     labs(caption = caption) +
     theme(legend.position = "bottom",    # Place la légende en bas
@@ -232,31 +243,31 @@ generateDonutSecteur <- function(db_diplome, niveau) {
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Open Sans"),
-    text = element_text(family = "Open Sans"),
+    title = element_text(family = "Arimo"),
+    text = element_text(family = "Arimo", size = 11),
     panel.background = element_blank(),
-    panel.grid = element_line(colour = "#D6D8DD", linewidth = 0.1),
-    axis.ticks = element_line(colour = "#D6D8DD", linewidth = 0.1),
-    axis.text.y = element_text(family = "Open Sans", size = 12),
+    panel.grid = element_blank(),
+    axis.ticks = element_blank(),
     axis.text.x = element_blank(),
     axis.title = element_blank(),
     plot.title.position = "plot",
-    legend.background = element_rect(color = "#D6D8DD", linewidth = 0.1),
-    plot.title = element_text(size = 24, color = "#008B99", family = "Arial"),
+    legend.background = element_blank(),
+    legend.key = element_blank(),
+    plot.title = element_markdown(size = 14, color = "#008B99", family = "Arimo"),
     plot.caption.position = "plot",
-    plot.caption = element_markdown(family = "Open Sans",
+    plot.caption = element_textbox_simple(family = "Open Sans",
                                 hjust = 0,
                                 color="#303032",
                                 margin = margin(t = 10),
-                                size = 14),
-    legend.text = element_text(family = "Open Sans", size = 12),
+                                size = 9),
+    legend.text = element_text(family = "Arimo", size = 9),
     legend.title = element_blank()
   )
 )
 
 labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
-    tags$p(
+    tags$p(class = "stat_info",
       tags$span(
         style = "color: #008B99;",
         info_str
@@ -267,7 +278,7 @@ labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, info
         title = infobulle_str
       )
     ),
-    tags$p(
+    tags$p(class = "stat_info",
       tags$span(
         style = "color: #008B99;",
         stat1_str
