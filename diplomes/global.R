@@ -337,15 +337,20 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
 
 labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
-    tags$span(
+    tags$p(
+      class = "d-inline",
       style = "color: #008B99; font-size: 2em;",
       stat1_str
     ),
-    if (!is.null(stat2_str)) tags$span(
-      style = "color: #C0C0C2; font-size: 2em;",
-      stat2_str
-    ),
-    tags$span(
+    if (!is.null(stat2_str)) {
+      tags$p(
+        class = "d-inline",
+        style = "color: #C0C0C2; font-size: 2em;",
+        stat2_str
+      )
+    },
+    tags$p(
+      class = "d-inline",
       style = "color: #008B99; font-size: 2em;",
       info_str
     ),
@@ -356,3 +361,5 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
     )
   )
 }
+
+
