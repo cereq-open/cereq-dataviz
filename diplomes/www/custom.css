@@ -92,3 +92,8 @@ p {
   margin-left: 5px;
 }
 
+/* Styles pour le trait d’encadrement */
+.custom-border-box {
+  border: 2px solid #008b99;
+  padding: 10px;
+}

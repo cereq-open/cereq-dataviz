@@ -142,7 +142,7 @@ fluidPage(
     column(
       width = 6,
       div(
-        style = "border: 2px solid #008B99; padding: 10px;",
+        class = "custom-border-box",
         tags$p(
           class = "stat_info",
           tags$span(
@@ -163,7 +163,7 @@ fluidPage(
     column(
       width = 6,
       div(
-        style = "border: 2px solid #008B99; padding: 10px;",
+        class = "custom-border-box",
         tags$p(
           class = "stat_info",
           tags$span(
