@@ -4,7 +4,7 @@
   --main-color: #303032;
   --secondary-color: #ffffff;
   --highlight-color: #008b99;
-  --base-font-size: 1em;
+  --base-font-size: 16px;
 }
 
 /* Réinitialisation des styles par défaut */
@@ -80,3 +80,15 @@ p {
 .stat_info {
   font-size: 2em;
 }
+
+/* Styles pour les stats */
+.d-inline {
+  color: var(--highlight-color);
+  font-size: 2em;
+}
+
+/* Styles pour les bulles informatives */
+.fas.fa-info-circle {
+  margin-left: 5px;
+}
+

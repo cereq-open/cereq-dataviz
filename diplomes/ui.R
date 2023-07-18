@@ -150,7 +150,6 @@ fluidPage(
           ),
           tags$i(
             class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
             title = "Les secteurs sont présentés de façon agrégée, à partir d’une nomenclature plus détaillée : la nomenclature des activités françaises de l’INSEE de 2022 (NAF)."
           )
         ),

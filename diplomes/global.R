@@ -289,7 +289,6 @@ labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, info
       ),
       tags$i(
         class = "fas fa-info-circle",
-        style = "margin-left: 5px;",
         title = infobulle_str
       )
     ),
@@ -299,7 +298,7 @@ labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, info
         stat1_str
       ),
       if (!is.null(stat2_str)) tags$span(
-        style = "color: #C0C0C2;",
+        style = "color: #C0C0C2; font-size: 24px;",
         stat2_str
       )
       
@@ -315,7 +314,7 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
         stat1_str
       ),
       if (!is.null(stat2_str)) tags$span(
-        style = "color: #C0C0C2;",
+        style = "color: #C0C0C2; font-size: 24px;",
         stat2_str
       )
       
@@ -327,7 +326,6 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       ),
       tags$i(
         class = "fas fa-info-circle",
-        style = "margin-left: 5px;",
         title = infobulle_str
       )
     )
@@ -338,24 +336,22 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
   tagList(
     tags$p(
       class = "d-inline",
-      style = "color: #008B99; font-size: 2em;",
       stat1_str
     ),
     if (!is.null(stat2_str)) {
       tags$p(
         class = "d-inline",
-        style = "color: #C0C0C2; font-size: 2em;",
+        style = "color: #C0C0C2; font-size: 1.5em;",
         stat2_str
       )
     },
     tags$p(
       class = "d-inline",
-      style = "color: #008B99; font-size: 2em;",
       info_str
     ),
     tags$i(
       class = "fas fa-info-circle",
-      style = "margin-left: 5px; font-size: 2em;",
+      style = "font-size:2em;",
       title = infobulle_str
     )
   )
