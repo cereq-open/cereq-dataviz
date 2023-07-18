@@ -325,7 +325,7 @@ shinyServer(function(input, output, session) {
       labellize_stats_end_i(
         stat1_str = text_info2, stat2_str = text_info3, 
         info_str = "À temps partiel",
-        infobulle_str = "Texte informatif affiché au survol."
+        infobulle_str = ""
       )
     }
 
@@ -480,7 +480,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "À temps partiel",
-          infobulle_str = "Texte informatif affiché au survol."
+          infobulle_str = ""
         )
         
       } else {
@@ -489,7 +489,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "À temps partiel",
-          infobulle_str = "Texte informatif affiché au survol."
+          infobulle_str = ""
         )
       }
       
@@ -583,14 +583,14 @@ shinyServer(function(input, output, session) {
       gg <- generateDonutProfession(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 6)
+             height_svg = 4)
     })
 
     output$plot_repartition_par_secteur <- renderGirafe({
       gg <- generateDonutSecteur(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 6)
+             height_svg = 4)
     })
 
     output$tx_en_emploi <- renderUI({
@@ -667,7 +667,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "À temps partiel",
-          infobulle_str = "Texte informatif affiché au survol."
+          infobulle_str = ""
         )
         
       } else {
@@ -676,7 +676,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "À temps partiel",
-          infobulle_str = "Texte informatif affiché au survol."
+          infobulle_str = ""
         )
       }
       
