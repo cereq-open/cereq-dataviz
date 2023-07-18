@@ -34,42 +34,63 @@ fluidPage(
       downloadButton("downloadData", "Télécharger les données")
     )
   ),
-  div(
-    class = "row align-items-end",
-    column(
-      width = 2,
-      pickerInput(
-        inputId = "niveau",
-        label = "Choisir le plus haut diplôme atteint",
-        choices = list_degre1_2,
-        choicesOpt = list(
-          style = c(
-            "font-weight: bold;",
-            "font-weight: bold;",
-            "font-weight: bold;",
-            "",
-            "",
-            "",
-            "",
-            "font-weight: bold;",
-            "",
-            "",
-            "",
-            "",
-            "font-weight: bold;",
-            "",
-            "",
-            ""
-          )
-        )
-      )
+  br(),
+  fluidRow(
+    tags$head(
+      tags$style(type = "text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row; }")
     ),
     column(
-      width = 2,
-      conditionalPanel(
-        condition = "output.sousniveau == true",
-        selectInput("degre3", label = "Texte", choices = NULL, selectize = FALSE, size = 2),
-        div(class = "form-group", actionButton("clear", "Déselectionner"))
+      width = 12,
+      tags$table(
+        width = "100%",
+        tags$tr(
+          width = "100%",
+          tags$td(
+            width = "40%",
+            div(style = "font-size:24px; text-align: center;", "Choisir le plus haut diplôme atteint : ")
+          ),
+          tags$td(
+            width = "60%",
+            pickerInput(
+              width = "fit",
+              inputId = "niveau",
+              choices = list_degre1_2,
+              choicesOpt = list(
+                style = c(
+                  "font-weight: bold;",
+                  "font-weight: bold;",
+                  "font-weight: bold;",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "font-weight: bold;",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "font-weight: bold;",
+                  "",
+                  "",
+                  ""
+                )
+              )
+            )
+          )
+        ),
+        conditionalPanel(
+          condition = "output.sousniveau == true",
+          tags$tr(
+            width = "100%",
+            tags$td(width = "60%", tags$div(style = "font-size:24px;", "Choisir la spécialité")),
+            tags$td(width = "40%",
+                    selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 2),
+                    br(),
+                    div(class = "form-group", actionButton("clear", "Déselectionner"))
+                    
+                    )
+          )
+        )
       )
     )
   ),
@@ -122,14 +143,14 @@ fluidPage(
       width = 6,
       div(
         style = "border: 2px solid #008B99; padding: 10px;",
-        tags$p(class = "stat_info",
+        tags$p(
+          class = "stat_info",
           tags$span(
             style = "color: #008B99;",
             "Répartition par profession"
           ),
           tags$i(
             class = "fas fa-info-circle",
-            style = "margin-left: 5px;",
             title = "Les professions sont présentées de façon agrégée, à partir d’une nomenclature plus détaillée, celle des professions et catégories socioprofessionnelles de l’INSEE de 2022."
           )
         ),
@@ -143,7 +164,8 @@ fluidPage(
       width = 6,
       div(
         style = "border: 2px solid #008B99; padding: 10px;",
-        tags$p(class = "stat_info",
+        tags$p(
+          class = "stat_info",
           tags$span(
             style = "color: #008B99;",
             "Répartition par secteur"

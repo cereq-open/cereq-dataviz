@@ -29,7 +29,7 @@ shinyServer(function(input, output, session) {
     }
     updateSelectInput(
       inputId = "degre3",
-      label = "Choisir la spécialité",
+      label = NULL,
       choices = values
     )
   })
