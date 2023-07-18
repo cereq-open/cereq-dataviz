@@ -166,7 +166,8 @@ fluidPage(
     column(
       width = 12,
       uiOutput("tx_jugent_coherent"),
-      uiOutput("tx_estiment_ss_employes")
+      uiOutput("tx_estiment_ss_employes"),
+      br()
     )
   )
 )
