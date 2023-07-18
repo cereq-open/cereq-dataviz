@@ -575,7 +575,7 @@ shinyServer(function(input, output, session) {
        gg <- generatePlot(db_diplome, input$niveau)
        girafe(ggobj = gg,
               width_svg = 6,
-              height_svg = 6)
+              height_svg = 2.5)
        
     })
 

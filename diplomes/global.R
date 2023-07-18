@@ -1,5 +1,4 @@
 suppressPackageStartupMessages({
-library(readxl)
 library(dplyr)
 library(stringr)
 library(tidyr)
