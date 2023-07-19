@@ -66,22 +66,41 @@ generatePlot <- function(db_diplome, niveau) {
 
   colors <- c("En emploi" = "#008B99", "Au chômage" = "#EF5350", "Autres situations" = "#F8AC00")
 
-  caption <- paste0(
-    '<span style="color:#008B99;">Lecture : </span>',
-    "Trois ans après leur sortie de formation initiale, ",
-    DT$taux_str[1],
-    " des jeunes de la Génération 2017 sont en emploi, ",
-    DT$taux_str[2],
-    " au chômage et ",
-    DT$taux_str[3],
-    " dans une autre situation.",
-    "<br>",
-    '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017.",
-    "<br>",
-    '<span style="color:#008B99;">Source : </span>',
-    "Céreq, enquête Génération 2017 à trois ans."
-  )
+  if (sum(!str_detect(DT$Libelle_Menu, "Ensemble des sortants")) == 0) {
+    caption <- paste0(
+      '<span style="color:#008B99;">Lecture : </span>',
+      "Trois ans après leur sortie de formation initiale, ",
+      DT$taux_str[1],
+      " des jeunes de la Génération 2017 sont en emploi, ",
+      DT$taux_str[2],
+      " au chômage et ",
+      DT$taux_str[3],
+      " dans une autre situation.",
+      "<br>",
+      '<span style="color:#008B99;">Champ : </span>',
+      "Ensemble de la Génération 2017.",
+      "<br>",
+      '<span style="color:#008B99;">Source : </span>',
+      "Céreq, enquête Génération 2017 à trois ans."
+    )
+  } else {
+    caption <- paste0(
+      '<span style="color:#008B99;">Lecture : </span>',
+      "Trois ans après leur sortie de formation initiale, ",
+      DT$taux_str[4],
+      " des jeunes de la Génération 2017 sont en emploi, ",
+      DT$taux_str[5],
+      " au chômage et ",
+      DT$taux_str[6],
+      " dans une autre situation.",
+      "<br>",
+      '<span style="color:#008B99;">Champ : </span>',
+      "Ensemble de la Génération 2017.",
+      "<br>",
+      '<span style="color:#008B99;">Source : </span>',
+      "Céreq, enquête Génération 2017 à trois ans."
+    )
+  }
 
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
     geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi)) +
@@ -126,22 +145,41 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
 
   colors <- c("En emploi" = "#008B99", "Au chômage" = "#EF5350", "Autres situations" = "#F8AC00")
 
-  caption <- paste0(
-    '<span style="color:#008B99;">Lecture : </span>',
-    "Trois ans après leur sortie de formation initiale, ",
-    DT$taux_str[1],
-    " des jeunes de la Génération 2017 sont en emploi, ",
-    DT$taux_str[2],
-    " au chômage et ",
-    DT$taux_str[3],
-    " dans une autre situation.",
-    "<br>",
-    '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017.",
-    "<br>",
-    '<span style="color:#008B99;">Source : </span>',
-    "Céreq, enquête Génération 2017 à trois ans."
-  )
+  if (sum(!str_detect(DT$Libelle_Menu, "Ensemble des sortants")) == 0) {
+    caption <- paste0(
+      '<span style="color:#008B99;">Lecture : </span>',
+      "Trois ans après leur sortie de formation initiale, ",
+      DT$taux_str[1],
+      " des jeunes de la Génération 2017 sont en emploi, ",
+      DT$taux_str[2],
+      " au chômage et ",
+      DT$taux_str[3],
+      " dans une autre situation.",
+      "<br>",
+      '<span style="color:#008B99;">Champ : </span>',
+      "Ensemble de la Génération 2017.",
+      "<br>",
+      '<span style="color:#008B99;">Source : </span>',
+      "Céreq, enquête Génération 2017 à trois ans."
+    )
+  } else {
+    caption <- paste0(
+      '<span style="color:#008B99;">Lecture : </span>',
+      "Trois ans après leur sortie de formation initiale, ",
+      DT$taux_str[4],
+      " des jeunes de la Génération 2017 sont en emploi, ",
+      DT$taux_str[5],
+      " au chômage et ",
+      DT$taux_str[6],
+      " dans une autre situation.",
+      "<br>",
+      '<span style="color:#008B99;">Champ : </span>',
+      "Ensemble de la Génération 2017.",
+      "<br>",
+      '<span style="color:#008B99;">Source : </span>',
+      "Céreq, enquête Génération 2017 à trois ans."
+    )
+  }
 
   ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
     geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi)) +
