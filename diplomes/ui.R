@@ -47,7 +47,7 @@ fluidPage(
           width = "100%",
           tags$td(
             width = "40%",
-            div(style = "font-size:24px; text-align: center;", "Choisir le plus haut diplôme atteint : ")
+            div(style = "font-size:24px; text-align: center;", "Choisir le plus haut diplôme atteint :")
           ),
           tags$td(
             width = "60%",
@@ -82,7 +82,7 @@ fluidPage(
           condition = "output.sousniveau == true",
           tags$tr(
             width = "100%",
-            tags$td(width = "60%", tags$div(style = "font-size:24px;", "Choisir la spécialité")),
+            tags$td(width = "60%", tags$div(style = "font-size:24px;", "Choisir la spécialité :")),
             tags$td(width = "40%",
                     selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 2),
                     br(),

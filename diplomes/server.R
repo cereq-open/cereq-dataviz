@@ -3,6 +3,7 @@
 library(shiny)
 library(dplyr)
 library(ggplot2)
+library(openxlsx)
 
 # Define Server ----------------------------------------------------------------
 
@@ -147,10 +148,10 @@ shinyServer(function(input, output, session) {
       )
 
       gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-        geom_rect_interactive(mapping = aes(data_id = profession), color = "gray") +
+        geom_rect_interactive(mapping = aes(data_id = profession), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
+        geom_text(x = 4.3, aes(y = labelPosition, label = taux), color = "black") +
         scale_fill_manual(values = colors) +
         scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
@@ -216,10 +217,10 @@ shinyServer(function(input, output, session) {
       )
 
       gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-        geom_rect_interactive(mapping = aes(data_id = secteur), color = "gray") +
+        geom_rect_interactive(mapping = aes(data_id = secteur), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
+        geom_text(x = 4.3, aes(y = labelPosition, label = taux), color = "black") +
         scale_fill_manual(values = colors) +
         scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
@@ -313,19 +314,17 @@ shinyServer(function(input, output, session) {
     req(input$niveau)
     if (input$niveau %in% "Ensemble des sortants") {
       text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
-      labellize_stats_end_i(
+      labellize_stats_no_i(
         stat1_str = text_info1, stat2_str = NULL, 
-        info_str = "À temps partiel",
-        infobulle_str = ""
+        info_str = "À temps partiel"
       )
       
     } else {
       text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
       text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
-      labellize_stats_end_i(
+      labellize_stats_no_i(
         stat1_str = text_info2, stat2_str = text_info3, 
-        info_str = "À temps partiel",
-        infobulle_str = ""
+        info_str = "À temps partiel"
       )
     }
 
@@ -477,19 +476,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
-        labellize_stats_end_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "À temps partiel",
-          infobulle_str = ""
+          info_str = "À temps partiel"
         )
         
       } else {
         text_info2 <- paste0(filtered_data_level3()$part_tps_partiel, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
-        labellize_stats_end_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "À temps partiel",
-          infobulle_str = ""
+          info_str = "À temps partiel"
         )
       }
       
@@ -664,19 +661,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
-        labellize_stats_end_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "À temps partiel",
-          infobulle_str = ""
+          info_str = "À temps partiel"
         )
         
       } else {
         text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
-        labellize_stats_end_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "À temps partiel",
-          infobulle_str = ""
+          info_str = "À temps partiel"
         )
       }
       
@@ -757,10 +752,10 @@ shinyServer(function(input, output, session) {
   
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste('db_diplome-', Sys.Date(), '.csv', sep='')
+      paste('db_diplome', '.xlsx', sep='')
     },
     content = function(file) {
-      write.csv(db_diplome, file)
+      write.xlsx(db_diplome, file)
     }
   )
   

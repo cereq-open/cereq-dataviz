@@ -205,10 +205,10 @@ generateDonutProfession <- function(db_diplome, niveau) {
     "Céreq, enquête Génération 2017 à trois ans."
   )
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-    geom_rect_interactive(mapping = aes(data_id = profession), color = "gray") +
+    geom_rect_interactive(mapping = aes(data_id = profession), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
-    geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
+    geom_text(x = 4.3, aes(y = labelPosition, label = taux), color = "black") +
     scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
@@ -262,10 +262,10 @@ generateDonutSecteur <- function(db_diplome, niveau) {
   )
 
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-    geom_rect_interactive(mapping = aes(data_id = secteur), color = "gray") +
+    geom_rect_interactive(mapping = aes(data_id = secteur), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
-    geom_text(aes(x = 3.5, y = labelPosition, label = taux), color = "white") +
+    geom_text(x = 4.3, aes(y = labelPosition, label = taux), color = "black") +
     scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
@@ -355,6 +355,31 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       tags$i(
         class = "fas fa-info-circle",
         title = infobulle_str
+      )
+    )
+  )
+}
+
+labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
+  tagList(
+    tags$p(
+      class = "stat_info",
+      tags$span(
+        style = "color: #008B99;",
+        stat1_str
+      ),
+      if (!is.null(stat2_str)) {
+        tags$span(
+          style = "color: #C0C0C2; font-size: 24px;",
+          stat2_str
+        )
+      }
+    ),
+    tags$p(
+      class = "stat_info",
+      tags$span(
+        style = "color: #008B99;",
+        info_str
       )
     )
   )
