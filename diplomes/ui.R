@@ -98,7 +98,7 @@ fluidPage(
   fluidRow(
     column(
       width = 12,
-      tags$h1("Trois ans après la sortie de formation")
+      tags$h1("Situation trois ans après la sortie de formation")
     ),
     column(
       width = 6,

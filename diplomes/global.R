@@ -68,7 +68,7 @@ generatePlot <- function(db_diplome, niveau) {
 
   caption <- paste0(
     '<span style="color:#008B99;">Lecture : </span>',
-    "Trois ans après leur sortie de formation initiale ",
+    "Trois ans après leur sortie de formation initiale, ",
     DT$taux_str[1],
     " des jeunes de la Génération 2017 sont en emploi, ",
     DT$taux_str[2],
@@ -128,7 +128,7 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
 
   caption <- paste0(
     '<span style="color:#008B99;">Lecture : </span>',
-    "Trois ans après leur sortie de formation initiale ",
+    "Trois ans après leur sortie de formation initiale, ",
     DT$taux_str[1],
     " des jeunes de la Génération 2017 sont en emploi, ",
     DT$taux_str[2],

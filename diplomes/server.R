@@ -271,7 +271,7 @@ shinyServer(function(input, output, session) {
       labellize_stats_middle_i(
         stat1_str = text_info1, stat2_str = NULL, 
         info_str = "Taux de chômage",
-        infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
+        infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
       )
       
     } else {
@@ -280,7 +280,7 @@ shinyServer(function(input, output, session) {
       labellize_stats_middle_i(
         stat1_str = text_info2, stat2_str = text_info3, 
         info_str = "Taux de chômage",
-        infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
+        infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
         )
     }
     
@@ -433,7 +433,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
+          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
         )
         
       } else {
@@ -442,7 +442,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
+          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
         )
       }
       
@@ -617,7 +617,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
+          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
         )
         
       } else {
@@ -626,7 +626,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes qui sont au chômage trois ans après leur sortie de formation initiale parmi l'ensemble des sortants."
+          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
         )
       }
       
