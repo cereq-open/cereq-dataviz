@@ -84,7 +84,7 @@ shinyServer(function(input, output, session) {
     })
   })
 
-  ###################### Create Pie Plots ######################
+  ###################### Create Donut Plots ######################
 
   observeEvent(input$niveau, {
     output$plot_repartition_par_profession <- renderGirafe({
@@ -109,7 +109,7 @@ shinyServer(function(input, output, session) {
       req(selectedValue(), code_niveau3(), input$degre3) # Make sure that the selected value is not NULL before rendering the plot.
       DT <- db_diplome %>%
         select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
-        filter(Code == code_niveau3() & Libelle_Menu == input$degre3) %>%
+        filter(Code %in% code_niveau3() & Libelle_Menu %in% input$degre3) %>%
         mutate(across(everything(), ~ gsub(",", ".", .))) %>%
         pivot_longer(
           cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
@@ -172,11 +172,11 @@ shinyServer(function(input, output, session) {
         select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres)
 
       if (isTruthy(code_niveau3())) {
-        DT <- filter(DT, Code == code_niveau3())
+        DT <- filter(DT, Code %in% code_niveau3())
       }
 
       if (isTruthy(input$degre3)) {
-        DT <- filter(DT, Libelle_Menu == input$degre3)
+        DT <- filter(DT, Libelle_Menu %in% input$degre3)
       }
       DT <- DT %>%
         mutate(across(everything(), ~ gsub(",", ".", .))) %>%
@@ -236,14 +236,6 @@ shinyServer(function(input, output, session) {
 
   ###################### Create Statistics ######################
   ####### input$niveau #########
-  
-  # text_info_reactive <- reactive({
-  #   if (is.null(input$degre3)) {
-  #    paste0(ensemble_de_sortants_data$taux_emploi, "%")
-  # } else {
-      
-  #  }
-  # })
   
   output$tx_en_emploi <- renderUI({
     req(input$niveau)
@@ -397,15 +389,10 @@ shinyServer(function(input, output, session) {
     }
 
   })
-  
-
-  
-
 
   ####### input$degre3 #########
 
   observeEvent(input$degre3, {
-    
     
     output$tx_en_emploi <- renderUI({
       req(input$niveau)

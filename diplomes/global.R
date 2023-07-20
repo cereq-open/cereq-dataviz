@@ -39,7 +39,7 @@ generateDataForLevel3 <- function(db_diplome, code_niveau3, niveau3) {
   req(code_niveau3, code_niveau3)
 
   filtered_data <- db_diplome %>%
-    filter(Code == code_niveau3 & Libelle_Menu %in% niveau3)
+    filter(Code %in% code_niveau3 & Libelle_Menu %in% niveau3)
 }
 
 # Function to generate the first plot when first and second levels are selected from the first SelectInput tool.
@@ -203,7 +203,7 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
 generateDonutProfession <- function(db_diplome, niveau) {
   DT <- db_diplome %>%
     select(Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
-    filter(Libelle_Menu == niveau) %>%
+    filter(Libelle_Menu %in% niveau) %>%
     mutate(across(everything(), ~ gsub(",", ".", .))) %>%
     pivot_longer(
       cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
@@ -259,7 +259,7 @@ generateDonutProfession <- function(db_diplome, niveau) {
 generateDonutSecteur <- function(db_diplome, niveau) {
   DT <- db_diplome %>%
     select(Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres) %>%
-    filter(Libelle_Menu == niveau) %>%
+    filter(Libelle_Menu %in% niveau) %>%
     mutate(across(everything(), ~ gsub(",", ".", .))) %>%
     pivot_longer(
       cols = c("sec_industries_btp", "sec_commerce", "sec_administration", "sec_a_services", "sec_autres"),
