@@ -5,10 +5,10 @@ account: cereq-data-visualisation
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9411556
-bundleId: 7448929
+bundleId: 7478229
 url: https://cereq-data-visualisation.shinyapps.io/diplomes/
-when: 1689176295.52794
-lastSyncTime: 1689176295.52795
+when: 1689847212.86093
+lastSyncTime: 1689847212.86094
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: data/db_diplome.xls|data/tab_region.parquet|pdf.pdf|pdf.Rmd
