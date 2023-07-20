@@ -1,55 +1,99 @@
-body {
+/* Variables pour les couleurs et les typographies */
+:root {
+  --main-font: "Arimo";
+  --main-color: #303032;
+  --secondary-color: #ffffff;
+  --highlight-color: #008b99;
+  --base-font-size: 16px;
+}
+
+/* Réinitialisation des styles par défaut */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   margin: 0;
   padding: 0;
+}
+
+/* Styles généraux */
+body {
+  font-family: var(--main-font);
   font-weight: 400;
-  color: #303032;
-  font-size: 16px;
+  color: var(--main-color);
+  font-size: var(--base-font-size);
   line-height: 2;
-  font-family: "Arial";
   text-align: center;
 }
 
+/* Styles pour les titres */
 h1 {
-  font-size: 40px;
+  font-size: 2.5rem; /* 40px */
   line-height: 1.4;
-  margin: 0px 0px 16px;
+  margin-bottom: 1rem; /* 16px */
 }
 
 h2,
 h3 {
-  font-size: 24px;
+  font-size: 1.5rem; /* 24px */
   line-height: 1.67;
-  margin: 0px 0px 16px;
+  margin-bottom: 1rem; /* 16px */
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 1rem; /* 16px */
   line-height: 1.5;
-  margin: 0px 0px 16px;
+  margin-bottom: 1rem; /* 16px */
 }
 
 h5 {
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
   line-height: 1.33;
-  margin: 0px 0px 16px;
+  margin-bottom: 1rem; /* 16px */
 }
 
+/* Styles pour le paragraphe */
 p {
-  color: #303032;
+  color: var(--main-color);
 }
 
+/* Styles pour le conteneur du logo */
 .logo-container {
+  padding: 0.625rem; /* 10px */
+}
+
+/* Styles pour la carte */
+.card {
+  background-color: var(--highlight-color);
+  color: var(--secondary-color);
+  border-radius: 5rem;
+  margin-bottom: 3rem;
   text-align: center;
+  font-size: 1.5625rem; /* 25px */
+  padding: 0.75rem 0.9375rem; /* 12px 15px */
+}
+
+/* Styles pour les stats */
+.stat_info {
+  font-size: 2em;
+}
+
+/* Styles pour les stats */
+.d-inline {
+  color: var(--highlight-color);
+  font-size: 2em;
+}
+
+/* Styles pour les bulles informatives */
+.fas.fa-info-circle {
+  margin-left: 5px;
+}
+
+/* Styles pour le trait d’encadrement */
+.custom-border-box {
+  border: 2px solid #008b99;
   padding: 10px;
-}
-
-.social-icons {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.social-icons a {
-  margin-right: 5px;
 }

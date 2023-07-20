@@ -20,7 +20,7 @@ library(ggplot2)
 ```
 
 ```{r plot, echo=FALSE}
-data <- read_parquet("/Users/mouna/Desktop/Work/GitHub/cereq-dataviz/diplomes/data/diplome.parquet")
+data <- read_parquet("data/diplome.parquet")
   DT <- data %>%
     select(Libelle_Menu, taux_emploi, taux_chomage) %>%
     mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
