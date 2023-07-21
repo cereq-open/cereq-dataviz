@@ -853,11 +853,12 @@ shinyServer(function(input, output, session) {
   
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste('db_diplome', '.xlsx', sep='')
+      paste('OpenData_Cereq-Enq_Generation-Donnees_DIPLOME', '.xlsx', sep='')
     },
     content = function(file) {
-      write.xlsx(db_diplome, file)
+      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
     }
   )
+  
 
 })
