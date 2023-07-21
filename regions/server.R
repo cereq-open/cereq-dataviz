@@ -22,14 +22,34 @@ shinyServer(function(input, output, session) {
   
   # Create Title ---------------------------------------------------------------
   
+  # Message contenu dans les bulles informatives
+  
   info_bulle_reactive <- reactive({
     if(input$col_name == "tx_chmg") {
-      return("Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)")
+      return("Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage).")
       
     } else if(input$col_name == "traj_1") {
       return("Cette information résulte d'une typologie des trajectoires construite par le Céreq par des méthodes statistiques.")
+      
+    } else if(input$col_name == "traj_2") {
+      return("Cette information résulte d'une typologie des trajectoires construite par le Céreq par des méthodes statistiques.")
+      
+    } else if(input$col_name == "traj_3") {
+      return("Cette information résulte d'une typologie des trajectoires construite par le Céreq par des méthodes statistiques.")
+      
+    } else if(input$col_name == "traj_7") {
+      return("Cette information résulte d'une typologie des trajectoires construite par le Céreq par des méthodes statistiques.")
+      
+    } else if(input$col_name == "taux_ed") {
+      return("Proportion d'individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire.")
+      
+    } else if(input$col_name == "rvn_trv") {
+      return("Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins.")
+      
     }
   })
+  
+  # Titre
   
   output$titre1 <- renderUI({
     if(input$col_name %in% noms_colonnes_info_bulle) {
