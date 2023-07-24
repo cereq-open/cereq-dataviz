@@ -15,8 +15,12 @@ set_girafe_defaults(
   opts_hover_inv = opts_hover_inv(css = "stroke-width:2px; opacity:.5;"),
   opts_hover = opts_hover(css = ""),
   opts_selection = opts_selection(type = "none"),
-  opts_toolbar = opts_toolbar(saveaspng = FALSE)
+  opts_toolbar = opts_toolbar(saveaspng = FALSE),
+  opts_sizing(rescale = FALSE)
 )
+
+hauteur_2_barres <- 3
+hauteur_1_barre <- 2
 
 register_gfont("Arimo")
 
@@ -113,13 +117,14 @@ generatePlot <- function(db_diplome, niveau) {
     ) +
     scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
-    ggtitle("Répartition des sortants selon leur situation d'activité") +
     labs(caption = caption) +
     theme(
-      legend.position = "bottom", # Place la légende en bas
-      legend.direction = "horizontal", # Orientation de la légende en ligne
-      legend.box = "horizontal"
-    ) # Boîte de la légende en ligne
+      legend.position = "top", # Place la légende en bas
+      legend.justification="left",
+      legend.box.spacing = unit(0, "pt"),
+      legend.margin=margin(0,0,0,0)
+        
+    ) 
 }
 
 # Function to generate the plot when the third levels are selected from the second SelectInput tool.
@@ -196,10 +201,10 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "bottom", # Place la légende en bas
-      legend.direction = "horizontal", # Orientation de la légende en ligne
-      legend.box = "horizontal"
-    ) # Boîte de la légende en ligne
+      legend.position = "top", # Place la légende en bas
+      legend.box.spacing = unit(0, "pt"),
+      legend.margin=margin(0,0,0,0)
+    )
 }
 
 ######### Create Pie charts ########################
@@ -252,7 +257,8 @@ generateDonutProfession <- function(db_diplome, niveau) {
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
     geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
-    scale_fill_manual(values = colors) +
+    scale_fill_manual(values = colors, labels = scales::label_wrap(20),
+                      guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
@@ -309,7 +315,8 @@ generateDonutSecteur <- function(db_diplome, niveau) {
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
     geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
-    scale_fill_manual(values = colors) +
+    scale_fill_manual(values = colors, labels = scales::label_wrap(20),
+                      guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
@@ -337,9 +344,7 @@ theme_set(
     plot.caption = element_textbox_simple(
       family = "Open Sans",
       hjust = 0,
-      color = "#303032",
-      margin = margin(t = 10),
-      size = 9
+      color = "#303032"
     ),
     legend.text = element_text(family = "Arimo", size = 9),
     legend.title = element_blank()
@@ -367,7 +372,7 @@ labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, info
       ),
       if (!is.null(stat2_str)) {
         tags$span(
-          style = "color: #C0C0C2; font-size: 24px;",
+          style = "color: #C0C0C2; font-size: 16px;",
           stat2_str
         )
       }
@@ -385,7 +390,7 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       ),
       if (!is.null(stat2_str)) {
         tags$span(
-          style = "color: #C0C0C2; font-size: 24px;",
+          style = "color: #C0C0C2; font-size: 16px;",
           stat2_str
         )
       }
@@ -414,7 +419,7 @@ labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
       ),
       if (!is.null(stat2_str)) {
         tags$span(
-          style = "color: #C0C0C2; font-size: 24px;",
+          style = "color: #C0C0C2; font-size: 16px;",
           stat2_str
         )
       }
@@ -438,7 +443,7 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
     if (!is.null(stat2_str)) {
       tags$p(
         class = "d-inline",
-        style = "color: #C0C0C2; font-size: 1.5em;",
+        style = "color: #C0C0C2; font-size: 16px;",
         stat2_str
       )
     },
