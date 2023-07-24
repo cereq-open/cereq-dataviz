@@ -63,6 +63,8 @@ generatePlot <- function(db_diplome, niveau) {
       emploi = factor(emploi, levels = c("En emploi", "Au chômage", "Autres situations")),
       taux_str = paste0(taux, "%")
     )
+  
+  DT$Libelle_Menu = factor(DT$Libelle_Menu, levels = c(unique(DT$Libelle_Menu)[1], unique(DT$Libelle_Menu)[2]))
 
   colors <- c("En emploi" = "#008B99", "Au chômage" = "#EF5350", "Autres situations" = "#F8AC00")
 
@@ -142,6 +144,8 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
       emploi = factor(emploi, levels = c("En emploi", "Au chômage", "Autres situations")),
       taux_str = paste0(taux, "%")
     )
+  
+  DT$Libelle_complet = factor(DT$Libelle_complet, levels = c(unique(DT$Libelle_complet)[1], unique(DT$Libelle_complet)[2]))
 
   colors <- c("En emploi" = "#008B99", "Au chômage" = "#EF5350", "Autres situations" = "#F8AC00")
 
