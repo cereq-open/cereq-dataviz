@@ -220,16 +220,16 @@ generateDonutProfession <- function(db_diplome, niveau) {
       profession = case_when(
         profession == "pos_cadres" ~ "Cadres",
         profession == "pos_prof_int" ~ "Professions intermédiaires",
-        profession == "pos_emp_ouv_q" ~ "Ouvriers et employés qualifiés",
-        profession == "pos_emp_ouv_nq" ~ "Ouvriers et employés non qualifiés",
-        profession == "pos_autres" ~ "Autres professions",
+        profession == "pos_emp_ouv_q" ~ "Employés ou ouvriers qualifiés",
+        profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers non qualifiés",
+        profession == "pos_autres" ~ "Autres",
         TRUE ~ profession
       ),
       profession = factor(profession, levels = c(
         "Cadres", "Professions intermédiaires",
-        "Ouvriers et employés qualifiés",
-        "Ouvriers et employés non qualifiés",
-        "Autres professions"
+        "Employés ou ouvriers qualifiés",
+        "Employés ou ouvriers non qualifiés",
+        "Autres"
       ))
     )
 
@@ -274,19 +274,17 @@ generateDonutSecteur <- function(db_diplome, niveau) {
       labelPosition = (ymax + ymin) / 2,
       label = paste0(secteur, "\n ", taux),
       secteur = case_when(
-        secteur == "sec_industries_btp" ~ "Industrie et BTP",
+        secteur == "sec_industries_btp" ~ "Industries, bâtiment et travaux publics",
         secteur == "sec_commerce" ~ "Commerce",
-        secteur == "sec_administration" ~ "Administration",
-        secteur == "sec_a_services" ~ "Autres services",
-        secteur == "sec_autres" ~ "Autres secteurs",
+        secteur == "sec_administration" ~ "Administrations, Education, Santé Action sociale",
+        secteur == "sec_a_services" ~ "Services",
+        secteur == "sec_autres" ~ "Autres",
         TRUE ~ secteur
       ),
-      secteur = factor(secteur, levels = c(
-        "Industrie et BTP", "Commerce",
-        "Administration",
-        "Autres services",
-        "Autres secteurs"
-      ))
+      secteur = factor(secteur, levels = c("Industries, bâtiment et travaux publics", "Commerce",
+                                           "Administrations, Education, Santé Action sociale",
+                                           "Services",
+                                           "Autres"))
     )
 
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")

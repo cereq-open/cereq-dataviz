@@ -129,15 +129,17 @@ shinyServer(function(input, output, session) {
           profession = case_when(
             profession == "pos_cadres" ~ "Cadres",
             profession == "pos_prof_int" ~ "Professions intermédiaires",
-            profession == "pos_emp_ouv_q" ~ "Ouvriers et employés qualifiés",
-            profession == "pos_emp_ouv_nq" ~ "Ouvriers et employés non qualifiés",
-            profession == "pos_autres" ~ "Autres professions",
+            profession == "pos_emp_ouv_q" ~ "Employés ou ouvriers qualifiés",
+            profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers non qualifiés",
+            profession == "pos_autres" ~ "Autres",
             TRUE ~ profession
           ),
-          profession = factor(profession, levels = c("Cadres", "Professions intermédiaires",
-                                                     "Ouvriers et employés qualifiés",
-                                                     "Ouvriers et employés non qualifiés",
-                                                     "Autres professions"))
+          profession = factor(profession, levels = c(
+            "Cadres", "Professions intermédiaires",
+            "Employés ou ouvriers qualifiés",
+            "Employés ou ouvriers non qualifiés",
+            "Autres"
+          ))
         )
       
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -218,17 +220,17 @@ shinyServer(function(input, output, session) {
           labelPosition = (ymax + ymin) / 2,
           label = paste0(secteur, "\n ", taux),
           secteur = case_when(
-            secteur == "sec_industries_btp" ~ "Industrie et BTP",
+            secteur == "sec_industries_btp" ~ "Industries, bâtiment et travaux publics",
             secteur == "sec_commerce" ~ "Commerce",
-            secteur == "sec_administration" ~ "Administration",
-            secteur == "sec_a_services" ~ "Autres services",
-            secteur == "sec_autres" ~ "Autres secteurs",
+            secteur == "sec_administration" ~ "Administrations, Education, Santé Action sociale",
+            secteur == "sec_a_services" ~ "Services",
+            secteur == "sec_autres" ~ "Autres",
             TRUE ~ secteur
           ),
-          secteur = factor(secteur, levels = c("Industrie et BTP", "Commerce",
-                                               "Administration",
-                                               "Autres services",
-                                               "Autres secteurs"))
+          secteur = factor(secteur, levels = c("Industries, bâtiment et travaux publics", "Commerce",
+                                               "Administrations, Education, Santé Action sociale",
+                                               "Services",
+                                               "Autres"))
         )
       
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -271,6 +273,8 @@ shinyServer(function(input, output, session) {
     reactive_plot_repartition_par_secteur()
   })
   
+  ###################### Create Statistics ######################
+  
   reactive_tx_en_emploi <- reactive({
     if (is.null(input$degre3)) {
       
@@ -280,7 +284,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi",
-          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
@@ -288,7 +292,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi",
-          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
       }
       
     }
@@ -300,7 +304,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi",
-          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
         
       } else {
         text_info2 <- paste0(filtered_data_level3()$taux_emploi, "%")
@@ -308,7 +312,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi",
-          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
       }
       
     } else {
@@ -318,7 +322,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi",
-          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
@@ -326,13 +330,11 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi",
-          infobulle_str = "Proportion de jeunes qui sont en emploi trois ans après leur sortie de formation initiale parmi l'ensemble des sortants.")
+          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
       }
     }
     
   })
-  
-  ###################### Create Statistics ######################
   
   output$tx_en_emploi <- renderUI({
     reactive_tx_en_emploi()
@@ -348,7 +350,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
         
       } else {
@@ -357,7 +359,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
       }
       
@@ -371,7 +373,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
         
       } else {
@@ -380,7 +382,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
       }
       
@@ -393,7 +395,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
         
       } else {
@@ -402,7 +404,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_middle_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Proportion de jeunes de la génération 2017 au chômage trois ans après leur sortie de formation initiale, parmi ceux qui sont actifs, donc en emploi ou au chômage."
+          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
       }
       
@@ -425,7 +427,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi à durée indéterminée",
-          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
         )
         
       } else {
@@ -434,7 +436,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi à durée indéterminée",
-          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
         )
       }
       
@@ -448,7 +450,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi à durée indéterminée",
-          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
         )
         
       } else {
@@ -457,7 +459,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi à durée indéterminée",
-          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
         )
       }
       
@@ -470,7 +472,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi à durée indéterminée",
-          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
         )
         
       } else {
@@ -479,19 +481,16 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi à durée indéterminée",
-          infobulle_str = "Fonctionnaires et salariés en contrats à durée indéterminée."
+          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
         )
       }
       
     }
     
-    
   })
-  
   
   output$tx_en_edi <- renderUI({
     reactive_tx_en_edi()
-    
   })
   
   reactive_tx_a_tps_partiel <- reactive({
@@ -567,7 +566,6 @@ shinyServer(function(input, output, session) {
     
   })
   
-  
   reactive_revenu_median <- reactive({
     
     if (is.null(input$degre3)) {
@@ -578,7 +576,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
         )
         
       } else {
@@ -587,7 +585,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
         )
       }
       
@@ -601,7 +599,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
         )
         
       } else {
@@ -610,7 +608,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
         )
       }
       
@@ -623,7 +621,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
         )
         
       } else {
@@ -632,7 +630,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de revenu mensuel médian des jeunes qui sont en emploi trois ans après leur sortie de formation initiale. Le niveau médian est tel que 50% gagnent plus et 50% gagnent moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
         )
       }
       
@@ -855,11 +853,12 @@ shinyServer(function(input, output, session) {
   
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste('db_diplome', '.xlsx', sep='')
+      paste('OpenData_Cereq-Enq_Generation-Donnees_DIPLOME', '.xlsx', sep='')
     },
     content = function(file) {
-      write.xlsx(db_diplome, file)
+      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
     }
   )
   
+
 })
