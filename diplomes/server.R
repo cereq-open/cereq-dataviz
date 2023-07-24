@@ -30,7 +30,8 @@ shinyServer(function(input, output, session) {
     } else {
       values <- character()
     }
-    updateSelectInput(
+    updatePickerInput(
+      session = session,
       inputId = "degre3",
       label = NULL,
       choices = values
@@ -70,7 +71,7 @@ shinyServer(function(input, output, session) {
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 2.5)
+             height_svg = hauteur_1_barre)
       
     }
     
@@ -78,14 +79,14 @@ shinyServer(function(input, output, session) {
       gg <- generatePlotSpec(db_diplome, code_niveau3(), input$degre3)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 2.5)
+             height_svg = hauteur_1_barre)
       
     } else {
       
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 2.5)
+             height_svg = hauteur_2_barres)
 
     }
     
@@ -101,10 +102,12 @@ shinyServer(function(input, output, session) {
     
     if (is.null(input$degre3)) {
       
+      
+      
       gg <- generateDonutProfession(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 4)
+             height_svg = 6)
       
     }
     
@@ -159,7 +162,8 @@ shinyServer(function(input, output, session) {
         xlim(c(2, 4)) +
         geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
         scale_fill_manual(values = colors) +
-        scale_y_continuous(trans = "reverse") +
+        scale_y_continuous(trans = "reverse", labels = scales::label_wrap(20),
+                           guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))) +
         labs(caption = caption) +
         theme(legend.position = "top",
               axis.text.y = element_blank()) +
@@ -167,14 +171,14 @@ shinyServer(function(input, output, session) {
       
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 4)
+             height_svg = 6)
       
     } else {
       
       gg <- generateDonutProfession(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 4)
+             height_svg = 6)
       
     }
     
@@ -191,7 +195,7 @@ shinyServer(function(input, output, session) {
       gg <- generateDonutSecteur(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 4)
+             height_svg = 6)
       
     }
     
@@ -251,7 +255,8 @@ shinyServer(function(input, output, session) {
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
         geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
-        scale_fill_manual(values = colors) +
+        scale_fill_manual(values = colors, labels = scales::label_wrap(20),
+                          guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))) +
         scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
         theme(legend.position = "top",
@@ -260,7 +265,7 @@ shinyServer(function(input, output, session) {
       
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 4)
+             height_svg = 6)
       
       
     } else {
@@ -268,7 +273,7 @@ shinyServer(function(input, output, session) {
       gg <- generateDonutSecteur(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = 6,
-             height_svg = 4)
+             height_svg = 6)
     }
     
   })
@@ -807,7 +812,7 @@ shinyServer(function(input, output, session) {
   ######### Click on the Clear button ########################
 
   observeEvent(input$clear, {
-    updateSelectInput(session, "degre3", selected = character()) # When the clear button is clicked, we update the selectInput to have a selected value of NULL.
+    updatePickerInput(session, "degre3", selected = character()) # When the clear button is clicked, we update the selectInput to have a selected value of NULL.
     selectedValue(NULL) # We set selectedValue to NULL as well.
 
     output$graph_situation_apres_3_ans <- renderGirafe({
@@ -855,14 +860,14 @@ shinyServer(function(input, output, session) {
   
   # Download Data --------------------------------------------------------------
   
-  output$downloadData <- downloadHandler(
-    filename = function() {
-      paste('OpenData_Cereq-Enq_Generation-Donnees_DIPLOME', '.xlsx', sep='')
-    },
-    content = function(file) {
-      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
-    }
-  )
+  # output$downloadData <- downloadHandler(
+  #   filename = function() {
+  #     paste('OpenData_Cereq-Enq_Generation-Donnees_DIPLOME', '.xlsx', sep='')
+  #   },
+  #   content = function(file) {
+  #     file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
+  #   }
+  # )
   
 
 })
