@@ -21,7 +21,6 @@ fluidPage(
   br(),
   gfontHtmlDependency(family = "Arimo"),
   tags$span(
-    tags$div(class = "card", "Génération 2017"),
     tags$div(
       class = "logo-container", # Classe CSS pour le conteneur du logo
       includeHTML("www/logo.svg")

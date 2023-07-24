@@ -65,17 +65,6 @@ p {
   padding: 0.625rem; /* 10px */
 }
 
-/* Styles pour la carte */
-.card {
-  background-color: var(--highlight-color);
-  color: var(--secondary-color);
-  border-radius: 5rem;
-  margin-bottom: 3rem;
-  text-align: center;
-  font-size: 1.5625rem; /* 25px */
-  padding: 0.75rem 0.9375rem; /* 12px 15px */
-}
-
 /* Styles pour les stats */
 .stat_info {
   font-size: 2em;
