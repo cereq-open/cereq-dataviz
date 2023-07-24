@@ -11,9 +11,6 @@
 body,
 h1,
 h2,
-h3,
-h4,
-h5,
 p {
   margin: 0;
   padding: 0;
@@ -26,63 +23,49 @@ body {
   color: var(--main-color);
   font-size: var(--base-font-size);
   line-height: 2;
-  text-align: center;
+  text-align: left;
 }
 
 /* Styles pour les titres */
 h1 {
-  font-size: 2.5rem; /* 40px */
-  line-height: 1.4;
-  margin-bottom: 1rem; /* 16px */
+  font-weight: bold;
+  font-size: 20px;
+  color: black;
+  text-align: left;
 }
 
-h2,
-h3 {
-  font-size: 1.5rem; /* 24px */
-  line-height: 1.67;
-  margin-bottom: 1rem; /* 16px */
-}
-
-h4 {
-  font-size: 1rem; /* 16px */
-  line-height: 1.5;
-  margin-bottom: 1rem; /* 16px */
-}
-
-h5 {
-  font-size: 0.875rem; /* 14px */
-  line-height: 1.33;
-  margin-bottom: 1rem; /* 16px */
+h2 {
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+  text-align: left;
 }
 
 /* Styles pour le paragraphe */
 p {
   color: var(--main-color);
+  font-size: 14px;
 }
 
 /* Styles pour le conteneur du logo */
 .logo-container {
   padding: 0.625rem; /* 10px */
+  float: right; /* Logo sur la droite */
 }
 
 /* Styles pour les stats */
 .stat_info {
-  font-size: 2em;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 /* Styles pour les stats */
 .d-inline {
   color: var(--highlight-color);
-  font-size: 2em;
+  font-size: 18px;
 }
 
 /* Styles pour les bulles informatives */
 .fas.fa-info-circle {
   margin-left: 5px;
-}
-
-/* Styles pour le trait d’encadrement */
-.custom-border-box {
-  border: 2px solid #008b99;
-  padding: 10px;
 }
