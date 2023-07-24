@@ -157,12 +157,13 @@ shinyServer(function(input, output, session) {
         geom_rect_interactive(mapping = aes(data_id = profession), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(x = 4.3, aes(y = labelPosition, label = taux_str), color = "black") +
+        geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
         scale_fill_manual(values = colors) +
         scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
-        theme(legend.position = "left",
-              axis.text.y = element_blank())
+        theme(legend.position = "top",
+              axis.text.y = element_blank()) +
+        guides(fill = guide_legend(ncol = 3, byrow = TRUE))
       
       girafe(ggobj = gg,
              width_svg = 6,
@@ -249,12 +250,13 @@ shinyServer(function(input, output, session) {
         geom_rect_interactive(mapping = aes(data_id = secteur), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(x = 4.3, aes(y = labelPosition, label = taux_str), color = "black") +
+        geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
         scale_fill_manual(values = colors) +
         scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
-        theme(legend.position = "left",
-              axis.text.y = element_blank())
+        theme(legend.position = "top",
+              axis.text.y = element_blank()) +
+        guides(fill = guide_legend(ncol = 3, byrow = TRUE))
       
       girafe(ggobj = gg,
              width_svg = 6,

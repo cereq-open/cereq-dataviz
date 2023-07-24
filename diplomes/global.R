@@ -251,14 +251,15 @@ generateDonutProfession <- function(db_diplome, niveau) {
     geom_rect_interactive(mapping = aes(data_id = profession), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
-    geom_text(x = 4.3, aes(y = labelPosition, label = taux_str), color = "black") +
+    geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
     scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "left",
+      legend.position = "top",
       axis.text.y = element_blank()
-    )
+    ) +
+    guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
 generateDonutSecteur <- function(db_diplome, niveau) {
@@ -307,14 +308,15 @@ generateDonutSecteur <- function(db_diplome, niveau) {
     geom_rect_interactive(mapping = aes(data_id = secteur), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
-    geom_text(x = 4.3, aes(y = labelPosition, label = taux_str), color = "black") +
+    geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
     scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "left",
+      legend.position = "top",
       axis.text.y = element_blank()
-    )
+    ) +
+    guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
 theme_set(
