@@ -3,7 +3,7 @@ library(bslib)
 library(shinyWidgets)
 
 fluidPage(
-  theme = bs_theme(version = 5),
+  theme = bs_theme(version = 5, primary = "#008b99"),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"), # CSS personnalisé
     tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"), # Librairie font-awesome
@@ -27,66 +27,55 @@ fluidPage(
     ) # Inclus le logo
   ),
   br(),
+  # fluidRow(
+  #   column(
+  #     align = "right",
+  #     width = 12,
+  #     downloadButton("downloadData", "Télécharger les données")
+  #   )
+  # ),
+  br(),
   fluidRow(
     column(
       width = 12,
-      downloadButton("downloadData", "Télécharger les données")
-    )
-  ),
-  br(),
-  fluidRow(
-    tags$head(
-      tags$style(type = "text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row; }")
+      pickerInput(
+        width = "fit",
+        inline = TRUE,
+        label = p("Choisir le plus haut diplôme atteint : "),
+        inputId = "niveau",
+        choices = list_degre1_2,
+        choicesOpt = list(
+          style = c(
+            "font-weight: bold;",
+            "font-weight: bold;",
+            "font-weight: bold;",
+            "",
+            "",
+            "",
+            "",
+            "font-weight: bold;",
+            "",
+            "",
+            "",
+            "",
+            "font-weight: bold;",
+            "",
+            "",
+            ""
+          )
+        )
+      )
     ),
     column(
       width = 12,
-      tags$table(
-        width = "100%",
-        tags$tr(
-          width = "100%",
-          tags$td(
-            width = "40%",
-            div(style = "font-size:24px; text-align: center;", "Choisir le plus haut diplôme atteint :")
-          ),
-          tags$td(
-            width = "60%",
-            pickerInput(
-              width = "fit",
-              inputId = "niveau",
-              choices = list_degre1_2,
-              choicesOpt = list(
-                style = c(
-                  "font-weight: bold;",
-                  "font-weight: bold;",
-                  "font-weight: bold;",
-                  "",
-                  "",
-                  "",
-                  "",
-                  "font-weight: bold;",
-                  "",
-                  "",
-                  "",
-                  "",
-                  "font-weight: bold;",
-                  "",
-                  "",
-                  ""
-                )
-              )
-            )
-          )
-        ),
-        conditionalPanel(
-          condition = "output.sousniveau == true",
-          tags$tr(
-            width = "100%",
-            tags$td(width = "60%", tags$div(style = "font-size:24px;", "")),
-            tags$td(width = "40%",
-                    selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 2)
-                    
-                    )
-          )
+      conditionalPanel(
+        condition = "output.sousniveau == true",
+        pickerInput(
+          inputId = "degre3",
+          label = p("Choisir la spécialité :"),
+          choices = NULL,
+          width = "fit",
+          inline = TRUE
         )
       )
     )
@@ -110,6 +99,7 @@ fluidPage(
     column(
       width = 12,
       div(
+        h2("Répartition des sortants selon leur situation d'activité"),
         style = "max-width:800px; margin-left:auto; margin-right:auto;",
         girafeOutput("graph_situation_apres_3_ans", height = NULL)
       )
@@ -138,37 +128,19 @@ fluidPage(
   fluidRow(
     column(
       width = 6,
-      div(
-        class = "custom-border-box",
-        tags$p(
-          class = "stat_info",
-          tags$span(
-            style = "color: #008B99;",
-            "Répartition par profession"
-          )
-        ),
         div(
+          h2("Répartition par profession"),
           style = "max-width:800px; margin-left:auto; margin-right:auto;",
           girafeOutput("plot_repartition_par_profession", height = NULL)
         )
-      )
     ),
     column(
       width = 6,
       div(
-        class = "custom-border-box",
-        tags$p(
-          class = "stat_info",
-          tags$span(
-            style = "color: #008B99;",
-            "Répartition par secteur"
-          )
-        ),
-        div(
+        h2("Répartition par secteur"),
           style = "max-width:800px; margin-left:auto; margin-right:auto;",
           girafeOutput("plot_repartition_par_secteur", height = NULL)
         )
-      )
     )
   ),
   br(),
