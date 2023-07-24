@@ -105,7 +105,7 @@ generatePlot <- function(db_diplome, niveau) {
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
     geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi)) +
     coord_flip() +
-    geom_text(aes(label = taux),
+    geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
       color = "white"
     ) +
@@ -184,7 +184,7 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
   ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
     geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi)) +
     coord_flip() +
-    geom_text(aes(label = taux),
+    geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
       colour = "white"
     ) +
