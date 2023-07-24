@@ -230,7 +230,8 @@ generateDonutProfession <- function(db_diplome, niveau) {
         "Employés ou ouvriers qualifiés",
         "Employés ou ouvriers non qualifiés",
         "Autres"
-      ))
+      )),
+      taux_str = paste0(taux, "%")
     )
 
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -246,7 +247,7 @@ generateDonutProfession <- function(db_diplome, niveau) {
     geom_rect_interactive(mapping = aes(data_id = profession), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
-    geom_text(x = 4.3, aes(y = labelPosition, label = taux), color = "black") +
+    geom_text(x = 4.3, aes(y = labelPosition, label = taux_str), color = "black") +
     scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
@@ -284,7 +285,8 @@ generateDonutSecteur <- function(db_diplome, niveau) {
       secteur = factor(secteur, levels = c("Industries, bâtiment et travaux publics", "Commerce",
                                            "Administrations, Education, Santé Action sociale",
                                            "Services",
-                                           "Autres"))
+                                           "Autres")),
+      taux_str = paste0(taux, "%")
     )
 
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -301,7 +303,7 @@ generateDonutSecteur <- function(db_diplome, niveau) {
     geom_rect_interactive(mapping = aes(data_id = secteur), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
-    geom_text(x = 4.3, aes(y = labelPosition, label = taux), color = "black") +
+    geom_text(x = 4.3, aes(y = labelPosition, label = taux_str), color = "black") +
     scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
