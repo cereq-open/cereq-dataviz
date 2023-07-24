@@ -145,10 +145,6 @@ fluidPage(
           tags$span(
             style = "color: #008B99;",
             "Répartition par profession"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            title = "Les professions sont présentées de façon agrégée, à partir d’une nomenclature plus détaillée, celle des professions et catégories socioprofessionnelles de l’INSEE de 2022."
           )
         ),
         div(
@@ -166,10 +162,6 @@ fluidPage(
           tags$span(
             style = "color: #008B99;",
             "Répartition par secteur"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            title = "Les secteurs sont présentés de façon agrégée, à partir d’une nomenclature plus détaillée : la nomenclature des activités françaises de l’INSEE de 2022 (NAF)."
           )
         ),
         div(

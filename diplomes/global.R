@@ -443,11 +443,6 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
     tags$p(
       class = "d-inline",
       info_str
-    ),
-    tags$i(
-      class = "fas fa-info-circle",
-      style = "font-size:2em;",
-      title = infobulle_str
     )
   )
 }
