@@ -70,7 +70,7 @@ shinyServer(function(input, output, session) {
       
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
-             width_svg = 6,
+             width_svg = largeur_bar_chart,
              height_svg = hauteur_1_barre)
       
     }
@@ -78,14 +78,14 @@ shinyServer(function(input, output, session) {
     else if (!is.null(input$degre3)) {
       gg <- generatePlotSpec(db_diplome, code_niveau3(), input$degre3)
       girafe(ggobj = gg,
-             width_svg = 6,
+             width_svg = largeur_bar_chart,
              height_svg = hauteur_1_barre)
       
     } else {
       
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
-             width_svg = 6,
+             width_svg = largeur_bar_chart,
              height_svg = hauteur_2_barres)
 
     }
@@ -102,12 +102,12 @@ shinyServer(function(input, output, session) {
     
     if (is.null(input$degre3)) {
       
-      
+  
       
       gg <- generateDonutProfession(db_diplome, input$niveau)
       girafe(ggobj = gg,
-             width_svg = 6,
-             height_svg = 6)
+             width_svg = largeur_donut_chart,
+             height_svg = hauteur_donut_chart)
       
     }
     
@@ -170,15 +170,15 @@ shinyServer(function(input, output, session) {
         guides(fill = guide_legend(ncol = 3, byrow = TRUE))
       
       girafe(ggobj = gg,
-             width_svg = 6,
-             height_svg = 6)
+             width_svg = largeur_donut_chart,
+             height_svg = hauteur_donut_chart)
       
     } else {
       
       gg <- generateDonutProfession(db_diplome, input$niveau)
       girafe(ggobj = gg,
-             width_svg = 6,
-             height_svg = 6)
+             width_svg = largeur_donut_chart,
+             height_svg = hauteur_donut_chart)
       
     }
     
@@ -194,8 +194,8 @@ shinyServer(function(input, output, session) {
       
       gg <- generateDonutSecteur(db_diplome, input$niveau)
       girafe(ggobj = gg,
-             width_svg = 6,
-             height_svg = 6)
+             width_svg = largeur_donut_chart,
+             height_svg = hauteur_donut_chart)
       
     }
     
@@ -264,16 +264,16 @@ shinyServer(function(input, output, session) {
         guides(fill = guide_legend(ncol = 3, byrow = TRUE))
       
       girafe(ggobj = gg,
-             width_svg = 6,
-             height_svg = 6)
+             width_svg = largeur_donut_chart,
+             height_svg = hauteur_donut_chart)
       
       
     } else {
       
       gg <- generateDonutSecteur(db_diplome, input$niveau)
       girafe(ggobj = gg,
-             width_svg = 6,
-             height_svg = 6)
+             width_svg = largeur_donut_chart,
+             height_svg = hauteur_donut_chart)
     }
     
   })
@@ -285,61 +285,65 @@ shinyServer(function(input, output, session) {
   ###################### Create Statistics ######################
   
   reactive_tx_en_emploi <- reactive({
+    
+    infobulle_str <- "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale."
+    info_str <- "En emploi"
+    
     if (is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
+          info_str = info_str,
+          infobulle_str = infobulle_str)
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
+          info_str = info_str,
+          infobulle_str = infobulle_str)
       }
       
     }
     
     else if (!is.null(input$degre3)) {
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
+          info_str = info_str,
+          infobulle_str = infobulle_str)
         
       } else {
         text_info2 <- paste0(filtered_data_level3()$taux_emploi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
+          info_str = info_str,
+          infobulle_str = infobulle_str)
       }
       
     } else {
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
+          info_str = info_str,
+          infobulle_str = infobulle_str)
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
+          info_str = info_str,
+          infobulle_str = infobulle_str)
       }
     }
     
@@ -351,15 +355,18 @@ shinyServer(function(input, output, session) {
   
   reactive_tx_chomage <- reactive({
     
+    infobulle_str <- "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+    info_str <- "Taux de chômage"
+    
     if (is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -367,8 +374,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -377,12 +384,12 @@ shinyServer(function(input, output, session) {
     else if (!is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -390,8 +397,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -399,12 +406,12 @@ shinyServer(function(input, output, session) {
     } else {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -412,8 +419,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -428,15 +435,18 @@ shinyServer(function(input, output, session) {
   
   reactive_tx_en_edi <- reactive({
     
+    infobulle_str <- "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+    info_str <- "En emploi à durée indéterminée"
+    
     if (is.null(input$degre3)) {
-      
+
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "En emploi à durée indéterminée",
-          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -444,8 +454,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "En emploi à durée indéterminée",
-          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -454,12 +464,12 @@ shinyServer(function(input, output, session) {
     else if (!is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "En emploi à durée indéterminée",
-          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -467,8 +477,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "En emploi à durée indéterminée",
-          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -476,12 +486,12 @@ shinyServer(function(input, output, session) {
     } else {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "En emploi à durée indéterminée",
-          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -489,8 +499,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "En emploi à durée indéterminée",
-          infobulle_str = "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -504,15 +514,16 @@ shinyServer(function(input, output, session) {
   
   reactive_tx_a_tps_partiel <- reactive({
     
+    info_str <- "À temps partiel"
+    
     if (is.null(input$degre3)) {
       
-      
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "À temps partiel"
+          info_str = info_str
         )
         
       } else {
@@ -520,7 +531,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "À temps partiel"
+          info_str = info_str
         )
       }
       
@@ -529,11 +540,11 @@ shinyServer(function(input, output, session) {
     else if (!is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "À temps partiel"
+          info_str = info_str
         )
         
       } else {
@@ -541,7 +552,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "À temps partiel"
+          info_str = info_str
         )
       }
       
@@ -550,11 +561,11 @@ shinyServer(function(input, output, session) {
       
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "À temps partiel"
+          info_str = info_str
         )
         
       } else {
@@ -562,7 +573,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "À temps partiel"
+          info_str = info_str
         )
       }
       
@@ -577,15 +588,18 @@ shinyServer(function(input, output, session) {
   
   reactive_revenu_median <- reactive({
     
+    infobulle_str <- "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+    info_str <- "Revenu mensuel médian"
+    
     if (is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -593,8 +607,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -603,12 +617,12 @@ shinyServer(function(input, output, session) {
     else if (!is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -616,8 +630,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -625,12 +639,12 @@ shinyServer(function(input, output, session) {
     } else {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
         
       } else {
@@ -638,8 +652,8 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+          info_str = info_str,
+          infobulle_str = infobulle_str
         )
       }
       
@@ -655,14 +669,16 @@ shinyServer(function(input, output, session) {
   
   reactive_tx_jugent_coherent <- reactive({
     
+    info_str <- "jugent leur emploi cohérent avec leur formation initiale"
+    
     if (is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale"
+          info_str = info_str
         )
         
       } else {
@@ -670,7 +686,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale"
+          info_str = info_str
         )
       }
       
@@ -679,11 +695,11 @@ shinyServer(function(input, output, session) {
     else if (!is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale"
+          info_str = info_str
         )
         
       } else {
@@ -691,7 +707,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale"
+          info_str = info_str
         )
       }
       
@@ -699,11 +715,11 @@ shinyServer(function(input, output, session) {
     } else {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale"
+          info_str = info_str
         )
         
       } else {
@@ -711,7 +727,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale"
+          info_str = info_str
         )
       }
       
@@ -727,14 +743,16 @@ shinyServer(function(input, output, session) {
   
   reactive_tx_estiment_ss_employes <- reactive({
     
+    info_str <- "estiment être employés sous leur niveau de compétence"
+    
     if (is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "estiment être employés sous leur niveau de compétence"
+          info_str = info_str
         )
         
       } else {
@@ -742,7 +760,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "estiment être employés sous leur niveau de compétence"
+          info_str = info_str
         )
       }
       
@@ -751,11 +769,11 @@ shinyServer(function(input, output, session) {
     else if (!is.null(input$degre3)) {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "estiment être employés sous leur niveau de compétence"
+          info_str = info_str
         )
         
       } else {
@@ -763,7 +781,7 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "estiment être employés sous leur niveau de compétence"
+          info_str = info_str
         )
       }
       
@@ -771,11 +789,11 @@ shinyServer(function(input, output, session) {
     } else {
       
       req(input$niveau)
-      if (input$niveau %in% "Ensemble des sortants") {
+      if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "estiment être employés sous leur niveau de compétence"
+          info_str = info_str
         )
         
       } else {
@@ -783,12 +801,11 @@ shinyServer(function(input, output, session) {
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "estiment être employés sous leur niveau de compétence"
+          info_str = info_str
         )
       }
       
     }
-    
     
   })
   

@@ -19,8 +19,16 @@ set_girafe_defaults(
   opts_sizing(rescale = FALSE)
 )
 
+# Pour la hauteur et la largeur des graphiques ggiraph
 hauteur_2_barres <- 3
 hauteur_1_barre <- 2
+largeur_bar_chart <- 6
+
+hauteur_donut_chart <- 6
+largeur_donut_chart <- 6
+
+# Variable pour la valeur Ensemble des sortants
+ensemble_des_sortants <- "Ensemble des sortants"
 
 register_gfont("Arimo")
 
@@ -32,7 +40,7 @@ list_degre1_2 <- as.list(filter(db_diplome, str_sub(Code, -1, -1) == "0") %>% pu
 
 # Functions to create the data streams according to the levels selected
 
-ensemble_de_sortants_data <- db_diplome %>% filter(Libelle_Menu == "Ensemble des sortants")
+ensemble_de_sortants_data <- db_diplome %>% filter(Libelle_Menu == ensemble_des_sortants)
 
 generateDataForLevel <- function(db_diplome, niveau) {
   filtered_data <- db_diplome %>%
@@ -51,7 +59,7 @@ generatePlot <- function(db_diplome, niveau) {
   DT <- db_diplome %>%
     select(Libelle_Menu, taux_emploi, taux_chomage) %>%
     mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
-    filter(Libelle_Menu %in% c("Ensemble des sortants", niveau)) %>%
+    filter(Libelle_Menu %in% c(ensemble_des_sortants, niveau)) %>%
     pivot_longer(
       cols = c("taux_emploi", "taux_chomage", "autre_situations"),
       names_to = "emploi",
@@ -72,7 +80,7 @@ generatePlot <- function(db_diplome, niveau) {
 
   colors <- c("En emploi" = "#008B99", "Au chômage" = "#EF5350", "Autres situations" = "#F8AC00")
 
-  if (sum(!str_detect(DT$Libelle_Menu, "Ensemble des sortants")) == 0) {
+  if (sum(!str_detect(DT$Libelle_Menu, ensemble_des_sortants)) == 0) {
     caption <- paste0(
       '<span style="color:#008B99;">Lecture : </span>',
       "Trois ans après leur sortie de formation initiale, ",
@@ -130,7 +138,7 @@ generatePlot <- function(db_diplome, niveau) {
 # Function to generate the plot when the third levels are selected from the second SelectInput tool.
 generatePlotSpec <- function(db_diplome, niveau, libelle) {
   DT <- db_diplome %>%
-    filter(Code %in% c(niveau, 100) & Libelle_Menu %in% c(libelle, "Ensemble des sortants")) %>%
+    filter(Code %in% c(niveau, 100) & Libelle_Menu %in% c(libelle, ensemble_des_sortants)) %>%
     select(Code, Libelle_Menu, Libelle_complet, taux_emploi, taux_chomage) %>%
     mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
     pivot_longer(
@@ -154,7 +162,7 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
 
   colors <- c("En emploi" = "#008B99", "Au chômage" = "#EF5350", "Autres situations" = "#F8AC00")
 
-  if (sum(!str_detect(DT$Libelle_Menu, "Ensemble des sortants")) == 0) {
+  if (sum(!str_detect(DT$Libelle_Menu, ensemble_des_sortants)) == 0) {
     caption <- paste0(
       '<span style="color:#008B99;">Lecture : </span>',
       "Trois ans après leur sortie de formation initiale, ",
