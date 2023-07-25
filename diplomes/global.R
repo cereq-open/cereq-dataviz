@@ -73,7 +73,8 @@ generatePlot <- function(db_diplome, niveau) {
         TRUE ~ emploi
       ),
       emploi = factor(emploi, levels = c("En emploi", "Au chômage", "Autres situations")),
-      taux_str = paste0(taux, "%")
+      taux_str = paste0(taux, "%"),
+      tooltip_value = paste0(emploi, " : ", taux_str)
     )
   
   DT$Libelle_Menu = factor(DT$Libelle_Menu, levels = c(unique(DT$Libelle_Menu)[1], unique(DT$Libelle_Menu)[2]))
@@ -117,7 +118,8 @@ generatePlot <- function(db_diplome, niveau) {
   }
 
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
-    geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi)) +
+    geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi,
+                                                                     tooltip = tooltip_value)) +
     coord_flip() +
     geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
@@ -155,7 +157,8 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
         TRUE ~ emploi
       ),
       emploi = factor(emploi, levels = c("En emploi", "Au chômage", "Autres situations")),
-      taux_str = paste0(taux, "%")
+      taux_str = paste0(taux, "%"),
+      tooltip_value = paste0(emploi, " : " , taux_str)
     )
   
   DT$Libelle_complet = factor(DT$Libelle_complet, levels = c(unique(DT$Libelle_complet)[1], unique(DT$Libelle_complet)[2]))
@@ -199,7 +202,8 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
   }
 
   ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
-    geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi)) +
+    geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi,
+                                                                     tooltip = tooltip_value)) +
     coord_flip() +
     geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
@@ -248,7 +252,8 @@ generateDonutProfession <- function(db_diplome, niveau) {
         "Employés ou ouvriers non qualifiés",
         "Autres"
       )),
-      taux_str = paste0(taux, "%")
+      taux_str = paste0(taux, "%"),
+      tooltip_value = paste0(profession, " : ", taux_str)
     )
 
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -261,7 +266,7 @@ generateDonutProfession <- function(db_diplome, niveau) {
     "Céreq, enquête Génération 2017 à trois ans."
   )
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-    geom_rect_interactive(mapping = aes(data_id = profession), color = "white") +
+    geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
     geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
@@ -305,7 +310,8 @@ generateDonutSecteur <- function(db_diplome, niveau) {
                                            "Administrations, Education, Santé Action sociale",
                                            "Services",
                                            "Autres")),
-      taux_str = paste0(taux, "%")
+      taux_str = paste0(taux, "%"),
+      tooltip_value = paste0(secteur, " : ", taux_str)
     )
 
   colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -319,7 +325,7 @@ generateDonutSecteur <- function(db_diplome, niveau) {
   )
 
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-    geom_rect_interactive(mapping = aes(data_id = secteur), color = "white") +
+    geom_rect_interactive(mapping = aes(data_id = secteur, tooltip = tooltip_value), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
     geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +

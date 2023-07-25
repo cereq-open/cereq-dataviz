@@ -143,7 +143,8 @@ shinyServer(function(input, output, session) {
             "Employés ou ouvriers non qualifiés",
             "Autres"
           )),
-          taux_str = paste0(taux, "%")
+          taux_str = paste0(taux, "%"),
+          tooltip_value = paste0(profession, " : ", taux_str)
         )
       
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -157,7 +158,7 @@ shinyServer(function(input, output, session) {
       )
       
       gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-        geom_rect_interactive(mapping = aes(data_id = profession), color = "white") +
+        geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
         geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
@@ -237,7 +238,8 @@ shinyServer(function(input, output, session) {
                                                "Administrations, Education, Santé Action sociale",
                                                "Services",
                                                "Autres")),
-          taux_str = paste0(taux, "%")
+          taux_str = paste0(taux, "%"),
+          tooltip_value = paste0(secteur, " : ", taux_str)
         )
       
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
@@ -251,7 +253,7 @@ shinyServer(function(input, output, session) {
       )
       
       gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-        geom_rect_interactive(mapping = aes(data_id = secteur), color = "white") +
+        geom_rect_interactive(mapping = aes(data_id = secteur, tooltip = tooltip_value), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
         geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
