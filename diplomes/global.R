@@ -351,39 +351,10 @@ theme_set(
   )
 )
 
-labellize_stats_middle_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
-  tagList(
-    tags$p(
-      class = "stat_info",
-      tags$span(
-        style = "color: #008B99;",
-        info_str
-      ),
-      tags$i(
-        class = "fas fa-info-circle",
-        title = infobulle_str
-      )
-    ),
-    tags$p(
-      class = "stat_info",
-      tags$span(
-        style = "color: #008B99;",
-        stat1_str
-      ),
-      if (!is.null(stat2_str)) {
-        tags$span(
-          style = "color: #C0C0C2; font-size: 16px;",
-          stat2_str
-        )
-      }
-    )
-  )
-}
-
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
     tags$p(
-      class = "stat_info",
+      class = "stat-info",
       tags$span(
         style = "color: #008B99;",
         stat1_str
@@ -396,7 +367,7 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       }
     ),
     tags$p(
-      class = "stat_info",
+      class = "texte-stat-info",
       tags$span(
         style = "color: #008B99;",
         info_str
@@ -412,7 +383,7 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
 labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
   tagList(
     tags$p(
-      class = "stat_info",
+      class = "stat-info",
       tags$span(
         style = "color: #008B99;",
         stat1_str
@@ -425,7 +396,7 @@ labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
       }
     ),
     tags$p(
-      class = "stat_info",
+      class = "texte-stat-info",
       tags$span(
         style = "color: #008B99;",
         info_str
