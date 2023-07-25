@@ -342,11 +342,12 @@ theme_set(
     plot.title = element_markdown(size = 14, color = "#008B99", family = "Arimo"),
     plot.caption.position = "plot",
     plot.caption = element_textbox_simple(
-      family = "Open Sans",
+      family = "Arimo",
       hjust = 0,
-      color = "#303032"
+      color = "#C0C0C2",
+      size = 10
     ),
-    legend.text = element_text(family = "Arimo", size = 9),
+    legend.text = element_text(family = "Arimo", size = 14, face = "plain"),
     legend.title = element_blank()
   )
 )

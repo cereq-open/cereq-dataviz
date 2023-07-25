@@ -85,11 +85,11 @@ fluidPage(
       tags$h1("Situation trois ans après la sortie de formation")
     ),
     column(
-      width = 6,
+      width = 4,
       uiOutput("tx_en_emploi")
     ),
     column(
-      width = 6,
+      width = 4,
       uiOutput("tx_chomage")
     )
   ),
@@ -98,7 +98,7 @@ fluidPage(
       width = 12,
       div(
         h2("Répartition des sortants selon leur situation d'activité"),
-        style = "max-width:800px; margin-left:auto; margin-right:auto;",
+        style = "max-width:1000px;margin-left:0;",
         girafeOutput("graph_situation_apres_3_ans", height = NULL)
       )
     )
@@ -128,7 +128,7 @@ fluidPage(
       width = 6,
         div(
           h2("Répartition par profession"),
-          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          style = "max-width:800px;margin-left:0",
           girafeOutput("plot_repartition_par_profession", height = NULL)
         )
     ),
@@ -136,7 +136,7 @@ fluidPage(
       width = 6,
       div(
         h2("Répartition par secteur"),
-          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          style = "max-width:800px;margin-left:0;",
           girafeOutput("plot_repartition_par_secteur", height = NULL)
         )
     )
