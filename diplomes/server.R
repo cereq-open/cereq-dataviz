@@ -660,19 +660,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "jugent leur emploi cohérent avec leur formation initiale"
         )
         
       } else {
         text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "jugent leur emploi cohérent avec leur formation initiale"
         )
       }
       
@@ -683,19 +681,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "jugent leur emploi cohérent avec leur formation initiale"
         )
         
       } else {
         text_info2 <- paste0(filtered_data_level3()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "jugent leur emploi cohérent avec leur formation initiale"
         )
       }
       
@@ -705,19 +701,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "jugent leur emploi cohérent avec leur formation initiale"
         )
         
       } else {
         text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "jugent leur emploi cohérent avec leur formation initiale",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "jugent leur emploi cohérent avec leur formation initiale"
         )
       }
       
@@ -738,19 +732,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "estiment être employés sous leur niveau de compétence",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "estiment être employés sous leur niveau de compétence"
         )
         
       } else {
         text_info2 <- paste0(filtered_data()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "estiment être employés sous leur niveau de compétence",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "estiment être employés sous leur niveau de compétence"
         )
       }
       
@@ -761,19 +753,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "estiment être employés sous leur niveau de compétence",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "estiment être employés sous leur niveau de compétence"
         )
         
       } else {
         text_info2 <- paste0(filtered_data_level3()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "estiment être employés sous leur niveau de compétence",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "estiment être employés sous leur niveau de compétence"
         )
       }
       
@@ -783,19 +773,17 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL, 
-          info_str = "estiment être employés sous leur niveau de compétence",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "estiment être employés sous leur niveau de compétence"
         )
         
       } else {
         text_info2 <- paste0(filtered_data()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = "estiment être employés sous leur niveau de compétence",
-          infobulle_str = "Question d’opinion posée aux jeunes en emploi trois ans après leur sortie de formation initiale."
+          info_str = "estiment être employés sous leur niveau de compétence"
         )
       }
       

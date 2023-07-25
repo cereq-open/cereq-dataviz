@@ -144,10 +144,13 @@ fluidPage(
   br(),
   fluidRow(
     column(
-      width = 12,
-      uiOutput("tx_jugent_coherent"),
-      uiOutput("tx_estiment_ss_employes"),
-      br()
+      width = 4,
+      uiOutput("tx_jugent_coherent")
+    ),
+    column(
+      width = 4,
+      uiOutput("tx_estiment_ss_employes")
     )
-  )
+  ),
+  br()
 )
