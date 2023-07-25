@@ -11,7 +11,6 @@ suppressPackageStartupMessages({
   library(arrow)
   library(sf)
   library(rgdal)
-  
 })
 
 # Load data --------------------------------------------------------------------
