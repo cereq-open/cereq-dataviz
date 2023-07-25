@@ -53,10 +53,16 @@ p {
   float: right; /* Logo sur la droite */
 }
 
-/* Styles pour les stats */
-.stat_info {
+/* Styles pour le texte des stats */
+.texte-stat-info {
   font-size: 18px;
   font-weight: bold;
+}
+
+/* Styles pour la valeur des stats */
+.stat-info {
+  font-size: 18px;
+  font-weight: 300; /* light */
 }
 
 /* Styles pour les stats */
