@@ -359,7 +359,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
         
       } else {
@@ -368,7 +368,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
       }
       
@@ -382,7 +382,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
         
       } else {
@@ -391,7 +391,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
       }
       
@@ -404,7 +404,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
         
       } else {
@@ -413,7 +413,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
-          infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+          infobulle_str = "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
         )
       }
       
@@ -585,7 +585,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
         )
         
       } else {
@@ -594,7 +594,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
         )
       }
       
@@ -608,7 +608,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
         )
         
       } else {
@@ -617,7 +617,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
         )
       }
       
@@ -630,7 +630,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
         )
         
       } else {
@@ -639,7 +639,7 @@ shinyServer(function(input, output, session) {
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Revenu mensuel médian",
-          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne  moins."
+          infobulle_str = "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
         )
       }
       
