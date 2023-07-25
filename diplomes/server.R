@@ -290,18 +290,18 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
+          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
+          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
       }
       
     }
@@ -310,36 +310,36 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
+          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
         
       } else {
         text_info2 <- paste0(filtered_data_level3()$taux_emploi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
+          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
       }
       
     } else {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
+          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "En emploi",
-          infobulle_str = "Le taux d'emploi correspond à la part des  individus en emploi parmi la population totale.")
+          infobulle_str = "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale.")
       }
     }
     
@@ -356,7 +356,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
           infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
@@ -365,7 +365,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data()$taux_chomage, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
           infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
@@ -379,7 +379,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
           infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
@@ -388,7 +388,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data_level3()$taux_chomage, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
           infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
@@ -401,7 +401,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% "Ensemble des sortants") {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = "Taux de chômage",
           infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
@@ -410,7 +410,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data()$taux_chomage, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
-        labellize_stats_middle_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = "Taux de chômage",
           infobulle_str = "Le taux de chômage correspond à la part des  individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
