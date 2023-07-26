@@ -50,7 +50,6 @@ p {
 /* Styles pour le conteneur du logo */
 .logo-container {
   padding: 0.625rem; /* 10px */
-  float: right; /* Logo sur la droite */
 }
 
 /* Styles pour le texte des stats */
@@ -69,9 +68,16 @@ p {
 .d-inline {
   color: var(--highlight-color);
   font-size: 18px;
+  font-weight: bold;
 }
 
 /* Styles pour les bulles informatives */
 .fas.fa-info-circle {
   margin-left: 5px;
+}
+
+/* Styles pour le trait d’encadrement */
+.custom-border-box {
+  border: 2px solid #008b99;
+  padding: 10px;
 }

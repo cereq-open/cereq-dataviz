@@ -167,6 +167,12 @@ shinyServer(function(input, output, session) {
         scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
         theme(legend.position = "top",
+              legend.text = element_text(size = 9, face = "plain"),
+              plot.caption = element_textbox_simple(
+                hjust = 0,
+                color = "#C0C0C2",
+                size = 9
+              ),
               axis.text.y = element_blank()) +
         guides(fill = guide_legend(ncol = 3, byrow = TRUE))
       
@@ -262,6 +268,12 @@ shinyServer(function(input, output, session) {
         scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
         theme(legend.position = "top",
+              legend.text = element_text(size = 9, face = "plain"),
+              plot.caption = element_textbox_simple(
+                hjust = 0,
+                color = "#C0C0C2",
+                size = 9
+              ),
               axis.text.y = element_blank()) +
         guides(fill = guide_legend(ncol = 3, byrow = TRUE))
       
@@ -303,7 +315,7 @@ shinyServer(function(input, output, session) {
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "% pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str,
@@ -323,7 +335,7 @@ shinyServer(function(input, output, session) {
         
       } else {
         text_info2 <- paste0(filtered_data_level3()$taux_emploi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "% pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str,
@@ -341,7 +353,7 @@ shinyServer(function(input, output, session) {
         
       } else {
         text_info2 <- paste0(filtered_data()$taux_emploi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "%)"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "% pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str,
@@ -678,7 +690,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = info_str
         )
@@ -686,7 +698,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str
         )
@@ -699,7 +711,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = info_str
         )
@@ -707,7 +719,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data_level3()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str
         )
@@ -719,7 +731,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = info_str
         )
@@ -727,7 +739,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str
         )
@@ -752,7 +764,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = info_str
         )
@@ -760,7 +772,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str
         )
@@ -773,7 +785,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = info_str
         )
@@ -781,7 +793,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data_level3()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str
         )
@@ -793,7 +805,7 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info1, stat2_str = NULL, 
           info_str = info_str
         )
@@ -801,7 +813,7 @@ shinyServer(function(input, output, session) {
       } else {
         text_info2 <- paste0(filtered_data()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_no_i(
+        labellize_stats_row_i(
           stat1_str = text_info2, stat2_str = text_info3, 
           info_str = info_str
         )
@@ -875,6 +887,5 @@ shinyServer(function(input, output, session) {
   #     file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
   #   }
   # )
-  
 
 })

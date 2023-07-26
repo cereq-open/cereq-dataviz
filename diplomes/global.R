@@ -129,11 +129,16 @@ generatePlot <- function(db_diplome, niveau) {
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "top", # Place la légende en bas
-      legend.justification="left",
+      legend.position = "bottom",
+      legend.justification="center",
       legend.box.spacing = unit(0, "pt"),
-      legend.margin=margin(0,0,0,0)
-        
+      legend.margin=margin(0, 0, 10, 0),
+      legend.text = element_text(size = 8, face = "plain"),
+      plot.caption = element_textbox_simple(
+        hjust = 0,
+        color = "#C0C0C2",
+        size = 8
+      )
     ) 
 }
 
@@ -213,9 +218,16 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "top", # Place la légende en bas
+      legend.position = "bottom",
+      legend.justification="center",
       legend.box.spacing = unit(0, "pt"),
-      legend.margin=margin(0,0,0,0)
+      legend.margin=margin(0, 0, 10, 0),
+      legend.text = element_text(size = 8, face = "plain"),
+      plot.caption = element_textbox_simple(
+        hjust = 0,
+        color = "#C0C0C2",
+        size = 8
+      )
     )
 }
 
@@ -276,6 +288,12 @@ generateDonutProfession <- function(db_diplome, niveau) {
     labs(caption = caption) +
     theme(
       legend.position = "top",
+      legend.text = element_text(size = 9, face = "plain"),
+      plot.caption = element_textbox_simple(
+        hjust = 0,
+        color = "#C0C0C2",
+        size = 9
+      ),
       axis.text.y = element_blank()
     ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
@@ -335,6 +353,12 @@ generateDonutSecteur <- function(db_diplome, niveau) {
     labs(caption = caption) +
     theme(
       legend.position = "top",
+      legend.text = element_text(size = 9, face = "plain"),
+      plot.caption = element_textbox_simple(
+        hjust = 0,
+        color = "#C0C0C2",
+        size = 9
+      ),
       axis.text.y = element_blank()
     ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
@@ -343,8 +367,8 @@ generateDonutSecteur <- function(db_diplome, niveau) {
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo"),
-    text = element_text(family = "Arimo", size = 11),
+    # title = element_text(family = "Arimo"),
+    text = element_text(size = 10),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
@@ -353,15 +377,14 @@ theme_set(
     plot.title.position = "plot",
     legend.background = element_blank(),
     legend.key = element_blank(),
-    plot.title = element_markdown(size = 14, color = "#008B99", family = "Arimo"),
+    plot.title = element_markdown(size = 8, color = "#008B99"),
     plot.caption.position = "plot",
-    plot.caption = element_textbox_simple(
-      family = "Arimo",
-      hjust = 0,
-      color = "#C0C0C2",
-      size = 10
-    ),
-    legend.text = element_text(family = "Arimo", size = 14, face = "plain"),
+    # plot.caption = element_textbox_simple(
+    #   hjust = 0,
+    #   color = "#C0C0C2",
+    #   size = 8
+    # ),
+    # legend.text = element_text(size = 8, face = "plain"),
     legend.title = element_blank()
   )
 )
@@ -424,12 +447,13 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
   tagList(
     tags$p(
       class = "d-inline",
+      style = "font-weight: 300;",
       stat1_str
     ),
     if (!is.null(stat2_str)) {
       tags$p(
         class = "d-inline",
-        style = "color: #C0C0C2; font-size: 16px;",
+        style = "color: #C0C0C2; font-size: 16px; font-weight: 300;",
         stat2_str
       )
     },
