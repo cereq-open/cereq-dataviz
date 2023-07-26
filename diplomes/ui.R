@@ -31,23 +31,25 @@ fluidPage(
       tags$img(
         src = "logo-generation.png"
       )
-    ),
-    tags$img(
-      src = "logo-download.svg",
-      height = "50px",
-      width = "50px",
-      tags$span(
-        style = "font-weight:bold; color:#008b99; font-size:12px;",
-        ".xls",
-        ".pdf"
-      )
     )
   ),
    fluidRow(
      column(
      align = "right",
        width = 12,
-      #downloadButton("downloadData", "Télécharger les données")
+     tags$img(
+       src = "logo-download.svg",
+       height = "50px",
+       width = "50px",
+       #     tags$span(
+       #      style = "font-weight:bold; color:#008b99; font-size:12px;",
+       #     ".xls",
+       #    ".pdf"
+       # )
+     ),
+     tags$head(tags$style(".DB{background:#white;} .DB{color: #008b99;}")),
+     downloadButton('downloadData', '.xlsx', class = "DB"),
+     downloadButton("downloader", ".pdf", class = "DB")
      )
    ),
   fluidRow(

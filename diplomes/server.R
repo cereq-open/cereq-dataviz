@@ -825,14 +825,14 @@ shinyServer(function(input, output, session) {
 
     # Download Data --------------------------------------------------------------
   
-  # output$downloadData <- downloadHandler(
-  #   filename = function() {
-  #     paste('OpenData_Cereq-Enq_Generation-Donnees_DIPLOME', '.xlsx', sep='')
-  #   },
-  #   content = function(file) {
-  #     file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
-  #   }
-  # )
+   output$downloadData <- downloadHandler(
+     filename = function() {
+       paste('OpenData_Cereq-Enq_Generation-Donnees_DIPLOME', '.xlsx', sep='')
+    },
+    content = function(file) {
+       file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
+    }
+   )
 
   # Download PDF --------------------------------------------------------------
   
