@@ -20,11 +20,28 @@ fluidPage(
   ),
   br(),
   gfontHtmlDependency(family = "Arimo"),
-  tags$span(
-    tags$div(
-      class = "logo-container", # Classe CSS pour le conteneur du logo
-      includeHTML("www/logo.svg")
-    ) # Inclus le logo
+  div(
+    style = "text-align:right;",
+    tags$img(
+      src = "logo-cereq.svg"
+    ),
+    tags$p(
+      style = "font-size:14px;",
+      "Données : ",
+      tags$img(
+        src = "logo-generation.png"
+      )
+    ),
+    tags$img(
+      src = "logo-download.svg",
+      height = "50px",
+      width = "50px",
+      tags$span(
+        style = "font-weight:bold; color:#008b99; font-size:12px;",
+        ".xls",
+        ".pdf"
+      )
+    )
   ),
   # fluidRow(
   #   column(
@@ -98,7 +115,7 @@ fluidPage(
       width = 12,
       div(
         h2("Répartition des sortants selon leur situation d'activité"),
-        style = "max-width:1000px;margin-left:0;",
+        style = "max-width:750px; margin-left:0;",
         girafeOutput("graph_situation_apres_3_ans", height = NULL)
       )
     )
@@ -127,16 +144,18 @@ fluidPage(
     column(
       width = 6,
         div(
+          class = "custom-border-box",
           h2("Répartition par profession"),
-          style = "max-width:800px;margin-left:0",
+          style = "max-width:800px; margin-left:0;",
           girafeOutput("plot_repartition_par_profession", height = NULL)
         )
     ),
     column(
       width = 6,
       div(
+        class = "custom-border-box",
         h2("Répartition par secteur"),
-          style = "max-width:800px;margin-left:0;",
+        style = "max-width:800px; margin-left:0;",
           girafeOutput("plot_repartition_par_secteur", height = NULL)
         )
     )
@@ -144,13 +163,10 @@ fluidPage(
   br(),
   fluidRow(
     column(
-      width = 4,
-      uiOutput("tx_jugent_coherent")
-    ),
-    column(
-      width = 4,
-      uiOutput("tx_estiment_ss_employes")
+      width = 12,
+      uiOutput("tx_jugent_coherent"),
+      uiOutput("tx_estiment_ss_employes"),
+      br()
     )
-  ),
-  br()
+  )
 )
