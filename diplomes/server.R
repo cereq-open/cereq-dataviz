@@ -162,9 +162,9 @@ shinyServer(function(input, output, session) {
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
         geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
-        scale_fill_manual(values = colors) +
-        scale_y_continuous(trans = "reverse", labels = scales::label_wrap(20),
-                           guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))) +
+        scale_fill_manual(values = colors, labels = scales::label_wrap(20),
+                          guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))) +
+        scale_y_continuous(trans = "reverse") +
         labs(caption = caption) +
         theme(legend.position = "top",
               axis.text.y = element_blank()) +
