@@ -15,13 +15,8 @@ shinyServer(function(input, output, session) {
     req(input$niveau)
     as.numeric(filter(db_diplome, Libelle_Menu %in% input$niveau) %>% pull(Code))
   })
-
-  # Do not display the second SeletInput when the first or the second level are selected (set condition as output from server).
   
-  output$sousniveau <- reactive(str_sub(code(), -2, -1) != "00")
-  outputOptions(output, "sousniveau", suspendWhenHidden = FALSE)
-
-  observeEvent(code(), {
+    observeEvent(code(), {
     if (!is.null(code()) & str_sub(code(), -2, -1) != "00") {
       from <- as.numeric(code() + 1)
       to <- as.numeric(code() + 9)
@@ -30,25 +25,25 @@ shinyServer(function(input, output, session) {
     } else {
       values <- character()
     }
-    updatePickerInput(
-      session = session,
+    updateSelectInput(
       inputId = "degre3",
       label = NULL,
       choices = values
     )
   })
 
-  niveau3 <- reactive({
-    req(input$degre3)
-  })
-
-  code_niveau3 <- reactive({
+    code_niveau3 <- reactive({
     req(input$niveau)
     from <- as.numeric(code() + 1)
     to <- as.numeric(code() + 9)
     sequence <- seq(from, to, by = 1)
     as.numeric(filter(db_diplome, Code %in% sequence) %>% pull(Code))
   })
+  
+  # Do not display the second SeletInput when the first or the second level are selected (set condition as output from server).
+    
+    output$sousniveau <- reactive(!identical(code_niveau3() , numeric(0)))
+    outputOptions(output, "sousniveau", suspendWhenHidden = FALSE)
 
   ###################### Define the data streams according to the levels selected ######################
 
@@ -67,7 +62,7 @@ shinyServer(function(input, output, session) {
   reactive_graph_situation_apres_3_ans <- reactive({
   
     if (is.null(input$degre3)) {
-      
+      req(input$niveau)
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = largeur_bar_chart,
@@ -82,7 +77,6 @@ shinyServer(function(input, output, session) {
              height_svg = hauteur_1_barre)
       
     } else {
-      
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = largeur_bar_chart,
@@ -146,7 +140,7 @@ shinyServer(function(input, output, session) {
           taux_str = paste0(taux, "%"),
           tooltip_value = paste0(profession, " : ", taux_str)
         )
-      
+
       colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
       
       caption <- paste0(
@@ -464,7 +458,7 @@ shinyServer(function(input, output, session) {
         )
         
       } else {
-        text_info2 <- paste0(filtered_data_level3()$taux_edi, "%")
+        text_info2 <- paste0(filtered_data()$taux_edi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
@@ -509,7 +503,7 @@ shinyServer(function(input, output, session) {
         )
         
       } else {
-        text_info2 <- paste0(filtered_data_level3()$taux_edi, "%")
+        text_info2 <- paste0(filtered_data()$taux_edi, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3, 
@@ -675,6 +669,7 @@ shinyServer(function(input, output, session) {
     
   })
   
+  
   output$revenu_median <- renderUI({
     reactive_revenu_median()
     
@@ -828,56 +823,7 @@ shinyServer(function(input, output, session) {
     
   })
 
-  ######### Click on the Clear button ########################
-
-  observeEvent(input$clear, {
-    updatePickerInput(session, "degre3", selected = character()) # When the clear button is clicked, we update the selectInput to have a selected value of NULL.
-    selectedValue(NULL) # We set selectedValue to NULL as well.
-
-    output$graph_situation_apres_3_ans <- renderGirafe({
-      reactive_graph_situation_apres_3_ans()
-    })
-
-    output$plot_repartition_par_profession <- renderGirafe({
-      reactive_plot_repartition_par_profession()
-    })
-
-    output$plot_repartition_par_secteur <- renderGirafe({
-      reactive_plot_repartition_par_secteur()
-    })
-
-    output$tx_en_emploi <- renderUI({
-      reactive_tx_en_emploi()
-    })
-    
-    
-    output$tx_chomage <- renderUI({
-      reactive_tx_chomage()
-    })
-    
-    output$tx_en_edi <- renderUI({
-      reactive_tx_en_edi()
-    })
-    
-    output$tx_a_tps_partiel <- renderUI({
-      reactive_tx_a_tps_partiel()
-    })
-    
-    output$revenu_median <- renderUI({
-      reactive_revenu_median()
-    })
-
-    output$tx_jugent_coherent <- renderUI({
-      reactive_tx_jugent_coherent()
-    })
-  
-    output$tx_estiment_ss_employes <- renderUI({
-      reactive_tx_estiment_ss_employes()
-    })
-
-     })
-  
-  # Download Data --------------------------------------------------------------
+    # Download Data --------------------------------------------------------------
   
   # output$downloadData <- downloadHandler(
   #   filename = function() {
@@ -888,4 +834,36 @@ shinyServer(function(input, output, session) {
   #   }
   # )
 
+  # Download PDF --------------------------------------------------------------
+  
+ output$downloader <- downloadHandler(
+    
+      "report.pdf"  # spécifier le nom du fichier pdf à télécharger
+    ,
+      content = 
+        function(file)
+        {
+          rmarkdown::render(
+            input = "report.Rmd",
+            output_format = "pdf_document",
+            params = list(reactive_graph_situation_apres_3_ans = reactive_graph_situation_apres_3_ans(), 
+                          reactive_plot_repartition_par_profession = reactive_plot_repartition_par_profession(),
+                          reactive_plot_repartition_par_secteur = reactive_plot_repartition_par_secteur(),
+                          reactive_tx_en_emploi = reactive_tx_en_emploi(),
+                          reactive_tx_chomage = reactive_tx_chomage(),
+                          reactive_tx_en_edi = reactive_tx_en_edi(),
+                          reactive_tx_a_tps_partiel = reactive_tx_a_tps_partiel(),
+                          reactive_revenu_median = reactive_revenu_median(),
+                          reactive_tx_jugent_coherent = reactive_tx_jugent_coherent(),
+                          reactive_tx_estiment_ss_employes = reactive_tx_estiment_ss_employes())
+            )
+          
+          readBin(con = "report.pdf", 
+                  what = "raw",
+                  n = file.info("report.pdf")[, "size"]) %>%
+            writeBin(con = file)
+          
+
+        }
+    )
 })

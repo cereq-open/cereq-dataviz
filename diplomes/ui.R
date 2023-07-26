@@ -43,16 +43,17 @@ fluidPage(
       )
     )
   ),
-  # fluidRow(
-  #   column(
-  #     align = "right",
-  #     width = 12,
-  #     downloadButton("downloadData", "Télécharger les données")
-  #   )
-  # ),
+   fluidRow(
+     column(
+     align = "right",
+       width = 12,
+      #downloadButton("downloadData", "Télécharger les données")
+     )
+   ),
   fluidRow(
     column(
       width = 12,
+
       pickerInput(
         width = "fit",
         inline = TRUE,
@@ -81,17 +82,11 @@ fluidPage(
         )
       )
     ),
-    column(
+  column(
       width = 12,
       conditionalPanel(
-        condition = "output.sousniveau == true",
-        pickerInput(
-          inputId = "degre3",
-          label = p("Choisir la spécialité :"),
-          choices = NULL,
-          width = "fit",
-          inline = TRUE
-        )
+        condition = "output.sousniveau== true",
+        selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 3)
       )
     )
   ),
