@@ -12,20 +12,6 @@ suppressPackageStartupMessages({
 
 options(shiny.useragg = TRUE)
 
-
-isLaTeXInstalled <- function() {
-  tlmgr_path <- Sys.which("tlmgr.bat")
-  return(!is.null(tlmgr_path))
-}
-
-if (!isLaTeXInstalled()) {
-  tinytex::install_tinytex()
-  cat("LaTeX distribution is not installed. Install it first.\n")
-} else {
-  cat("LaTeX distribution is already installed. Continuing with the script.\n")
-}
-
-
 set_girafe_defaults(
   opts_hover_inv = opts_hover_inv(css = "stroke-width:2px; opacity:.5;"),
   opts_hover = opts_hover(css = ""),
@@ -45,7 +31,15 @@ largeur_donut_chart <- 6
 # Variable pour la valeur Ensemble des sortants
 ensemble_des_sortants <- "Ensemble des sortants"
 
-register_gfont("Arimo")
+
+if (!gdtools::font_family_exists("Arimo")) {
+  systemfonts::register_font(
+    name = "Arimo",
+    plain = "www/arimo/fonts/arimo-v28-latin_latin-ext-regular.ttf",
+    bold = "www/arimo/fonts/arimo-v28-latin_latin-ext-700.ttf",
+    italic = "www/arimo/fonts/arimo-v28-latin_latin-ext-italic.ttf",
+    bolditalic = "www/arimo/fonts/arimo-v28-latin_latin-ext-700italic.ttf")
+}
 
 db_diplome <- read_xlsx("data/db_diplome.xlsx") %>%
   rename(Libelle_complet = `Libelle complet`)
@@ -382,8 +376,8 @@ generateDonutSecteur <- function(db_diplome, niveau) {
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    # title = element_text(family = "Arimo"),
-    text = element_text(size = 10),
+    title = element_text(family = "Arimo"),
+    text = element_text(size = 10, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
@@ -394,12 +388,6 @@ theme_set(
     legend.key = element_blank(),
     plot.title = element_markdown(size = 8, color = "#008B99"),
     plot.caption.position = "plot",
-    # plot.caption = element_textbox_simple(
-    #   hjust = 0,
-    #   color = "#C0C0C2",
-    #   size = 8
-    # ),
-    # legend.text = element_text(size = 8, face = "plain"),
     legend.title = element_blank()
   )
 )

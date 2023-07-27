@@ -67,7 +67,6 @@ shinyServer(function(input, output, session) {
     to <- as.numeric(code + 9)
     sequence <- seq(from, to, by = 1)
     
-    
     list(niveau = input$niveau,
          degre3 = input$degre3,
          code_niveau3 = as.numeric(filter(db_diplome, Code %in% sequence) %>% pull(Code))
@@ -80,7 +79,6 @@ shinyServer(function(input, output, session) {
     
     selVal_ <- selectedValue()
     if (is.null(input$degre3)) {
-      print("A")
       gg <- generatePlot(db_diplome, selVal_$niveau)
       girafe(
         ggobj = gg,
@@ -88,7 +86,6 @@ shinyServer(function(input, output, session) {
         height_svg = hauteur_1_barre
       )
     } else {
-      print("B")
       gg <- generatePlotSpec(db_diplome, selVal_$code_niveau3, selVal_$degre3)
       girafe(
         ggobj = gg,
@@ -640,7 +637,6 @@ shinyServer(function(input, output, session) {
             reactive_tx_estiment_ss_employes = reactive_tx_estiment_ss_employes()
           )
         )
-
         readBin(
           con = "report.pdf",
           what = "raw",

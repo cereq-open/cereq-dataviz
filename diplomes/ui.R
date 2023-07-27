@@ -21,10 +21,8 @@ fluidPage(
   br(),
   gfontHtmlDependency(family = "Arimo"),
    fluidRow(
-     
      column(
        width = 6,
-       
        pickerInput(
          width = "fit",
          inline = TRUE,
@@ -51,14 +49,12 @@ fluidPage(
              ""
            )
          )
-       )
-       ,
+       ),
        conditionalPanel(
          condition = "output.sousniveau== true",
          selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 3)
        )),
      column(
-       
      align = "right",
        width = 6,
      div(
@@ -81,12 +77,9 @@ fluidPage(
      ),
      tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
      DownloadButton('downloadData',".xlsx"),
-     # DownloadButton('downloadPDF',".pdf")
      actionButton("downloadPDF", ".pdf", onclick = "window.print();")
-     
      )
-    
-  ),
+    ),
   br(),
   fluidRow(
     column(
