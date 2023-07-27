@@ -48,8 +48,8 @@ fluidPage(
        # )
      ),
      tags$head(tags$style(".DB{background:#white;} .DB{color: #008b99;}")),
-     downloadButton('downloadData', '.xlsx', class = "DB"),
-     downloadButton("downloader", ".pdf", class = "DB")
+     DownloadButton('downloadData',".xlsx"),
+     downloadButton("downloadPDF", ".pdf", class = "DB")
      )
    ),
   fluidRow(

@@ -7,6 +7,7 @@ suppressPackageStartupMessages({
   library(ggiraph)
   library(gdtools)
   library(arrow)
+  library(readxl)
 })
 
 options(shiny.useragg = TRUE)
@@ -32,7 +33,7 @@ ensemble_des_sortants <- "Ensemble des sortants"
 
 register_gfont("Arimo")
 
-db_diplome <- read_parquet("data/diplome.parquet") %>%
+db_diplome <- read_xlsx("data/tab_diplome2.xlsx") %>%
   rename(Libelle_complet = `Libelle complet`)
 
 # Keep only the levels whose code should not start with 0.
@@ -462,4 +463,9 @@ labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       info_str
     )
   )
+}
+
+DownloadButton <- function(outputId, label = label){
+  tags$a(id = outputId, class = "btn btn-default shiny-download-link", href = "", 
+         target = "_blank", download = NA, NULL, label)
 }

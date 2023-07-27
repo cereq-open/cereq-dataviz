@@ -62,6 +62,8 @@ shinyServer(function(input, output, session) {
   reactive_graph_situation_apres_3_ans <- reactive({
   
     if (is.null(input$degre3)) {
+      
+      print("A")
       req(input$niveau)
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
@@ -71,6 +73,8 @@ shinyServer(function(input, output, session) {
     }
     
     else if (!is.null(input$degre3)) {
+      
+      print("B")
       gg <- generatePlotSpec(db_diplome, code_niveau3(), input$degre3)
       girafe(ggobj = gg,
              width_svg = largeur_bar_chart,
@@ -89,8 +93,6 @@ shinyServer(function(input, output, session) {
   reactive_plot_repartition_par_profession <- reactive({
     
     if (is.null(input$degre3)) {
-      
-  
       
       gg <- generateDonutProfession(db_diplome, input$niveau)
       girafe(ggobj = gg,
@@ -262,7 +264,6 @@ shinyServer(function(input, output, session) {
              width_svg = largeur_donut_chart,
              height_svg = hauteur_donut_chart)
       
-      
     }
     
   })
@@ -300,6 +301,7 @@ shinyServer(function(input, output, session) {
     }
     
     else if (!is.null(input$degre3)) {
+      
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
@@ -374,14 +376,12 @@ shinyServer(function(input, output, session) {
         )
       }
       
-      
     }
     
   })
   
   output$tx_chomage <- renderUI({
     reactive_tx_chomage()
-    
   })
   
   reactive_tx_en_edi <- reactive({
@@ -432,7 +432,6 @@ shinyServer(function(input, output, session) {
           infobulle_str = infobulle_str
         )
       }
-      
       
     } 
     
@@ -486,14 +485,12 @@ shinyServer(function(input, output, session) {
         )
       }
       
-      
     } 
     
   })
   
   output$tx_a_tps_partiel <- renderUI({
     reactive_tx_a_tps_partiel()
-    
   })
   
   reactive_revenu_median <- reactive({
@@ -545,7 +542,6 @@ shinyServer(function(input, output, session) {
         )
       }
       
-      
     } 
     
   })
@@ -553,7 +549,6 @@ shinyServer(function(input, output, session) {
   
   output$revenu_median <- renderUI({
     reactive_revenu_median()
-    
   })
   
   reactive_tx_jugent_coherent <- reactive({
@@ -600,14 +595,12 @@ shinyServer(function(input, output, session) {
         )
       }
       
-      
     }
     
   })
   
   output$tx_jugent_coherent <- renderUI({
     reactive_tx_jugent_coherent()
-    
   })
   
   reactive_tx_estiment_ss_employes <- reactive({
@@ -654,14 +647,12 @@ shinyServer(function(input, output, session) {
         )
       }
       
-      
     }
     
   })
   
   output$tx_estiment_ss_employes <- renderUI({
     reactive_tx_estiment_ss_employes()
-    
   })
 
     # Download Data --------------------------------------------------------------
@@ -677,7 +668,7 @@ shinyServer(function(input, output, session) {
 
   # Download PDF --------------------------------------------------------------
   
- output$downloader <- downloadHandler(
+ output$downloadPDF <- downloadHandler(
     
       "report.pdf"  # spécifier le nom du fichier pdf à télécharger
     ,
@@ -703,7 +694,6 @@ shinyServer(function(input, output, session) {
                   what = "raw",
                   n = file.info("report.pdf")[, "size"]) %>%
             writeBin(con = file)
-          
 
         }
     )
