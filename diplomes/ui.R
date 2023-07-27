@@ -3,7 +3,7 @@ library(bslib)
 library(shinyWidgets)
 
 fluidPage(
-  theme = bs_theme(version = 5),
+  theme = bs_theme(version = 5, primary = "#008b99"),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"), # CSS personnalisé
     tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"), # Librairie font-awesome
@@ -20,80 +20,66 @@ fluidPage(
   ),
   br(),
   gfontHtmlDependency(family = "Arimo"),
-  tags$span(
-    tags$div(class = "card", "Génération 2017"),
-    tags$div(
-      class = "logo-container", # Classe CSS pour le conteneur du logo
-      includeHTML("www/logo.svg")
-    ) # Inclus le logo
-  ),
-  br(),
-  fluidRow(
-    column(
-      width = 12,
-      downloadButton("downloadData", "Télécharger les données")
-    )
-  ),
-  br(),
-  fluidRow(
-    tags$head(
-      tags$style(type = "text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row; }")
+   fluidRow(
+     column(
+       width = 6,
+       pickerInput(
+         width = "fit",
+         inline = TRUE,
+         label = p("Choisir le plus haut diplôme atteint : "),
+         inputId = "niveau",
+         choices = list_degre1_2,
+         choicesOpt = list(
+           style = c(
+             "font-weight: bold;",
+             "font-weight: bold;",
+             "font-weight: bold;",
+             "",
+             "",
+             "",
+             "",
+             "font-weight: bold;",
+             "",
+             "",
+             "",
+             "",
+             "font-weight: bold;",
+             "",
+             "",
+             ""
+           )
+         )
+       ),
+       conditionalPanel(
+         condition = "output.sousniveau== true",
+         selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 3)
+       )),
+     column(
+     align = "right",
+       width = 6,
+     div(
+       style = "text-align:right;",
+       tags$img(
+         src = "logo-cereq.svg"
+       ),
+       tags$p(
+         style = "font-size:14px;",
+         "Données : ",
+         tags$img(
+           src = "logo-generation.png"
+         )
+       )
+     ),
+     tags$img(
+       src = "logo-download.svg",
+       height = "50px",
+       width = "50px"
+     ),
+     tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
+     DownloadButton('downloadData',".xlsx"),
+     actionButton("downloadPDF", ".pdf", onclick = "window.print();")
+     )
     ),
-    column(
-      width = 12,
-      tags$table(
-        width = "100%",
-        tags$tr(
-          width = "100%",
-          tags$td(
-            width = "40%",
-            div(style = "font-size:24px; text-align: center;", "Choisir le plus haut diplôme atteint :")
-          ),
-          tags$td(
-            width = "60%",
-            pickerInput(
-              width = "fit",
-              inputId = "niveau",
-              choices = list_degre1_2,
-              choicesOpt = list(
-                style = c(
-                  "font-weight: bold;",
-                  "font-weight: bold;",
-                  "font-weight: bold;",
-                  "",
-                  "",
-                  "",
-                  "",
-                  "font-weight: bold;",
-                  "",
-                  "",
-                  "",
-                  "",
-                  "font-weight: bold;",
-                  "",
-                  "",
-                  ""
-                )
-              )
-            )
-          )
-        ),
-        conditionalPanel(
-          condition = "output.sousniveau == true",
-          tags$tr(
-            width = "100%",
-            tags$td(width = "60%", tags$div(style = "font-size:24px;", "Choisir la spécialité :")),
-            tags$td(width = "40%",
-                    selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 2),
-                    br(),
-                    div(class = "form-group", actionButton("clear", "Déselectionner"))
-                    
-                    )
-          )
-        )
-      )
-    )
-  ),
   br(),
   fluidRow(
     column(
@@ -101,11 +87,11 @@ fluidPage(
       tags$h1("Situation trois ans après la sortie de formation")
     ),
     column(
-      width = 6,
+      width = 4,
       uiOutput("tx_en_emploi")
     ),
     column(
-      width = 6,
+      width = 4,
       uiOutput("tx_chomage")
     )
   ),
@@ -113,7 +99,8 @@ fluidPage(
     column(
       width = 12,
       div(
-        style = "max-width:800px; margin-left:auto; margin-right:auto;",
+        h2("Répartition des sortants selon leur situation d'activité"),
+        style = "max-width:750px; margin-left:0;",
         girafeOutput("graph_situation_apres_3_ans", height = NULL)
       )
     )
@@ -141,45 +128,21 @@ fluidPage(
   fluidRow(
     column(
       width = 6,
-      div(
-        class = "custom-border-box",
-        tags$p(
-          class = "stat_info",
-          tags$span(
-            style = "color: #008B99;",
-            "Répartition par profession"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            title = "Les professions sont présentées de façon agrégée, à partir d’une nomenclature plus détaillée, celle des professions et catégories socioprofessionnelles de l’INSEE de 2022."
-          )
-        ),
         div(
-          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          class = "custom-border-box",
+          h2("Répartition par profession"),
+          style = "max-width:800px; margin-left:0;",
           girafeOutput("plot_repartition_par_profession", height = NULL)
         )
-      )
     ),
     column(
       width = 6,
       div(
         class = "custom-border-box",
-        tags$p(
-          class = "stat_info",
-          tags$span(
-            style = "color: #008B99;",
-            "Répartition par secteur"
-          ),
-          tags$i(
-            class = "fas fa-info-circle",
-            title = "Les secteurs sont présentés de façon agrégée, à partir d’une nomenclature plus détaillée : la nomenclature des activités françaises de l’INSEE de 2022 (NAF)."
-          )
-        ),
-        div(
-          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+        h2("Répartition par secteur"),
+        style = "max-width:800px; margin-left:0;",
           girafeOutput("plot_repartition_par_secteur", height = NULL)
         )
-      )
     )
   ),
   br(),
