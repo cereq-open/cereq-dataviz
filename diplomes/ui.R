@@ -20,23 +20,60 @@ fluidPage(
   ),
   br(),
   gfontHtmlDependency(family = "Arimo"),
-  div(
-    style = "text-align:right;",
-    tags$img(
-      src = "logo-cereq.svg"
-    ),
-    tags$p(
-      style = "font-size:14px;",
-      "Données : ",
-      tags$img(
-        src = "logo-generation.png"
-      )
-    )
-  ),
    fluidRow(
+     
      column(
+       width = 6,
+       
+       pickerInput(
+         width = "fit",
+         inline = TRUE,
+         label = p("Choisir le plus haut diplôme atteint : "),
+         inputId = "niveau",
+         choices = list_degre1_2,
+         choicesOpt = list(
+           style = c(
+             "font-weight: bold;",
+             "font-weight: bold;",
+             "font-weight: bold;",
+             "",
+             "",
+             "",
+             "",
+             "font-weight: bold;",
+             "",
+             "",
+             "",
+             "",
+             "font-weight: bold;",
+             "",
+             "",
+             ""
+           )
+         )
+       )
+       ,
+       conditionalPanel(
+         condition = "output.sousniveau== true",
+         selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 3)
+       )),
+     column(
+       
      align = "right",
-       width = 12,
+       width = 6,
+     div(
+       style = "text-align:right;",
+       tags$img(
+         src = "logo-cereq.svg"
+       ),
+       tags$p(
+         style = "font-size:14px;",
+         "Données : ",
+         tags$img(
+           src = "logo-generation.png"
+         )
+       )
+     ),
      tags$img(
        src = "logo-download.svg",
        height = "50px",
@@ -51,46 +88,7 @@ fluidPage(
      DownloadButton('downloadData',".xlsx"),
      downloadButton("downloadPDF", ".pdf", class = "DB")
      )
-   ),
-  fluidRow(
-    column(
-      width = 12,
-
-      pickerInput(
-        width = "fit",
-        inline = TRUE,
-        label = p("Choisir le plus haut diplôme atteint : "),
-        inputId = "niveau",
-        choices = list_degre1_2,
-        choicesOpt = list(
-          style = c(
-            "font-weight: bold;",
-            "font-weight: bold;",
-            "font-weight: bold;",
-            "",
-            "",
-            "",
-            "",
-            "font-weight: bold;",
-            "",
-            "",
-            "",
-            "",
-            "font-weight: bold;",
-            "",
-            "",
-            ""
-          )
-        )
-      )
-    ),
-  column(
-      width = 12,
-      conditionalPanel(
-        condition = "output.sousniveau== true",
-        selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 3)
-      )
-    )
+    
   ),
   br(),
   fluidRow(

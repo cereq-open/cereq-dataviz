@@ -33,7 +33,7 @@ ensemble_des_sortants <- "Ensemble des sortants"
 
 register_gfont("Arimo")
 
-db_diplome <- read_xlsx("data/tab_diplome2.xlsx") %>%
+db_diplome <- read_xlsx("data/db_diplome.xlsx") %>%
   rename(Libelle_complet = `Libelle complet`)
 
 # Keep only the levels whose code should not start with 0.

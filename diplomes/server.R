@@ -25,13 +25,14 @@ shinyServer(function(input, output, session) {
     } else {
       values <- character()
     }
+
     updateSelectInput(
       inputId = "degre3",
       label = NULL,
       choices = values
     )
   })
-
+    
     code_niveau3 <- reactive({
     req(input$niveau)
     from <- as.numeric(code() + 1)
@@ -64,7 +65,7 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       
       print("A")
-      req(input$niveau)
+      # req(input$niveau)
       gg <- generatePlot(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = largeur_bar_chart,
