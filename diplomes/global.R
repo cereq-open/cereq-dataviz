@@ -12,6 +12,20 @@ suppressPackageStartupMessages({
 
 options(shiny.useragg = TRUE)
 
+
+isLaTeXInstalled <- function() {
+  tlmgr_path <- Sys.which("tlmgr.bat")
+  return(!is.null(tlmgr_path))
+}
+
+if (!isLaTeXInstalled()) {
+  tinytex::install_tinytex()
+  cat("LaTeX distribution is not installed. Install it first.\n")
+} else {
+  cat("LaTeX distribution is already installed. Continuing with the script.\n")
+}
+
+
 set_girafe_defaults(
   opts_hover_inv = opts_hover_inv(css = "stroke-width:2px; opacity:.5;"),
   opts_hover = opts_hover(css = ""),
