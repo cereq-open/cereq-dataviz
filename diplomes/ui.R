@@ -84,9 +84,9 @@ fluidPage(
        #    ".pdf"
        # )
      ),
-     tags$head(tags$style(".DB{background:#white;} .DB{color: #008b99;}")),
+     tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}")),
      DownloadButton('downloadData',".xlsx"),
-     downloadButton("downloadPDF", ".pdf", class = "DB")
+     DownloadButton('downloadPDF',".pdf")
      )
     
   ),
