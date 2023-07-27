@@ -41,31 +41,31 @@ if (!gdtools::font_family_exists("Arimo")) {
     bolditalic = "www/arimo/fonts/arimo-v28-latin_latin-ext-700italic.ttf")
 }
 
-db_diplome <- read_xlsx("data/db_diplome.xlsx") %>%
+tab_diplome <- read_parquet("data/tab_diplome.parquet") %>%
   rename(Libelle_complet = `Libelle complet`)
 
 # Keep only the levels whose code should not start with 0.
-list_degre1_2 <- as.list(filter(db_diplome, str_sub(Code, -1, -1) == "0") %>% pull(`Libelle_Menu`))
+list_degre1_2 <- as.list(filter(tab_diplome, str_sub(Code, -1, -1) == "0") %>% pull(`Libelle_Menu`))
 
 # Functions to create the data streams according to the levels selected
 
-ensemble_de_sortants_data <- db_diplome %>% filter(Libelle_Menu == ensemble_des_sortants)
+ensemble_de_sortants_data <- tab_diplome %>% filter(Libelle_Menu == ensemble_des_sortants)
 
-generateDataForLevel <- function(db_diplome, niveau) {
-  filtered_data <- db_diplome %>%
+generateDataForLevel <- function(tab_diplome, niveau) {
+  filtered_data <- tab_diplome %>%
     filter(Libelle_Menu == niveau)
 }
 
-generateDataForLevel3 <- function(db_diplome, code_niveau3, niveau3) {
+generateDataForLevel3 <- function(tab_diplome, code_niveau3, niveau3) {
   req(code_niveau3, code_niveau3)
 
-  filtered_data <- db_diplome %>%
+  filtered_data <- tab_diplome %>%
     filter(Code %in% code_niveau3 & Libelle_Menu %in% niveau3)
 }
 
 # Function to generate the first plot when first and second levels are selected from the first SelectInput tool.
-generatePlot <- function(db_diplome, niveau) {
-  DT <- db_diplome %>%
+generatePlot <- function(tab_diplome, niveau) {
+  DT <- tab_diplome %>%
     select(Libelle_Menu, taux_emploi, taux_chomage) %>%
     mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
     filter(Libelle_Menu %in% c(ensemble_des_sortants, niveau)) %>%
@@ -152,8 +152,8 @@ generatePlot <- function(db_diplome, niveau) {
 }
 
 # Function to generate the plot when the third levels are selected from the second SelectInput tool.
-generatePlotSpec <- function(db_diplome, niveau, libelle) {
-  DT <- db_diplome %>%
+generatePlotSpec <- function(tab_diplome, niveau, libelle) {
+  DT <- tab_diplome %>%
     filter(Code %in% c(niveau, 100) & Libelle_Menu %in% c(libelle, ensemble_des_sortants)) %>%
     select(Code, Libelle_Menu, Libelle_complet, taux_emploi, taux_chomage) %>%
     mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
@@ -242,8 +242,8 @@ generatePlotSpec <- function(db_diplome, niveau, libelle) {
 
 ######### Create Pie charts ########################
 
-generateDonutProfession <- function(db_diplome, niveau) {
-  DT <- db_diplome %>%
+generateDonutProfession <- function(tab_diplome, niveau) {
+  DT <- tab_diplome %>%
     select(Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
     filter(Libelle_Menu %in% niveau) %>%
     mutate(across(everything(), ~ gsub(",", ".", .))) %>%
@@ -308,8 +308,8 @@ generateDonutProfession <- function(db_diplome, niveau) {
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
-generateDonutSecteur <- function(db_diplome, niveau) {
-  DT <- db_diplome %>%
+generateDonutSecteur <- function(tab_diplome, niveau) {
+  DT <- tab_diplome %>%
     select(Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres) %>%
     filter(Libelle_Menu %in% niveau) %>%
     mutate(across(everything(), ~ gsub(",", ".", .))) %>%
@@ -473,5 +473,5 @@ DownloadButton <- function(outputId, label = label){
 }
 
 as_code <- function(niveau) {
-  as.numeric(filter(db_diplome, Libelle_Menu %in% niveau) %>% pull(Code))
+  as.numeric(filter(tab_diplome, Libelle_Menu %in% niveau) %>% pull(Code))
 }

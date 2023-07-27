@@ -8,12 +8,8 @@ library(openxlsx)
 # Define Server ----------------------------------------------------------------
 
 shinyServer(function(input, output, session) {
+  
   ###################### Create the scrolling menu ######################
-
-  # code <- reactive({
-  #   req(input$niveau)
-  #   as.numeric(filter(db_diplome, Libelle_Menu %in% input$niveau) %>% pull(Code))
-  # })
 
   observeEvent(input$niveau, {
     
@@ -23,7 +19,7 @@ shinyServer(function(input, output, session) {
       from <- as.numeric(code + 1)
       to <- as.numeric(code + 9)
       sequence <- seq(from, to, by = 1)
-      values <- dplyr::filter(db_diplome, Code %in% sequence) %>% pull(Libelle_Menu)
+      values <- dplyr::filter(tab_diplome, Code %in% sequence) %>% pull(Libelle_Menu)
     } else {
       values <- character()
     }
@@ -42,7 +38,7 @@ shinyServer(function(input, output, session) {
     from <- as.numeric(code + 1)
     to <- as.numeric(code + 9)
     sequence <- seq(from, to, by = 1)
-    as.numeric(filter(db_diplome, Code %in% sequence) %>% pull(Code))
+    as.numeric(filter(tab_diplome, Code %in% sequence) %>% pull(Code))
   })
 
   # Do not display the second SeletInput when the first or the second level are selected (set condition as output from server).
@@ -53,11 +49,11 @@ shinyServer(function(input, output, session) {
   ###################### Define the data streams according to the levels selected ######################
 
   filtered_data <- reactive({
-    generateDataForLevel(db_diplome, input$niveau)
+    generateDataForLevel(tab_diplome, input$niveau)
   })
 
   filtered_data_level3 <- reactive({
-    generateDataForLevel3(db_diplome, code_niveau3(), input$degre3)
+    generateDataForLevel3(tab_diplome, code_niveau3(), input$degre3)
   })
 
   selectedValue <- reactive({
@@ -69,7 +65,7 @@ shinyServer(function(input, output, session) {
     
     list(niveau = input$niveau,
          degre3 = input$degre3,
-         code_niveau3 = as.numeric(filter(db_diplome, Code %in% sequence) %>% pull(Code))
+         code_niveau3 = as.numeric(filter(tab_diplome, Code %in% sequence) %>% pull(Code))
          )
   }) # Use the reactive value selectedValue to keep track of the selected value from the second list of third levels.
 
@@ -79,14 +75,15 @@ shinyServer(function(input, output, session) {
     
     selVal_ <- selectedValue()
     if (is.null(input$degre3)) {
-      gg <- generatePlot(db_diplome, selVal_$niveau)
+      gg <- generatePlot(tab_diplome, selVal_$niveau)
       girafe(
         ggobj = gg,
+        fonts = list(sans = "Arimo"),
         width_svg = largeur_bar_chart,
         height_svg = hauteur_1_barre
       )
     } else {
-      gg <- generatePlotSpec(db_diplome, selVal_$code_niveau3, selVal_$degre3)
+      gg <- generatePlotSpec(tab_diplome, selVal_$code_niveau3, selVal_$degre3)
       girafe(
         ggobj = gg,
         width_svg = largeur_bar_chart,
@@ -103,14 +100,15 @@ shinyServer(function(input, output, session) {
 
   reactive_plot_repartition_par_profession <- reactive({
     if (is.null(input$degre3)) {
-      gg <- generateDonutProfession(db_diplome, input$niveau)
+      gg <- generateDonutProfession(tab_diplome, input$niveau)
       girafe(
         ggobj = gg,
+        fonts = list(sans = "Arimo"),
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
     } else if (!is.null(input$degre3)) {
-      DT <- db_diplome %>%
+      DT <- tab_diplome %>%
         select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
         filter(Code %in% code_niveau3() & Libelle_Menu %in% input$degre3) %>%
         mutate(across(everything(), ~ gsub(",", ".", .))) %>%
@@ -179,6 +177,7 @@ shinyServer(function(input, output, session) {
 
       girafe(
         ggobj = gg,
+        fonts = list(sans = "Arimo"),
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
@@ -191,14 +190,15 @@ shinyServer(function(input, output, session) {
 
   reactive_plot_repartition_par_secteur <- reactive({
     if (is.null(input$degre3)) {
-      gg <- generateDonutSecteur(db_diplome, input$niveau)
+      gg <- generateDonutSecteur(tab_diplome, input$niveau)
       girafe(
         ggobj = gg,
+        fonts = list(sans = "Arimo"),
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
     } else if (!is.null(input$degre3)) {
-      DT <- db_diplome %>%
+      DT <- tab_diplome %>%
         select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres)
 
       if (isTruthy(code_niveau3())) {
@@ -275,6 +275,7 @@ shinyServer(function(input, output, session) {
 
       girafe(
         ggobj = gg,
+        fonts = list(sans = "Arimo"),
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
