@@ -77,16 +77,13 @@ fluidPage(
      tags$img(
        src = "logo-download.svg",
        height = "50px",
-       width = "50px",
-       #     tags$span(
-       #      style = "font-weight:bold; color:#008b99; font-size:12px;",
-       #     ".xls",
-       #    ".pdf"
-       # )
+       width = "50px"
      ),
-     tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}")),
+     tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
      DownloadButton('downloadData',".xlsx"),
-     DownloadButton('downloadPDF',".pdf")
+     # DownloadButton('downloadPDF',".pdf")
+     actionButton("downloadPDF", ".pdf", onclick = "window.print();")
+     
      )
     
   ),

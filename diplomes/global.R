@@ -483,3 +483,7 @@ DownloadButton <- function(outputId, label = label){
   tags$a(id = outputId, class = "btn btn-default shiny-download-link", href = "", 
          target = "_blank", download = NA, NULL, label)
 }
+
+as_code <- function(niveau) {
+  as.numeric(filter(db_diplome, Libelle_Menu %in% niveau) %>% pull(Code))
+}
