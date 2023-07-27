@@ -76,12 +76,6 @@ shinyServer(function(input, output, session) {
              width_svg = largeur_bar_chart,
              height_svg = hauteur_1_barre)
       
-    } else {
-      gg <- generatePlot(db_diplome, input$niveau)
-      girafe(ggobj = gg,
-             width_svg = largeur_bar_chart,
-             height_svg = hauteur_2_barres)
-
     }
     
   })
@@ -170,13 +164,6 @@ shinyServer(function(input, output, session) {
               axis.text.y = element_blank()) +
         guides(fill = guide_legend(ncol = 3, byrow = TRUE))
       
-      girafe(ggobj = gg,
-             width_svg = largeur_donut_chart,
-             height_svg = hauteur_donut_chart)
-      
-    } else {
-      
-      gg <- generateDonutProfession(db_diplome, input$niveau)
       girafe(ggobj = gg,
              width_svg = largeur_donut_chart,
              height_svg = hauteur_donut_chart)
@@ -276,12 +263,6 @@ shinyServer(function(input, output, session) {
              height_svg = hauteur_donut_chart)
       
       
-    } else {
-      
-      gg <- generateDonutSecteur(db_diplome, input$niveau)
-      girafe(ggobj = gg,
-             width_svg = largeur_donut_chart,
-             height_svg = hauteur_donut_chart)
     }
     
   })
@@ -336,23 +317,6 @@ shinyServer(function(input, output, session) {
           infobulle_str = infobulle_str)
       }
       
-    } else {
-      req(input$niveau)
-      if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
-        labellize_stats_end_i(
-          stat1_str = text_info1, stat2_str = NULL, 
-          info_str = info_str,
-          infobulle_str = infobulle_str)
-        
-      } else {
-        text_info2 <- paste0(filtered_data()$taux_emploi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "% pour l'ensemble des sortants)"))
-        labellize_stats_end_i(
-          stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = info_str,
-          infobulle_str = infobulle_str)
-      }
     }
     
   })
@@ -410,27 +374,6 @@ shinyServer(function(input, output, session) {
         )
       }
       
-      
-    } else {
-      
-      req(input$niveau)
-      if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
-        labellize_stats_end_i(
-          stat1_str = text_info1, stat2_str = NULL, 
-          info_str = info_str,
-          infobulle_str = infobulle_str
-        )
-        
-      } else {
-        text_info2 <- paste0(filtered_data()$taux_chomage, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
-        labellize_stats_end_i(
-          stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = info_str,
-          infobulle_str = infobulle_str
-        )
-      }
       
     }
     
@@ -491,28 +434,7 @@ shinyServer(function(input, output, session) {
       }
       
       
-    } else {
-      
-      req(input$niveau)
-      if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
-        labellize_stats_end_i(
-          stat1_str = text_info1, stat2_str = NULL, 
-          info_str = info_str,
-          infobulle_str = infobulle_str
-        )
-        
-      } else {
-        text_info2 <- paste0(filtered_data()$taux_edi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
-        labellize_stats_end_i(
-          stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = info_str,
-          infobulle_str = infobulle_str
-        )
-      }
-      
-    }
+    } 
     
   })
   
@@ -565,27 +487,7 @@ shinyServer(function(input, output, session) {
       }
       
       
-    } else {
-      
-      
-      req(input$niveau)
-      if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
-        labellize_stats_no_i(
-          stat1_str = text_info1, stat2_str = NULL, 
-          info_str = info_str
-        )
-        
-      } else {
-        text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
-        labellize_stats_no_i(
-          stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = info_str
-        )
-      }
-      
-    }
+    } 
     
   })
   
@@ -644,28 +546,7 @@ shinyServer(function(input, output, session) {
       }
       
       
-    } else {
-      
-      req(input$niveau)
-      if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
-        labellize_stats_end_i(
-          stat1_str = text_info1, stat2_str = NULL, 
-          info_str = info_str,
-          infobulle_str = infobulle_str
-        )
-        
-      } else {
-        text_info2 <- paste0(filtered_data()$revenu_travail, " €")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
-        labellize_stats_end_i(
-          stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = info_str,
-          infobulle_str = infobulle_str
-        )
-      }
-      
-    }
+    } 
     
   })
   
@@ -674,7 +555,6 @@ shinyServer(function(input, output, session) {
     reactive_revenu_median()
     
   })
-  
   
   reactive_tx_jugent_coherent <- reactive({
     
@@ -721,27 +601,7 @@ shinyServer(function(input, output, session) {
       }
       
       
-    } else {
-      
-      req(input$niveau)
-      if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_row_i(
-          stat1_str = text_info1, stat2_str = NULL, 
-          info_str = info_str
-        )
-        
-      } else {
-        text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_row_i(
-          stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = info_str
-        )
-      }
-      
     }
-    
     
   })
   
@@ -794,25 +654,6 @@ shinyServer(function(input, output, session) {
         )
       }
       
-      
-    } else {
-      
-      req(input$niveau)
-      if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_row_i(
-          stat1_str = text_info1, stat2_str = NULL, 
-          info_str = info_str
-        )
-        
-      } else {
-        text_info2 <- paste0(filtered_data()$competence_ok, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_row_i(
-          stat1_str = text_info2, stat2_str = text_info3, 
-          info_str = info_str
-        )
-      }
       
     }
     
