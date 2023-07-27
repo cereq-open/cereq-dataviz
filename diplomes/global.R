@@ -18,7 +18,15 @@ set_girafe_defaults(
   opts_toolbar = opts_toolbar(saveaspng = FALSE)
 )
 
-register_gfont("Arimo")
+if (gdtools::font_family_exists("Arimo")) {
+  systemfonts::register_font(
+    name = "Arimo",
+    plain = "www/arimo/fonts/arimo-v28-latin_latin-ext-regular.ttf",
+    bold = "www/arimo/fonts/arimo-v28-latin_latin-ext-700.ttf",
+    italic = "www/arimo/fonts/arimo-v28-latin_latin-ext-italic.ttf",
+    bolditalic = "www/arimo/fonts/arimo-v28-latin_latin-ext-700italic.ttf")
+}
+
 
 db_diplome <- read_parquet("data/diplome.parquet") %>%
   rename(Libelle_complet = `Libelle complet`)
