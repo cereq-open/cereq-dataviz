@@ -103,6 +103,7 @@ fluidPage(
     column(
       width = 12,
       div(
+        class = "custom-border-box",
         h2("Répartition des sortants selon leur situation d'activité"),
         style = "max-width:750px; margin-left:0;",
         girafeOutput("graph_situation_apres_3_ans", height = NULL)
