@@ -21,16 +21,18 @@ fluidPage(
   br(),
   gfontHtmlDependency(family = "Arimo"),
    fluidRow(
+     fluidRow(),
      column(
        width = 6,
-       pickerInput(
-         width = "fit",
-         inline = TRUE,
-         label = p("Choisir le plus haut diplôme atteint : "),
-         inputId = "niveau",
-         choices = list_degre1_2,
-         choicesOpt = list(
-           style = c(
+       fluidRow(
+         pickerInput(
+           width = "fit",
+           inline = TRUE,
+           label = tags$h1("Choisir le plus haut diplôme atteint : "),
+           inputId = "niveau",
+           choices = list_degre1_2,
+           choicesOpt = list(
+             style = c(
              "font-weight: bold;",
              "font-weight: bold;",
              "font-weight: bold;",
@@ -53,7 +55,8 @@ fluidPage(
        conditionalPanel(
          condition = "output.sousniveau== true",
          selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 3)
-       )),
+       ))
+),
      column(
      align = "right",
        width = 6,
@@ -84,7 +87,7 @@ fluidPage(
   fluidRow(
     column(
       width = 12,
-      tags$h1("Situation trois ans après la sortie de formation")
+      tags$h1("Situation trois ans après la sortie de formation initiale")
     ),
     column(
       width = 4,
@@ -95,6 +98,7 @@ fluidPage(
       uiOutput("tx_chomage")
     )
   ),
+  br(),
   fluidRow(
     column(
       width = 12,

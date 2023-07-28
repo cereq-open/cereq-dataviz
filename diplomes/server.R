@@ -26,7 +26,7 @@ shinyServer(function(input, output, session) {
 
     updateSelectInput(
       inputId = "degre3",
-      label = NULL,
+      label = "                                   ",
       choices = values,
       selected = "- Ensemble"
     )
@@ -182,7 +182,7 @@ shinyServer(function(input, output, session) {
         height_svg = hauteur_donut_chart
       )
     }
-  })
+  }) %>% debounce(500)
 
   output$plot_repartition_par_profession <- renderGirafe({
     reactive_plot_repartition_par_profession()
@@ -280,7 +280,7 @@ shinyServer(function(input, output, session) {
         height_svg = hauteur_donut_chart
       )
     }
-  })
+  }) %>% debounce(500)
 
   output$plot_repartition_par_secteur <- renderGirafe({
     reactive_plot_repartition_par_secteur()
@@ -329,7 +329,7 @@ shinyServer(function(input, output, session) {
         )
       }
     }
-  })
+  }) %>% debounce(500)
 
   output$tx_en_emploi <- renderUI({
     reactive_tx_en_emploi()
@@ -376,7 +376,7 @@ shinyServer(function(input, output, session) {
         )
       }
     }
-  })
+  }) %>% debounce(500)
 
   output$tx_chomage <- renderUI({
     reactive_tx_chomage()
@@ -423,7 +423,7 @@ shinyServer(function(input, output, session) {
         )
       }
     }
-  })
+  }) %>% debounce(500)
 
   output$tx_en_edi <- renderUI({
     reactive_tx_en_edi()
@@ -465,7 +465,7 @@ shinyServer(function(input, output, session) {
         )
       }
     }
-  })
+  }) %>% debounce(500)
 
   output$tx_a_tps_partiel <- renderUI({
     reactive_tx_a_tps_partiel()
@@ -512,7 +512,7 @@ shinyServer(function(input, output, session) {
         )
       }
     }
-  })
+  }) %>% debounce(500)
 
 
   output$revenu_median <- renderUI({
@@ -526,14 +526,14 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
         text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
         )
@@ -542,20 +542,20 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$correspondance_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
         )
       }
     }
-  })
+  }) %>% debounce(500)
 
   output$tx_jugent_coherent <- renderUI({
     reactive_tx_jugent_coherent()
@@ -568,14 +568,14 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
         text_info2 <- paste0(filtered_data()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
         )
@@ -584,20 +584,20 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$competence_ok, "%")
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
-        labellize_stats_row_i(
+        labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
         )
       }
     }
-  })
+  }) %>% debounce(500)
 
   output$tx_estiment_ss_employes <- renderUI({
     reactive_tx_estiment_ss_employes()
@@ -612,38 +612,5 @@ shinyServer(function(input, output, session) {
     content = function(file) {
       file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
     }
-  )
-
-  # Download PDF --------------------------------------------------------------
-
-  output$downloadPDF <- downloadHandler(
-
-    "report.pdf" # spécifier le nom du fichier pdf à télécharger
-    ,
-    content =
-      function(file) {
-        rmarkdown::render(
-          input = "report.Rmd",
-          output_format = "pdf_document",
-          params = list(
-            reactive_graph_situation_apres_3_ans = reactive_graph_situation_apres_3_ans(),
-            reactive_plot_repartition_par_profession = reactive_plot_repartition_par_profession(),
-            reactive_plot_repartition_par_secteur = reactive_plot_repartition_par_secteur(),
-            reactive_tx_en_emploi = reactive_tx_en_emploi(),
-            reactive_tx_chomage = reactive_tx_chomage(),
-            reactive_tx_en_edi = reactive_tx_en_edi(),
-            reactive_tx_a_tps_partiel = reactive_tx_a_tps_partiel(),
-            reactive_revenu_median = reactive_revenu_median(),
-            reactive_tx_jugent_coherent = reactive_tx_jugent_coherent(),
-            reactive_tx_estiment_ss_employes = reactive_tx_estiment_ss_employes()
-          )
-        )
-        readBin(
-          con = "report.pdf",
-          what = "raw",
-          n = file.info("report.pdf")[, "size"]
-        ) %>%
-          writeBin(con = file)
-      }
   )
 })
