@@ -7,7 +7,6 @@ suppressPackageStartupMessages({
   library(ggiraph)
   library(gdtools)
   library(arrow)
-  library(readxl)
 })
 
 options(shiny.useragg = TRUE)
@@ -30,7 +29,6 @@ largeur_donut_chart <- 6
 
 # Variable pour la valeur Ensemble des sortants
 ensemble_des_sortants <- "Ensemble des sortants"
-
 
 if (!gdtools::font_family_exists("Arimo")) {
   systemfonts::register_font(
@@ -127,7 +125,7 @@ generatePlot <- function(tab_diplome, niveau) {
   }
 
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
-    geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi,
+    geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = emploi,
                                                                      tooltip = tooltip_value)) +
     coord_flip() +
     geom_text(aes(label = taux_str),
@@ -216,7 +214,7 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
   }
 
   ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
-    geom_col_interactive(width = 0.5, color = "white", mapping = aes(data_id = emploi,
+    geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = emploi,
                                                                      tooltip = tooltip_value)) +
     coord_flip() +
     geom_text(aes(label = taux_str),
@@ -395,19 +393,6 @@ theme_set(
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
     tags$p(
-      class = "stat-info",
-      tags$span(
-        style = "color: #008B99;",
-        stat1_str
-      ),
-      if (!is.null(stat2_str)) {
-        tags$span(
-          style = "color: #C0C0C2; font-size: 16px;",
-          stat2_str
-        )
-      }
-    ),
-    tags$p(
       class = "texte-stat-info",
       tags$span(
         style = "color: #008B99;",
@@ -415,14 +400,10 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       ),
       tags$i(
         class = "fas fa-info-circle",
-        title = infobulle_str
+        title = infobulle_str,
+        style = "color: #008B99;"
       )
-    )
-  )
-}
-
-labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
-  tagList(
+    ),
     tags$p(
       class = "stat-info",
       tags$span(
@@ -435,18 +416,36 @@ labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
           stat2_str
         )
       }
-    ),
+    )
+  )
+}
+
+labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
+  tagList(
     tags$p(
       class = "texte-stat-info",
       tags$span(
         style = "color: #008B99;",
         info_str
       )
+    ),
+    tags$p(
+      class = "stat-info",
+      tags$span(
+        style = "color: #008B99;",
+        stat1_str
+      ),
+      if (!is.null(stat2_str)) {
+        tags$span(
+          style = "color: #C0C0C2; font-size: 16px;",
+          stat2_str
+        )
+      }
     )
   )
 }
 
-labellize_stats_row_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
+labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
     tags$p(
       class = "d-inline",
