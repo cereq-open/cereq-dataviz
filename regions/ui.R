@@ -6,7 +6,7 @@ library(shinyWidgets)
 
 # Define UI --------------------------------------------------------------------
 fluidPage(
-  theme = bs_theme(version = 5),
+  theme = bs_theme(version = 5, primary = "#008b99"),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"), # CSS personnalisé
     tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"), # Librairie font-awesome
@@ -23,52 +23,67 @@ fluidPage(
   ),
   br(),
   gfontHtmlDependency(family = "Arimo"),
-  tags$span(
-    tags$div(class = "card", "Génération 2017"),
-    tags$div(
-      class = "logo-container", # Classe CSS pour le conteneur du logo
-      includeHTML("www/logo.svg")
-    ) # Inclus le logo
+  br(),
+  fluidRow(
+    column(
+      width = 6,
+      align = "left",
+      pickerInput(
+        inputId = "colonne_residence",
+        label = p("Choix de l'indicateur"),
+        choices = noms_colonnes_residence_inverse,
+        selected = "tax_mpl",
+        width = "fit",
+        inline = TRUE,
+        options = list(
+          size = 5
+        )
+      )
+    ),
+    column(
+      width = 6,
+      align = "right",
+      tags$img(
+        src = "logo-cereq.svg"
+      ),
+      tags$p(
+        style = "font-size:14px;",
+        "Données : ",
+        tags$img(
+          src = "logo-generation.png"
+        )
+      ),
+      tags$img(
+        src = "logo-download.svg",
+        height = "50px",
+        width = "50px"
+      ),
+      tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
+      downloadButton("downloadData", ".xlsx"),
+      actionButton("downloadPDF", ".pdf", onclick = "window.print();")
+    )
   ),
   br(),
   fluidRow(
     column(
-      width = 12,
-      downloadButton("downloadData", "Télécharger les données")
-    )
-  ),
-  br(),
-  fluidRow(
-    column(width = 12,
-           pickerInput(inputId = "col_name",
-                       label = p("Choisir l'indicateur :"),
-                       choices = noms_colonnes_inverse,
-                       selected = "tax_mpl",
-                       width = "fit",
-                       inline = TRUE,
-                       options = list(
-                         style = "btn-select-input",
-                         size = 5))
-    )
-  ),
-  fluidRow(
-    column(
-      width = 12,
-      uiOutput("titre1")
+      width = 8,
+      uiOutput("region_de_residence"),
+      uiOutput("stat_residence"),
+      girafeOutput("carte")
     ),
     column(
-      width = 12,
-      plotOutput("carte")
-    )
-  ),
-  fluidRow(
-    column(
-      width = 12,
-      tags$h1("Poids des sortants du supérieur parmi les sortants de la région")
-    ),
-    column(
-      width = 12,
-      plotOutput("carte2")
+      width = 4,
+      p("Niveau de formation des sortants", class = "d-inline"),
+      pickerInput(
+        inputId = "colonne_niveau",
+        label = p("Plus haut diplôme"),
+        choices = noms_colonnes_niveau_inverse,
+        selected = "tax_mpl",
+        width = "fit",
+        inline = TRUE
+      ),
+      uiOutput("stat_niveau"),
+      girafeOutput("carte2")
     )
   )
 )
