@@ -12,7 +12,7 @@ shinyServer(function(input, output, session) {
 
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("db_region", ".xlsx", sep = "")
+      paste("OpenData_Cereq-Enq_Generation-Donnees_REGION", ".xlsx", sep = "")
     },
     content = function(file) {
       write.xlsx(db_region, file)
@@ -49,7 +49,7 @@ shinyServer(function(input, output, session) {
     col <- inv_noms_colonnes_db_region_residence[input$colonne_residence]
 
     stat_france <- paste0("France : ", db_region[ligne_fr, col], "%")
-    stat_drom <- paste0("(", paste0("Dont DROM: ", db_region[ligne_drom, col], "%"), ")")
+    stat_drom <- paste0("(", paste0("Dont DROM : ", db_region[ligne_drom, col], "%"), ")")
 
     labellize_stat(stat_france, stat_drom)
   })

@@ -139,7 +139,7 @@ labellize_row_i <- function(titre, infobulle_str = NULL) {
     if (!is.null(infobulle_str)) {
       tags$i(
         class = "fas fa-info-circle",
-        style = "font-size:2em;",
+        style = "font-size:18px;",
         title = infobulle_str
       )
     },

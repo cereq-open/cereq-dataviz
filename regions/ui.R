@@ -67,12 +67,14 @@ fluidPage(
   fluidRow(
     column(
       width = 8,
+      align = "left",
       uiOutput("region_de_residence"),
       uiOutput("stat_residence"),
       girafeOutput("carte")
     ),
     column(
       width = 4,
+      align = "right",
       p("Niveau de formation des sortants", class = "d-inline"),
       pickerInput(
         inputId = "colonne_niveau",
