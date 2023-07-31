@@ -46,10 +46,8 @@ shinyServer(function(input, output, session) {
   })
 
   output$stat_residence <- renderUI({
-    col <- inv_noms_colonnes_db_region[input$colonne_residence]
-    ligne_fr <- 1
-    ligne_drom <- 3
-    
+    col <- inv_noms_colonnes_db_region_residence[input$colonne_residence]
+
     stat_france <- paste0("France : ", db_region[ligne_fr, col], "%")
     stat_drom <- paste0("(", paste0("Dont DROM: ", db_region[ligne_drom, col], "%"), ")")
 
@@ -57,12 +55,8 @@ shinyServer(function(input, output, session) {
   })
 
   output$stat_niveau <- renderUI({
-    col <- inv_noms_colonnes_db_region[input$colonne_niveau]
-    ligne_fr <- 1
-    ligne_drom <- 3
-    
-    
-    
+    col <- inv_noms_colonnes_db_region_niveau[input$colonne_niveau]
+
     stat_france <- paste0("France : ", db_region[ligne_fr, col], "%")
     stat_drom <- paste0("(", paste0("Dont DROM: ", db_region[ligne_drom, col], "%"), ")")
 

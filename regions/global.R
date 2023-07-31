@@ -15,9 +15,11 @@ suppressPackageStartupMessages({
 
 # Load data --------------------------------------------------------------------
 
+# Table permettant d'afficher les cartes
 tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
   mutate(Libellé = toupper(Libellé))
 
+# Table permettant d'afficher les stats du type "France : XX%"
 db_region <- readxl::read_excel("data/tab_region.xls")
 
 # Define Global ----------------------------------------------------------------
@@ -43,9 +45,9 @@ set_girafe_defaults(
 
 # Longeur et largeur de la carte ggiraph
 longeur_map <- 6
-largeur_map <-6
+largeur_map <- 6
 
-# Vecteur associant chaque nom de colonne à sa description
+# Vecteur associant chaque nom de colonne à sa description pour la région de résidence choisie
 noms_colonnes_residence <- c(
   "tax_mpl"          = "Taux d’emploi à trois ans",
   "prt_chm"          = "Proportion de sortants au chômage à trois ans",
@@ -66,7 +68,7 @@ noms_colonnes_residence_inverse <- setNames(names(noms_colonnes_residence), noms
 
 noms_colonnes_residence_info_bulle <- c("tx_chmg", "traj_1", "traj_2", "traj_3", "traj_7", "taux_ed", "rvn_trv")
 
-# Vecteur associant chaque nom de colonne à sa description
+# Vecteur associant chaque nom de colonne à sa description pour le niveau de formation choisi
 noms_colonnes_niveau <- c(
   "nondplm"          = "Proportion de non diplômés parmi les sortants de formation initiale",
   "secondr"          = "Proportion de sortants ayant un diplôme du secondaire comme plus haut diplôme",
@@ -76,7 +78,7 @@ noms_colonnes_niveau <- c(
 
 noms_colonnes_niveau_inverse <- setNames(names(noms_colonnes_niveau), noms_colonnes_niveau)
 
-noms_colonnes_db_region <- c(
+noms_colonnes_db_region_residence <- c(
   "taux_emploi"         = "tax_mpl",
   "part_chomage"        = "prt_chm",
   "taux_chomage"        = "tx_chmg",
@@ -92,7 +94,20 @@ noms_colonnes_db_region <- c(
   "pos_emp_ouv_nq"      = "ps_mp_v_n"
 )
 
-inv_noms_colonnes_db_region <- setNames(names(noms_colonnes_db_region), noms_colonnes_db_region)
+inv_noms_colonnes_db_region_residence <- setNames(names(noms_colonnes_db_region_residence), noms_colonnes_db_region_residence)
+
+noms_colonnes_db_region_niveau <- c(
+  "nondiplome"         = "nondplm",
+  "secondaire"         = "secondr",
+  "superieur_court"    = "sprr_cr",
+  "superieur_long"     = "sprr_ln"
+)
+
+inv_noms_colonnes_db_region_niveau <- setNames(names(noms_colonnes_db_region_niveau), noms_colonnes_db_region_niveau)
+
+# Ligne et colonne pour extraire les informations de la table "db_region" 
+ligne_fr <- 1
+ligne_drom <- 3
 
 # Fonction pour tracer la carte
 plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
