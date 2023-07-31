@@ -12,7 +12,7 @@ shinyServer(function(input, output, session) {
 
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("tab_region", ".xlsx", sep = "")
+      paste("db_region", ".xlsx", sep = "")
     },
     content = function(file) {
       write.xlsx(db_region, file)
