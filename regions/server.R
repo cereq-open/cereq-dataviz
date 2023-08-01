@@ -70,13 +70,14 @@ shinyServer(function(input, output, session) {
   output$carte <- renderGirafe({
     
     caption <- paste0('<span style="color:#008B99;">Note : </span>',
-                      "Une partie des écarts observés entre région s’explique par les différences de niveaux de formation atteint par les sortants de chaque région. La carte à droite en donne une illustration",
+                      "Une partie des écarts observés entre région s’explique par les différences de niveaux de formation
+                      <br> atteint par les sortants de chaque région. La carte à droite en donne une illustration",
                       "<br>",
                       '<span style="color:#008B99;">Champs : </span>',
                       "Ensemble de la Génération 2017",
                       "<br>",
                       '<span style="color:#008B99;">Source : </span>',
-                      "Céreq, enquête Génération 2017 à 3 ans."
+                      "Céreq, enquête Génération 2017 à 3 ans"
                       )
 
     tab_region <- concatenate_columns(tab_region, input$colonne_residence)
@@ -95,7 +96,7 @@ shinyServer(function(input, output, session) {
       "Ensemble de la Génération 2017",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
-      "Céreq, enquête Génération 2017 à 3 ans."
+      "Céreq, enquête Génération 2017 à 3 ans"
     )
 
     tab_region <- concatenate_columns(tab_region, input$colonne_niveau)

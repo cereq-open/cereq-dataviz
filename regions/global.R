@@ -44,8 +44,8 @@ set_girafe_defaults(
 # }
 
 # Longeur et largeur de la carte ggiraph
-longeur_map <- 6
-largeur_map <- 6
+longeur_map <- 20
+largeur_map <- 20
 
 # Vecteur associant chaque nom de colonne à sa description pour la région de résidence choisie
 noms_colonnes_residence <- c(
@@ -116,8 +116,11 @@ plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
     geom_sf_text(
       aes(label = !!sym(col_name_text)),
       check_overlap = TRUE,
-      size = 3,
-      color = "white"
+      size = 5,
+      color = "white",
+      nudge_x = c(0, .15, rep(0, 10), 0, 0),
+      nudge_y = c(0, -.2, rep(0, 10), -.15, 0),
+      fun.geometry = sf::st_centroid
     ) +
     scale_fill_viridis_c() +
     theme(legend.position = "none") +
@@ -166,8 +169,6 @@ labellize_stat <- function(stat1, stat2) {
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo"),
-    text = element_text(family = "Arimo", size = 5),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
@@ -177,9 +178,7 @@ theme_set(
     plot.title.position = "plot",
     legend.background = element_blank(),
     legend.key = element_blank(),
-    plot.title = element_markdown(size = 5, color = "#008B99", family = "Arimo"),
-    plot.caption = element_markdown(family = "Arimo", size = 5),
-    legend.text = element_markdown(family = "Arimo", size = 5),
-    legend.title = element_blank()
+    plot.caption = element_markdown(family = "Arimo", size = 30, hjust = 0),
+
   )
 )
