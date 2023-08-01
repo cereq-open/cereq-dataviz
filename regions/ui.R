@@ -96,6 +96,7 @@ fluidPage(
         girafeOutput("carte2", height = NULL)
         )
       )
-    )
+    ),
+    br()
   )
 )

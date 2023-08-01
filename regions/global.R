@@ -17,9 +17,15 @@ suppressPackageStartupMessages({
 
 # Table permettant d'afficher les cartes
 tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
-  mutate(Libellé = toupper(Libellé))
+  mutate(
+    Libellé = ifelse(Libellé == "Corse", "Provence-Alpes-Côte-d'Azur et Corse", 
+                     ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "Provence-Alpes-Côte-d'Azur et Corse", Libellé)),
+    Libellé = toupper(Libellé)
+  )
 
-# Table permettant d'afficher les stats du type "France : XX%"
+
+# Table permettant d'afficher les stats du type "France : XX%
+#                                               (Dont DROM : xx%)"
 db_region <- readxl::read_excel("data/tab_region.xls")
 
 # Define Global ----------------------------------------------------------------
@@ -116,19 +122,19 @@ plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
     geom_sf_text(
       aes(label = !!sym(col_name_text)),
       check_overlap = TRUE,
-      size = 5,
+      size = 6,
       color = "white",
       nudge_x = c(0, .15, rep(0, 10), 0, 0),
       nudge_y = c(0, -.2, rep(0, 10), -.15, 0),
       fun.geometry = sf::st_centroid
     ) +
     scale_fill_viridis_c() +
-    theme(legend.position = "none") +
-    labs(caption = caption_texte)
+    labs(caption = caption_texte) +
+    theme(legend.position = "none")
 }
 
 concatenate_columns <- function(df, col_name) {
-  df[["label"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]],  "%")
+  df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], "%)"))
   df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], "%")
   return(df)
 }
