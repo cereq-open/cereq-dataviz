@@ -68,7 +68,6 @@ fluidPage(
     ),
     br(),
     fluidRow(
-      # Deuxième partie
       column(
         width = 7,
         align = "left",

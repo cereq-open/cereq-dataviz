@@ -134,10 +134,17 @@ plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
 }
 
 concatenate_columns <- function(df, col_name) {
-  df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], "%)"))
-  df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], "%")
-  return(df)
+  if(col_name != "rvn_trv") {
+    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], "%)"))
+    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], "%")
+    return(df)
+  } else {
+    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], " €)"))
+    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], " €")
+    return(df)
+  }
 }
+
 
 labellize_row_i <- function(titre, infobulle_str = NULL) {
   tagList(
