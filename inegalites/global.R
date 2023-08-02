@@ -50,51 +50,41 @@ tab_variables_inegalites <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/ineg
 valeurs_facteur_analyse <- unique(na.omit(tab_inegalites$facteur_analyse))
 valeurs_indicateurs <- unique(na.omit(tab_variables_inegalites$Titre_graphique))
 
-# Functions to create the data stream according to the factor selected
+# Function to create the data stream according to the factor selected
 
 generateData <- function(tab_inegalites, facteur) {
   tab_inegalites %>% filter(facteur_analyse %in% facteur)
 }
 
+# Function to create the caption
+
+generateCaption <- function(variable) {
+  
+  
+if (variable %in% c("taux_emploi","part_chomage","taux_chomage","traj_1","traj_2","traj_3","traj_7")){
+  caption <- paste0(
+    '<span style="color:#008B99;">Champ : </span>',
+    "Ensemble de la génération.",
+    "<br>",
+    '<span style="color:#008B99;">Source : </span>',
+    "Céreq, enquête Génération 2017 à trois ans."
+  )
+  }
+else {
+ caption <- paste0(
+   '<span style="color:#008B99;">Champ : </span>',
+   "Ensemble de la génération en emploi trois ans après leur sortie de formation initiale.",
+   "<br>",
+   '<span style="color:#008B99;">Source : </span>',
+   "Céreq, enquête Génération 2017 à trois ans."
+ )
+}
+  return(caption)
+  }
+
 # Function to create the plot
-
-# if (sum(!str_detect(DT$Libelle_Menu, ensemble_des_sortants)) == 0) {
-#   caption <- paste0(
-#     '<span style="color:#008B99;">Lecture : </span>',
-#   "Trois ans après leur sortie de formation initiale, ",
-#   DT$taux_str[1],
-#   " des jeunes de la Génération 2017 sont en emploi, ",
-#   DT$taux_str[2],
-#   " au chômage et ",
-#   DT$taux_str[3],
-#   " dans une autre situation.",
-#   "<br>",
-#   '<span style="color:#008B99;">Champ : </span>',
-#   "Ensemble de la Génération 2017.",
-#   "<br>",
-#   '<span style="color:#008B99;">Source : </span>',
-#   "Céreq, enquête Génération 2017 à trois ans."
-# )
-# } else {
-# caption <- paste0(
-#  '<span style="color:#008B99;">Lecture : </span>',
-#   "Trois ans après leur sortie de formation initiale, ",
-#   DT$taux_str[4],
-#   " des jeunes de la Génération 2017 sont en emploi, ",
-#   DT$taux_str[5],
-#   " au chômage et ",
-#   DT$taux_str[6],
-#   " dans une autre situation.",
-#   "<br>",
-#    '<span style="color:#008B99;">Champ : </span>',
-#   "Ensemble de la Génération 2017.",
-#   "<br>",
-#   '<span style="color:#008B99;">Source : </span>',
-#   "Céreq, enquête Génération 2017 à trois ans."
-# )
-# }
-
-generatePlot <- function(tab_inegalites,indicateur) {
+   
+generatePlot <- function(tab_inegalites,indicateur,caption) {
 
   #colors <- c("Hommes" = "#256299", "Femmes" = "#F8AC00")
   tab <- tab_inegalites %>%
@@ -116,7 +106,7 @@ generatePlot <- function(tab_inegalites,indicateur) {
     ) +
     #scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
-  #  labs(caption = caption) +
+    labs(caption = caption) +
     theme(
       legend.position = "top",
       legend.justification="center",
@@ -178,8 +168,4 @@ labellize_stats_no_i <- function(info_str) {
 DownloadButton <- function(outputId, label = label){
   tags$a(id = outputId, class = "btn btn-default shiny-download-link", href = "", 
          target = "_blank", download = NA, NULL, label)
-}
-
-as_code <- function(niveau) {
-  as.numeric(filter(tab_diplome, Libelle_Menu %in% niveau) %>% pull(Code))
 }

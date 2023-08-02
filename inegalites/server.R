@@ -14,19 +14,17 @@ shinyServer(function(input, output, session) {
   filtered_data <- reactive({
     req(input$facteur)
     generateData(tab_inegalites, input$facteur)
-    print(head(generateData(tab_inegalites, input$facteur)))
   })
 
-  ###################### Create the graph_situation_apres_3_ans plots according to the selected level from the scrolling menu ######################
+  ###################### Create the graph according to the selected levels from both scrolling menus ######################
 
   reactive_indicateur <- reactive({
     dplyr::filter(tab_variables_inegalites, Titre_graphique %in% input$indicateur) %>% pull(Nom_colonne)
   })
   
   reactive_graph <- reactive({
-    req(input$facteur)
       indicateur <- unlist(filtered_data()[,reactive_indicateur()])
-      gg <- generatePlot(filtered_data(), indicateur)
+      gg <- generatePlot(filtered_data(), indicateur, generateCaption(reactive_indicateur()))
       girafe(
         ggobj = gg,
         fonts = list(sans = "Arimo"),
