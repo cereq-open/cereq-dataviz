@@ -21,7 +21,6 @@ fluidPage(
   br(),
   gfontHtmlDependency(family = "Arimo"),
    fluidRow(
-     fluidRow(),
      column(
        width = 6,
        fluidRow(
@@ -74,7 +73,7 @@ fluidPage(
       width = 12,
       div(
         uiOutput("titre_graph"),
-        style = "max-width:900px; margin-left:0;",
+        style = "max-width:1000px; margin-left:0;",
         girafeOutput("graph", height = NULL)
       )
     )

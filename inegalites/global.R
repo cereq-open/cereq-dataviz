@@ -41,7 +41,9 @@ tab_inegalites <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/inegalites/dat
     str_detect(Diplôme, "Diplômées") ~ str_replace(Diplôme, "Diplômées", "Diplômés"),
     str_detect(Diplôme, "diplômées") ~ str_replace(Diplôme, "diplômées", "diplômés"),
     TRUE ~ Diplôme  # on garde la même valeur pour toutes les autres valeurs
-  ))
+  )) %>% 
+  mutate(across(c(taux_emploi,part_chomage,taux_chomage,taux_edi,revenu_travail,traj_1,traj_2,traj_3,traj_7,correspondance_ok,competence_ok), 
+                ~ifelse(. == -900, 0, .)))
 
 tab_variables_inegalites <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/inegalites/data/variables_INEGALITES.xlsx")
 
@@ -96,7 +98,7 @@ generatePlot <- function(tab_inegalites,indicateur,caption) {
   tab$Diplôme = factor(tab$Diplôme, levels = c("Ensemble des sortants","Non-diplômés","Diplômés du secondaire",    
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
   
-  ggplot(tab, aes(Diplôme, indicateur, fill = modalité)) +
+  ggplot(tab, aes(x = Diplôme, y = indicateur, fill = modalité)) +
     geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = modalité,
                                                                      tooltip = tooltip_value)) +
     coord_flip() +
