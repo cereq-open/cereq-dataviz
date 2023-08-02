@@ -116,7 +116,7 @@ concat_value <- function(df, nom_colonne) {
   if (nom_colonne != "revenu_travail") {
     df["taux_str"] <- paste0(df[[nom_colonne]], "%")
   } else {
-    df["taux_str"] <- df[[nom_colonne]]
+    df["taux_str"] <- paste0(df[[nom_colonne]], " €")
   }
 
   df[["tooltip_value"]] <- paste0(df[["Année"]], " : ", df[["taux_str"]])
@@ -135,7 +135,6 @@ plot_barchart <- function(df, y_col, caption_texte) {
       color = "white"
     ) +
     scale_fill_manual(values = colors) +
-    # theme_void() +
     labs(caption = caption_texte) +
     theme(legend.position = "none")
 }
