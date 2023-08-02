@@ -62,7 +62,6 @@ generateData <- function(tab_inegalites, facteur) {
 
 generateCaption <- function(variable) {
   
-  
 if (variable %in% c("taux_emploi","part_chomage","taux_chomage","traj_1","traj_2","traj_3","traj_7")){
   caption <- paste0(
     '<span style="color:#008B99;">Champ : </span>',
@@ -82,11 +81,27 @@ else {
  )
 }
   return(caption)
+}
+
+# Function to create the caption
+  
+generateColors <- function(facteur) {
+    
+  tab_filtree <- tab_inegalites %>% group_by(facteur_analyse) %>% 
+    summarise(levels_count = n_distinct(modalité)) %>% filter(facteur_analyse == facteur)
+  
+    if (tab_filtree$levels_count == 2){
+      colors <- c("#F8AC00", "#256299")
+    }
+    else {
+      colors <- c("#256299", "#F8AC00","#008B99","#EF5350","#7B9A62","#D6515C","#C0C0C2")
+    }
+    return(colors)
   }
 
 # Function to create the plot
    
-generatePlot <- function(tab_inegalites,indicateur,caption) {
+generatePlot <- function(tab_inegalites,indicateur,colors,caption) {
 
   #colors <- c("Hommes" = "#256299", "Femmes" = "#F8AC00")
   tab <- tab_inegalites %>%
@@ -106,7 +121,7 @@ generatePlot <- function(tab_inegalites,indicateur,caption) {
       position = position_stack(vjust = .5),
       color = "white"
     ) +
-    #scale_fill_manual(values = colors) +
+    scale_fill_manual(values = colors) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
