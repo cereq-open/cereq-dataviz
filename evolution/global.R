@@ -27,7 +27,7 @@ tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
       TRUE ~ Année)
   )
 
-tab_variables_evolution <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/evolution/data/variables EVOLUTIONS.xlsx")
+tab_variables_evolution <- read_excel("data/variables EVOLUTIONS.xlsx")
 
 # Supprime les valeurs manquantes
 tab_evolution <- na.omit(tab_evolution)
