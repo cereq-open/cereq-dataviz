@@ -7,10 +7,10 @@ suppressPackageStartupMessages({
   library(ggplot2)
   library(ggtext)
   library(ggiraph)
-  library(gdtools)
   library(arrow)
   library(sf)
   library(rgdal)
+  library(readxl)
 })
 
 # Load data --------------------------------------------------------------------
@@ -18,15 +18,19 @@ suppressPackageStartupMessages({
 # Table permettant d'afficher les cartes
 tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
   mutate(
-    Libellé = ifelse(Libellé == "Corse", "Provence-Alpes-Côte-d'Azur et Corse", 
-                     ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "Provence-Alpes-Côte-d'Azur et Corse", Libellé)),
+    Libellé = ifelse(Libellé == "Corse", "Provence-Alpes-Cote-d'Azur et Corse",
+      ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "Provence-Alpes-Cote-d'Azur et Corse", Libellé)
+    ),
     Libellé = toupper(Libellé)
   )
 
 
 # Table permettant d'afficher les stats du type "France : XX%
 #                                               (Dont DROM : xx%)"
-db_region <- readxl::read_excel("data/tab_region.xls")
+db_region <- read_parquet("data/tab_region.parquet")
+
+# Variables region
+variables_region <- read_excel("data/variables_region.xlsx")
 
 # Define Global ----------------------------------------------------------------
 
@@ -39,79 +43,55 @@ set_girafe_defaults(
   opts_toolbar = opts_toolbar(saveaspng = FALSE)
 )
 
-# if (!gdtools::font_family_exists("Arimo")) {
-#   systemfonts::register_font(
-#     name = "Arimo",
-#     plain = "www/arimo/fonts/arimo-v28-latin_latin-ext-regular.ttf",
-#     bold = "www/arimo/fonts/arimo-v28-latin_latin-ext-700.ttf",
-#     italic = "www/arimo/fonts/arimo-v28-latin_latin-ext-italic.ttf",
-#     bolditalic = "www/arimo/fonts/arimo-v28-latin_latin-ext-700italic.ttf"
-#   )
-# }
+if (!gdtools::font_family_exists("Arimo")) {
+  systemfonts::register_font(
+    name = "Arimo",
+    plain = "www/arimo/fonts/arimo-v28-latin_latin-ext-regular.ttf",
+    bold = "www/arimo/fonts/arimo-v28-latin_latin-ext-700.ttf",
+    italic = "www/arimo/fonts/arimo-v28-latin_latin-ext-italic.ttf",
+    bolditalic = "www/arimo/fonts/arimo-v28-latin_latin-ext-700italic.ttf"
+  )
+}
+
+variables_residence <- variables_region[1:13, ]
+variables_niveau <- variables_region[-c(1:13), ]
+
+# Titre des cartes
+titre_map_residence <- variables_residence$Titre_graphique
+titre_map_niveau <- variables_niveau$Titre_graphique
 
 # Longeur et largeur de la carte ggiraph
 longeur_map <- 20
 largeur_map <- 20
 
-# Vecteur associant chaque nom de colonne à sa description pour la région de résidence choisie
 noms_colonnes_residence <- c(
-  "tax_mpl"          = "Taux d’emploi à trois ans",
-  "prt_chm"          = "Proportion de sortants au chômage à trois ans",
-  "tx_chmg"          = "Taux de chômage à trois ans",
-  "traj_1"           = "Proportion de sortants ayant connu un accès rapide à l’emploi durable",
-  "traj_2"           = "Proportion de sortants ayant connu un accès différé à l’emploi durable",
-  "traj_3"           = "Proportion de sortants ayant connu une succession d'emplois courts",
-  "traj_7"           = "Proportion de sortants ayant connu un chômage persistant ou récurrent",
-  "taux_ed"          = "Proportion de sortants en emploi à durée indéterminé à trois ans",
-  "rvn_trv"          = "Revenu mensuel médian à trois ans",
-  "ps_cdrs"          = "Proportion de sortants cadres à trois ans",
-  "ps_prf_"          = "Proportion de sortants professions intermédiaires à trois ans",
-  "ps_mp_v_q"        = "Proportion de sortants employés ou ouvriers qualifiés à trois ans",
-  "ps_mp_v_n"        = "Proportion de sortants employés ou ouvriers non qualifiés à trois ans"
+  "tax_mpl"       = "taux_emploi",
+  "prt_chm"       = "part_chomage",
+  "tx_chmg"       = "taux_chomage",
+  "traj_1"        = "traj_1",
+  "traj_2"        = "traj_2",
+  "traj_3"        = "traj_3",
+  "traj_7"        = "traj_7",
+  "taux_ed"       = "taux_edi",
+  "rvn_trv"       = "revenu_travail",
+  "ps_cdrs"       = "pos_cadres",
+  "ps_prf_"       = "pos_prof_int",
+  "ps_mp_v_q"     = "pos_emp_ouv_q",
+  "ps_mp_v_n"     = "pos_emp_ouv_nq"
 )
 
-noms_colonnes_residence_inverse <- setNames(names(noms_colonnes_residence), noms_colonnes_residence)
+inv_noms_colonnes_residence <- setNames(names(noms_colonnes_residence), noms_colonnes_residence)
 
-noms_colonnes_residence_info_bulle <- c("tx_chmg", "traj_1", "traj_2", "traj_3", "traj_7", "taux_ed", "rvn_trv")
-
-# Vecteur associant chaque nom de colonne à sa description pour le niveau de formation choisi
 noms_colonnes_niveau <- c(
-  "nondplm"          = "Proportion de non diplômés parmi les sortants de formation initiale",
-  "secondr"          = "Proportion de sortants ayant un diplôme du secondaire comme plus haut diplôme",
-  "sprr_cr"          = "Proportion de sortants ayant un diplôme de l'enseignement supérieur court comme plus haut diplôme",
-  "sprr_ln"          = "Proportion de sortants ayant un diplôme de l'enseignement supérieur long comme plus haut diplôme"
+  "nondplm"       = "nondiplome",
+  "secondr"       = "secondaire",
+  "sprr_cr"       = "superieur_court",
+  "sprr_ln"       = "superieur_long"
 )
 
-noms_colonnes_niveau_inverse <- setNames(names(noms_colonnes_niveau), noms_colonnes_niveau)
+inv_noms_colonnes_niveau <- setNames(names(noms_colonnes_niveau), noms_colonnes_niveau)
 
-noms_colonnes_db_region_residence <- c(
-  "taux_emploi"         = "tax_mpl",
-  "part_chomage"        = "prt_chm",
-  "taux_chomage"        = "tx_chmg",
-  "traj_1"              = "traj_1",
-  "traj_2"              = "traj_2",
-  "traj_3"              = "traj_3",
-  "traj_7"              = "traj_7",
-  "taux_edi"            = "taux_ed",
-  "revenu_travail"      = "rvn_trv",
-  "pos_cadres"          = "ps_cdrs",
-  "pos_prof_int"        = "ps_prf_",
-  "pos_emp_ouv_q"       = "ps_mp_v_q",
-  "pos_emp_ouv_nq"      = "ps_mp_v_n"
-)
-
-inv_noms_colonnes_db_region_residence <- setNames(names(noms_colonnes_db_region_residence), noms_colonnes_db_region_residence)
-
-noms_colonnes_db_region_niveau <- c(
-  "nondiplome"         = "nondplm",
-  "secondaire"         = "secondr",
-  "superieur_court"    = "sprr_cr",
-  "superieur_long"     = "sprr_ln"
-)
-
-inv_noms_colonnes_db_region_niveau <- setNames(names(noms_colonnes_db_region_niveau), noms_colonnes_db_region_niveau)
-
-# Ligne et colonne pour extraire les informations de la table "db_region" 
+# Ligne et colonne pour extraire les informations de la table "db_region"
 ligne_fr <- 1
 ligne_drom <- 3
 
@@ -128,23 +108,20 @@ plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
       nudge_y = c(0, -.2, rep(0, 10), -.15, 0),
       fun.geometry = sf::st_centroid
     ) +
-    scale_fill_viridis_c() +
     labs(caption = caption_texte) +
     theme(legend.position = "none")
 }
 
 concatenate_columns <- function(df, col_name) {
-  if(col_name != "rvn_trv") {
-    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], "%)"))
-    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], "%")
-    return(df)
-  } else {
-    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], " €)"))
-    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], " €")
-    return(df)
-  }
-}
+  df[["label"]] <- ifelse(col_name != "rvn_trv",
+    paste0(df[["Libellé"]], "\n", paste0("(", df[[col_name]], "%)")),
+    paste0(df[["Libellé"]], "\n", paste0("(", df[[col_name]], " €)"))
+  )
 
+  df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : ", df[[col_name]], ifelse(col_name != "rvn_trv", "%", " €"))
+
+  return(df)
+}
 
 labellize_row_i <- function(titre, infobulle_str = NULL) {
   tagList(
@@ -192,6 +169,5 @@ theme_set(
     legend.background = element_blank(),
     legend.key = element_blank(),
     plot.caption = element_markdown(family = "Arimo", size = 30, hjust = 0),
-
   )
 )

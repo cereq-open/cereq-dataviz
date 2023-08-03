@@ -21,50 +21,49 @@ fluidPage(
   "
     ) # Pour que Arimo soit toujours disponible dans le navigateur de l'utilisateur
   ),
-  br(),
   gfontHtmlDependency(family = "Arimo"),
-  br(),
   fluidRow(
-    div(class = "d-flex", 
-        column(
-          width = 6,
-          align = "left",
-          class = "align-items-start",
-          pickerInput(
-            inputId = "colonne_residence",
-            label = p("Choix de l'indicateur"),
-            choices = noms_colonnes_residence_inverse,
-            selected = "tax_mpl",
-            width = "fit",
-            inline = TRUE,
-            options = list(
-              size = 5
-            )
+    div(
+      class = "d-flex",
+      column(
+        width = 6,
+        align = "left",
+        class = "align-items-start",
+        pickerInput(
+          inputId = "titre_residence",
+          label = p("Choisir l'indicateur"),
+          choices = titre_map_residence,
+          selected = titre_map_residence[1],
+          width = "fit",
+          inline = TRUE,
+          options = list(
+            size = 5
+          )
+        )
+      ),
+      column(
+        width = 6,
+        align = "right",
+        class = "align-items-end",
+        tags$img(
+          src = "logo-cereq.svg"
+        ),
+        tags$p(
+          style = "font-size:14px;",
+          "Données : ",
+          tags$img(
+            src = "logo-generation.png"
           )
         ),
-        column(
-          width = 6,
-          align = "right",
-          class = "align-items-end",
-          tags$img(
-            src = "logo-cereq.svg"
-          ),
-          tags$p(
-            style = "font-size:14px;",
-            "Données : ",
-            tags$img(
-              src = "logo-generation.png"
-            )
-          ),
-          tags$img(
-            src = "logo-download.svg",
-            height = "50px",
-            width = "50px"
-          ),
-          tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
-          downloadButton("downloadData", ".xlsx"),
-          actionButton("downloadPDF", ".pdf", onclick = "window.print();")
-        )
+        tags$img(
+          src = "logo-download.svg",
+          height = "50px",
+          width = "50px"
+        ),
+        tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
+        downloadButton("downloadData", ".xlsx"),
+        actionButton("downloadPDF", ".pdf", onclick = "window.print();")
+      )
     ),
     br(),
     fluidRow(
@@ -75,24 +74,27 @@ fluidPage(
         uiOutput("stat_residence"),
         div(
           style = "max-width:800px; margin-left:0;",
-        girafeOutput("carte", height = NULL)
+          girafeOutput("carte_residence", height = NULL)
         )
       ),
       column(
         width = 5,
-        p("Niveau de formation des sortants", class = "d-inline"),
+        p("Niveau de formation des sortants",
+          class = "d-inline",
+          style = "font-size:16px;"
+        ),
         pickerInput(
-          inputId = "colonne_niveau",
+          inputId = "titre_niveau",
           label = p("Plus haut diplôme"),
-          choices = noms_colonnes_niveau_inverse,
-          selected = "tax_mpl",
+          choices = titre_map_niveau,
+          selected = titre_map_niveau[1],
           width = "fit",
           inline = TRUE
         ),
         uiOutput("stat_niveau"),
         div(
           style = "max-width:800px; margin-right:0;",
-        girafeOutput("carte2", height = NULL)
+          girafeOutput("carte_niveau", height = NULL)
         )
       )
     ),
