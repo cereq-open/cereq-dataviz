@@ -9,14 +9,15 @@ library(patchwork)
 # Define Server ----------------------------------------------------------------
 
 shinyServer(function(input, output, session) {
+  
   # Download Data --------------------------------------------------------------
 
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION", ".xlsx", sep = "")
+      paste("OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION", ".xls", sep = "")
     },
     content = function(file) {
-      write.xlsx(open_data, file)
+      write.xlsx("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xls", file)
     }
   )
 

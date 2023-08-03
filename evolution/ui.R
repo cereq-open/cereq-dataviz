@@ -63,7 +63,7 @@ fluidPage(
           width = "50px"
         ),
         tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
-        downloadButton("downloadData", ".xlsx"),
+        DownloadButton("downloadData", ".xls"),
         actionButton("downloadPDF", ".pdf", onclick = "window.print();")
       )
     )

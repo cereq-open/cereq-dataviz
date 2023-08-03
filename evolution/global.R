@@ -23,8 +23,6 @@ tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
 # Supprime les valeurs manquantes
 tab_evolution <- na.omit(tab_evolution)
 
-open_data <- read_excel("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xls")
-
 # Define Global ----------------------------------------------------------------
 
 options(shiny.useragg = TRUE)
@@ -46,7 +44,6 @@ if (!gdtools::font_family_exists("Arimo")) {
   )
 }
 
-
 niveau_facteur <- c(
   "Ensemble des sortants", "Non diplômés ", "Diplômés du secondaire",
   "Diplômés du supérieur court", "Diplômés du supérieur long", "Non diplômés"
@@ -63,14 +60,14 @@ source <- paste0(
   )
 
 caption_part_1 <- paste0(
-  '<span style="color:#008B99;">Champs : </span>',
+  '<span style="color:#008B99;">Champ : </span>',
   "Ensemble des sortants.",
   "<br>",
   source
   )
 
 caption_part_2 <- paste0(
-  '<span style="color:#008B99;">Champs : </span>',
+  '<span style="color:#008B99;">Champ : </span>',
   "Ensemble des sortants en emploi trois ans après leur sortie de formation initiale.",
   "<br>",
   source
@@ -154,3 +151,10 @@ theme_set(
     plot.caption = element_markdown(family = "Arimo", size = 10, hjust = 0),
   )
 )
+
+# Download data ----------------------------------------------------------------
+
+DownloadButton <- function(outputId, label = label){
+  tags$a(id = outputId, class = "btn btn-default shiny-download-link", href = "", 
+         target = "_blank", download = NA, NULL, label)
+}
