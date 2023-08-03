@@ -18,7 +18,9 @@ tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
   mutate(
     Année = factor(Année),
     Libelle_Menu = str_trim(Libelle_Menu) # Supprime les espaces en début et fin de chaînes de caractères
-  )
+    )
+
+tab_variables_evolution <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/evolution/data/variables EVOLUTIONS.xlsx")
 
 # Supprime les valeurs manquantes
 tab_evolution <- na.omit(tab_evolution)
@@ -56,7 +58,7 @@ colors <- c("#F8AC00", "#EF5350", "#008B99")
 
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
-  "Céreq, enquêtes Génération 2010, Génération 2013 et Génération 2017"
+  "Céreq, enquêtes Génération 2010, Génération 2013 et Génération 2017."
   )
 
 caption_part_1 <- paste0(
@@ -73,31 +75,11 @@ caption_part_2 <- paste0(
   source
   )
 
-labellize_row_i <- function(titre, infobulle_str = NULL) {
-  tagList(
-    tags$p(
-      class = "d-inline",
-      titre
-    ),
-    if (!is.null(infobulle_str)) {
-      tags$i(
-        class = "fas fa-info-circle",
-        style = "font-size:18px;",
-        title = infobulle_str
-      )
-    },
-    tags$p(
-      class = "d-inline",
-      "selon la région de résidence à la fin des études"
-    )
-  )
-}
-
-labellize_stat <- function(titre, infobulle_str = NULL) {
+generateTitle <- function(title, infobulle_str = NULL) {
   tagList(
     tags$p(
       class = "texte-stat-info",
-      titre,
+      title,
       if (!is.null(infobulle_str)) {
         tags$i(
           style = "color: #008B99; font-size: 16px;",
@@ -144,7 +126,6 @@ theme_set(
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
-    axis.title = element_blank(),
     plot.title.position = "plot",
     legend.background = element_blank(),
     legend.key = element_blank(),
