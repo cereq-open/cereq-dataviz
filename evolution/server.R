@@ -5,6 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(openxlsx)
 library(patchwork)
+library(ggpubr)
 
 # Define Server ----------------------------------------------------------------
 
@@ -77,39 +78,65 @@ shinyServer(function(input, output, session) {
   
   output$plot_tx_emploi <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "taux_emploi", caption_part_1)
-    girafe(ggobj = gg)
+    girafe(ggobj = gg,
+           fonts = list(sans = "Arimo"))
   })
 
   output$plot_part_chomage <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "part_chomage", caption_part_1)
-    girafe(ggobj = gg)
+    girafe(ggobj = gg,
+           fonts = list(sans = "Arimo"),)
   })
 
   output$plot_tx_chomage <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "taux_chomage", caption_part_1)
-    girafe(ggobj = gg)
+    girafe(ggobj = gg,
+           fonts = list(sans = "Arimo"))
   })
 
   # Partie 2
 
   output$plot_tx_edi <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "taux_edi", caption_part_2)
-    girafe(ggobj = gg)
+    girafe(ggobj = gg,
+           fonts = list(sans = "Arimo"))
   })
 
   output$plot_part_tps_partiel <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "part_tps_partiel", caption_part_2)
-    girafe(ggobj = gg)
+    girafe(ggobj = gg,
+           fonts = list(sans = "Arimo"))
   })
 
   output$plot_revenu_travail <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "revenu_travail", caption_part_2)
 
-    girafe(ggobj = gg)
+    girafe(ggobj = gg,
+           fonts = list(sans = "Arimo"))
   })
   
   output$plot_comptence_ok <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "competence_ok", caption_part_2)
-    girafe(ggobj = gg)
-  })
+    girafe(ggobj = gg,
+           fonts = list(sans = "Arimo"))
+    })
+  
+  output$legend <- renderPlot({
+    
+    colors <- c("#F8AC00", "#EF5350", "#008B99")
+    gg <- ggplot(data = filtered_data(), aes(x = Année, y = competence_ok, fill = Année)) +
+      geom_col_interactive(mapping = aes(data_id = Année)) +
+      scale_fill_manual(values = colors) +
+      theme(
+        legend.background = element_blank(),
+        legend.key = element_blank(),
+        legend.position = "top",
+        legend.justification = "left",
+        legend.box.spacing = unit(0, "pt"),
+        legend.margin = margin(0, 0, 10, 0),
+        legend.text = element_text(size = 11, face = "plain")
+      )
+      legende <- get_legend(gg)
+      as_ggplot(legende)
+      })
 })

@@ -70,26 +70,26 @@ fluidPage(
   ),
   br(),
   fluidRow(
-    column(
-      width = 6,
-      h1("Situation trois ans après la sortie de formation initiale")
-    )
+      h1("Situation trois ans après la sortie de formation initiale"),
+      plotOutput("legend")
   ),
-  br(),
   fluidRow(
     column(
       width = 4,
       uiOutput("tx_emploi"),
+      br(),
       girafeOutput("plot_tx_emploi")
     ),
     column(
       width = 4,
       uiOutput("part_chomage"),
+      br(),
       girafeOutput("plot_part_chomage")
     ),
     column(
       width = 4,
       uiOutput("tx_chomage"),
+      br(),
       girafeOutput("plot_tx_chomage")
     )
   ),
@@ -97,31 +97,35 @@ fluidPage(
   fluidRow(
     column(
       width = 6,
+      br(),
       h1("Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?")
     )
   ),
   br(),
   fluidRow(
     column(
-      width = 3,
+      width = 4,
       uiOutput("tx_edi"),
       girafeOutput("plot_tx_edi")
     ),
     column(
-      width = 3,
+      width = 4,
       uiOutput("part_tps_partiel"),
+      br(),
       girafeOutput("plot_part_tps_partiel")
     ),
     column(
-      width = 3,
+      width = 4,
       uiOutput("revenu_travail"),
+      br(),
       girafeOutput("plot_revenu_travail")
-    ),
-    column(
-      width = 3,
-      uiOutput("comptence_ok"),
-      girafeOutput('plot_comptence_ok')
     )
   ),
-  br()
+  fluidRow(    
+    column(
+      width = 4,
+      uiOutput("comptence_ok"),
+      girafeOutput('plot_comptence_ok')
+      )
+  ) 
 )

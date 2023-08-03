@@ -18,7 +18,14 @@ tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
   mutate(
     Année = factor(Année),
     Libelle_Menu = str_trim(Libelle_Menu) # Supprime les espaces en début et fin de chaînes de caractères
-    )
+    ) %>%
+  mutate(
+    Année = case_when(
+      Année == "2010" ~ "Sortis en 2010",
+      Année == "2013" ~ "Sortis en 2013",
+      Année == "2017" ~ "Sortis en 2017",
+      TRUE ~ Année)
+  )
 
 tab_variables_evolution <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/evolution/data/variables EVOLUTIONS.xlsx")
 
@@ -103,33 +110,41 @@ concat_value <- function(df, nom_colonne) {
   return(df)
 }
 
-plot_barchart <- function(df, y_col, caption_texte) {
-  x_col <- "Année"
+plot_barchart <- function(df, y_col, caption_texte, legend = NULL) {
   DT <- concat_value(df, y_col)
 
-  ggplot(data = DT, aes(x = !!sym(x_col), y = !!sym(y_col), fill = !!sym(x_col))) +
-    geom_col_interactive(mapping = aes(data_id = !!sym(x_col), tooltip = tooltip_value)) +
+  ggplot(data = DT, aes(x = Année, y = !!sym(y_col), fill = Année)) +
+    geom_col_interactive(mapping = aes(data_id = Année, tooltip = tooltip_value)) +
     geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
       color = "white"
     ) +
     scale_fill_manual(values = colors) +
-    labs(caption = caption_texte) +
-    theme(legend.position = "none")
+    labs(caption = caption_texte)
 }
 
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
+    title = element_text(family = "Arimo"),
+    text = element_text(size = 11, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
+    axis.title = element_blank(),
     plot.title.position = "plot",
     legend.background = element_blank(),
     legend.key = element_blank(),
-    plot.caption = element_markdown(family = "Arimo", size = 10, hjust = 0),
+    plot.caption.position = "plot",
+    legend.title = element_blank(),
+    legend.position = "none",
+    plot.caption = element_textbox_simple(
+      hjust = 0,
+      color = "#C0C0C2",
+      size = 12
+    )
   )
 )
 
