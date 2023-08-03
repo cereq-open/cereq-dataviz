@@ -33,7 +33,7 @@ fluidPage(
         class = "align-items-start",
         pickerInput(
           inputId = "indicateurs",
-          label = p("Choisir le plus haut diplôme atteint"),
+          label = h1("Choisir le plus haut diplôme atteint"),
           choices = vec_indicateurs,
           selected = vec_indicateurs[1],
           width = "fit",
