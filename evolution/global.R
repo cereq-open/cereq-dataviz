@@ -12,26 +12,6 @@ suppressPackageStartupMessages({
   library(readxl)
 })
 
-# Load data --------------------------------------------------------------------
-
-tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
-  mutate(
-    Année = factor(Année),
-    Libelle_Menu = str_trim(Libelle_Menu) # Supprime les espaces en début et fin de chaînes de caractères
-    ) %>%
-  mutate(
-    Année = case_when(
-      Année == "2010" ~ "Sortis en 2010",
-      Année == "2013" ~ "Sortis en 2013",
-      Année == "2017" ~ "Sortis en 2017",
-      TRUE ~ Année)
-  )
-
-tab_variables_evolution <- read_excel("data/variables EVOLUTIONS.xlsx")
-
-# Supprime les valeurs manquantes
-tab_evolution <- na.omit(tab_evolution)
-
 # Define Global ----------------------------------------------------------------
 
 options(shiny.useragg = TRUE)
@@ -52,6 +32,28 @@ if (!gdtools::font_family_exists("Arimo")) {
     bolditalic = "www/arimo/fonts/arimo-v28-latin_latin-ext-700italic.ttf"
   )
 }
+
+linebreaks <- function(n){HTML(strrep(br(), n))}
+
+# Load data --------------------------------------------------------------------
+
+tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
+  mutate(
+    Année = factor(Année),
+    Libelle_Menu = str_trim(Libelle_Menu) # Supprime les espaces en début et fin de chaînes de caractères
+    ) %>%
+  mutate(
+    Année = case_when(
+      Année == "2010" ~ "Sortis en 2010",
+      Année == "2013" ~ "Sortis en 2013",
+      Année == "2017" ~ "Sortis en 2017",
+      TRUE ~ Année)
+  )
+
+tab_variables_evolution <- read_excel("data/variables EVOLUTIONS.xlsx")
+
+# Supprime les valeurs manquantes
+tab_evolution <- na.omit(tab_evolution)
 
 niveau_facteur <- c(
   "Ensemble des sortants", "Non diplômés ", "Diplômés du secondaire",
@@ -83,6 +85,7 @@ caption_part_2 <- paste0(
   )
 
 generateTitle <- function(title, infobulle_str = NULL) {
+
   tagList(
     tags$p(
       class = "texte-stat-info",
@@ -110,9 +113,8 @@ concat_value <- function(df, nom_colonne) {
   return(df)
 }
 
-plot_barchart <- function(df, y_col, caption_texte, legend = NULL) {
+plot_barchart <- function(df, y_col, caption_texte, titre = NULL) {
   DT <- concat_value(df, y_col)
-
   ggplot(data = DT, aes(x = Année, y = !!sym(y_col), fill = Année)) +
     geom_col_interactive(mapping = aes(data_id = Année, tooltip = tooltip_value)) +
     geom_text(aes(label = taux_str),
@@ -120,7 +122,7 @@ plot_barchart <- function(df, y_col, caption_texte, legend = NULL) {
       color = "white"
     ) +
     scale_fill_manual(values = colors) +
-    labs(caption = caption_texte)
+    labs(caption = caption_texte, title = titre)
 }
 
 theme_set(
@@ -134,17 +136,17 @@ theme_set(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
     axis.title = element_blank(),
-    plot.title.position = "plot",
+    plot.title = element_markdown(hjust = 0, size = 12, color = "#008B99"),
+    legend.title = element_blank(),
     legend.background = element_blank(),
     legend.key = element_blank(),
     plot.caption.position = "plot",
-    legend.title = element_blank(),
     legend.position = "none",
     plot.caption = element_textbox_simple(
       hjust = 0,
       color = "#C0C0C2",
       size = 12
-    )
+    ) 
   )
 )
 
