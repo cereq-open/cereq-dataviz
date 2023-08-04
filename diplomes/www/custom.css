@@ -81,3 +81,21 @@ p {
   border: 2px solid #008b99;
   padding: 10px;
 }
+
+/* Cache la barre de défilement verticale */
+#degre3::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+#degre3::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+#degre3::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+/* Cache la barre de défilement horizontale */
+#degre3::-webkit-scrollbar-horizontal {
+  display: none;
+}
