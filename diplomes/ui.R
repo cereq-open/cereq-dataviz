@@ -133,6 +133,17 @@ fluidPage(
   fluidRow(
     column(
       width = 6,
+      uiOutput("tx_jugent_coherent")
+    ),
+    column(
+      width = 6,
+      uiOutput("tx_estiment_ss_employes")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 6,
         div(
           class = "custom-border-box",
           h2("Répartition par profession"),
@@ -150,13 +161,5 @@ fluidPage(
         )
     )
   ),
-  br(),
-  fluidRow(
-    column(
-      width = 12,
-      uiOutput("tx_jugent_coherent"),
-      uiOutput("tx_estiment_ss_employes"),
-      br()
-    )
-  )
+  br()
 )
