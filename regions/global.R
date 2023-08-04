@@ -7,6 +7,7 @@ suppressPackageStartupMessages({
   library(ggplot2)
   library(ggtext)
   library(ggiraph)
+  library(gdtools)
   library(arrow)
   library(sf)
   library(rgdal)
@@ -113,13 +114,15 @@ plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
 }
 
 concatenate_columns <- function(df, col_name) {
-  df[["label"]] <- ifelse(col_name != "rvn_trv",
-    paste0(df[["Libellé"]], "\n", paste0("(", df[[col_name]], "%)")),
-    paste0(df[["Libellé"]], "\n", paste0("(", df[[col_name]], " €)"))
-  )
-
-  df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : ", df[[col_name]], ifelse(col_name != "rvn_trv", "%", " €"))
-
+  if(col_name != "rvn_trv") {
+    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], "%)"))
+    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], "%")
+  } else {
+    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], " €)"))
+    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], " €")
+  }
+  # Masque le texte pour la Corse
+  df$label[12] <- str_extract(df$label[12], "\\(.*?\\)")
   return(df)
 }
 
