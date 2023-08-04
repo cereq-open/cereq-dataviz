@@ -23,7 +23,7 @@ tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
 # Supprime les valeurs manquantes
 tab_evolution <- na.omit(tab_evolution)
 
-open_data <- read_excel("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xls")
+variables_evolution <- read_excel("data/variables EVOLUTIONS.xlsx")
 
 # Define Global ----------------------------------------------------------------
 
@@ -46,16 +46,12 @@ if (!gdtools::font_family_exists("Arimo")) {
   )
 }
 
-
-niveau_facteur <- c(
-  "Ensemble des sortants", "Non diplômés ", "Diplômés du secondaire",
-  "Diplômés du supérieur court", "Diplômés du supérieur long", "Non diplômés"
-)
-
 vec_indicateurs <- unique(tab_evolution$Libelle_Menu)
 
 # Couleurs des barplots
 colors <- c("#F8AC00", "#EF5350", "#008B99")
+
+champ <- '<span style="color:#008B99;">Champ : </span>'
 
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
@@ -63,14 +59,14 @@ source <- paste0(
   )
 
 caption_part_1 <- paste0(
-  '<span style="color:#008B99;">Champs : </span>',
+  champ,
   "Ensemble des sortants.",
   "<br>",
   source
   )
 
 caption_part_2 <- paste0(
-  '<span style="color:#008B99;">Champs : </span>',
+  champ,
   "Ensemble des sortants en emploi trois ans après leur sortie de formation initiale.",
   "<br>",
   source
@@ -118,9 +114,7 @@ concat_value <- function(df, nom_colonne) {
   } else {
     df["taux_str"] <- paste0(df[[nom_colonne]], " €")
   }
-
   df[["tooltip_value"]] <- paste0(df[["Année"]], " : ", df[["taux_str"]])
-
   return(df)
 }
 

@@ -13,10 +13,10 @@ shinyServer(function(input, output, session) {
 
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION", ".xlsx", sep = "")
+      paste("OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION", ".xls", sep = "")
     },
     content = function(file) {
-      write.xlsx(open_data, file)
+      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xls", file)
     }
   )
 
@@ -32,32 +32,38 @@ shinyServer(function(input, output, session) {
   # Partie 1 : Situation trois ans après la sortie de formation initiale
 
   output$tx_emploi <- renderUI({
-    labellize_stat("Taux d’emploi à trois ans")
+    titre <- variables_evolution$Titre_graphique[1]
+    labellize_stat(titre)
   })
 
   output$part_chomage <- renderUI({
-    labellize_stat("Proportion de sortants au chômage à trois ans")
+    titre <- variables_evolution$Titre_graphique[2]
+    labellize_stat(titre)
   })
 
   output$tx_chomage <- renderUI({
-    info_bulle <- "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)"
-    labellize_stat("Taux de chômage à trois ans", info_bulle)
+    titre <- variables_evolution$Titre_graphique[3]
+    info_bulle <- variables_evolution$Bulle[3]
+    labellize_stat(titre, info_bulle)
   })
 
   # Partie 2 : Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?
 
   output$tx_edi <- renderUI({
-    info_bulle <- "Proportion d'individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire"
-    labellize_stat("Proportion de sortants en emploi à durée indéterminé à trois ans", info_bulle)
+    titre <- variables_evolution$Titre_graphique[4]
+    info_bulle <- variables_evolution$Bulle[4]
+    labellize_stat(titre, info_bulle)
   })
 
   output$part_tps_partiel <- renderUI({
-    labellize_stat("Proportion de sortants en emploi à temps partiel à trois ans")
+    titre <- variables_evolution$Titre_graphique[5]
+    labellize_stat(titre)
   })
 
   output$revenu_travail <- renderUI({
-    info_bulle <- "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
-    labellize_stat("Revenu mensuel médian à trois ans", info_bulle)
+    titre <- variables_evolution$Titre_graphique[6]
+    info_bulle <- variables_evolution$Bulle[6]
+    labellize_stat(titre, info_bulle)
   })
 
   output$comptence_ok <- renderUI({
