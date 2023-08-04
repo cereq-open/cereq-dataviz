@@ -156,7 +156,7 @@ shinyServer(function(input, output, session) {
         geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
+        geom_text(x = 3.5, aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white") +
         scale_fill_manual(
           values = colors, labels = scales::label_wrap(20),
           guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
@@ -254,7 +254,7 @@ shinyServer(function(input, output, session) {
         geom_rect_interactive(mapping = aes(data_id = secteur, tooltip = tooltip_value), color = "white") +
         coord_polar(theta = "y") +
         xlim(c(2, 4)) +
-        geom_text(x = 3.5, aes(y = labelPosition, label = taux_str), color = "white") +
+        geom_text(x = 3.5, aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white") +
         scale_fill_manual(
           values = colors, labels = scales::label_wrap(20),
           guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
