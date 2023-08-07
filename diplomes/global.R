@@ -30,6 +30,9 @@ largeur_donut_chart <- 6
 # Le seuil des valeurs à afficher (ici on affiche donc toutes les valeurs supérieures ou égales à 3%)
 seuil_donut_chart <- 3
 
+caption_source <- paste0('<span style="color:#008B99;">Source : </span>',
+                         "Céreq, enquête Génération 2017 à trois ans.")
+
 # Variable pour la valeur Ensemble des sortants
 ensemble_des_sortants <- "Ensemble des sortants"
 
@@ -104,8 +107,7 @@ generatePlot <- function(tab_diplome, niveau) {
     '<span style="color:#008B99;">Champ : </span>',
     "Ensemble de la Génération 2017.",
     "<br>",
-    '<span style="color:#008B99;">Source : </span>',
-    "Céreq, enquête Génération 2017 à trois ans."
+    caption_source
   )
 
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
@@ -174,8 +176,7 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
     '<span style="color:#008B99;">Champ : </span>',
     "Ensemble de la Génération 2017.",
     "<br>",
-    '<span style="color:#008B99;">Source : </span>',
-    "Céreq, enquête Génération 2017 à trois ans."
+    caption_source
   )
 
   ggplot(DT, aes(Libelle_complet, taux, fill = emploi)) +
@@ -246,8 +247,7 @@ generateDonutProfession <- function(tab_diplome, niveau) {
     '<span style="color:#008B99;">Champ : </span>',
     "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
     "<br>",
-    '<span style="color:#008B99;">Source : </span>',
-    "Céreq, enquête Génération 2017 à trois ans."
+    caption_source
   )
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
     geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
@@ -310,8 +310,7 @@ generateDonutSecteur <- function(tab_diplome, niveau) {
     '<span style="color:#008B99;">Champ : </span>',
     "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
     "<br>",
-    '<span style="color:#008B99;">Source : </span>',
-    "Céreq, enquête Génération 2017 à trois ans."
+    caption_source
   )
 
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +

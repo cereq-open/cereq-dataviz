@@ -147,8 +147,7 @@ shinyServer(function(input, output, session) {
         '<span style="color:#008B99;">Champ : </span>',
         "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
         "<br>",
-        '<span style="color:#008B99;">Source : </span>',
-        "Céreq, enquête Génération 2017 à trois ans."
+        caption_source
       )
 
       gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
@@ -245,8 +244,7 @@ shinyServer(function(input, output, session) {
         '<span style="color:#008B99;">Champ : </span>',
         "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
         "<br>",
-        '<span style="color:#008B99;">Source : </span>',
-        "Céreq, enquête Génération 2017 à trois ans."
+        caption_source
       )
 
       gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
