@@ -24,9 +24,8 @@ shinyServer(function(input, output, session) {
       values <- character()
     }
 
-    updateSelectInput(
+    updateRadioGroupButtons(
       inputId = "degre3",
-      label = "                                   ",
       choices = values,
       selected = "- Ensemble"
     )

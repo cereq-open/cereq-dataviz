@@ -20,69 +20,66 @@ fluidPage(
   ),
   br(),
   gfontHtmlDependency(family = "Arimo"),
-   fluidRow(
-     fluidRow(),
-     column(
-       width = 6,
-       fluidRow(
-         pickerInput(
-           width = "fit",
-           inline = TRUE,
-           label = tags$h1("Choisir le plus haut diplôme atteint : "),
-           inputId = "niveau",
-           choices = list_degre1_2,
-           choicesOpt = list(
-             style = c(
-             "font-weight: bold;",
-             "font-weight: bold;",
-             "font-weight: bold;",
-             "",
-             "",
-             "",
-             "",
-             "font-weight: bold;",
-             "",
-             "",
-             "",
-             "",
-             "font-weight: bold;",
-             "",
-             "",
-             ""
-           )
-         )
-       ),
-       conditionalPanel(
-         condition = "output.sousniveau== true",
-         selectInput("degre3", label = NULL, choices = NULL, selectize = FALSE, size = 3)
-       ))
-),
-     column(
-     align = "right",
-       width = 6,
-     div(
-       style = "text-align:right;",
-       tags$img(
-         src = "logo-cereq.svg"
-       ),
-       tags$p(
-         style = "font-size:14px;",
-         "Données : ",
-         tags$img(
-           src = "logo-generation.png"
-         )
-       )
-     ),
-     tags$img(
-       src = "logo-download.svg",
-       height = "50px",
-       width = "50px"
-     ),
-     tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
-     DownloadButton('downloadData',".xlsx"),
-     actionButton("downloadPDF", ".pdf", onclick = "window.print();")
-     )
+  fluidRow(
+    column(
+      width = 6,
+      pickerInput(
+        width = "fit",
+        inline = TRUE,
+        label = tags$h2("Choisir le plus haut diplôme atteint : "),
+        inputId = "niveau",
+        choices = list_degre1_2,
+        choicesOpt = list(
+          style = c(
+            "font-weight: bold;",
+            "font-weight: bold;",
+            "font-weight: bold;",
+            "",
+            "",
+            "",
+            "",
+            "font-weight: bold;",
+            "",
+            "",
+            "",
+            "",
+            "font-weight: bold;",
+            "",
+            "",
+            ""
+          )
+        )
+      ),
+      conditionalPanel(
+        condition = "output.sousniveau== true",
+        radioGroupButtons(
+          inputId = "degre3",
+          choices = c(
+            "Option 1",
+            "Option 2", "Option 3"
+          ),
+          individual = TRUE
+        )
+      )
     ),
+    column(
+      align = "right",
+      width = 6,
+      div(
+        style = "text-align:right;",
+        tags$img(src = "logo-cereq.svg"),
+        tags$p(
+          style = "font-size:14px;",
+          "Données : ",
+          tags$img(src = "logo-generation.png")
+        )
+      ),
+      tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
+      tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
+      DownloadButton("downloadData", ".xlsx"),
+      actionButton("downloadPDF", ".pdf", onclick = "window.print();")
+    )
+  ),
   br(),
   fluidRow(
     column(
@@ -144,12 +141,12 @@ fluidPage(
   fluidRow(
     column(
       width = 6,
-        div(
-          class = "custom-border-box",
-          h2("Répartition par profession"),
-          style = "max-width:800px; margin-left:0;",
-          girafeOutput("plot_repartition_par_profession", height = NULL)
-        )
+      div(
+        class = "custom-border-box",
+        h2("Répartition par profession"),
+        style = "max-width:800px; margin-left:0;",
+        girafeOutput("plot_repartition_par_profession", height = NULL)
+      )
     ),
     column(
       width = 6,
@@ -157,8 +154,8 @@ fluidPage(
         class = "custom-border-box",
         h2("Répartition par secteur"),
         style = "max-width:800px; margin-left:0;",
-          girafeOutput("plot_repartition_par_secteur", height = NULL)
-        )
+        girafeOutput("plot_repartition_par_secteur", height = NULL)
+      )
     )
   ),
   br()
