@@ -103,16 +103,106 @@ generateDTBarChart <- function(tab_diplome, niveau, libelle = NULL) {
       taux_str = paste0(taux, symbole_pourcentage),
       tooltip_value = paste0(emploi, " : ", taux_str)
     )
-  
+
   if (!is.null(libelle)) {
     data <- data %>%
       filter(Code %in% c(niveau, 100) & Libelle_Menu %in% c(libelle, ensemble_des_sortants)) %>%
       mutate(Libelle_complet = sub("(\\-)([^\\-]*)$", "\n\\2", Libelle_complet))
-  } else {
+  } else if (is.null(libelle)) {
     data <- data %>%
       filter(Libelle_Menu %in% c(ensemble_des_sortants, niveau))
   }
-  
+
+  return(data)
+}
+
+generateDTDonutChartProfession <- function(tab_diplome, niveau, libelle = NULL) {
+  data <- tab_diplome %>%
+    select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
+    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
+    pivot_longer(
+      cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
+      names_to = "profession",
+      values_to = "taux"
+    ) %>%
+    mutate(
+      taux = as.numeric(taux),
+      fraction = taux / sum(taux),
+      ymax = cumsum(fraction),
+      ymin = c(0, head(ymax, n = -1)),
+      labelPosition = (ymax + ymin) / 2,
+      label = paste0(profession, "\n ", taux),
+      profession = case_when(
+        profession == "pos_cadres" ~ "Cadres",
+        profession == "pos_prof_int" ~ "Professions intermédiaires",
+        profession == "pos_emp_ouv_q" ~ "Employés ou ouvriers qualifiés",
+        profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers non qualifiés",
+        profession == "pos_autres" ~ "Autres",
+        TRUE ~ profession
+      ),
+      profession = factor(profession, levels = c(
+        "Cadres", "Professions intermédiaires",
+        "Employés ou ouvriers qualifiés",
+        "Employés ou ouvriers non qualifiés",
+        "Autres"
+      )),
+      taux_str = paste0(taux, symbole_pourcentage),
+      tooltip_value = paste0(profession, " : ", taux_str)
+    )
+
+  if (is.null(libelle)) {
+    data <- data %>%
+      filter(Libelle_Menu %in% niveau)
+  } else if (!is.null(libelle)) {
+    data <- data %>%
+      filter(Code %in% niveau & Libelle_Menu %in% libelle)
+  }
+
+  return(data)
+}
+
+generateDTDonutChartSecteur <- function(tab_diplome, niveau, libelle = NULL) {
+  data <- tab_diplome %>%
+    select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres) %>%
+    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
+    pivot_longer(
+      cols = c("sec_industries_btp", "sec_commerce", "sec_administration", "sec_a_services", "sec_autres"),
+      names_to = "secteur",
+      values_to = "taux"
+    ) %>%
+    mutate(taux = as.numeric(taux)) %>%
+    mutate(
+      fraction = taux / sum(taux), # Calculer les pourcentages
+      ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
+      ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
+      labelPosition = (ymax + ymin) / 2,
+      label = paste0(secteur, "\n ", taux),
+      secteur = case_when(
+        secteur == "sec_industries_btp" ~ "Industries, bâtiment et travaux publics",
+        secteur == "sec_commerce" ~ "Commerce",
+        secteur == "sec_administration" ~ "Administrations, Education, Santé Action sociale",
+        secteur == "sec_a_services" ~ "Services",
+        secteur == "sec_autres" ~ "Autres",
+        TRUE ~ secteur
+      ),
+      secteur = factor(secteur, levels = c(
+        "Industries, bâtiment et travaux publics", "Commerce",
+        "Administrations, Education, Santé Action sociale",
+        "Services",
+        "Autres"
+      )),
+      taux_str = paste0(taux, symbole_pourcentage),
+      tooltip_value = paste0(secteur, " : ", taux_str)
+    )
+
+  if (is.null(libelle)) {
+    data <- data %>%
+      filter(Libelle_Menu %in% niveau)
+  } else if (!is.null(libelle)) {
+    data <- data %>%
+      filter(Code %in% niveau & Libelle_Menu %in% libelle)
+  }
+
   return(data)
 }
 
@@ -135,11 +225,40 @@ generateCaptionBarChart <- function(DT) {
   return(caption)
 }
 
+generateCaptionDonutChart <- function(niveau, libelle = NULL) {
+  champ <- paste0(
+    '<span style="color:#008B99;">Champ : </span>',
+    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie",
+    "<br>",
+    "de formation ayant atteint au plus le niveau de diplôme sélectionné : "
+  )
+
+  if (is.null(libelle)) {
+    caption <- paste0(
+      champ,
+      niveau,
+      "<br>",
+      caption_source
+    )
+  } else {
+    caption <- paste0(
+      champ,
+      niveau,
+      " ",
+      libelle,
+      "<br>",
+      caption_source
+    )
+  }
+
+  return(caption)
+}
+
 # Function to generate the first plot when first and second levels are selected from the first SelectInput tool.
 generatePlot <- function(tab_diplome, niveau) {
   DT <- generateDTBarChart(tab_diplome, niveau) %>%
     mutate(Libelle_Menu = factor(Libelle_Menu, levels = c(unique(Libelle_Menu)[1], unique(Libelle_Menu)[2])))
-    
+
   caption <- generateCaptionBarChart(DT)
 
   ggplot(DT, aes(Libelle_Menu, taux, fill = emploi)) +
@@ -205,112 +324,8 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
 
 ######### Create Donut charts ########################
 
-generateDonutProfession <- function(tab_diplome, niveau) {
-  DT <- tab_diplome %>%
-    select(Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
-    filter(Libelle_Menu %in% niveau) %>%
-    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
-    pivot_longer(
-      cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
-      names_to = "profession",
-      values_to = "taux"
-    ) %>%
-    mutate(taux = as.numeric(taux)) %>%
-    mutate(
-      fraction = taux / sum(taux), # Calculer les pourcentages
-      ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-      ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
-      labelPosition = (ymax + ymin) / 2,
-      label = paste0(profession, "\n ", taux),
-      profession = case_when(
-        profession == "pos_cadres" ~ "Cadres",
-        profession == "pos_prof_int" ~ "Professions intermédiaires",
-        profession == "pos_emp_ouv_q" ~ "Employés ou ouvriers qualifiés",
-        profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers non qualifiés",
-        profession == "pos_autres" ~ "Autres",
-        TRUE ~ profession
-      ),
-      profession = factor(profession, levels = c(
-        "Cadres", "Professions intermédiaires",
-        "Employés ou ouvriers qualifiés",
-        "Employés ou ouvriers non qualifiés",
-        "Autres"
-      )),
-      taux_str = paste0(taux, symbole_pourcentage),
-      tooltip_value = paste0(profession, " : ", taux_str)
-    )
-
-  caption <- paste0(
-    '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-    "<br>",
-    caption_source
-  )
-  ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-    geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
-    coord_polar(theta = "y") +
-    xlim(c(2, 4)) +
-    geom_text(x = 3.5, aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white") +
-    scale_fill_manual(
-      values = couleurs_donut_chart, labels = scales::label_wrap(20),
-      guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
-    ) +
-    scale_y_continuous(trans = "reverse") +
-    labs(caption = caption) +
-    theme(
-      legend.position = "top",
-      legend.text = element_text(size = 9, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 9
-      ),
-      axis.text.y = element_blank()
-    ) +
-    guides(fill = guide_legend(ncol = 3, byrow = TRUE))
-}
-
-generateDonutProfessionSpec <- function(tab_diplome, code_niveau3, degre3) {
-  DT <- tab_diplome %>%
-    select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
-    filter(Code %in% code_niveau3 & Libelle_Menu %in% degre3) %>%
-    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
-    pivot_longer(
-      cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
-      names_to = "profession",
-      values_to = "taux"
-    ) %>%
-    mutate(taux = as.numeric(taux)) %>%
-    mutate(
-      fraction = taux / sum(taux), # Calculer les pourcentages
-      ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-      ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
-      labelPosition = (ymax + ymin) / 2,
-      label = paste0(profession, "\n ", taux),
-      profession = case_when(
-        profession == "pos_cadres" ~ "Cadres",
-        profession == "pos_prof_int" ~ "Professions intermédiaires",
-        profession == "pos_emp_ouv_q" ~ "Employés ou ouvriers qualifiés",
-        profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers non qualifiés",
-        profession == "pos_autres" ~ "Autres",
-        TRUE ~ profession
-      ),
-      profession = factor(profession, levels = c(
-        "Cadres", "Professions intermédiaires",
-        "Employés ou ouvriers qualifiés",
-        "Employés ou ouvriers non qualifiés",
-        "Autres"
-      )),
-      taux_str = paste0(taux, symbole_pourcentage),
-      tooltip_value = paste0(profession, " : ", taux_str)
-    )
-
-  caption <- paste0(
-    '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-    "<br>",
-    caption_source
-  )
+generateDonutProfession <- function(tab_diplome, niveau, caption_texte) {
+  DT <- generateDTDonutChartProfession(tab_diplome, niveau)
 
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
     geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
@@ -322,7 +337,7 @@ generateDonutProfessionSpec <- function(tab_diplome, code_niveau3, degre3) {
       guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
     ) +
     scale_y_continuous(trans = "reverse") +
-    labs(caption = caption) +
+    labs(caption = caption_texte) +
     theme(
       legend.position = "top",
       legend.text = element_text(size = 9, face = "plain"),
@@ -336,50 +351,11 @@ generateDonutProfessionSpec <- function(tab_diplome, code_niveau3, degre3) {
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
-generateDonutSecteur <- function(tab_diplome, niveau) {
-  DT <- tab_diplome %>%
-    select(Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres) %>%
-    filter(Libelle_Menu %in% niveau) %>%
-    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
-    pivot_longer(
-      cols = c("sec_industries_btp", "sec_commerce", "sec_administration", "sec_a_services", "sec_autres"),
-      names_to = "secteur",
-      values_to = "taux"
-    ) %>%
-    mutate(taux = as.numeric(taux)) %>%
-    mutate(
-      fraction = taux / sum(taux), # Calculer les pourcentages
-      ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-      ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
-      labelPosition = (ymax + ymin) / 2,
-      label = paste0(secteur, "\n ", taux),
-      secteur = case_when(
-        secteur == "sec_industries_btp" ~ "Industries, bâtiment et travaux publics",
-        secteur == "sec_commerce" ~ "Commerce",
-        secteur == "sec_administration" ~ "Administrations, Education, Santé Action sociale",
-        secteur == "sec_a_services" ~ "Services",
-        secteur == "sec_autres" ~ "Autres",
-        TRUE ~ secteur
-      ),
-      secteur = factor(secteur, levels = c(
-        "Industries, bâtiment et travaux publics", "Commerce",
-        "Administrations, Education, Santé Action sociale",
-        "Services",
-        "Autres"
-      )),
-      taux_str = paste0(taux, symbole_pourcentage),
-      tooltip_value = paste0(secteur, " : ", taux_str)
-    )
-  
-  caption <- paste0(
-    '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-    "<br>",
-    caption_source
-  )
+generateDonutProfessionSpec <- function(tab_diplome, niveau, libelle, caption_texte) {
+  DT <- generateDTDonutChartProfession(tab_diplome, niveau, libelle)
 
-  ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-    geom_rect_interactive(mapping = aes(data_id = secteur, tooltip = tooltip_value), color = "white") +
+  ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
+    geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
     coord_polar(theta = "y") +
     xlim(c(2, 4)) +
     geom_text(x = 3.5, aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white") +
@@ -388,7 +364,7 @@ generateDonutSecteur <- function(tab_diplome, niveau) {
       guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
     ) +
     scale_y_continuous(trans = "reverse") +
-    labs(caption = caption) +
+    labs(caption = caption_texte) +
     theme(
       legend.position = "top",
       legend.text = element_text(size = 9, face = "plain"),
@@ -402,47 +378,8 @@ generateDonutSecteur <- function(tab_diplome, niveau) {
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
-generateDonutSecteurSpec <- function(tab_diplome, code_niveau3, degre3) {
-  DT <- tab_diplome %>%
-    select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres) %>%
-    filter(Code %in% code_niveau3 & Libelle_Menu %in% degre3) %>%
-    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
-    pivot_longer(
-      cols = c("sec_industries_btp", "sec_commerce", "sec_administration", "sec_a_services", "sec_autres"),
-      names_to = "secteur",
-      values_to = "taux"
-    ) %>%
-    mutate(
-      taux = as.numeric(taux),
-      fraction = taux / sum(taux), # Calculer les pourcentages
-      ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-      ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
-      labelPosition = (ymax + ymin) / 2,
-      label = paste0(secteur, "\n ", taux),
-      secteur = case_when(
-        secteur == "sec_industries_btp" ~ "Industries, bâtiment et travaux publics",
-        secteur == "sec_commerce" ~ "Commerce",
-        secteur == "sec_administration" ~ "Administrations, Education, Santé Action sociale",
-        secteur == "sec_a_services" ~ "Services",
-        secteur == "sec_autres" ~ "Autres",
-        TRUE ~ secteur
-      ),
-      secteur = factor(secteur, levels = c(
-        "Industries, bâtiment et travaux publics", "Commerce",
-        "Administrations, Education, Santé Action sociale",
-        "Services",
-        "Autres"
-      )),
-      taux_str = paste0(taux, symbole_pourcentage),
-      tooltip_value = paste0(secteur, " : ", taux_str)
-    )
-
-  caption <- paste0(
-    '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-    "<br>",
-    caption_source
-  )
+generateDonutSecteur <- function(tab_diplome, niveau, caption_texte) {
+  DT <- generateDTDonutChartSecteur(tab_diplome, niveau)
 
   ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
     geom_rect_interactive(mapping = aes(data_id = secteur, tooltip = tooltip_value), color = "white") +
@@ -454,7 +391,34 @@ generateDonutSecteurSpec <- function(tab_diplome, code_niveau3, degre3) {
       guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
     ) +
     scale_y_continuous(trans = "reverse") +
-    labs(caption = caption) +
+    labs(caption = caption_texte) +
+    theme(
+      legend.position = "top",
+      legend.text = element_text(size = 9, face = "plain"),
+      plot.caption = element_textbox_simple(
+        hjust = 0,
+        color = "#C0C0C2",
+        size = 9
+      ),
+      axis.text.y = element_blank()
+    ) +
+    guides(fill = guide_legend(ncol = 3, byrow = TRUE))
+}
+
+generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte) {
+  DT <- generateDTDonutChartSecteur(tab_diplome, niveau, libelle)
+
+  ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
+    geom_rect_interactive(mapping = aes(data_id = secteur, tooltip = tooltip_value), color = "white") +
+    coord_polar(theta = "y") +
+    xlim(c(2, 4)) +
+    geom_text(x = 3.5, aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white") +
+    scale_fill_manual(
+      values = couleurs_donut_chart, labels = scales::label_wrap(20),
+      guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
+    ) +
+    scale_y_continuous(trans = "reverse") +
+    labs(caption = caption_texte) +
     theme(
       legend.position = "top",
       legend.text = element_text(size = 9, face = "plain"),

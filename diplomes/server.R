@@ -64,7 +64,6 @@ shinyServer(function(input, output, session) {
         height_svg = hauteur_1_barre
       )
     } else {
-      # print(input$degre3)
       gg <- generatePlotSpec(tab_diplome, code_niveau3(), input$degre3)
       girafe(
         ggobj = gg,
@@ -82,8 +81,10 @@ shinyServer(function(input, output, session) {
   ###################### Create Donut Charts ######################
 
   reactive_plot_repartition_par_profession <- reactive({
+    
     if (is.null(input$degre3)) {
-      gg <- generateDonutProfession(tab_diplome, input$niveau)
+      caption <- generateCaptionDonutChart(input$niveau)
+      gg <- generateDonutProfession(tab_diplome, input$niveau, caption)
       girafe(
         ggobj = gg,
         fonts = fonts_arimo,
@@ -91,7 +92,8 @@ shinyServer(function(input, output, session) {
         height_svg = hauteur_donut_chart
       )
     } else if (!is.null(input$degre3)) {
-      gg <- generateDonutProfessionSpec(tab_diplome, code_niveau3(), input$degre3)
+      caption <- generateCaptionDonutChart(input$niveau, input$degre3)
+      gg <- generateDonutProfessionSpec(tab_diplome, code_niveau3(), input$degre3, caption)
       girafe(
         ggobj = gg,
         fonts = fonts_arimo,
@@ -107,7 +109,8 @@ shinyServer(function(input, output, session) {
 
   reactive_plot_repartition_par_secteur <- reactive({
     if (is.null(input$degre3)) {
-      gg <- generateDonutSecteur(tab_diplome, input$niveau)
+      caption <- generateCaptionDonutChart(input$niveau)
+      gg <- generateDonutSecteur(tab_diplome, input$niveau, caption)
       girafe(
         ggobj = gg,
         fonts = fonts_arimo,
@@ -115,7 +118,8 @@ shinyServer(function(input, output, session) {
         height_svg = hauteur_donut_chart
       )
     } else if (!is.null(input$degre3)) {
-      gg <- generateDonutSecteurSpec(tab_diplome, code_niveau3(), input$degre3)
+      caption <- generateCaptionDonutChart(input$niveau, input$degre3)
+      gg <- generateDonutSecteurSpec(tab_diplome, code_niveau3(), input$degre3, caption)
       girafe(
         ggobj = gg,
         fonts = fonts_arimo,
