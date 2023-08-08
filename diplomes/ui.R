@@ -51,13 +51,10 @@ fluidPage(
         )
       ),
       conditionalPanel(
-        condition = "output.sousniveau== true",
+        condition = "output.sousniveau == true",
         radioGroupButtons(
           inputId = "degre3",
-          choices = c(
-            "Option 1",
-            "Option 2", "Option 3"
-          ),
+          choices = "",
           individual = TRUE
         )
       )

@@ -8,13 +8,11 @@ library(openxlsx)
 # Define Server ----------------------------------------------------------------
 
 shinyServer(function(input, output, session) {
-  
   ###################### Create the scrolling menu ######################
 
   observeEvent(input$niveau, {
-    
-    code <- as_code(input$niveau)
-    
+    code <- as_code(tab_diplome, input$niveau)
+
     if (!is.null(code) & str_sub(code, -2, -1) != "00") {
       from <- as.numeric(code + 1)
       to <- as.numeric(code + 9)
@@ -25,6 +23,7 @@ shinyServer(function(input, output, session) {
     }
 
     updateRadioGroupButtons(
+      session = session,
       inputId = "degre3",
       choices = values,
       selected = "- Ensemble"
@@ -33,7 +32,7 @@ shinyServer(function(input, output, session) {
 
   code_niveau3 <- reactive({
     req(input$niveau)
-    code <- as_code(input$niveau)
+    code <- as_code(tab_diplome, input$niveau)
     from <- as.numeric(code + 1)
     to <- as.numeric(code + 9)
     sequence <- seq(from, to, by = 1)
@@ -55,127 +54,47 @@ shinyServer(function(input, output, session) {
     generateDataForLevel3(tab_diplome, code_niveau3(), input$degre3)
   })
 
-  selectedValue <- reactive({
-    
-    code <- as_code(input$niveau)
-    from <- as.numeric(code + 1)
-    to <- as.numeric(code + 9)
-    sequence <- seq(from, to, by = 1)
-    
-    list(niveau = input$niveau,
-         degre3 = input$degre3,
-         code_niveau3 = as.numeric(filter(tab_diplome, Code %in% sequence) %>% pull(Code))
-         )
-  }) # Use the reactive value selectedValue to keep track of the selected value from the second list of third levels.
-
-  ###################### Create the graph_situation_apres_3_ans plots according to the selected level from the scrolling menu ######################
-
   reactive_graph_situation_apres_3_ans <- reactive({
-    
-    selVal_ <- selectedValue()
     if (is.null(input$degre3)) {
-      gg <- generatePlot(tab_diplome, selVal_$niveau)
+      gg <- generatePlot(tab_diplome, input$niveau)
       girafe(
         ggobj = gg,
-        fonts = list(sans = "Arimo"),
+        fonts = fonts_arimo,
         width_svg = largeur_bar_chart,
         height_svg = hauteur_1_barre
       )
     } else {
-      gg <- generatePlotSpec(tab_diplome, selVal_$code_niveau3, selVal_$degre3)
+      # print(input$degre3)
+      gg <- generatePlotSpec(tab_diplome, code_niveau3(), input$degre3)
       girafe(
         ggobj = gg,
+        fonts = fonts_arimo,
         width_svg = largeur_bar_chart,
         height_svg = hauteur_1_barre
       )
     }
-  }) %>% debounce(500)
+  })
 
   output$graph_situation_apres_3_ans <- renderGirafe({
     reactive_graph_situation_apres_3_ans()
   })
 
-  ###################### Create Donut Plots ######################
+  ###################### Create Donut Charts ######################
 
   reactive_plot_repartition_par_profession <- reactive({
     if (is.null(input$degre3)) {
       gg <- generateDonutProfession(tab_diplome, input$niveau)
       girafe(
         ggobj = gg,
-        fonts = list(sans = "Arimo"),
+        fonts = fonts_arimo,
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
     } else if (!is.null(input$degre3)) {
-      DT <- tab_diplome %>%
-        select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
-        filter(Code %in% code_niveau3() & Libelle_Menu %in% input$degre3) %>%
-        mutate(across(everything(), ~ gsub(",", ".", .))) %>%
-        pivot_longer(
-          cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
-          names_to = "profession",
-          values_to = "taux"
-        ) %>%
-        mutate(taux = as.numeric(taux)) %>%
-        mutate(
-          fraction = taux / sum(taux), # Calculer les pourcentages
-          ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-          ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
-          labelPosition = (ymax + ymin) / 2,
-          label = paste0(profession, "\n ", taux),
-          profession = case_when(
-            profession == "pos_cadres" ~ "Cadres",
-            profession == "pos_prof_int" ~ "Professions intermédiaires",
-            profession == "pos_emp_ouv_q" ~ "Employés ou ouvriers qualifiés",
-            profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers non qualifiés",
-            profession == "pos_autres" ~ "Autres",
-            TRUE ~ profession
-          ),
-          profession = factor(profession, levels = c(
-            "Cadres", "Professions intermédiaires",
-            "Employés ou ouvriers qualifiés",
-            "Employés ou ouvriers non qualifiés",
-            "Autres"
-          )),
-          taux_str = paste0(taux, "%"),
-          tooltip_value = paste0(profession, " : ", taux_str)
-        )
-
-      colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
-
-      caption <- paste0(
-        '<span style="color:#008B99;">Champ : </span>',
-        "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-        "<br>",
-        caption_source
-      )
-
-      gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = profession)) +
-        geom_rect_interactive(mapping = aes(data_id = profession, tooltip = tooltip_value), color = "white") +
-        coord_polar(theta = "y") +
-        xlim(c(2, 4)) +
-        geom_text(x = 3.5, aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white") +
-        scale_fill_manual(
-          values = colors, labels = scales::label_wrap(20),
-          guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
-        ) +
-        scale_y_continuous(trans = "reverse") +
-        labs(caption = caption) +
-        theme(
-          legend.position = "top",
-          legend.text = element_text(size = 9, face = "plain"),
-          plot.caption = element_textbox_simple(
-            hjust = 0,
-            color = "#C0C0C2",
-            size = 9
-          ),
-          axis.text.y = element_blank()
-        ) +
-        guides(fill = guide_legend(ncol = 3, byrow = TRUE))
-
+      gg <- generateDonutProfessionSpec(tab_diplome, code_niveau3(), input$degre3)
       girafe(
         ggobj = gg,
-        fonts = list(sans = "Arimo"),
+        fonts = fonts_arimo,
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
@@ -191,88 +110,15 @@ shinyServer(function(input, output, session) {
       gg <- generateDonutSecteur(tab_diplome, input$niveau)
       girafe(
         ggobj = gg,
-        fonts = list(sans = "Arimo"),
+        fonts = fonts_arimo,
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
     } else if (!is.null(input$degre3)) {
-      DT <- tab_diplome %>%
-        select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres)
-
-      if (isTruthy(code_niveau3())) {
-        DT <- filter(DT, Code %in% code_niveau3())
-      }
-
-      if (isTruthy(input$degre3)) {
-        DT <- filter(DT, Libelle_Menu %in% input$degre3)
-      }
-      DT <- DT %>%
-        mutate(across(everything(), ~ gsub(",", ".", .))) %>%
-        pivot_longer(
-          cols = c("sec_industries_btp", "sec_commerce", "sec_administration", "sec_a_services", "sec_autres"),
-          names_to = "secteur",
-          values_to = "taux"
-        ) %>%
-        mutate(taux = as.numeric(taux)) %>%
-        mutate(
-          fraction = taux / sum(taux), # Calculer les pourcentages
-          ymax = cumsum(fraction), # Calculer les pourcentages cumulés (en haut de chaque rectangle)
-          ymin = c(0, head(ymax, n = -1)), # Calculer le bas de chaque rectangle
-          labelPosition = (ymax + ymin) / 2,
-          label = paste0(secteur, "\n ", taux),
-          secteur = case_when(
-            secteur == "sec_industries_btp" ~ "Industries, bâtiment et travaux publics",
-            secteur == "sec_commerce" ~ "Commerce",
-            secteur == "sec_administration" ~ "Administrations, Education, Santé Action sociale",
-            secteur == "sec_a_services" ~ "Services",
-            secteur == "sec_autres" ~ "Autres",
-            TRUE ~ secteur
-          ),
-          secteur = factor(secteur, levels = c(
-            "Industries, bâtiment et travaux publics", "Commerce",
-            "Administrations, Education, Santé Action sociale",
-            "Services",
-            "Autres"
-          )),
-          taux_str = paste0(taux, "%"),
-          tooltip_value = paste0(secteur, " : ", taux_str)
-        )
-
-      colors <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
-
-      caption <- paste0(
-        '<span style="color:#008B99;">Champ : </span>',
-        "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation initiale.",
-        "<br>",
-        caption_source
-      )
-
-      gg <- ggplot(DT, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = secteur)) +
-        geom_rect_interactive(mapping = aes(data_id = secteur, tooltip = tooltip_value), color = "white") +
-        coord_polar(theta = "y") +
-        xlim(c(2, 4)) +
-        geom_text(x = 3.5, aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white") +
-        scale_fill_manual(
-          values = colors, labels = scales::label_wrap(20),
-          guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
-        ) +
-        scale_y_continuous(trans = "reverse") +
-        labs(caption = caption) +
-        theme(
-          legend.position = "top",
-          legend.text = element_text(size = 9, face = "plain"),
-          plot.caption = element_textbox_simple(
-            hjust = 0,
-            color = "#C0C0C2",
-            size = 9
-          ),
-          axis.text.y = element_blank()
-        ) +
-        guides(fill = guide_legend(ncol = 3, byrow = TRUE))
-
+      gg <- generateDonutSecteurSpec(tab_diplome, code_niveau3(), input$degre3)
       girafe(
         ggobj = gg,
-        fonts = list(sans = "Arimo"),
+        fonts = fonts_arimo,
         width_svg = largeur_donut_chart,
         height_svg = hauteur_donut_chart
       )
@@ -292,15 +138,15 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data()$taux_emploi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "% pour l'ensemble des sortants)"))
+        text_info2 <- paste0(filtered_data()$taux_emploi, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -310,15 +156,15 @@ shinyServer(function(input, output, session) {
     } else if (!is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$taux_emploi, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data_level3()$taux_emploi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, "% pour l'ensemble des sortants)"))
+        text_info2 <- paste0(filtered_data_level3()$taux_emploi, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_emploi, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -339,15 +185,15 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data()$taux_chomage, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
+        text_info2 <- paste0(filtered_data()$taux_chomage, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage, ")"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -357,15 +203,15 @@ shinyServer(function(input, output, session) {
     } else if (!is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data_level3()$taux_chomage, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, "%)"))
+        text_info2 <- paste0(filtered_data_level3()$taux_chomage, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage, ")"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -386,15 +232,15 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data()$taux_edi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
+        text_info2 <- paste0(filtered_data()$taux_edi, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage, ")"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -404,15 +250,15 @@ shinyServer(function(input, output, session) {
     } else if (!is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data_level3()$taux_edi, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, "%)"))
+        text_info2 <- paste0(filtered_data_level3()$taux_edi, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage, ")"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -432,14 +278,14 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage)
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
-        text_info2 <- paste0(filtered_data()$part_tps_partiel, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
+        text_info2 <- paste0(filtered_data()$part_tps_partiel, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, ")"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -448,14 +294,14 @@ shinyServer(function(input, output, session) {
     } else if (!is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage)
         labellize_stats_no_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
-        text_info2 <- paste0(filtered_data_level3()$part_tps_partiel, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, "%)"))
+        text_info2 <- paste0(filtered_data_level3()$part_tps_partiel, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, ")"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -475,15 +321,15 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
+        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data()$revenu_travail, " €")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
+        text_info2 <- paste0(filtered_data()$revenu_travail, symbole_euro)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro, ")"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -493,15 +339,15 @@ shinyServer(function(input, output, session) {
     } else if (!is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, " €")
+        text_info1 <- paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str,
           infobulle_str = infobulle_str
         )
       } else {
-        text_info2 <- paste0(filtered_data_level3()$revenu_travail, " €")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, " €)"))
+        text_info2 <- paste0(filtered_data_level3()$revenu_travail, symbole_euro)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro, ")"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -522,14 +368,14 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage)
         labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
-        text_info2 <- paste0(filtered_data()$correspondance_ok, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
+        text_info2 <- paste0(filtered_data()$correspondance_ok, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, ")"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -538,14 +384,14 @@ shinyServer(function(input, output, session) {
     } else if (!is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage)
         labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
-        text_info2 <- paste0(filtered_data_level3()$correspondance_ok, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, "%)"))
+        text_info2 <- paste0(filtered_data_level3()$correspondance_ok, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, ")"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -564,14 +410,14 @@ shinyServer(function(input, output, session) {
     if (is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage)
         labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
-        text_info2 <- paste0(filtered_data()$competence_ok, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
+        text_info2 <- paste0(filtered_data()$competence_ok, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, ")"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -580,14 +426,14 @@ shinyServer(function(input, output, session) {
     } else if (!is.null(input$degre3)) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
-        text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, "%")
+        text_info1 <- paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage)
         labellize_stats_row(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
-        text_info2 <- paste0(filtered_data_level3()$competence_ok, "%")
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, "%)"))
+        text_info2 <- paste0(filtered_data_level3()$competence_ok, symbole_pourcentage)
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, ")"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
