@@ -34,8 +34,7 @@ if (!gdtools::font_family_exists("Arimo")) {
     bolditalic = "www/arimo/fonts/arimo-v28-latin_latin-ext-700italic.ttf")
 }
 
-#tab_inegalites <- read_parquet("~/Desktop/Work/GitHub/cereq-dataviz/inegalites/data/tab_inegalites.parquet") %>%
-tab_inegalites <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/inegalites/data/tab_inegalites.xlsx") %>%
+tab_inegalites <- read_parquet("data/tab_inegalites.parquet") %>%
   mutate(Diplôme = str_trim(Diplôme)) %>%
   mutate(Diplôme = case_when(
     str_detect(Diplôme, "Diplômées") ~ str_replace(Diplôme, "Diplômées", "Diplômés"),
@@ -45,7 +44,7 @@ tab_inegalites <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/inegalites/dat
   mutate(across(c(taux_emploi,part_chomage,taux_chomage,taux_edi,revenu_travail,traj_1,traj_2,traj_3,traj_7,correspondance_ok,competence_ok), 
                 ~ifelse(. == -900, 0, .)))
 
-tab_variables_inegalites <- read_excel("~/Desktop/Work/GitHub/cereq-dataviz/inegalites/data/variables_INEGALITES.xlsx")
+tab_variables_inegalites <- read_excel("data/variables_INEGALITES.xlsx")
 
 # Values for both pickerInput tools
 
@@ -112,16 +111,19 @@ generatePlot <- function(tab_inegalites,indicateur,colors,caption) {
   
   tab$Diplôme = factor(tab$Diplôme, levels = c("Ensemble des sortants","Non-diplômés","Diplômés du secondaire",    
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
-  
+  tab$mod_2 <- gsub("'", " ", tab$modalité)
   ggplot(tab, aes(x = Diplôme, y = indicateur, fill = modalité)) +
-    geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = modalité,
+    geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = mod_2,
                                                                      tooltip = tooltip_value)) +
     coord_flip() +
     geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
       color = "white"
     ) +
-    scale_fill_manual(values = colors) +
+    scale_fill_manual(values = colors, 
+                      labels = scales::label_wrap(20),
+                      guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
+                      ) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
