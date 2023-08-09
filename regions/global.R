@@ -18,6 +18,7 @@ suppressPackageStartupMessages({
 
 # Table permettant d'afficher les cartes
 tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
+  mutate(
     Libellé = ifelse(Libellé == "Corse", "Provence-Alpes-Cote-d'Azur et Corse",
       ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "Provence-Alpes-Cote-d'Azur et Corse", Libellé)
     ),
@@ -63,6 +64,10 @@ titre_map_niveau <- variables_niveau$Titre_graphique
 # Longeur et largeur de la carte ggiraph
 longeur_map <- 20
 largeur_map <- 20
+
+# En utilisant la fonction st_write(), qui permet de sauvegarder un objet sf dans un fichier au format shapefile, 
+# elle a réduit les noms des colonnes car les noms des colonnes ne peuvent pas comporter plus de 10 caractères.
+# C'est pourquoi nous les récupérons de la manière suivante ci-dessous :
 
 noms_colonnes_residence <- c(
   "tax_mpl"       = "taux_emploi",
