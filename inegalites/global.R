@@ -20,11 +20,6 @@ set_girafe_defaults(
   opts_sizing(rescale = FALSE)
 )
 
-# Pour la hauteur et la largeur des graphiques ggiraph
-hauteur_2_barres <- 3
-hauteur_1_barre <- 2
-largeur_bar_chart <- 6
-
 if (!gdtools::font_family_exists("Arimo")) {
   systemfonts::register_font(
     name = "Arimo",
@@ -87,7 +82,7 @@ else {
 generateColors <- function(facteur) {
     
   tab_filtree <- tab_inegalites %>% group_by(facteur_analyse) %>% 
-    summarise(levels_count = n_distinct(modalité)) %>% filter(facteur_analyse == facteur)
+    summarise(levels_count = n_distinct(modalité)) %>% filter(facteur_analyse %in% facteur)
   
     if (tab_filtree$levels_count == 2){
       colors <- c("#F8AC00", "#256299")
@@ -98,11 +93,24 @@ generateColors <- function(facteur) {
     return(colors)
   }
 
+generate_Nb_rows <- function(facteur) {
+  
+  tab_filtree <- tab_inegalites %>% group_by(facteur_analyse) %>% 
+    summarise(levels_count = n_distinct(modalité)) %>% filter(facteur_analyse %in% facteur)
+  
+  if (tab_filtree$levels_count == 2){
+    n <- 1
+  }
+  else {
+    n <- 3
+  }
+  return(n)
+}
+
 # Function to create the plot
    
-generatePlot <- function(tab_inegalites,indicateur,colors,caption) {
-
-  #colors <- c("Hommes" = "#256299", "Femmes" = "#F8AC00")
+generatePlot <- function(tab_inegalites,indicateur,colors,caption,nb_row) {
+  
   tab <- tab_inegalites %>%
     mutate(
       taux_str = paste0(indicateur, "%"),
@@ -118,11 +126,13 @@ generatePlot <- function(tab_inegalites,indicateur,colors,caption) {
     coord_flip() +
     geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
-      color = "white"
+      color = "white",
+      size = 2
     ) +
     scale_fill_manual(values = colors, 
                       labels = scales::label_wrap(20),
-                      guide = guide_legend(label.vjust = 1, override.aes = list(size = 0))
+                      guide = guide_legend(nrow = nb_row, byrow = TRUE,
+                                           override.aes = list(shape = 16))
                       ) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
@@ -132,7 +142,7 @@ generatePlot <- function(tab_inegalites,indicateur,colors,caption) {
       legend.box.spacing = unit(0, "pt"),
       legend.margin=margin(0, 0, 10, 0),
       legend.text = element_text(size = 8, face = "plain"),
-      plot.caption = element_textbox_simple(
+      plot.caption = element_markdown(
         hjust = 0,
         color = "#C0C0C2",
         size = 8
@@ -151,11 +161,11 @@ theme_set(
     axis.text.x = element_blank(),
     axis.title = element_blank(),
     plot.title.position = "plot",
+    legend.title = element_blank(),
     legend.background = element_blank(),
     legend.key = element_blank(),
     plot.title = element_markdown(size = 8, color = "#008B99"),
-    plot.caption.position = "plot",
-    legend.title = element_blank()
+    plot.caption.position = "plot"
   )
 )
 
