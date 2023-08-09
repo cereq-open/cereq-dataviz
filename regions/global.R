@@ -148,7 +148,9 @@ labellize_stat <- function(stat1, stat2) {
       class = "texte-stat-info",
       stat1,
       tags$span(
-        style = "color: #C0C0C2; font-size: 18px;",
+        style = "color: #C0C0C2; 
+        font-size: 18px;
+        font-weight: 300;", #light
         stat2
       )
     )
