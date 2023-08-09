@@ -20,9 +20,9 @@ set_girafe_defaults(
 )
 
 # Pour la hauteur et la largeur des graphiques ggiraph
-hauteur_2_barres <- 4
-hauteur_1_barre <- 2
-largeur_bar_chart <- 12
+hauteur_2_barres <- 6
+hauteur_1_barre <- 5
+largeur_bar_chart <- 11
 
 hauteur_donut_chart <- 6
 largeur_donut_chart <- 6
@@ -279,11 +279,11 @@ generatePlot <- function(tab_diplome, niveau) {
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
       legend.margin = margin(0, 0, 10, 0),
-      legend.text = element_text(size = 8, face = "plain"),
+      legend.text = element_text(size = 14, face = "plain"),
       plot.caption = element_textbox_simple(
         hjust = 0,
         color = "#C0C0C2",
-        size = 8
+        size = 14
       )
     )
 }
@@ -313,11 +313,11 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
       legend.margin = margin(0, 0, 10, 0),
-      legend.text = element_text(size = 8, face = "plain"),
+      legend.text = element_text(size = 14, face = "plain"),
       plot.caption = element_textbox_simple(
         hjust = 0,
         color = "#C0C0C2",
-        size = 8
+        size = 14
       )
     )
 }
