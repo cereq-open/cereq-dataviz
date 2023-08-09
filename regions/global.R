@@ -18,7 +18,6 @@ suppressPackageStartupMessages({
 
 # Table permettant d'afficher les cartes
 tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
-  mutate(
     Libellé = ifelse(Libellé == "Corse", "Provence-Alpes-Cote-d'Azur et Corse",
       ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "Provence-Alpes-Cote-d'Azur et Corse", Libellé)
     ),
@@ -169,6 +168,6 @@ theme_set(
     plot.title.position = "plot",
     legend.background = element_blank(),
     legend.key = element_blank(),
-    plot.caption = element_markdown(family = "Arimo", size = 30, hjust = 0),
+    plot.caption = element_markdown(family = "Arimo", size = 30, hjust = 0, color = "#C0C0C2"),
   )
 )
