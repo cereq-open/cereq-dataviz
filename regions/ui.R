@@ -31,7 +31,8 @@ fluidPage(
         class = "align-items-start",
         pickerInput(
           inputId = "titre_residence",
-          label = p("Choisir l'indicateur"),
+          label = p("Choisir l'indicateur :",
+                    class = "d-inline"),
           choices = titre_map_residence,
           selected = titre_map_residence[1],
           width = "fit",
@@ -81,11 +82,13 @@ fluidPage(
         width = 5,
         p("Niveau de formation des sortants",
           class = "d-inline",
-          style = "font-size:16px;"
+          style = "font-size:18px;"
         ),
         pickerInput(
           inputId = "titre_niveau",
-          label = p("Plus haut diplôme"),
+          label = p("Choisir le niveau de plus haut diplôme :",
+                    class = "d-inline",
+                    style = "font-size:18px;"),
           choices = titre_map_niveau,
           selected = titre_map_niveau[1],
           width = "fit",

@@ -138,11 +138,7 @@ labellize_row_i <- function(titre, infobulle_str = NULL) {
         style = "font-size:18px;",
         title = infobulle_str
       )
-    },
-    tags$p(
-      class = "d-inline",
-      "selon la région de résidence à la fin des études"
-    )
+    }
   )
 }
 
