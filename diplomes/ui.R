@@ -26,7 +26,7 @@ fluidPage(
       pickerInput(
         width = "fit",
         inline = TRUE,
-        label = tags$h2("Choisir le plus haut diplôme atteint : "),
+        label = tags$h1("Choisir le plus haut diplôme atteint : "),
         inputId = "niveau",
         choices = list_degre1_2,
         choicesOpt = list(
