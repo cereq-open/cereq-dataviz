@@ -59,13 +59,6 @@ p {
   color: var(--highlight-color);
 }
 
-/* Styles pour la valeur des stats */
-.stat-info {
-  font-size: 18px;
-  font-weight: 300; /* light */
-  color: #C0C0C2;
-}
-
 /* Styles pour les stats */
 .d-inline {
   color: var(--main-color);
