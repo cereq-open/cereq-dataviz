@@ -72,7 +72,7 @@ shinyServer(function(input, output, session) {
         height_svg = hauteur_1_barre
       )
     }
-  })
+  }) %>% debounce(500)
 
   output$graph_situation_apres_3_ans <- renderGirafe({
     reactive_graph_situation_apres_3_ans()

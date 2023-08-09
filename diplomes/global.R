@@ -21,13 +21,13 @@ set_girafe_defaults(
 
 # Pour la hauteur et la largeur des graphiques ggiraph
 hauteur_2_barres <- 5
-hauteur_1_barre <- 5
+hauteur_1_barre <- 4
 largeur_bar_chart <- 11
 
 hauteur_donut_chart <- 9
 largeur_donut_chart <- 9
 
-# Le seuil des valeurs à afficher (ici on affiche donc toutes les valeurs supérieures ou égales à 3%)
+# Le seuil des valeurs à afficher (ici on affiche donc toutes les valeurs supérieures ou égales à 2.5%)
 seuil_donut_chart <- 2.5
 
 # La police des notes des graphiques
