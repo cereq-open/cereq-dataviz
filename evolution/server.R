@@ -79,7 +79,6 @@ shinyServer(function(input, output, session) {
   
    output$plot_tx_emploi <- renderGirafe({
      
-     colors <- c("#F8AC00", "#EF5350", "#008B99")
      gg <- ggplot(data = filtered_data(), aes(x = Année, y = taux_emploi , fill = Année)) +
        geom_col_interactive(mapping = aes(data_id = Année)) +
        scale_fill_manual(values = colors) +
@@ -119,7 +118,6 @@ shinyServer(function(input, output, session) {
   # Partie 2
 
   output$plot_tx_edi <- renderGirafe({
-    colors <- c("#F8AC00", "#EF5350", "#008B99")
     gg <- ggplot(data = filtered_data(), aes(x = Année, y = taux_edi, fill = Année)) +
       geom_col_interactive(mapping = aes(data_id = Année)) +
       scale_fill_manual(values = colors) +
