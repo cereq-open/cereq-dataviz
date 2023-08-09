@@ -20,15 +20,15 @@ set_girafe_defaults(
 )
 
 # Pour la hauteur et la largeur des graphiques ggiraph
-hauteur_2_barres <- 6
+hauteur_2_barres <- 5
 hauteur_1_barre <- 5
 largeur_bar_chart <- 11
 
-hauteur_donut_chart <- 6
-largeur_donut_chart <- 6
+hauteur_donut_chart <- 9
+largeur_donut_chart <- 9
 
 # Le seuil des valeurs à afficher (ici on affiche donc toutes les valeurs supérieures ou égales à 3%)
-seuil_donut_chart <- 3
+seuil_donut_chart <- 2.5
 
 # La police des notes des graphiques
 fonts_arimo <- list(sans = "Arimo")
@@ -279,12 +279,7 @@ generatePlot <- function(tab_diplome, niveau) {
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
       legend.margin = margin(0, 0, 10, 0),
-      legend.text = element_text(size = 14, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 14
-      )
+      legend.text = element_text(size = 14, face = "plain")
     )
 }
 
@@ -313,12 +308,7 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
       legend.margin = margin(0, 0, 10, 0),
-      legend.text = element_text(size = 14, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 14
-      )
+      legend.text = element_text(size = 14, face = "plain")
     )
 }
 
@@ -340,12 +330,6 @@ generateDonutProfession <- function(tab_diplome, niveau, caption_texte) {
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      legend.text = element_text(size = 9, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 9
-      ),
       axis.text.y = element_blank()
     ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
@@ -367,12 +351,6 @@ generateDonutProfessionSpec <- function(tab_diplome, niveau, libelle, caption_te
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      legend.text = element_text(size = 9, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 9
-      ),
       axis.text.y = element_blank()
     ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
@@ -394,12 +372,6 @@ generateDonutSecteur <- function(tab_diplome, niveau, caption_texte) {
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      legend.text = element_text(size = 9, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 9
-      ),
       axis.text.y = element_blank()
     ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
@@ -421,12 +393,6 @@ generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      legend.text = element_text(size = 9, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 9
-      ),
       axis.text.y = element_blank()
     ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
@@ -441,15 +407,23 @@ theme_set(
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 10),
     axis.title = element_blank(),
     plot.title.position = "plot",
     legend.background = element_blank(),
     legend.key = element_blank(),
+    legend.text = element_text(size = 14, face = "plain"),
     plot.title = element_markdown(size = 8, color = "#008B99"),
+    plot.caption = element_markdown(
+      hjust = 0,
+      color = "#C0C0C2",
+      size = 10
+    ),
     plot.caption.position = "plot",
     legend.title = element_blank()
   )
 )
+
 
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
