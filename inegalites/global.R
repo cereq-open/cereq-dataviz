@@ -107,11 +107,25 @@ generate_Nb_rows <- function(facteur) {
   return(n)
 }
 
+generate_legend_key_height <- function(facteur) {
+  
+  if (facteur == "sexe"){
+    n <- 1
+  }
+  else if (facteur == "ascendance migratoire"){
+    n <- 3.5
+  }
+  else {
+    n <- 2
+  }
+  return(n)
+}
+
 # Function to create the plot
    
-generatePlot <- function(tab_inegalites,indicateur,colors,caption,nb_row) {
+generatePlot <- function(DF,indicateur,colors,caption,nb_row,height) {
   
-  tab <- tab_inegalites %>%
+  tab <- DF %>%
     mutate(
       taux_str = paste0(indicateur, "%"),
       tooltip_value = paste0(modalité, " : " , taux_str)
@@ -132,7 +146,7 @@ generatePlot <- function(tab_inegalites,indicateur,colors,caption,nb_row) {
     scale_fill_manual(values = colors, 
                       labels = scales::label_wrap(20),
                       guide = guide_legend(nrow = nb_row, byrow = TRUE,
-                                           override.aes = list(shape = 16))
+                                           override.aes = list(size = 1, shape = 16))
                       ) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
@@ -140,7 +154,8 @@ generatePlot <- function(tab_inegalites,indicateur,colors,caption,nb_row) {
       legend.position = "top",
       legend.justification="center",
       legend.box.spacing = unit(0, "pt"),
-      legend.margin=margin(0, 0, 10, 0),
+      legend.margin=margin(0, 0, 20, 0),
+      legend.key.height = unit(height,"line"),
       legend.text = element_text(size = 8, face = "plain"),
       plot.caption = element_textbox_simple(
         hjust = 0,

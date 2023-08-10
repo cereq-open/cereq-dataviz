@@ -24,8 +24,10 @@ shinyServer(function(input, output, session) {
   
   reactive_graph <- reactive({
       indicateur <- unlist(filtered_data()[,reactive_indicateur()])
-      gg <- generatePlot(filtered_data(), indicateur, generateColors(input$facteur), generateCaption(reactive_indicateur()),
-                         generate_Nb_rows(input$facteur))
+      gg <- generatePlot(filtered_data(), indicateur, generateColors(input$facteur), 
+                         generateCaption(reactive_indicateur()),
+                         generate_Nb_rows(input$facteur),
+                         generate_legend_key_height(input$facteur))
       girafe(
         ggobj = gg,
         fonts = list(sans = "Arimo"),
