@@ -63,7 +63,7 @@ shinyServer(function(input, output, session) {
         width_svg = largeur_bar_chart,
         height_svg = hauteur_1_barre
       )
-    } else {
+    } else if (!is.null(input$degre3)){
       gg <- generatePlotSpec(tab_diplome, code_niveau3(), input$degre3)
       girafe(
         ggobj = gg,
