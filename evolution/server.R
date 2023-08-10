@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
       paste("OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION", ".xls", sep = "")
     },
     content = function(file) {
-      write.xlsx("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xls", file)
+      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xls", file)
     }
   )
 
