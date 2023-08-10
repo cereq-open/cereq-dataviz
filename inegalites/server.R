@@ -59,10 +59,10 @@ shinyServer(function(input, output, session) {
 
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("OpenData_Cereq-Enq_Generation-Donnees_DIPLOME", ".xlsx", sep = "")
+      paste("OpenData_Cereq-Enq_Generation-Donnees_INEGALITES", ".xlsx", sep = "")
     },
     content = function(file) {
-      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_DIPLOME.xlsx", file)
+      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_INEGALITES.xlsx", file)
     }
   )
 })
