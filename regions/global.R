@@ -176,3 +176,10 @@ theme_set(
     plot.caption = element_textbox_simple(family = "Arimo", size = 30, hjust = 0, color = "#C0C0C2"),
   )
 )
+
+DownloadButton <- function(outputId, label = label) {
+  tags$a(
+    id = outputId, class = "btn btn-default shiny-download-link", href = "",
+    target = "_blank", download = NA, NULL, label
+  )
+}
