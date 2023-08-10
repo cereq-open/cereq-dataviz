@@ -330,8 +330,9 @@ generateDonutProfession <- function(tab_diplome, niveau, caption_texte) {
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      axis.text.y = element_blank()
-    ) +
+      axis.text.y = element_blank(),
+      legend.key.height = unit(3,"line")
+      ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
@@ -351,8 +352,9 @@ generateDonutProfessionSpec <- function(tab_diplome, niveau, libelle, caption_te
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      axis.text.y = element_blank()
-    ) +
+      axis.text.y = element_blank(),
+      legend.key.height = unit(3,"line")
+      ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
@@ -372,8 +374,9 @@ generateDonutSecteur <- function(tab_diplome, niveau, caption_texte) {
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      axis.text.y = element_blank()
-    ) +
+      axis.text.y = element_blank(),
+      legend.key.height = unit(3,"line")
+      ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
@@ -393,8 +396,9 @@ generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte
     labs(caption = caption_texte) +
     theme(
       legend.position = "top",
-      axis.text.y = element_blank()
-    ) +
+      axis.text.y = element_blank(),
+      legend.key.height = unit(3,"line")
+      ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
 
