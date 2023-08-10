@@ -120,9 +120,24 @@ plot_barchart <- function(df, y_col, caption_texte, titre = NULL) {
     geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
       color = "white"
-    ) +
+      ) +
     scale_fill_manual(values = colors) +
     labs(caption = caption_texte, title = titre)
+}
+
+plot_only_legend <- function(df) {
+  ggplot(data = df, aes(x = Année, y = taux_emploi , fill = Année)) +
+    geom_col_interactive(mapping = aes(data_id = Année)) +
+    scale_fill_manual(values = colors) +
+    theme(
+      legend.background = element_blank(),
+      legend.key = element_blank(),
+      legend.position = "top",
+      legend.justification = "left",
+      legend.box.spacing = unit(0, "pt"),
+      legend.margin = margin(0, 0, 10, 0),
+      legend.text = element_text(size = 11, face = "plain")
+    )
 }
 
 theme_set(
