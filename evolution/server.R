@@ -85,7 +85,7 @@ shinyServer(function(input, output, session) {
      
    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
      gg2 <- plot_barchart(filtered_data(), "taux_emploi", caption_part_1
-   #                      , generateTitle(titre)
+   #                       , generateTitle(titre)
                           )
      girafe(ggobj = plot_grid(plotlist = list(gg1, gg2), 
                                                nrow = 2))

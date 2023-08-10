@@ -151,7 +151,7 @@ theme_set(
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
     axis.title = element_blank(),
-    plot.title = element_markdown(hjust = 0, size = 12, color = "#008B99"),
+    plot.title = element_textbox_simple(hjust = 0, size = 12, color = "#008B99"),
     legend.title = element_blank(),
     legend.background = element_blank(),
     legend.key = element_blank(),
