@@ -413,8 +413,8 @@ theme_set(
     legend.background = element_blank(),
     legend.key = element_blank(),
     legend.text = element_text(size = 14, face = "plain"),
-    plot.title = element_markdown(size = 8, color = "#008B99"),
-    plot.caption = element_markdown(
+    plot.title = element_textbox_simple(size = 8, color = "#008B99"),
+    plot.caption = element_textbox_simple(
       hjust = 0,
       color = "#C0C0C2",
       size = 10
