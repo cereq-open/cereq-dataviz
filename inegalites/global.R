@@ -142,7 +142,7 @@ generatePlot <- function(tab_inegalites,indicateur,colors,caption,nb_row) {
       legend.box.spacing = unit(0, "pt"),
       legend.margin=margin(0, 0, 10, 0),
       legend.text = element_text(size = 8, face = "plain"),
-      plot.caption = element_markdown(
+      plot.caption = element_textbox_simple(
         hjust = 0,
         color = "#C0C0C2",
         size = 8
@@ -164,7 +164,7 @@ theme_set(
     legend.title = element_blank(),
     legend.background = element_blank(),
     legend.key = element_blank(),
-    plot.title = element_markdown(size = 8, color = "#008B99"),
+    plot.title = element_textbox_simple(size = 8, color = "#008B99"),
     plot.caption.position = "plot"
   )
 )
