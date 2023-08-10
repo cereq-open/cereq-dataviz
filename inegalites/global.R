@@ -146,7 +146,7 @@ generatePlot <- function(DF,indicateur,colors,caption,nb_row,height) {
     scale_fill_manual(values = colors, 
                       labels = scales::label_wrap(20),
                       guide = guide_legend(nrow = nb_row, byrow = TRUE,
-                                           override.aes = list(size = 1, shape = 16))
+                                           override.aes = list(size = 1))
                       ) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
