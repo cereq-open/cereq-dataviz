@@ -77,8 +77,7 @@ shinyServer(function(input, output, session) {
       "Céreq, enquête Génération 2017 à trois ans.",
       "<br>",
       '<span style="color:#008B99;">Note : </span>',
-      "Une partie des écarts observés entre région s’explique par les différences de niveaux de formation
-                      <br> atteint par les sortants de chaque région. La carte à droite en donne une illustration."
+      "Une partie des écarts observés entre région s’explique par les différences de niveaux de formation atteint par les sortants de chaque région. La carte à droite en donne une illustration."
     )
 
     tab_region <- concatenate_columns(tab_region, nom_col)
