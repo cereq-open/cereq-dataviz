@@ -134,6 +134,7 @@ generatePlot <- function(DF,indicateur,colors,caption,nb_row,height) {
   tab$Diplôme = factor(tab$Diplôme, levels = c("Ensemble des sortants","Non-diplômés","Diplômés du secondaire",    
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
   tab$mod_2 <- gsub("'", " ", tab$modalité)
+  
   ggplot(tab, aes(x = Diplôme, y = indicateur, fill = modalité)) +
     geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = mod_2,
                                                                      tooltip = tooltip_value)) +
@@ -146,7 +147,7 @@ generatePlot <- function(DF,indicateur,colors,caption,nb_row,height) {
     scale_fill_manual(values = colors, 
                       labels = scales::label_wrap(20),
                       guide = guide_legend(nrow = nb_row, byrow = TRUE,
-                                           override.aes = list(size = 1))
+                                           override.aes = list(size = 0))
                       ) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +

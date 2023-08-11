@@ -24,7 +24,8 @@ shinyServer(function(input, output, session) {
   
   reactive_graph <- reactive({
       indicateur <- unlist(filtered_data()[,reactive_indicateur()])
-      gg <- generatePlot(filtered_data(), indicateur, generateColors(input$facteur), 
+      DF <- filtered_data() %>% mutate(indicateur = indicateur) %>% filter(indicateur != 0)
+      gg <- generatePlot(DF, indicateur, generateColors(input$facteur), 
                          generateCaption(reactive_indicateur()),
                          generate_Nb_rows(input$facteur),
                          generate_legend_key_height(input$facteur))
