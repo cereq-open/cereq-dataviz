@@ -28,7 +28,8 @@ shinyServer(function(input, output, session) {
       gg <- generatePlot(DF, indicateur, generateColors(input$facteur), 
                          generateCaption(reactive_indicateur()),
                          generate_Nb_rows(input$facteur),
-                         generate_legend_key_height(input$facteur))
+                         generate_legend_key_height(input$facteur),
+                         generateSymbol(input$indicateur))
       girafe(
         ggobj = gg,
         fonts = list(sans = "Arimo"),
