@@ -93,6 +93,8 @@ generateColors <- function(facteur) {
     return(colors)
   }
 
+# Function to determine the number of rows in the legend
+
 generate_Nb_rows <- function(facteur) {
   
   tab_filtree <- tab_inegalites %>% group_by(facteur_analyse) %>% 
@@ -106,6 +108,8 @@ generate_Nb_rows <- function(facteur) {
   }
   return(n)
 }
+
+# Funtion to determine the height of the squares in the legend
 
 generate_legend_key_height <- function(facteur) {
   
@@ -121,19 +125,33 @@ generate_legend_key_height <- function(facteur) {
   return(n)
 }
 
+# Function to determine whether to display a percentage symbol or a dollar symbol next to the values on the graph.
+
+generateSymbol <- function(indicateur) {
+  
+  if (indicateur != "Revenu mensuel médian à trois ans") {
+    symbol <- "%"
+  } else {
+    symbol <- "€"
+  }
+  
+  return(symbol)
+}
+
 # Function to create the plot
    
-generatePlot <- function(DF,indicateur,colors,caption,nb_row,height) {
+generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol) {
   
-  tab <- DF %>%
+  tab <- df %>%
     mutate(
-      taux_str = paste0(indicateur, "%"),
+      taux_str = paste0(indicateur, symbol),
       tooltip_value = paste0(modalité, " : " , taux_str)
     )
   
   tab$Diplôme = factor(tab$Diplôme, levels = c("Ensemble des sortants","Non-diplômés","Diplômés du secondaire",    
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
   tab$mod_2 <- gsub("'", " ", tab$modalité)
+  
   ggplot(tab, aes(x = Diplôme, y = indicateur, fill = modalité)) +
     geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = mod_2,
                                                                      tooltip = tooltip_value)) +
@@ -142,11 +160,11 @@ generatePlot <- function(DF,indicateur,colors,caption,nb_row,height) {
       position = position_stack(vjust = .5),
       color = "white",
       size = 2
-    ) +
+      ) +
     scale_fill_manual(values = colors, 
                       labels = scales::label_wrap(20),
                       guide = guide_legend(nrow = nb_row, byrow = TRUE,
-                                           override.aes = list(size = 1, shape = 16))
+                                           override.aes = list(size = 0))
                       ) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
@@ -161,9 +179,9 @@ generatePlot <- function(DF,indicateur,colors,caption,nb_row,height) {
         hjust = 0,
         color = "#C0C0C2",
         size = 8
-      )
-    ) 
-}
+        )
+    )
+  }
 
 theme_set(
   theme(
