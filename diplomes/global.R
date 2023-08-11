@@ -228,9 +228,7 @@ generateCaptionBarChart <- function(DT) {
 generateCaptionDonutChart <- function(niveau, libelle = NULL) {
   champ <- paste0(
     '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie",
-    "<br>",
-    "de formation ayant atteint au plus le niveau de diplôme sélectionné : "
+    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation ayant atteint au plus le niveau de diplôme sélectionné : "
   )
 
   if (is.null(libelle)) {
@@ -278,8 +276,7 @@ generatePlot <- function(tab_diplome, niveau) {
       legend.position = "bottom",
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
-      legend.margin = margin(0, 0, 10, 0),
-      legend.text = element_text(size = 14, face = "plain")
+      legend.margin = margin(0, 0, 10, 0)
     )
 }
 
@@ -307,8 +304,7 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
       legend.position = "bottom",
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
-      legend.margin = margin(0, 0, 10, 0),
-      legend.text = element_text(size = 14, face = "plain")
+      legend.margin = margin(0, 0, 10, 0)
     )
 }
 
@@ -406,12 +402,12 @@ theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
     title = element_text(family = "Arimo"),
-    text = element_text(size = 10, family = "Arimo"),
+    text = element_text(size = 12, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),
-    axis.text.y = element_text(size = 10),
+    axis.text.y = element_text(size = 12),
     axis.title = element_blank(),
     plot.title.position = "plot",
     legend.background = element_blank(),
@@ -421,7 +417,7 @@ theme_set(
     plot.caption = element_textbox_simple(
       hjust = 0,
       color = "#C0C0C2",
-      size = 10
+      size = 12
     ),
     plot.caption.position = "plot",
     legend.title = element_blank()
