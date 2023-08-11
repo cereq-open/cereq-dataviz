@@ -141,7 +141,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition par profession"),
-        style = "max-width:800px; margin-left:0;",
+        style = "max-width:850px; margin-left:0;",
         girafeOutput("plot_repartition_par_profession", height = NULL)
       )
     ),
@@ -150,7 +150,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition par secteur"),
-        style = "max-width:800px; margin-left:0;",
+        style = "max-width:850px; margin-left:0;",
         girafeOutput("plot_repartition_par_secteur", height = NULL)
       )
     )
