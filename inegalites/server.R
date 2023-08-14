@@ -29,12 +29,13 @@ shinyServer(function(input, output, session) {
                          generateCaption(reactive_indicateur()),
                          generate_Nb_rows(input$facteur),
                          generate_legend_key_height(input$facteur),
-                         generateSymbol(input$indicateur))
+                         generateSymbol(input$indicateur)
+                         )
       girafe(
         ggobj = gg,
         fonts = list(sans = "Arimo"),
-        width_svg = 6,
-        height_svg = 4
+        width_svg = generateWidth(input$facteur),
+        height_svg = generateHeight(input$facteur)
       )
   })
 
