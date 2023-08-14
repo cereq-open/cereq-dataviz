@@ -138,6 +138,19 @@ generateSymbol <- function(indicateur) {
   return(symbol)
 }
 
+# Function to determine whether to display a percentage symbol or a dollar symbol next to the values on the graph.
+
+generateHeight <- function(facteur) {
+  
+  if (facteur == "sexe" || facteur == "lieu de résidence à la fin des études") {
+    height <- 4
+  } else {
+    height <- 5
+  }
+  
+  return(height)
+}
+
 # Function to create the plot
    
 generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol) {
