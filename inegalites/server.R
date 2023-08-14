@@ -34,7 +34,7 @@ shinyServer(function(input, output, session) {
       girafe(
         ggobj = gg,
         fonts = list(sans = "Arimo"),
-        width_svg = 6,
+        width_svg = generateWidth(input$facteur),
         height_svg = generateHeight(input$facteur)
       )
   })
