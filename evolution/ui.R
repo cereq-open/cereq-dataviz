@@ -23,7 +23,6 @@ fluidPage(
   ),
   br(),
   gfontHtmlDependency(family = "Arimo"),
-  br(),
   fluidRow(
     div(
       class = "d-flex",
@@ -63,59 +62,81 @@ fluidPage(
           width = "50px"
         ),
         tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
-        DownloadButton("downloadData", ".xls"),
+        downloadButton("downloadData", ".xlsx"),
         actionButton("downloadPDF", ".pdf", onclick = "window.print();")
       )
     )
   ),
+  br(),
   fluidRow(
+    column(
+      width = 6,
       h1("Situation trois ans après la sortie de formation initiale")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 12,
+      uiOutput("legende_part_1")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 4,
+      uiOutput("tx_emploi"),
+      girafeOutput("plot_tx_emploi")
+    ),
+    column(
+      width = 4,
+      uiOutput("part_chomage"),
+      girafeOutput("plot_part_chomage")
+    ),
+    column(
+      width = 4,
+      uiOutput("tx_chomage"),
+      girafeOutput("plot_tx_chomage")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 6,
+      h1("Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 12,
+      uiOutput("legende_part_2")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 4,
+      uiOutput("tx_edi"),
+      girafeOutput("plot_tx_edi")
+    ),
+    column(
+      width = 4,
+      uiOutput("part_tps_partiel"),
+      girafeOutput("plot_part_tps_partiel")
+    ),
+    column(
+      width = 4,
+      uiOutput("revenu_travail"),
+      girafeOutput("plot_revenu_travail")
+    )
   ),
   fluidRow(
     column(
       width = 4,
-       uiOutput("tx_emploi"),
-      girafeOutput("plot_tx_emploi")
-      ),
-    column(
-      width = 4,
-       uiOutput("part_chomage"),
-      girafeOutput("plot_part_chomage")
-     ),
-     column(
-      width = 4,
-        uiOutput("tx_chomage"),
-      girafeOutput("plot_tx_chomage")
-      )
-    ),
-  fluidRow(
-   column(
-     width = 6,
-     br(),
-     h1("Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?")
-     )
-   ),
-  fluidRow(
-   column(
-     width = 3,
-      uiOutput("tx_edi"),
-     girafeOutput("plot_tx_edi")
-     ),
-   column(
-     width = 3,
-      uiOutput("part_tps_partiel"),
-     girafeOutput("plot_part_tps_partiel")
-     ),
-   column(
-     width = 3,
-      uiOutput("revenu_travail"),
-     linebreaks(1),
-     girafeOutput("plot_revenu_travail")
-     ),
-   column(
-     width = 3,
       uiOutput("comptence_ok"),
-     girafeOutput('plot_comptence_ok')
-     )
-   )
+      girafeOutput("plot_comptence_ok")
+    )
+  ),
+  br()
 )

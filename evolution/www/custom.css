@@ -72,3 +72,17 @@ p {
   font-size: 20px;
   font-weight: bold;
 }
+
+.sortis {
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.legende-inline {
+  display: flex;
+  align-items: center;
+}
+
