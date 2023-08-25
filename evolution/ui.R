@@ -77,6 +77,13 @@ fluidPage(
   br(),
   fluidRow(
     column(
+      width = 12,
+      uiOutput("legende_part_1")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
       width = 4,
       uiOutput("tx_emploi"),
       girafeOutput("plot_tx_emploi")
@@ -102,24 +109,33 @@ fluidPage(
   br(),
   fluidRow(
     column(
-      width = 3,
+      width = 12,
+      uiOutput("legende_part_2")
+    )
+  ),
+  br(),
+  fluidRow(
+    column(
+      width = 4,
       uiOutput("tx_edi"),
       girafeOutput("plot_tx_edi")
     ),
     column(
-      width = 3,
+      width = 4,
       uiOutput("part_tps_partiel"),
       girafeOutput("plot_part_tps_partiel")
     ),
     column(
-      width = 3,
+      width = 4,
       uiOutput("revenu_travail"),
       girafeOutput("plot_revenu_travail")
-    ),
+    )
+  ),
+  fluidRow(
     column(
-      width = 3,
+      width = 4,
       uiOutput("comptence_ok"),
-      girafeOutput('plot_comptence_ok')
+      girafeOutput("plot_comptence_ok")
     )
   ),
   br()

@@ -27,47 +27,81 @@ shinyServer(function(input, output, session) {
       filter(Libelle_Menu %in% input$indicateurs)
   })
 
+  # Légendes -------------------------------------------------------------------
+
+  output$legende_part_1 <- renderUI({
+    div(
+      class = "legende-inline",
+      generateStyledBlocks("sortis", sortis)
+    )
+  })
+
+  output$legende_part_2 <- renderUI({
+    div(
+      class = "legende-inline",
+      generateStyledBlocks("sortis", sortis)
+    )
+  })
+
   # Titre ----------------------------------------------------------------------
 
   # Partie 1 : Situation trois ans après la sortie de formation initiale
 
   output$tx_emploi <- renderUI({
-    titre <- variables_evolution$Titre_graphique[1]
-    labellize_stat(titre)
+    titre <- tab_variables_evolution %>%
+      filter(Nom_colonne == "taux_emploi") %>%
+      pull(Titre_graphique)
+    generateTitle(titre)
   })
 
   output$part_chomage <- renderUI({
-    titre <- variables_evolution$Titre_graphique[2]
-    labellize_stat(titre)
+    titre <- tab_variables_evolution %>%
+      filter(Nom_colonne == "part_chomage") %>%
+      pull(Titre_graphique)
+    generateTitle(titre)
   })
 
   output$tx_chomage <- renderUI({
-    titre <- variables_evolution$Titre_graphique[3]
-    info_bulle <- variables_evolution$Bulle[3]
-    labellize_stat(titre, info_bulle)
+    titre <- tab_variables_evolution %>%
+      filter(Nom_colonne == "taux_chomage") %>%
+      pull(Titre_graphique)
+    info_bulle <- tab_variables_evolution %>%
+      filter(Nom_colonne == "taux_chomage") %>%
+      pull(Bulle)
+    generateTitle(titre, info_bulle)
   })
 
   # Partie 2 : Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?
 
   output$tx_edi <- renderUI({
-    titre <- variables_evolution$Titre_graphique[4]
-    info_bulle <- variables_evolution$Bulle[4]
-    labellize_stat(titre, info_bulle)
+    titre <- tab_variables_evolution %>%
+      filter(Nom_colonne == "taux_edi") %>%
+      pull(Titre_graphique)
+    info_bulle <- tab_variables_evolution %>%
+      filter(Nom_colonne == "taux_edi") %>%
+      pull(Bulle)
+    generateTitle(titre, info_bulle)
   })
 
   output$part_tps_partiel <- renderUI({
-    titre <- variables_evolution$Titre_graphique[5]
-    labellize_stat(titre)
+    titre <- tab_variables_evolution %>%
+      filter(Nom_colonne == "part_tps_partiel") %>%
+      pull(Titre_graphique)
+    generateTitle(titre)
   })
 
   output$revenu_travail <- renderUI({
-    titre <- variables_evolution$Titre_graphique[6]
-    info_bulle <- variables_evolution$Bulle[6]
-    labellize_stat(titre, info_bulle)
+    titre <- tab_variables_evolution %>%
+      filter(Nom_colonne == "revenu_travail") %>%
+      pull(Titre_graphique)
+    info_bulle <- tab_variables_evolution %>%
+      filter(Nom_colonne == "revenu_travail") %>%
+      pull(Bulle)
+    generateTitle(titre, info_bulle)
   })
 
   output$comptence_ok <- renderUI({
-    labellize_stat("Le % de jeunes estimant être employé à leur niveau de compétence")
+    generateTitle("Le % de jeunes estimant être employé à leur niveau de compétence")
   })
 
   # Data Viz -------------------------------------------------------------------
@@ -77,19 +111,31 @@ shinyServer(function(input, output, session) {
   output$plot_tx_emploi <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "taux_emploi", caption_part_1)
 
-    girafe(ggobj = gg)
+    girafe(
+      ggobj = gg,
+      height_svg = hauteur_bar_chart,
+      width_svg = largeur_bar_chart
+    )
   })
 
   output$plot_part_chomage <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "part_chomage", caption_part_1)
 
-    girafe(ggobj = gg)
+    girafe(
+      ggobj = gg,
+      height_svg = hauteur_bar_chart,
+      width_svg = largeur_bar_chart
+    )
   })
 
   output$plot_tx_chomage <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "taux_chomage", caption_part_1)
 
-    girafe(ggobj = gg)
+    girafe(
+      ggobj = gg,
+      height_svg = hauteur_bar_chart,
+      width_svg = largeur_bar_chart
+    )
   })
 
   # Partie 2
@@ -97,24 +143,40 @@ shinyServer(function(input, output, session) {
   output$plot_tx_edi <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "taux_edi", caption_part_2)
 
-    girafe(ggobj = gg)
+    girafe(
+      ggobj = gg,
+      height_svg = hauteur_bar_chart,
+      width_svg = largeur_bar_chart
+    )
   })
 
   output$plot_part_tps_partiel <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "part_tps_partiel", caption_part_2)
 
-    girafe(ggobj = gg)
+    girafe(
+      ggobj = gg,
+      height_svg = hauteur_bar_chart,
+      width_svg = largeur_bar_chart
+    )
   })
 
   output$plot_revenu_travail <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "revenu_travail", caption_part_2)
 
-    girafe(ggobj = gg)
+    girafe(
+      ggobj = gg,
+      height_svg = hauteur_bar_chart,
+      width_svg = largeur_bar_chart
+    )
   })
-  
+
   output$plot_comptence_ok <- renderGirafe({
     gg <- plot_barchart(filtered_data(), "competence_ok", caption_part_2)
-    
-    girafe(ggobj = gg)
+
+    girafe(
+      ggobj = gg,
+      height_svg = hauteur_bar_chart,
+      width_svg = largeur_bar_chart
+    )
   })
 })

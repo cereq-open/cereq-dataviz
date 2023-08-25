@@ -12,19 +12,6 @@ suppressPackageStartupMessages({
   library(readxl)
 })
 
-# Load data --------------------------------------------------------------------
-
-tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
-  mutate(
-    Année = factor(Année),
-    Libelle_Menu = str_trim(Libelle_Menu) # Supprime les espaces en début et fin de chaînes de caractères
-  )
-
-# Supprime les valeurs manquantes
-tab_evolution <- na.omit(tab_evolution)
-
-variables_evolution <- read_excel("data/variables EVOLUTIONS.xlsx")
-
 # Define Global ----------------------------------------------------------------
 
 options(shiny.useragg = TRUE)
@@ -46,31 +33,63 @@ if (!gdtools::font_family_exists("Arimo")) {
   )
 }
 
+linebreaks <- function(n) {
+  HTML(strrep(br(), n))
+}
+
+# Load data --------------------------------------------------------------------
+
+tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
+  mutate(
+    Année = factor(Année),
+    Libelle_Menu = str_trim(Libelle_Menu) # Supprime les espaces en début et fin de chaînes de caractères
+  ) %>%
+  mutate(
+    Année = case_when(
+      Année == "2010" ~ "Sortis en 2010",
+      Année == "2013" ~ "Sortis en 2013",
+      Année == "2017" ~ "Sortis en 2017",
+      TRUE ~ Année
+    )
+  )
+
+tab_variables_evolution <- read_excel("data/variables EVOLUTIONS.xlsx")
+
+# Supprime les valeurs manquantes
+tab_evolution <- na.omit(tab_evolution)
+
+
 vec_indicateurs <- unique(tab_evolution$Libelle_Menu)
+
+sortis <- unique(tab_evolution$Année)
 
 # Couleurs des barplots
 colors <- c("#F8AC00", "#EF5350", "#008B99")
+
+# Pour la hauteur et la largeur des graphiques ggiraph
+hauteur_bar_chart <- 2
+largeur_bar_chart <- 3
 
 champ <- '<span style="color:#008B99;">Champ : </span>'
 
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
   "Céreq, enquêtes Génération 2010, Génération 2013 et Génération 2017"
-  )
+)
 
 caption_part_1 <- paste0(
   champ,
   "Ensemble des sortants.",
   "<br>",
   source
-  )
+)
 
 caption_part_2 <- paste0(
   champ,
   "Ensemble des sortants en emploi trois ans après leur sortie de formation initiale.",
   "<br>",
   source
-  )
+)
 
 labellize_row_i <- function(titre, infobulle_str = NULL) {
   tagList(
@@ -92,11 +111,11 @@ labellize_row_i <- function(titre, infobulle_str = NULL) {
   )
 }
 
-labellize_stat <- function(titre, infobulle_str = NULL) {
+generateTitle <- function(title, infobulle_str = NULL) {
   tagList(
     tags$p(
       class = "texte-stat-info",
-      titre,
+      title,
       if (!is.null(infobulle_str)) {
         tags$i(
           style = "color: #008B99; font-size: 16px;",
@@ -104,6 +123,38 @@ labellize_stat <- function(titre, infobulle_str = NULL) {
           title = infobulle_str,
         )
       }
+    )
+  )
+}
+
+generateStyledBlocks <- function(class, sortis) {
+  tagList(
+    tags$div(
+      tags$div(
+        class = class,
+        style = "background-color: #F8AC00;"
+      ),
+      tags$span(
+        sortis[1]
+      )
+    ),
+    tags$div(
+      tags$div(
+        class = class,
+        style = "background-color: #EF5350;"
+      ),
+      tags$span(
+        sortis[2]
+      )
+    ),
+    tags$div(
+      tags$div(
+        class = class,
+        style = "background-color: #008b99;"
+      ),
+      tags$span(
+        sortis[3]
+      )
     )
   )
 }
@@ -136,15 +187,24 @@ plot_barchart <- function(df, y_col, caption_texte) {
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
+    title = element_text(family = "Arimo"),
+    text = element_text(size = 11, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),
     axis.text.y = element_blank(),
     axis.title = element_blank(),
-    plot.title.position = "plot",
+    plot.title = element_textbox_simple(hjust = 0, size = 12, color = "#008B99"),
+    legend.title = element_blank(),
     legend.background = element_blank(),
     legend.key = element_blank(),
-    plot.caption = element_markdown(family = "Arimo", size = 10, hjust = 0),
+    plot.caption.position = "plot",
+    legend.position = "none",
+    plot.caption = element_textbox_simple(
+      hjust = 0,
+      color = "#C0C0C2",
+      size = 8
+    )
   )
 )
