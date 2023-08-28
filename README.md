@@ -4,3 +4,5 @@ L’enquête « Génération 2017 » est la première enquête du dispositif pro
 - Application Régions : [lien](https://cereq-data-visualisation.shinyapps.io/regions/)
 - Application Inégalités : [lien](https://cereq-data-visualisation.shinyapps.io/inegalites/)
 - Application Evolution : [lien](https://cereq-data-visualisation.shinyapps.io/evolution/)
+- Application Carte UE : [lien](https://edmondnoack.shinyapps.io/CarteUE/)
+- Application 1er App DFC : [lien](https://cereq-data-visualisation.shinyapps.io/Rexemple/)
