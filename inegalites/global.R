@@ -178,34 +178,28 @@ generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
   tab$mod_2 <- gsub("'", " ", tab$modalité)
   
-  ggplot(tab, aes(x = Diplôme, y = indicateur, fill = modalité)) +
-    geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = mod_2,
-                                                                     tooltip = tooltip_value)) +
-    coord_flip() +
-    geom_text(aes(label = taux_str),
-      position = position_stack(vjust = .5),
-      color = "white",
-      size = 2
-      ) +
-    scale_fill_manual(values = colors, 
-                      labels = scales::label_wrap(20),
-                      guide = guide_legend(nrow = nb_row, byrow = TRUE,
-                                           override.aes = list(size = 0))
-                      ) +
-    scale_y_continuous(trans = "reverse") +
-    labs(caption = caption) +
+  ggplot(data=tab, aes(x=indicateur, y=mod_2, fill=mod_2)) +
+    geom_bar_interactive(stat="identity", mapping = aes(data_id = mod_2,
+                                                        tooltip = tooltip_value)) +
+    facet_wrap(~Diplôme, ncol = 1) +
     theme(
-      legend.position = "top",
-      legend.justification="center",
-      legend.box.spacing = unit(0, "pt"),
-      legend.margin=margin(0, 0, 20, 0),
-      legend.key.height = unit(height,"line"),
-      legend.text = element_text(size = 8, face = "plain"),
+      strip.background = element_blank(),
+      strip.text =  element_text(face = "bold", hjust = 0.5, size = 8)
+    ) +
+    guides(fill = FALSE) +
+    labs(caption = caption) +
+    scale_fill_manual(values = colors) +
+    geom_text(aes(label = taux_str),
+              position = position_stack(vjust = .5),
+              color = "white",
+              size = 2
+    ) +
+    theme(
       plot.caption = element_textbox_simple(
         hjust = 0,
         color = "#C0C0C2",
         size = 8
-        )
+      )
     )
   }
 
