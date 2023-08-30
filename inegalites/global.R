@@ -36,7 +36,10 @@ tab_inegalites <- read_parquet("data/tab_inegalites.parquet") %>%
     str_detect(Diplôme, "diplômées") ~ str_replace(Diplôme, "diplômées", "diplômés"),
     TRUE ~ Diplôme  # on garde la même valeur pour toutes les autres valeurs
   )) %>% 
-  mutate(across(c(taux_emploi,part_chomage,taux_chomage,taux_edi,revenu_travail,traj_1,traj_2,traj_3,traj_7,correspondance_ok,competence_ok), 
+  mutate(across(c(taux_emploi, part_chomage, taux_chomage,
+                  taux_edi, part_tps_partiel, revenu_travail,
+                  traj_1, traj_2, traj_3, traj_7,
+                  correspondance_ok, competence_ok), 
                 ~ifelse(. == -900, 0, .)))
 
 tab_variables_inegalites <- read_excel("data/variables_INEGALITES.xlsx")
@@ -49,7 +52,15 @@ valeurs_indicateurs <- unique(na.omit(tab_variables_inegalites$Titre_graphique))
 # Function to create the data stream according to the factor selected
 
 generateData <- function(tab_inegalites, facteur) {
-  tab_inegalites %>% filter(facteur_analyse %in% facteur)
+  tab_inegalites_filtree <- tab_inegalites %>% filter(facteur_analyse %in% facteur)
+  
+  if (facteur == "sexe") {
+    tab_inegalites_filtree$modalité <- factor(tab_inegalites_filtree$modalité, levels = c("Hommes", "Femmes"))
+    return(tab_inegalites_filtree)
+    
+  } else {
+    return(tab_inegalites_filtree)
+  }
 }
 
 # Function to create the caption
@@ -178,15 +189,16 @@ generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
   tab$mod_2 <- gsub("'", " ", tab$modalité)
   
-  ggplot(data=tab, aes(x=indicateur, y=mod_2, fill=mod_2)) +
-    geom_bar_interactive(stat="identity", mapping = aes(data_id = mod_2,
+  ggplot(data=tab, aes(x=indicateur, y=modalité, fill = modalité)) +
+    geom_col_interactive(mapping = aes(data_id = mod_2,
                                                         tooltip = tooltip_value)) +
     facet_wrap(~Diplôme, ncol = 1) +
     theme(
       strip.background = element_blank(),
       strip.text =  element_text(face = "bold", hjust = 0.5, size = 8)
     ) +
-    guides(fill = FALSE) +
+    guides(fill = "none") +
+    
     labs(caption = caption) +
     scale_fill_manual(values = colors) +
     geom_text(aes(label = taux_str),
