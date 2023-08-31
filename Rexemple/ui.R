@@ -23,6 +23,7 @@ library(glue)
 library(gfonts)
 
 url <-"https://twitter.com/intent/tweet?text=La%20super%20dataviz%20du%20cereq&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/"
+url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/&title=dataviz"
 
 EFE_1 <- read_parquet("data/indicateur_JC_bis.parquet")
 
@@ -67,11 +68,12 @@ ui <- fluidPage(
  
   br(),
   fluidRow(
+    column(width=5),
     column(
-      align = "right",
+      align = "left",
       width = 6,
       div(
-        style = "text-align:right;",
+        style = "text-align:left;",
         tags$img(src = "logo-cereq.svg"),
         tags$p(
           style = "font-size:14px;",
@@ -82,16 +84,29 @@ ui <- fluidPage(
       tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
       tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
       DownloadButton("downloadData", ".xlsx"),
-      actionButton("downloadPDF", ".pdf", onclick = "window.print();"),
+      actionButton("downloadPDF", ".pdf", onclick = "window.print();"))),
+  fluidRow(
     
-    
+    column(width=5),
+    column(
+      align = "left",
+      width = 6,
+      div(
+        style = "text-align:left;"
         
+      ),
+      tags$img(src = "logo-share.svg", height = "50px", width = "50px"),
         
         actionButton("twitter_share",
                      label = "Twitter",
                      icon = icon("twitter"),
-                     onclick = sprintf("window.open('%s')", url)))
-  ),
+                     onclick = sprintf("window.open('%s')", url)),
+                     
+       actionButton("linkedin_share",
+                    label = "Linkedin",
+                    icon = icon("linkedin"),
+                    onclick = sprintf("window.open('%s')", url_link))
+      )),
   
   br(),
   fluidRow(
