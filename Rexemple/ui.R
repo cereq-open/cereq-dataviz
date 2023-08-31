@@ -22,7 +22,7 @@ library(ggthemes)
 library(glue)
 library(gfonts)
 
-
+url <-"https://twitter.com/intent/tweet?text=La%20super%20dataviz%20du%20cereq&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/"
 
 EFE_1 <- read_parquet("data/indicateur_JC_bis.parquet")
 
@@ -60,6 +60,8 @@ ui <- fluidPage(
   "
     ) # Pour que Arimo soit toujours disponible dans le navigateur de l'utilisateur
   ),
+  
+ 
   br(),
   gfontHtmlDependency(family = "Arimo"),
  
@@ -80,8 +82,15 @@ ui <- fluidPage(
       tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
       tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
       DownloadButton("downloadData", ".xlsx"),
-      actionButton("downloadPDF", ".pdf", onclick = "window.print();")
-    )
+      actionButton("downloadPDF", ".pdf", onclick = "window.print();"),
+    
+    
+        
+        
+        actionButton("twitter_share",
+                     label = "Twitter",
+                     icon = icon("twitter"),
+                     onclick = sprintf("window.open('%s')", url)))
   ),
   
   br(),
