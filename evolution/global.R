@@ -214,3 +214,10 @@ theme_set(
     )
   )
 )
+
+DownloadButton <- function(outputId, label = label) {
+  tags$a(
+    id = outputId, class = "btn btn-default shiny-download-link", href = "",
+    target = "_blank", download = NA, NULL, label
+  )
+}
