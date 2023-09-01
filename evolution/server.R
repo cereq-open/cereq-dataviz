@@ -113,6 +113,7 @@ shinyServer(function(input, output, session) {
 
     girafe(
       ggobj = gg,
+      fonts = list(sans = "Arimo"),
       height_svg = hauteur_bar_chart,
       width_svg = largeur_bar_chart
     )
@@ -123,6 +124,7 @@ shinyServer(function(input, output, session) {
 
     girafe(
       ggobj = gg,
+      fonts = list(sans = "Arimo"),
       height_svg = hauteur_bar_chart,
       width_svg = largeur_bar_chart
     )
@@ -133,6 +135,7 @@ shinyServer(function(input, output, session) {
 
     girafe(
       ggobj = gg,
+      fonts = list(sans = "Arimo"),
       height_svg = hauteur_bar_chart,
       width_svg = largeur_bar_chart
     )
@@ -145,6 +148,7 @@ shinyServer(function(input, output, session) {
 
     girafe(
       ggobj = gg,
+      fonts = list(sans = "Arimo"),
       height_svg = hauteur_bar_chart,
       width_svg = largeur_bar_chart
     )
@@ -155,6 +159,7 @@ shinyServer(function(input, output, session) {
 
     girafe(
       ggobj = gg,
+      fonts = list(sans = "Arimo"),
       height_svg = hauteur_bar_chart,
       width_svg = largeur_bar_chart
     )
@@ -165,6 +170,7 @@ shinyServer(function(input, output, session) {
 
     girafe(
       ggobj = gg,
+      fonts = list(sans = "Arimo"),
       height_svg = hauteur_bar_chart,
       width_svg = largeur_bar_chart
     )
@@ -175,6 +181,7 @@ shinyServer(function(input, output, session) {
 
     girafe(
       ggobj = gg,
+      fonts = list(sans = "Arimo"),
       height_svg = hauteur_bar_chart,
       width_svg = largeur_bar_chart
     )
