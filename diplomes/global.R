@@ -479,12 +479,16 @@ labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
   )
 }
 
-labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
+labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str) {
   tagList(
     tags$p(
       class = "d-inline",
       style = "font-weight: 300;",
       stat1_str
+    ),
+    tags$p(
+      class = "d-inline",
+      info_str
     ),
     if (!is.null(stat2_str)) {
       tags$p(
@@ -492,11 +496,7 @@ labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str, infobulle
         style = "color: #C0C0C2; font-size: 16px; font-weight: 300;",
         stat2_str
       )
-    },
-    tags$p(
-      class = "d-inline",
-      info_str
-    )
+    }
   )
 }
 

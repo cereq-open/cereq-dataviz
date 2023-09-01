@@ -379,7 +379,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$correspondance_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -395,7 +395,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$correspondance_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -421,7 +421,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$competence_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -437,7 +437,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$competence_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
