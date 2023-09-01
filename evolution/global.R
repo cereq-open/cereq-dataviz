@@ -135,6 +135,7 @@ generateStyledBlocks <- function(class, sortis) {
         style = "background-color: #F8AC00;"
       ),
       tags$span(
+        style = "font-size:18px;font-weight:300;",
         sortis[1]
       )
     ),
@@ -144,6 +145,7 @@ generateStyledBlocks <- function(class, sortis) {
         style = "background-color: #EF5350;"
       ),
       tags$span(
+        style = "font-size:18px;font-weight:300;",
         sortis[2]
       )
     ),
@@ -153,6 +155,7 @@ generateStyledBlocks <- function(class, sortis) {
         style = "background-color: #008b99;"
       ),
       tags$span(
+        style = "font-size:18px;font-weight:300;",
         sortis[3]
       )
     )
