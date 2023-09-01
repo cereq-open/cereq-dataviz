@@ -273,7 +273,7 @@ generatePlot <- function(tab_diplome, niveau) {
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "bottom",
+      legend.position = "top",
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
       legend.margin = margin(0, 0, 10, 0)
@@ -301,7 +301,7 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "bottom",
+      legend.position = "top",
       legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
       legend.margin = margin(0, 0, 10, 0)
@@ -423,7 +423,6 @@ theme_set(
     legend.title = element_blank()
   )
 )
-
 
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
