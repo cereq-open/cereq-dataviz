@@ -96,7 +96,7 @@ fluidPage(
         ),
         uiOutput("stat_niveau"),
         div(
-          style = "max-width:800px; margin-right:0;",
+          style = "max-width:600px; margin-right:0;",
           girafeOutput("carte_niveau", height = NULL)
         )
       )
