@@ -261,7 +261,7 @@ br(),
 gfontHtmlDependency(family = "Arimo"),
 fluidRow(
   column(
-    width = 6,
+    width = 3,
     
       pickerInput(
         width = "fit",
@@ -273,7 +273,7 @@ fluidRow(
         
       )),
     column(
-      width = 6,
+      width = 3,
       pickerInput(
         width = "fit",
         inline = TRUE,
@@ -289,24 +289,27 @@ fluidRow(
 
 fluidRow(
   column(
-    width =3,
+    
+    width =4,
+    div(
     class = "custom-border-box",
     tags$p(
       class = "stat_info",
       tags$span(
         style = "color: #00000;font-size: 25px;font-style: bold",
         "Trois principaux domaines de formation :"),
-  uiOutput("domaine", style="#008b99"),
+      div(
+        style = "max-width:800px; margin-left:auto; margin-right:auto;",
+  uiOutput("domaine", style="#008b99")),
   tags$head(tags$style("#domaine{color: #008b99;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-  ) ),
+  ) )),
+ # column(width =1),
   column(
-    width =1
-  ),
-  column(
-    width =3,
+    width =4,
+    div(
     class = "custom-border-box",
     tags$p(
       class = "stat_info",
@@ -319,29 +322,30 @@ fluidRow(
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-  ) ),
+  ) )),
+  
+ # column(   width =1 ),
   
   column(
-    width =1
-  ),
-  
-  column(
-    width =3,
+    width =4,
+    div(
     class = "custom-border-box",
     tags$p(
       class = "stat_info",
       tags$span(
         style = "color: #000000;font-size: 25px;font-style: bold",
         "Trois principales raisons de non formation :"),
-  uiOutput("raison", style="#008b99"),
+      div(
+        style = "max-width:800px; margin-left:auto; margin-right:auto;",
+  uiOutput("raison", style="#008b99")),
   tags$head(tags$style("#raison{color: #008b99;
                                  font-size: 20px;
                                  font-style: bold;
                                  }" ))
-  )  )
+  )  ))
         
       ))
         
-        
-   
+
+
 
