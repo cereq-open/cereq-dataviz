@@ -1,3 +1,9 @@
+url <-"https://twitter.com/intent/tweet?text=La%20super%20dataviz%20du%20cereq&url=https://cereq-data-visualisation.shinyapps.io/carte_UE/"
+url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-data-visualisation.shinyapps.io/carte_UE/&title=dataviz"
+
+
+
+
 
 ui <- fluidPage(
   theme = bs_theme(version = 5, primary = "#008b99"),
@@ -20,30 +26,46 @@ ui <- fluidPage(
   
   br(),
   fluidRow(
+    column(width=5),
     column(
-      align = "right",
-      width = 6,
+      align = "left",
+      width = 12,
       div(
-        style = "text-align:right;",
+        style = "text-align:center;",
         tags$img(src = "logo-cereq.svg"),
-        tags$p(
-          style = "font-size:14px;",
-          "Données : ",
-          tags$img(src = "logo-generation.png")
-        )
-      ),
-      tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
+        #tags$p(
+        #  style = "font-size:14px;",
+        #  "Données : ",
+         # tags$img(src = "logo-generation.png")
+       # )
+      )),
+    
+    column(
+      
+      width=12,
+      div( style = "text-align:center;",
       tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
       DownloadButton("downloadData", ".xlsx"),
-      actionButton("downloadPDF", ".pdf", onclick = "window.print();")
-    )
+     
+      actionButton("downloadPDF", ".pdf", onclick = "window.print();"),
+     actionButton("twitter_share",
+                  label = "Twitter",
+                  icon = icon("twitter"),
+                  onclick = sprintf("window.open('%s')", url)),
+     
+     actionButton("linkedin_share",
+                  label = "Linkedin",
+                  icon = icon("linkedin"),
+                  onclick = sprintf("window.open('%s')", url_link))
+    
+    ))
   ),
   
   br(),
   fluidRow(
     column(
       width = 12,
-      tags$h1("Indicateur Européen : ")
+      tags$h1("Indicateurs Européens : ")
     )
   ),
   
@@ -55,7 +77,7 @@ ui <- fluidPage(
           gfontHtmlDependency(family = "Arimo"),
           fluidRow(
             column(
-              width = 6,
+              width = 3,
               
               pickerInput(
                 width = "fit",
@@ -67,7 +89,7 @@ ui <- fluidPage(
                 
               )),
             column(
-              width = 6,
+              width = 3,
               pickerInput(
                 width = "fit",
                 inline = TRUE,
@@ -88,8 +110,8 @@ ui <- fluidPage(
   fluidRow(
     #TAUX ACCES
     column(
-      width =5,
-      div( style = "max-width:800px; margin-left:auto; margin-right:auto;",
+      width =6,
+      div( 
       class = "custom-border-box",
       tags$p(
         class = "stat_info",
@@ -109,13 +131,14 @@ ui <- fluidPage(
       ))),
     
     # ESPACE 
-    column(
-      width =1),
+   # column(
+    #  width =1),
     
     #PART D ENTREPRISE FORMATRICE 
     
     column(
-      width =5,
+      width =6,
+      div(
       class = "custom-border-box",
       tags$p(
         class = "stat_info",
@@ -132,7 +155,7 @@ ui <- fluidPage(
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-      ) )),
+      ) ))),
     
     #saut de ligne qui marche pas
     fluidRow(
@@ -151,8 +174,8 @@ ui <- fluidPage(
     
     fluidRow(
     column(
-      width =5,
-      div(  style = "max-width:800px; margin-left:auto; margin-right:auto;",
+      width =6,
+      div(  
       class = "custom-border-box",
       tags$p(
         class = "stat_info",
@@ -173,10 +196,10 @@ ui <- fluidPage(
     
     
     #NOMBRE D HEURE DE COURS ET STAGES
+  #  column( width =1),
     column(
-      width =1),
-    column(
-      width =5,
+      width =6,
+      div(
       class = "custom-border-box",
       tags$p(
         class = "stat_info",
@@ -194,7 +217,19 @@ ui <- fluidPage(
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-      ) )))
+      ) ))),
+  #saut de ligne qui marche pas
+  fluidRow(
+    column(width= 12,  class = "h1")
+  ),
+  #saut de ligne qui marche pas
+  fluidRow(
+    column(width= 12,  class = "h1")
+  ),
+  #saut de ligne qui marche pas
+  fluidRow(
+    column(width= 12,  class = "h1")
+  ))
   
   
 
