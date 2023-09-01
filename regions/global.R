@@ -126,7 +126,7 @@ concatenate_columns <- function(df, col_name) {
     df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], " €")
   }
   # Masque le texte pour la Corse
-  df$label[12] <- str_extract(df$label[12], "\\(.*?\\)")
+  df$label[12] <- ""
   return(df)
 }
 
