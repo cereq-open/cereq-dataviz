@@ -30,7 +30,7 @@ largeur_donut_chart <- 9
 # Le seuil des valeurs à afficher (ici on affiche donc toutes les valeurs supérieures ou égales à 2.5%)
 seuil_donut_chart <- 2.5
 
-# La police des notes des graphiques
+# La police des notes de lecture des graphiques
 fonts_arimo <- list(sans = "Arimo")
 
 # Les couleurs des catégories pour le bar chart
@@ -119,7 +119,13 @@ generateDTBarChart <- function(tab_diplome, niveau, libelle = NULL) {
 generateDTDonutChartProfession <- function(tab_diplome, niveau, libelle = NULL) {
   data <- tab_diplome %>%
     select(Code, Libelle_Menu, pos_cadres, pos_prof_int, pos_emp_ouv_q, pos_emp_ouv_nq, pos_autres) %>%
-    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
+    mutate(
+      pos_cadres = gsub(",", ".", pos_cadres),
+      pos_prof_int = gsub(",", ".", pos_prof_int),
+      pos_emp_ouv_q = gsub(",", ".", pos_emp_ouv_q),
+      pos_emp_ouv_nq = gsub(",", ".", pos_emp_ouv_nq),
+      pos_autres = gsub(",", ".", pos_autres)
+    ) %>%
     pivot_longer(
       cols = c("pos_cadres", "pos_prof_int", "pos_emp_ouv_q", "pos_emp_ouv_nq", "pos_autres"),
       names_to = "profession",
@@ -164,7 +170,13 @@ generateDTDonutChartProfession <- function(tab_diplome, niveau, libelle = NULL) 
 generateDTDonutChartSecteur <- function(tab_diplome, niveau, libelle = NULL) {
   data <- tab_diplome %>%
     select(Code, Libelle_Menu, sec_industries_btp, sec_commerce, sec_administration, sec_a_services, sec_autres) %>%
-    mutate(across(everything(), ~ gsub(",", ".", .))) %>%
+    mutate(
+      sec_industries_btp = gsub(",", ".", sec_industries_btp),
+      sec_commerce = gsub(",", ".", sec_commerce),
+      sec_administration = gsub(",", ".", sec_administration),
+      sec_a_services = gsub(",", ".", sec_a_services),
+      sec_autres = gsub(",", ".", sec_autres)
+    ) %>%
     pivot_longer(
       cols = c("sec_industries_btp", "sec_commerce", "sec_administration", "sec_a_services", "sec_autres"),
       names_to = "secteur",
