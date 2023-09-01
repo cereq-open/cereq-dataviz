@@ -130,6 +130,7 @@ generateTitle <- function(title, infobulle_str = NULL) {
 generateStyledBlocks <- function(class, sortis) {
   tagList(
     tags$div(
+      style = "display: flex; align-items: center;",
       tags$div(
         class = class,
         style = "background-color: #F8AC00;"
@@ -140,6 +141,7 @@ generateStyledBlocks <- function(class, sortis) {
       )
     ),
     tags$div(
+      style = "display: flex; align-items: center;",
       tags$div(
         class = class,
         style = "background-color: #EF5350;"
@@ -150,6 +152,7 @@ generateStyledBlocks <- function(class, sortis) {
       )
     ),
     tags$div(
+      style = "display: flex; align-items: center;",
       tags$div(
         class = class,
         style = "background-color: #008b99;"
