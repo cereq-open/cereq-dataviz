@@ -65,7 +65,7 @@ ui <- fluidPage(
   fluidRow(
     column(
       width = 12,
-      tags$h1("Indicateurs Européens : ")
+      tags$h1("Indicateurs Européens")
     )
   ),
   
@@ -77,7 +77,7 @@ ui <- fluidPage(
           gfontHtmlDependency(family = "Arimo"),
           fluidRow(
             column(
-              width = 3,
+              width = 4,
               
               pickerInput(
                 width = "fit",
@@ -89,7 +89,7 @@ ui <- fluidPage(
                 
               )),
             column(
-              width = 3,
+              width = 4,
               pickerInput(
                 width = "fit",
                 inline = TRUE,
@@ -116,11 +116,11 @@ ui <- fluidPage(
       tags$p(
         class = "stat_info",
         tags$span(
-          style = "color: #008B99;font-size: 30px;font-style: bold",
-          "Taux acces"),
+          style = "color: #00000;font-size: 30px;font-style: bold",
+          "Taux d’accès à la formation continue"),
         tags$i(
           class = "fas fa-info-circle",
-          style = "color: #008B99;",
+          style = "color: #008b99;",
           title = "Le taux d'acces est blallalalalalallalalalalalalalalal"),
         leafletOutput("taux_acces"),
         uiOutput("legende1"),
@@ -143,8 +143,8 @@ ui <- fluidPage(
       tags$p(
         class = "stat_info",
         tags$span(
-          style = "color: #008B99;font-size: 30px;font-style: bold",
-          "Part d'entreprise formatrice"),
+          style = "color: #00000;font-size: 30px;font-style: bold",
+          "Part d'entreprises formatrices"),
         tags$i(
           class = "fas fa-info-circle",
           style = "color: #008B99;",
@@ -180,7 +180,7 @@ ui <- fluidPage(
       tags$p(
         class = "stat_info",
         tags$span(
-          style = "color: #008B99;font-size: 30px;font-style: bold",
+          style = "color: #00000;font-size: 30px;font-style: bold",
           "Taux de participation financière"),
         tags$i(
           class = "fas fa-info-circle",
@@ -204,8 +204,8 @@ ui <- fluidPage(
       tags$p(
         class = "stat_info",
         tags$span(
-          style = "color: #008B99;font-size: 30px;font-style: bold",
-          "Nombre d'heure de cours et stages"),
+          style = "color: #00000;font-size: 30px;font-style: bold",
+          "Nombre d'heures de cours et stages"),
         tags$i(
           class = "fas fa-info-circle",
           style = "color: #008B99;",
