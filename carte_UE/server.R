@@ -25,7 +25,7 @@ library(leaflet)
 library(DT)
 library(shinydashboardPlus)
 library(rsconnect)
-library(leaflet)
+
 library(readr)
 library(tidyverse)
 library(sf)
@@ -71,7 +71,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles(providers$CartoDB.Positron) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken={token})) %>%
         addPolygons(data=filtre_UE(),fillColor = ~pal(tx_acc1),
                                                 weight = 0.3,
                                                 opacity = 1,
@@ -91,7 +91,7 @@ server <- function(input, output,session) {
                                                 direction = "auto")) %>%
       addLegend( pal = pal, values = ~tx_acc1,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = "% à "),
+                 labFormat = labelFormat(suffix =   "%", between = " à "),
                  opacity = 1 )
  
   })
@@ -150,7 +150,7 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal= pal_form, values = ~tx_form,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = "% à "),
+                 labFormat = labelFormat(suffix =   "%", between = " à "),
                  opacity = 1 )
     
     
@@ -215,7 +215,7 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal= pal_tpf, values = ~tx_tpf,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = "% à "),
+                 labFormat = labelFormat(suffix =   "%", between = " à "),
                  opacity = 1 )
     
     
@@ -280,7 +280,7 @@ server <- function(input, output,session) {
       addLegend( pal= pal_heurstag, values = ~heurstag,
 
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   " heures" , between = " heures à "),
+                 labFormat = labelFormat(suffix =   " heures" , between = " à "),
                  opacity = 1 )
     
     
