@@ -25,7 +25,7 @@ library(gfonts)
 url <-"https://twitter.com/intent/tweet?text=La%20super%20dataviz%20du%20cereq&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/"
 url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/&title=dataviz"
 
-EFE_1 <- read_parquet("data/indicateur_JC_bis.parquet")
+EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
 
 
 
@@ -112,7 +112,7 @@ ui <- fluidPage(
   fluidRow(
     column(
       width = 12,
-      tags$h1("Chiffres clefs par secteur :")
+      tags$h1("Chiffres clés par secteur :")
     )
   ),
   
@@ -122,14 +122,14 @@ ui <- fluidPage(
       tags$style(type = "text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row; }")
     ),
     column(
-      width = 12,
+      width = 5,
       tags$table(
         width = "100%",
         tags$tr(
           width = "100%",
           tags$td(
             width = "40%",
-            div(style = "font-size:24px; text-align: center;", "Choisir le secteur :")
+            div(style = "font-size:20px; text-align: center;", "Choisir le secteur :")
           ),
           tags$td(
             width = "60%",
@@ -137,6 +137,7 @@ ui <- fluidPage(
               width = "fit",
               inputId = "secteur",
               choices = liste_secteur2,
+              options= list( `live-search` = TRUE),
               choicesOpt = list(
                 style = c(
                   "font-weight: bold;"
@@ -159,7 +160,7 @@ ui <- fluidPage(
           tags$p(
             class = "stat_info",
             tags$span(
-              style = "color: #008B99;font-size: 30px;font-style: bold",
+              style = "color: #00000;font-size: 30px;font-style: bold",
               "Taux acces"
             ),
             tags$i(
@@ -182,7 +183,7 @@ ui <- fluidPage(
           tags$p(
             class = "stat_info",
             tags$span(
-             style = "color: #008B99;font-size: 30px;font-style: bold",
+             style = "color: #00000;font-size: 30px;font-style: bold",
               "Part d'entreprise formatrice"
             ),
             tags$i(
@@ -208,7 +209,7 @@ ui <- fluidPage(
         tags$p(
           class = "stat_info",
           tags$span(
-            style = "color: #008B99;font-size: 30px;font-style: bold",
+            style = "color: #00000;font-size: 30px;font-style: bold",
             "Taux de participation financière"
           ),
           tags$i(
@@ -233,7 +234,7 @@ ui <- fluidPage(
       tags$p(
         class = "stat_info",
         tags$span(
-          style = "color: #008B99;font-size: 30px;font-style: bold",
+          style = "color: #00000;font-size: 30px;font-style: bold",
           "Moyenne des heures de stage"
         ),
         tags$i(
@@ -254,15 +255,14 @@ br(),
 fluidRow(
   column(
     width = 12,
-    tags$h1("TROUVER TITRE POUR LES TOP3")
+    tags$h1("Les 3 principaux...")
   )
 ),
 br(),
 gfontHtmlDependency(family = "Arimo"),
 fluidRow(
   column(
-    width = 3,
-    
+    width = 4,
       pickerInput(
         width = "fit",
         inline = TRUE,
@@ -272,6 +272,7 @@ fluidRow(
         selected = "Ensemble des secteurs"
         
       )),
+  
     column(
       width = 3,
       pickerInput(
@@ -297,7 +298,7 @@ fluidRow(
       class = "stat_info",
       tags$span(
         style = "color: #00000;font-size: 25px;font-style: bold",
-        "Trois principaux domaines de formation :"),
+        "... domaines de formation :"),
       div(
         style = "max-width:800px; margin-left:auto; margin-right:auto;",
   uiOutput("domaine", style="#008b99")),
@@ -315,10 +316,10 @@ fluidRow(
       class = "stat_info",
       tags$span(
         style = "color: #000000;font-size: 25px;font-style: bold",
-        "Trois principaux freins à la formation :"),
+        "... freins à la formation :"),
       
-    uiOutput("frein", style="#008b99"),
-    tags$head(tags$style("#frein{color: #008b99;
+      htmlOutput("frein"),
+    tags$head(tags$style("#frein{color: #00000;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
@@ -334,7 +335,7 @@ fluidRow(
       class = "stat_info",
       tags$span(
         style = "color: #000000;font-size: 25px;font-style: bold",
-        "Trois principales raisons de non formation :"),
+        "... raisons de non formation :"),
       div(
         style = "max-width:800px; margin-left:auto; margin-right:auto;",
   uiOutput("raison", style="#008b99")),
