@@ -38,7 +38,7 @@ linebreaks <- function(n){HTML(strrep(br(), n))}
 
 # Load data --------------------------------------------------------------------
 
-EFE_1 <- read_parquet("data/indicateur_JC.parquet")
+EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
 
 
 
@@ -85,7 +85,7 @@ concat_value <- function(df, nom_colonne) {
   if (nom_colonne != "heurstag") {
     df["taux_str"] <- paste0(df[[nom_colonne]], "%")
   } else {
-    df["taux_str"] <- paste0(df[[nom_colonne]], "H")
+    df["taux_str"] <- paste0(df[[nom_colonne]], "h")
   }
   
   df[["tooltip_value"]] <- paste0(df[["secteur"]], " : ", df[["taux_str"]] )
@@ -152,7 +152,7 @@ theme_set(
     axis.text.x = element_text(color = "#008B99", size = 8, hjust = 0.4, vjust = 8),
     axis.text.y = element_blank(),
     axis.title.y = element_blank(),
-    axis.title.x = element_text(color = "#008B99", size = 10, hjust = -0.01, vjust = 4),
+    axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
     plot.title = element_textbox_simple(hjust = 0, size = 17, color = "#008B99"),
     legend.title = element_blank(),
     legend.background = element_blank(),
