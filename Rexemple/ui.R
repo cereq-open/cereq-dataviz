@@ -74,39 +74,36 @@ ui <- fluidPage(
       width = 6,
       div(
         style = "text-align:left;",
-        tags$img(src = "logo-cereq.svg"),
-        tags$p(
-          style = "font-size:14px;",
-          "Données : ",
-          tags$img(src = "logo-generation.png")
-        )
-      ),
-      tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
+        tags$img(src = "logo-cereq.svg")#,
+        #tags$p(
+          #style = "font-size:14px;",
+         # "Données : ",
+         # tags$img(src = "logo-generation.png")
+       # )
+      ))),
+    fluidRow(column( width = 12, class='h1')),
+    fluidRow(
+      column(
+        align ="right", 
+        width = 12,
+     # tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
       tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
       DownloadButton("downloadData", ".xlsx"),
-      actionButton("downloadPDF", ".pdf", onclick = "window.print();"))),
-  fluidRow(
-    
-    column(width=5),
-    column(
-      align = "left",
-      width = 6,
-      div(
-        style = "text-align:left;"
-        
+      actionButton("downloadPDF", ".pdf", onclick = "window.print();"),
+     actionButton("twitter_share",
+                  label = "Twitter",
+                  icon = icon("twitter"),
+                  onclick = sprintf("window.open('%s')", url)),
+     actionButton("linkedin_share",
+                  label = "Linkedin",
+                  icon = icon("linkedin"),
+                  onclick = sprintf("window.open('%s')", url_link))
+      )
       ),
-      tags$img(src = "logo-share.svg", height = "50px", width = "50px"),
-        
-        actionButton("twitter_share",
-                     label = "Twitter",
-                     icon = icon("twitter"),
-                     onclick = sprintf("window.open('%s')", url)),
-                     
-       actionButton("linkedin_share",
-                    label = "Linkedin",
-                    icon = icon("linkedin"),
-                    onclick = sprintf("window.open('%s')", url_link))
-      )),
+  
+  
+  
+ 
   
   br(),
   fluidRow(
@@ -148,7 +145,8 @@ ui <- fluidPage(
           )
         )
       )
-    ),
+    )
+  ),
   
     #TAUX ACCES
     br(),
@@ -174,7 +172,10 @@ ui <- fluidPage(
             girafeOutput("plot_tx_acc1", height = NULL)
           )
         )
-      ), #PART FROMATRICE
+      ), 
+      
+      
+      #PART FROMATRICE
       br(),
       column(
         width = 6,
@@ -198,7 +199,9 @@ ui <- fluidPage(
           )
         )
       )
-    )),
+    ),
+  
+  
     #TPF
     br(),
     fluidRow(
