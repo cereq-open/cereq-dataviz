@@ -28,7 +28,7 @@ server <- function(input, output,session) {
   ################################### CL #################### CL ############################ CL #########################################################
   
   
-  EFE_1 <- read_parquet("data/indicateur_JC_bis.parquet")
+  EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
   
   
   EFE_1$taille <- fct_relevel(EFE_1$taille, c("1 à 3", "4 à 9", "10 à 19","20 à 49","50 à 249","250 à 499", "500 à 999", "1000 et plus","Ensemble" ))
@@ -138,8 +138,11 @@ server <- function(input, output,session) {
     
   })   
   
-  output$frein<-   renderUI({ 
-    top3(filtered()$frein_non_form1,filtered()$frein_non_form2,filtered()$frein_non_form3)
+  output$frein<-   renderText({ 
+    paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$frein_non_form1,"<font color=\"#C0C0C2\">"," (",filtered()$percent_frein1," %)","<br>",
+           "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$frein_non_form2,"<font color=\"#C0C0C2\">"," (",filtered()$percent_frein2," %)","<br>",
+           "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$frein_non_form3,"<font color=\"#C0C0C2\">"," (",filtered()$percent_frein3," %)","<br>"
+          )
     
   })   
   
