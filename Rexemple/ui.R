@@ -27,7 +27,15 @@ url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-dat
 
 EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
 
+EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
 
+
+
+
+
+
+EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs"
+EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
 
 EFE_1_nodupkey <- EFE_1 %>% distinct(secteur, .keep_all = TRUE)
 
@@ -258,7 +266,7 @@ br(),
 fluidRow(
   column(
     width = 12,
-    tags$h1("Les 3 principaux...")
+    tags$h1("Les trois premiers...")
   )
 ),
 br(),
@@ -338,7 +346,7 @@ fluidRow(
       class = "stat_info",
       tags$span(
         style = "color: #000000;font-size: 25px;font-style: bold",
-        "... raisons de non formation :"),
+        "... domaines de non formation :"),
       div(
         style = "max-width:800px; margin-left:auto; margin-right:auto;",
   uiOutput("raison", style="#008b99")),
