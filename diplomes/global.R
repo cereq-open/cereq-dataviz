@@ -288,7 +288,7 @@ generatePlot <- function(tab_diplome, niveau) {
     theme(
       legend.position = "top",
       legend.justification = "center",
-      legend.box.spacing = unit(0, "pt"),
+      legend.box.spacing = unit(0, "cm"),
       legend.margin = margin(0, 0, 10, 0)
     )
 }
@@ -316,7 +316,7 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
     theme(
       legend.position = "top",
       legend.justification = "center",
-      legend.box.spacing = unit(0, "pt"),
+      legend.box.spacing = unit(0, "cm"),
       legend.margin = margin(0, 0, 10, 0)
     )
 }
@@ -340,7 +340,8 @@ generateDonutProfession <- function(tab_diplome, niveau, caption_texte) {
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm")
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -362,7 +363,8 @@ generateDonutProfessionSpec <- function(tab_diplome, niveau, libelle, caption_te
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm")
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -384,7 +386,8 @@ generateDonutSecteur <- function(tab_diplome, niveau, caption_texte) {
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm")
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -406,7 +409,8 @@ generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm")
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
