@@ -26,7 +26,7 @@ shinyServer(function(input, output, session) {
       session = session,
       inputId = "degre3",
       choices = values,
-      selected = "- Ensemble"
+      selected = "Ensemble"
     )
   })
 
