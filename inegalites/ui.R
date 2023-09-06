@@ -67,6 +67,7 @@ fluidPage(
     column(
       width = 12,
       div(
+        class = "custom-border-box",
         uiOutput("titre_graph"),
         style = "max-width:1000px; margin-left:0;",
         girafeOutput("graph", height = NULL)
