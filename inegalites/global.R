@@ -197,21 +197,30 @@ generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol
       strip.background = element_blank(),
       strip.text =  element_text(face = "bold", hjust = 0.5, size = 8)
     ) +
-    guides(fill = "none") +
-    
+   # guides(fill = "none") +
+    scale_fill_manual(values = colors, 
+                      labels = scales::label_wrap(20),
+                      guide = guide_legend(nrow = nb_row, byrow = TRUE,
+                                           override.aes = list(size = 0))
+    ) +
     labs(caption = caption) +
-    scale_fill_manual(values = colors) +
     geom_text(aes(label = taux_str),
               position = position_stack(vjust = .5),
               color = "white",
               size = 2
     ) +
-    theme(
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 8
-      )
+    theme(axis.text.y = element_blank(),
+          legend.position = "top",
+          legend.justification="center",
+          legend.box.spacing = unit(0, "pt"),
+          legend.margin=margin(0, 0, 20, 0),
+          legend.key.height = unit(height,"line"),
+          legend.text = element_text(size = 8, face = "plain"),
+          plot.caption = element_textbox_simple(
+            hjust = 0,
+            color = "#C0C0C2",
+            size = 8
+            )
     )
   }
 
