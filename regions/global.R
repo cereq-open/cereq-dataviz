@@ -19,8 +19,8 @@ suppressPackageStartupMessages({
 # Table permettant d'afficher les cartes
 tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
   mutate(
-    Libellé = ifelse(Libellé == "Corse", "Provence-Alpes-Cote-d'Azur et Corse",
-      ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "Provence-Alpes-Cote-d'Azur et Corse", Libellé)
+    Libellé = ifelse(Libellé == "Corse", "P.A.C.A. et Corse",
+      ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "P.A.C.A. et Corse", Libellé)
     ),
     Libellé = toupper(Libellé)
   )

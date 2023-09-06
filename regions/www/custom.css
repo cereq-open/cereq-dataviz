@@ -65,3 +65,8 @@ p {
   font-size: 20px;
   font-weight: bold;
 }
+
+.d-inlinenotbold {
+  color: var(--main-color);
+  font-size: 20px;
+}
