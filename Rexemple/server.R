@@ -29,7 +29,12 @@ server <- function(input, output,session) {
   
   
   EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
+  EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
   
+  
+  
+  EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs"
+  EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
   
   EFE_1$taille <- fct_relevel(EFE_1$taille, c("1 à 3", "4 à 9", "10 à 19","20 à 49","50 à 249","250 à 499", "500 à 999", "1000 et plus","Ensemble" ))
   
