@@ -80,18 +80,30 @@ fluidPage(
   fluidRow(
     column(
       width = 4,
-      uiOutput("tx_emploi"),
-      girafeOutput("plot_tx_emploi")
+      div(
+        class = "custom-border-box",
+        style = "max-width:700px; margin-left:0;",
+        uiOutput("tx_emploi"),
+        girafeOutput("plot_tx_emploi")
+      )
     ),
     column(
       width = 4,
+      div(
+        class = "custom-border-box",
+        style = "max-width:700px; margin-left:0;",
       uiOutput("part_chomage"),
       girafeOutput("plot_part_chomage")
+      )
     ),
     column(
       width = 4,
+      div(
+        class = "custom-border-box",
+        style = "max-width:700px; margin-left:0;",
       uiOutput("tx_chomage"),
       girafeOutput("plot_tx_chomage")
+      )
     )
   ),
   br(),
@@ -112,25 +124,42 @@ fluidPage(
   fluidRow(
     column(
       width = 4,
-      uiOutput("tx_edi"),
-      girafeOutput("plot_tx_edi")
+      div(
+        class = "custom-border-box",
+        style = "max-width:700px; margin-left:0;",
+        uiOutput("tx_edi"),
+        girafeOutput("plot_tx_edi")
+      )
     ),
     column(
       width = 4,
-      uiOutput("part_tps_partiel"),
-      girafeOutput("plot_part_tps_partiel")
+      div(
+        class = "custom-border-box",
+        style = "max-width:700px; margin-left:0;",
+        uiOutput("part_tps_partiel"),
+        girafeOutput("plot_part_tps_partiel")
+      )
     ),
     column(
       width = 4,
-      uiOutput("revenu_travail"),
-      girafeOutput("plot_revenu_travail")
+      div(
+        class = "custom-border-box",
+        style = "max-width:700px; margin-left:0;",
+        uiOutput("revenu_travail"),
+        girafeOutput("plot_revenu_travail")
+      )
     )
   ),
+  br(),
   fluidRow(
     column(
       width = 4,
-      uiOutput("comptence_ok"),
-      girafeOutput("plot_comptence_ok")
+      div(
+        class = "custom-border-box",
+        style = "max-width:700px; margin-left:0;",
+        uiOutput("comptence_ok"),
+        girafeOutput("plot_comptence_ok")
+      )
     )
   ),
   br()
