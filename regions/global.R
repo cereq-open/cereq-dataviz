@@ -31,7 +31,7 @@ tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
 db_region <- read_parquet("data/tab_region.parquet")
 
 # Variables region
-variables_region <- read_excel("data/variables_region.xlsx")
+variables_region <- read_excel("data/variables REGION.xlsx")
 
 # Define Global ----------------------------------------------------------------
 
