@@ -98,6 +98,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition des sortants selon leur situation d'activité"),
+        br(),
         style = "max-width:850px; margin-left:0;",
         girafeOutput("graph_situation_apres_3_ans", height = NULL)
       )
@@ -140,6 +141,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition par profession"),
+        br(),
         style = "max-width:850px; margin-left:0;",
         girafeOutput("plot_repartition_par_profession", height = NULL)
       )
@@ -149,6 +151,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition par secteur"),
+        br(),
         style = "max-width:850px; margin-left:0;",
         girafeOutput("plot_repartition_par_secteur", height = NULL)
       )
