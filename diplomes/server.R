@@ -54,6 +54,8 @@ shinyServer(function(input, output, session) {
     generateDataForLevel3(tab_diplome, code_niveau3(), input$degre3)
   })
 
+  ###################### Create the barplot ######################
+  
   reactive_graph_situation_apres_3_ans <- reactive({
     if (is.null(input$degre3)) {
       gg <- generatePlot(tab_diplome, input$niveau)

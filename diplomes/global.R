@@ -20,7 +20,6 @@ set_girafe_defaults(
 )
 
 # Pour la hauteur et la largeur des graphiques ggiraph
-hauteur_2_barres <- 5
 hauteur_1_barre <- 4
 largeur_bar_chart <- 11
 
