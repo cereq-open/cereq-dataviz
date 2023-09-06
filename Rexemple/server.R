@@ -123,12 +123,13 @@ server <- function(input, output,session) {
   })
   #################################################################
   
-  
-  
-  
+  output$titre_secteur <- renderText({
+    paste0(  "<font color=\"#008b99\">",filtered()$secteur)
+    })
+
   
   filtered <- reactive({
-    EFE_1 %>% filter(taille==input$taille & secteur==input$secteur_bis) 
+    EFE_1 %>% filter(taille==input$taille & secteur==input$secteur) 
   })
   
   
