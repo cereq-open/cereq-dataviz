@@ -51,8 +51,19 @@ donnees_tx_acces <- read_excel("data/excel_tx_accès.xlsx")
 vec_secteur <- unique(EFE_1$secteur)
 
 # Couleurs des barplots
+
+EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
+
+
+
+
+
+
+EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs"
+EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
+
 col=rep("#F8AC00",27)
-colors2<-setNames(c("#256299","#F8AC00"),unique(EFE_1$secteur_ensemble))
+colors2<-setNames(c("#256299","#F8AC00"),unique(EFE_1$secteur_ensemblebis))
 colors <-setNames(c("#256299",col),unique(EFE_1$secteur))
 
 
@@ -158,7 +169,8 @@ theme_set(
     legend.background = element_blank(),
     legend.key = element_blank(),
     plot.caption.position = "plot",
-    legend.position = "none",
+    legend.position = "top",
+    legend.justification = "left",
     plot.caption = element_textbox_simple( hjust = 100, color = "#C0C0C2", size = 10 , margin = margin(t = -1)) 
   )
 )
