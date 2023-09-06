@@ -110,51 +110,126 @@ ui <- fluidPage(
       ),
   
   
-  
  
+  br(),
+  gfontHtmlDependency(family = "Arimo"),
+  fluidRow(
+    column(
+      width = 4,
+      pickerInput(
+        width = "fit",
+        inline = TRUE,
+        label = tags$h1("Choisir le secteur :"),
+        inputId = "secteur",
+        choices = liste_secteur2,
+        options= list( `live-search` = TRUE),
+        choicesOpt = list(
+          style = c(
+            "font-weight: bold;"
+            
+          )
+        )))
+      ,
+    
+    column(
+      width = 3,
+      pickerInput(
+        width = "fit",
+        inline = TRUE,
+        label = tags$h1("Choisir la taille :"),
+        inputId = "taille",
+        choices = liste_taille2,
+        selected = "Ensemble"
+        
+      ))),
   
   br(),
   fluidRow(
     column(
       width = 12,
-      tags$h1("Chiffres clés par secteur :")
+      tags$h1("Les trois premiers...")
     )
   ),
   
   br(),
+  
+  
   fluidRow(
-    tags$head(
-      tags$style(type = "text/css", "label{ display: table-cell; text-align: center; vertical-align: middle; } .form-group { display: table-row; }")
-    ),
     column(
-      width = 5,
-      tags$table(
-        width = "100%",
-        tags$tr(
-          width = "100%",
-          tags$td(
-            width = "40%",
-            div(style = "font-size:20px; text-align: center;", "Choisir le secteur :")
-          ),
-          tags$td(
-            width = "60%",
-            pickerInput(
-              width = "fit",
-              inputId = "secteur",
-              choices = liste_secteur2,
-              options= list( `live-search` = TRUE),
-              choicesOpt = list(
-                style = c(
-                  "font-weight: bold;"
-                  
-                )
-              )
-            )
-          )
-        )
-      )
-    )
+      
+      width =4,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class = "stat_info",
+          tags$h1(
+           
+            "... domaines de formation :"),
+          div(
+            style = "max-width:800px; margin-left:auto; margin-right:auto;",
+            uiOutput("domaine", style="#008b99")),
+          tags$head(tags$style("#domaine{color: #008b99;
+                                 font-size: 20px;
+                                 font-style: bold;
+                                }" ) )
+        ) )),
+    # column(width =1),
+    column(
+      width =4,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class = "stat_info",
+          tags$h1(
+            
+            "... freins à la formation :"),
+          
+          htmlOutput("frein"),
+          tags$head(tags$style("#frein{color: #00000;
+                                 font-size: 20px;
+                                 font-style: bold;
+                                }" ) )
+        ) )),
+    
+    # column(   width =1 ),
+    
+    column(
+      width =4,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class = "stat_info",
+          tags$h1(
+            
+            "... domaines de non formation :"),
+          div(
+            style = "max-width:800px; margin-left:auto; margin-right:auto;",
+            uiOutput("raison", style="#008b99")),
+          tags$head(tags$style("#raison{color: #008b99;
+                                 font-size: 20px;
+                                 font-style: bold;
+                                 }" ))
+        )  ))
+    
   ),
+
+  
+  br(),
+  fluidRow(
+    column(
+      width = 3,
+      align = "right",
+   
+      tags$h1("Chiffres clés pour le secteur :")),
+    column(
+      width=4,
+      align = "left",
+    
+       htmlOutput("titre_secteur"))
+    )
+  ,
+  
+
   
     #TAUX ACCES
     br(),
@@ -261,102 +336,8 @@ ui <- fluidPage(
     )
   
   ))
-,
-br(),
-fluidRow(
-  column(
-    width = 12,
-    tags$h1("Les trois premiers...")
-  )
-),
-br(),
-gfontHtmlDependency(family = "Arimo"),
-fluidRow(
-  column(
-    width = 4,
-      pickerInput(
-        width = "fit",
-        inline = TRUE,
-        label = tags$h1("Choisir le secteur :"),
-        inputId = "secteur_bis",
-        choices = liste_secteur2,
-        selected = "Ensemble des secteurs"
-        
-      )),
-  
-    column(
-      width = 3,
-      pickerInput(
-        width = "fit",
-        inline = TRUE,
-        label = tags$h1("Choisir la taille :"),
-        inputId = "taille",
-        choices = liste_taille2,
-        selected = "Ensemble"
-      
-    ))),
-  
-        br(),
- 
 
-fluidRow(
-  column(
-    
-    width =4,
-    div(
-    class = "custom-border-box",
-    tags$p(
-      class = "stat_info",
-      tags$span(
-        style = "color: #00000;font-size: 25px;font-style: bold",
-        "... domaines de formation :"),
-      div(
-        style = "max-width:800px; margin-left:auto; margin-right:auto;",
-  uiOutput("domaine", style="#008b99")),
-  tags$head(tags$style("#domaine{color: #008b99;
-                                 font-size: 20px;
-                                 font-style: bold;
-                                }" ) )
-  ) )),
- # column(width =1),
-  column(
-    width =4,
-    div(
-    class = "custom-border-box",
-    tags$p(
-      class = "stat_info",
-      tags$span(
-        style = "color: #000000;font-size: 25px;font-style: bold",
-        "... freins à la formation :"),
-      
-      htmlOutput("frein"),
-    tags$head(tags$style("#frein{color: #00000;
-                                 font-size: 20px;
-                                 font-style: bold;
-                                }" ) )
-  ) )),
-  
- # column(   width =1 ),
-  
-  column(
-    width =4,
-    div(
-    class = "custom-border-box",
-    tags$p(
-      class = "stat_info",
-      tags$span(
-        style = "color: #000000;font-size: 25px;font-style: bold",
-        "... domaines de non formation :"),
-      div(
-        style = "max-width:800px; margin-left:auto; margin-right:auto;",
-  uiOutput("raison", style="#008b99")),
-  tags$head(tags$style("#raison{color: #008b99;
-                                 font-size: 20px;
-                                 font-style: bold;
-                                 }" ))
-  )  ))
-        
-      ))
+)
         
 
 
