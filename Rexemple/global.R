@@ -63,7 +63,7 @@ EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs
 EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
 
 col=rep("#F8AC00",27)
-colors2<-setNames(c("#256299","#F8AC00"),unique(EFE_1$secteur_ensemblebis))
+colors2<-setNames(c("#256299","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00"),unique(EFE_1$secteur))
 colors <-setNames(c("#256299",col),unique(EFE_1$secteur))
 
 
@@ -127,7 +127,7 @@ generateTitle <- function(title, infobulle_str = NULL) {
 
 plot_barchart <- function(df, y_col, caption_texte, titre = NULL) {
   DT <- concat_value(df, y_col)
-  ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur_ensemble), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
+  ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
     geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 1),vjust=-0.5, size= 2.5, color = "Black", fontface = "bold") + scale_fill_manual(values = colors2) + 
     labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salarié") 
   
