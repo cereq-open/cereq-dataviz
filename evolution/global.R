@@ -207,10 +207,17 @@ theme_set(
     legend.key = element_blank(),
     plot.caption.position = "plot",
     legend.position = "none",
-    plot.caption = element_textbox_simple(
-      hjust = 0,
-      color = "#C0C0C2",
-      size = 8
+    plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-0.18), "cm"),
+                                          hjust = 0,
+                                          color = "#C0C0C2",
+                                          size = 8
+                                          )
     )
   )
-)
+
+DownloadButton <- function(outputId, label = label) {
+  tags$a(
+    id = outputId, class = "btn btn-default shiny-download-link", href = "",
+    target = "_blank", download = NA, NULL, label
+  )
+}
