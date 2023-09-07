@@ -20,7 +20,6 @@ set_girafe_defaults(
 )
 
 # Pour la hauteur et la largeur des graphiques ggiraph
-hauteur_2_barres <- 5
 hauteur_1_barre <- 4
 largeur_bar_chart <- 11
 
@@ -62,7 +61,8 @@ if (!gdtools::font_family_exists("Arimo")) {
 }
 
 tab_diplome <- read_parquet("data/tab_diplome.parquet") %>%
-  rename(Libelle_complet = `Libelle complet`)
+  rename(Libelle_complet = `Libelle complet`,
+         Libelle_Menu = `Libelle Menu`)
 
 # Keep only the levels whose code should not start with 0.
 list_degre1_2 <- as.list(filter(tab_diplome, str_sub(Code, -1, -1) == "0") %>% pull(`Libelle_Menu`))
@@ -285,9 +285,9 @@ generatePlot <- function(tab_diplome, niveau) {
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "bottom",
+      legend.position = "top",
       legend.justification = "center",
-      legend.box.spacing = unit(0, "pt"),
+      legend.box.spacing = unit(0, "cm"),
       legend.margin = margin(0, 0, 10, 0)
     )
 }
@@ -313,9 +313,9 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
     scale_y_continuous(trans = "reverse") +
     labs(caption = caption) +
     theme(
-      legend.position = "bottom",
+      legend.position = "top",
       legend.justification = "center",
-      legend.box.spacing = unit(0, "pt"),
+      legend.box.spacing = unit(0, "cm"),
       legend.margin = margin(0, 0, 10, 0)
     )
 }
@@ -339,7 +339,11 @@ generateDonutProfession <- function(tab_diplome, niveau, caption_texte) {
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -361,7 +365,11 @@ generateDonutProfessionSpec <- function(tab_diplome, niveau, libelle, caption_te
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -383,7 +391,11 @@ generateDonutSecteur <- function(tab_diplome, niveau, caption_texte) {
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -405,7 +417,11 @@ generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte
     theme(
       legend.position = "top",
       axis.text.y = element_blank(),
-      legend.key.height = unit(3,"line")
+      legend.key.height = unit(3,"line"),
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -413,7 +429,6 @@ generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo"),
     text = element_text(size = 12, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
@@ -435,7 +450,6 @@ theme_set(
     legend.title = element_blank()
   )
 )
-
 
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
   tagList(
@@ -492,12 +506,16 @@ labellize_stats_no_i <- function(stat1_str, stat2_str = NULL, info_str) {
   )
 }
 
-labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str) {
+labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str) {
   tagList(
     tags$p(
       class = "d-inline",
       style = "font-weight: 300;",
       stat1_str
+    ),
+    tags$p(
+      class = "d-inline",
+      info_str
     ),
     if (!is.null(stat2_str)) {
       tags$p(
@@ -505,11 +523,7 @@ labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str, infobulle
         style = "color: #C0C0C2; font-size: 16px; font-weight: 300;",
         stat2_str
       )
-    },
-    tags$p(
-      class = "d-inline",
-      info_str
-    )
+    }
   )
 }
 

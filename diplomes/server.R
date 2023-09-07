@@ -26,7 +26,7 @@ shinyServer(function(input, output, session) {
       session = session,
       inputId = "degre3",
       choices = values,
-      selected = "- Ensemble"
+      selected = "Ensemble"
     )
   })
 
@@ -54,6 +54,8 @@ shinyServer(function(input, output, session) {
     generateDataForLevel3(tab_diplome, code_niveau3(), input$degre3)
   })
 
+  ###################### Create the barplot ######################
+  
   reactive_graph_situation_apres_3_ans <- reactive({
     if (is.null(input$degre3)) {
       gg <- generatePlot(tab_diplome, input$niveau)
@@ -197,7 +199,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$taux_chomage, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -215,7 +217,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$taux_chomage, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_chomage, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -244,7 +246,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$taux_edi, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -262,7 +264,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$taux_edi, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$taux_edi, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -289,7 +291,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$part_tps_partiel, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -305,7 +307,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$part_tps_partiel, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_no_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -333,7 +335,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$revenu_travail, symbole_euro)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -351,7 +353,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$revenu_travail, symbole_euro)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$revenu_travail, symbole_euro, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str,
@@ -379,7 +381,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$correspondance_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -395,7 +397,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$correspondance_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$correspondance_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -421,7 +423,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data()$competence_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
@@ -437,7 +439,7 @@ shinyServer(function(input, output, session) {
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$competence_ok, symbole_pourcentage)
-        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, ")"))
+        text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$competence_ok, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_row(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str

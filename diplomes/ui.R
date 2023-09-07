@@ -71,7 +71,6 @@ fluidPage(
           tags$img(src = "logo-generation.png")
         )
       ),
-      tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
       tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
       DownloadButton("downloadData", ".xlsx"),
       actionButton("downloadPDF", ".pdf", onclick = "window.print();")
@@ -99,6 +98,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition des sortants selon leur situation d'activité"),
+        br(),
         style = "max-width:850px; margin-left:0;",
         girafeOutput("graph_situation_apres_3_ans", height = NULL)
       )
@@ -141,6 +141,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition par profession"),
+        br(),
         style = "max-width:850px; margin-left:0;",
         girafeOutput("plot_repartition_par_profession", height = NULL)
       )
@@ -150,6 +151,7 @@ fluidPage(
       div(
         class = "custom-border-box",
         h2("Répartition par secteur"),
+        br(),
         style = "max-width:850px; margin-left:0;",
         girafeOutput("plot_repartition_par_secteur", height = NULL)
       )
