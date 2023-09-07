@@ -340,7 +340,10 @@ generateDonutProfession <- function(tab_diplome, niveau, caption_texte) {
       legend.position = "top",
       axis.text.y = element_blank(),
       legend.key.height = unit(3,"line"),
-      legend.box.spacing = unit(-1, "cm")
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -363,7 +366,10 @@ generateDonutProfessionSpec <- function(tab_diplome, niveau, libelle, caption_te
       legend.position = "top",
       axis.text.y = element_blank(),
       legend.key.height = unit(3,"line"),
-      legend.box.spacing = unit(-1, "cm")
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -386,7 +392,10 @@ generateDonutSecteur <- function(tab_diplome, niveau, caption_texte) {
       legend.position = "top",
       axis.text.y = element_blank(),
       legend.key.height = unit(3,"line"),
-      legend.box.spacing = unit(-1, "cm")
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -409,7 +418,10 @@ generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte
       legend.position = "top",
       axis.text.y = element_blank(),
       legend.key.height = unit(3,"line"),
-      legend.box.spacing = unit(-1, "cm")
+      legend.box.spacing = unit(-1, "cm"),
+      plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-2.2), "cm"),
+                                            color = "#C0C0C2",
+                                            size = 12)
       ) +
     guides(fill = guide_legend(ncol = 3, byrow = TRUE))
 }
@@ -417,7 +429,6 @@ generateDonutSecteurSpec <- function(tab_diplome, niveau, libelle, caption_texte
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo"),
     text = element_text(size = 12, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
