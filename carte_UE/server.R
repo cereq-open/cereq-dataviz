@@ -20,7 +20,7 @@ library(rnaturalearth)
 library(readr)
 library(ggmap)
 library(viridis)
-
+library(shinyjs)
 library(leaflet)
 library(DT)
 library(shinydashboardPlus)
@@ -41,12 +41,37 @@ server <- function(input, output,session) {
       file.copy("data/base_load_europe.xlsx", file)
     }
   )
+  #filtre bouton 
+
   
-  #TAUX ACCES
+ 
+  
+ 
+  
+  observe({
+    shinyjs::toggleState("taille", input$taille_secteur == 'Taille')
+
+    shinyjs::toggleState("secteur", input$taille_secteur == 'Secteur')
+  })
+  observeEvent(input$taille_secteur, {
+    shinyjs::reset("taille")
+    shinyjs::reset("secteur")
+  })    
+  
+  
   
   filtre_UE <- reactive({
-    europe %>% filter(taille==input$taille & secteur==input$secteur_bis) 
- })
+    
+    europe %>% dplyr::filter(taille %in% input$taille & secteur %in% input$secteur_bis )
+  })
+  
+ 
+
+  
+  #TAUX ACCES
+
+
+
   X=1/5
   bins<- c(0 , quantile(europe$tx_acc1,X) , quantile(europe$tx_acc1,X*2) , quantile(europe$tx_acc1,X*3),quantile(europe$tx_acc1,X*4), 100) 
 
@@ -108,9 +133,7 @@ server <- function(input, output,session) {
   bins_form<- c(0 , quantile(europe$tx_form,X) , quantile(europe$tx_form,X*2) , quantile(europe$tx_form,X*3),quantile(europe$tx_form,X*4)) 
   
   
-  filtre_UE <- reactive({
-    europe %>% filter(taille==input$taille & secteur==input$secteur_bis) })
-  
+
   output$part_form <- renderLeaflet({
     
     
@@ -171,10 +194,7 @@ server <- function(input, output,session) {
     
 
   bins_tpf<- c(0 , quantile(europe$tx_tpf,X) , quantile(europe$tx_tpf,X*2) , quantile(europe$tx_tpf,X*3),quantile(europe$tx_tpf,X*4), max(europe$tx_tpf)) 
-  
-  
-  filtre_UE <- reactive({
-    europe %>% filter(taille==input$taille & secteur==input$secteur_bis) })
+
   
   output$TPF <- renderLeaflet({
     
@@ -236,9 +256,7 @@ server <- function(input, output,session) {
   
   
   
-  
-  filtre_UE <- reactive({
-    europe %>% filter(taille==input$taille & secteur==input$secteur_bis) })
+
   
   output$nb_h <- renderLeaflet({
     
