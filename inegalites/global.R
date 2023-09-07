@@ -36,7 +36,10 @@ tab_inegalites <- read_parquet("data/tab_inegalites.parquet") %>%
     str_detect(Diplôme, "diplômées") ~ str_replace(Diplôme, "diplômées", "diplômés"),
     TRUE ~ Diplôme  # on garde la même valeur pour toutes les autres valeurs
   )) %>% 
-  mutate(across(c(taux_emploi,part_chomage,taux_chomage,taux_edi,revenu_travail,traj_1,traj_2,traj_3,traj_7,correspondance_ok,competence_ok), 
+  mutate(across(c(taux_emploi, part_chomage, taux_chomage,
+                  taux_edi, part_tps_partiel, revenu_travail,
+                  traj_1, traj_2, traj_3, traj_7,
+                  correspondance_ok, competence_ok), 
                 ~ifelse(. == -900, 0, .)))
 
 tab_variables_inegalites <- read_excel("data/variables_INEGALITES.xlsx")
@@ -49,7 +52,15 @@ valeurs_indicateurs <- unique(na.omit(tab_variables_inegalites$Titre_graphique))
 # Function to create the data stream according to the factor selected
 
 generateData <- function(tab_inegalites, facteur) {
-  tab_inegalites %>% filter(facteur_analyse %in% facteur)
+  tab_inegalites_filtree <- tab_inegalites %>% filter(facteur_analyse %in% facteur)
+  
+  if (facteur == "sexe") {
+    tab_inegalites_filtree$modalité <- factor(tab_inegalites_filtree$modalité, levels = c("Hommes", "Femmes"))
+    return(tab_inegalites_filtree)
+    
+  } else {
+    return(tab_inegalites_filtree)
+  }
 }
 
 # Function to create the caption
@@ -145,7 +156,7 @@ generateHeight <- function(facteur) {
   if (facteur == "sexe" || facteur == "lieu de résidence à la fin des études") {
     height <- 3.8
   } else {
-    height <- 5
+    height <- 6.4
   }
   
   return(height)
@@ -158,7 +169,7 @@ generateWidth<- function(facteur) {
   if (facteur == "sexe" || facteur == "lieu de résidence à la fin des études") {
     width <- 6
   } else {
-    width <- 8
+    width <- 5
   }
   
   return(width)
@@ -178,34 +189,38 @@ generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
   tab$mod_2 <- gsub("'", " ", tab$modalité)
   
-  ggplot(tab, aes(x = Diplôme, y = indicateur, fill = modalité)) +
-    geom_col_interactive(width = 1, color = "white", mapping = aes(data_id = mod_2,
-                                                                     tooltip = tooltip_value)) +
-    coord_flip() +
-    geom_text(aes(label = taux_str),
-      position = position_stack(vjust = .5),
-      color = "white",
-      size = 2
-      ) +
+  ggplot(data=tab, aes(x=indicateur, y=modalité, fill = modalité)) +
+    geom_col_interactive(mapping = aes(data_id = mod_2,
+                                                        tooltip = tooltip_value)) +
+    facet_wrap(~Diplôme, ncol = 1) +
+    theme(
+      strip.background = element_blank(),
+      strip.text =  element_text(face = "bold", hjust = 0.5, size = 8)
+    ) +
+   # guides(fill = "none") +
     scale_fill_manual(values = colors, 
                       labels = scales::label_wrap(20),
                       guide = guide_legend(nrow = nb_row, byrow = TRUE,
                                            override.aes = list(size = 0))
-                      ) +
-    scale_y_continuous(trans = "reverse") +
+    ) +
     labs(caption = caption) +
-    theme(
-      legend.position = "top",
-      legend.justification="center",
-      legend.box.spacing = unit(0, "pt"),
-      legend.margin=margin(0, 0, 20, 0),
-      legend.key.height = unit(height,"line"),
-      legend.text = element_text(size = 8, face = "plain"),
-      plot.caption = element_textbox_simple(
-        hjust = 0,
-        color = "#C0C0C2",
-        size = 8
-        )
+    geom_text(aes(label = taux_str),
+              position = position_stack(vjust = .5),
+              color = "white",
+              size = 2
+    ) +
+    theme(axis.text.y = element_blank(),
+          legend.position = "top",
+          legend.justification="center",
+          legend.box.spacing = unit(0, "pt"),
+          legend.margin=margin(0, 0, 20, 0),
+          legend.key.height = unit(height,"line"),
+          legend.text = element_text(size = 8, face = "plain"),
+          plot.caption = element_textbox_simple(
+            hjust = 0,
+            color = "#C0C0C2",
+            size = 8
+            )
     )
   }
 

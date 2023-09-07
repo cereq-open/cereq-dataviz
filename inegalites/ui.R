@@ -58,11 +58,6 @@ fluidPage(
          )
        )
      ),
-     tags$img(
-       src = "logo-download.svg",
-       height = "50px",
-       width = "50px"
-     ),
      tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
      DownloadButton('downloadData',".xlsx"),
      actionButton("downloadPDF", ".pdf", onclick = "window.print();")
@@ -72,6 +67,7 @@ fluidPage(
     column(
       width = 12,
       div(
+        class = "custom-border-box",
         uiOutput("titre_graph"),
         style = "max-width:1000px; margin-left:0;",
         girafeOutput("graph", height = NULL)
