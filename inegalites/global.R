@@ -156,7 +156,7 @@ generateHeight <- function(facteur) {
   if (facteur == "sexe" || facteur == "lieu de résidence à la fin des études") {
     height <- 3.8
   } else {
-    height <- 5
+    height <- 6.4
   }
   
   return(height)
@@ -169,7 +169,7 @@ generateWidth<- function(facteur) {
   if (facteur == "sexe" || facteur == "lieu de résidence à la fin des études") {
     width <- 6
   } else {
-    width <- 8
+    width <- 5
   }
   
   return(width)
