@@ -103,7 +103,7 @@ ligne_drom <- 3
 # Fonction pour tracer la carte
 plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
   ggplot(df) +
-    geom_sf_interactive(aes(fill = !!sym(nom_colonne), data_id = !!sym(nom_colonne), tooltip = tooltip_value)) +
+    geom_sf_interactive(aes(fill = !!sym(nom_colonne), data_id = `Libellé`, tooltip = tooltip_value)) +
     geom_sf_text(
       aes(label = !!sym(col_name_text)),
       check_overlap = TRUE,
