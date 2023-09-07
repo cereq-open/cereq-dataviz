@@ -5,7 +5,9 @@ url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-dat
 
 
 
-ui <- fluidPage(
+ui <- 
+  
+fluidPage(
   theme = bs_theme(version = 5, primary = "#008b99"),
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"), # CSS personnalisé
@@ -68,32 +70,56 @@ ui <- fluidPage(
       tags$h1("Indicateurs Européens")
     )
   ),
-  
-
-          
-          
+  br(),
+  fluidRow(
+    column(
+      width = 12,
+      tags$h1("Choisir la taille ou le secteur :"),
+    
+      radioGroupButtons(
+        inputId = "taille_secteur",
+      
+        choices = c( "Secteur","Taille"),
+        status = "primary",
+        checkIcon = list(
+          yes = icon("ok", 
+                     lib = "glyphicon"),
+          no = icon("remove",
+                    lib = "glyphicon"))
+      )
+  )),
+ 
           #Bouton TAILLE SECTEUR
           br(),
           gfontHtmlDependency(family = "Arimo"),
           fluidRow(
+         
             column(
               width = 4,
-              
-              pickerInput(
+            
+              shinyjs::useShinyjs(),
+             
+              div(id="secteur",
+               pickerInput(
                 width = "fit",
                 inline = TRUE,
-                label = tags$h1("Choisir le secteur :"),
+                label = tags$h1("Secteur :"),
                 inputId = "secteur_bis",
                 choices = liste_secteur2,
                 selected = "Ensemble des secteurs"
                 
-              )),
+              ))),
+            column(width =2,
+                   h1(" ")),
             column(
               width = 4,
-              pickerInput(
+              shinyjs::useShinyjs(),
+              
+              div(id="taille",
+             pickerInput(
                 width = "fit",
                 inline = TRUE,
-                label = tags$h1("Choisir la taille :"),
+                label = tags$h1("Taille :"),
                 inputId = "taille",
                 choices = liste_taille2,
                 selected = "Ensemble"
@@ -101,7 +127,7 @@ ui <- fluidPage(
               
                   
                 ))),
-              
+     
             
   
   br(),
@@ -229,7 +255,7 @@ ui <- fluidPage(
   #saut de ligne qui marche pas
   fluidRow(
     column(width= 12,  class = "h1")
-  ))
+  )))
   
   
 
