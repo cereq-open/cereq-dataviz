@@ -56,11 +56,6 @@ fluidPage(
             src = "logo-generation.png"
           )
         ),
-        tags$img(
-          src = "logo-download.svg",
-          height = "50px",
-          width = "50px"
-        ),
         tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
         DownloadButton("downloadData", ".xlsx"),
         actionButton("downloadPDF", ".pdf", onclick = "window.print();")
@@ -69,7 +64,7 @@ fluidPage(
     br(),
     fluidRow(
       column(
-        width = 7,
+        width = 6,
         align = "left",
         uiOutput("region_de_residence"),
         uiOutput("stat_residence"),
@@ -79,24 +74,26 @@ fluidPage(
         )
       ),
       column(
-        width = 5,
-        p("Niveau de formation des sortants",
-          class = "d-inline",
+        width = 6,
+        p("Une partie des écarts observés entre région pour l’indicateur choisi s’explique par les différences de niveaux de formation atteint par les sortants de chaque région. La carte ci-dessous permet d’en donner une illustration. Choisir le niveau du plus haut diplôme :",
+          class = "d-inlinenotbold",
           style = "font-size:18px;"
         ),
+        br(),
         pickerInput(
           inputId = "titre_niveau",
-          label = p("Choisir le niveau de plus haut diplôme :",
-                    class = "d-inline",
-                    style = "font-size:18px;"),
+          label = "",
           choices = titre_map_niveau,
           selected = titre_map_niveau[1],
           width = "fit",
           inline = TRUE
         ),
+        br(),
+        p("Proportion de sortants de formation initiale ayant ce niveau",
+          class = "d-inline"),
         uiOutput("stat_niveau"),
         div(
-          style = "max-width:800px; margin-right:0;",
+          style = "max-width:600px; margin-right:0;",
           girafeOutput("carte_niveau", height = NULL)
         )
       )

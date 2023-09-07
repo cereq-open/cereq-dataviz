@@ -19,8 +19,8 @@ suppressPackageStartupMessages({
 # Table permettant d'afficher les cartes
 tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
   mutate(
-    Libellé = ifelse(Libellé == "Corse", "Provence-Alpes-Cote-d'Azur et Corse",
-      ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "Provence-Alpes-Cote-d'Azur et Corse", Libellé)
+    Libellé = ifelse(Libellé == "Corse", "P.A.C.A. et Corse",
+      ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "P.A.C.A. et Corse", Libellé)
     ),
     Libellé = toupper(Libellé)
   )
@@ -31,7 +31,7 @@ tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
 db_region <- read_parquet("data/tab_region.parquet")
 
 # Variables region
-variables_region <- read_excel("data/variables_region.xlsx")
+variables_region <- read_excel("data/variables REGION.xlsx")
 
 # Define Global ----------------------------------------------------------------
 
@@ -103,7 +103,7 @@ ligne_drom <- 3
 # Fonction pour tracer la carte
 plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
   ggplot(df) +
-    geom_sf_interactive(aes(fill = !!sym(nom_colonne), data_id = !!sym(nom_colonne), tooltip = tooltip_value)) +
+    geom_sf_interactive(aes(fill = !!sym(nom_colonne), data_id = `Libellé`, tooltip = tooltip_value)) +
     geom_sf_text(
       aes(label = !!sym(col_name_text)),
       check_overlap = TRUE,
