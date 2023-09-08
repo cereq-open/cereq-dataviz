@@ -45,7 +45,7 @@ fluidPage(
     column(
       
       width=12,
-      div( style = "text-align:center;",
+      div( style = "text-align:right;",
       tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
       DownloadButton("downloadData", ".xlsx"),
      
@@ -71,14 +71,43 @@ fluidPage(
     )
   ),
   br(),
-  fluidRow(
-    column(
-      width = 12,
-      tags$h1("Choisir la taille ou le secteur :"),
+  fluidRow(column (width=6,
+    sliderInput(
+      inputId="annee", 
+      label=h3("Date en année :"), 
+      min=2010, 
+      max=2020, 
+      value = 2010,
+   #   timeFormat = TRUE, 
     
-      radioGroupButtons(
-        inputId = "taille_secteur",
+      animate = TRUE,
+      sep = NULL,
+      step=5,
+      ticks=TRUE,
+    
+      animationOptions(
+        interval = 10000,
+        loop = FALSE,
+        playButton = TRUE,
+        pauseButton = TRUE
+      ))
+   
       
+    ),
+   
+ 
+  
+      
+ 
+    column(
+     
+      width = 6,
+      div(
+        style = "text-align:left;",
+      radioGroupButtons(
+        label=h3("Choisir la taille ou le secteur :"),
+        inputId = "taille_secteur",
+ 
         choices = c( "Secteur","Taille"),
         status = "primary",
         checkIcon = list(
@@ -87,15 +116,16 @@ fluidPage(
           no = icon("remove",
                     lib = "glyphicon"))
       )
-  )),
+  ))),
  
           #Bouton TAILLE SECTEUR
-          br(),
+   
           gfontHtmlDependency(family = "Arimo"),
           fluidRow(
-         
             column(
-              width = 4,
+              width = 6),
+            column(
+              width = 3,
             
               shinyjs::useShinyjs(),
              
@@ -103,23 +133,22 @@ fluidPage(
                pickerInput(
                 width = "fit",
                 inline = TRUE,
-                label = tags$h1("Secteur :"),
+                label = tags$h3("Secteur :"),
                 inputId = "secteur_bis",
                 choices = liste_secteur2,
                 selected = "Ensemble des secteurs"
                 
               ))),
-            column(width =2,
-                   h1(" ")),
+           
             column(
-              width = 4,
+              width = 3,
               shinyjs::useShinyjs(),
               
               div(id="taille",
              pickerInput(
                 width = "fit",
                 inline = TRUE,
-                label = tags$h1("Taille :"),
+                label = tags$h3("Taille :"),
                 inputId = "taille",
                 choices = liste_taille2,
                 selected = "Ensemble"
