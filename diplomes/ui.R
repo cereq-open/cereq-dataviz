@@ -108,7 +108,7 @@ fluidPage(
   fluidRow(
     column(
       width = 12,
-      tags$h1("Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?")
+      tags$h1("Conditions d’emploi des jeunes trois ans après leur sortie de formation initiale")
     ),
     column(
       width = 4,
