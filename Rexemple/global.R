@@ -128,7 +128,7 @@ generateTitle <- function(title, infobulle_str = NULL) {
 plot_barchart <- function(df, y_col, caption_texte, titre = NULL) {
   DT <- concat_value(df, y_col)
   ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
-    geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 1),vjust=-0.5, size= 2.5, color = "Black", fontface = "bold") + scale_fill_manual(values = colors2) + 
+    geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 1),vjust= 2, size= 2, color = "white", fontface = "bold") + scale_fill_manual(values = colors2) + 
     labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salarié") 
   
 }
