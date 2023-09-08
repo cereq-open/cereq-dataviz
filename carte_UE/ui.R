@@ -137,6 +137,7 @@ fluidPage(
                 inputId = "secteur_bis",
                 choices = liste_secteur2,
                 selected = "Ensemble des secteurs"
+               
                 
               ))),
            
