@@ -141,12 +141,12 @@ generate_legend_key_height <- function(facteur) {
 generateSymbol <- function(indicateur) {
   
   if (indicateur != "Revenu mensuel médian à trois ans") {
-    symbol <- "%"
+    symbole <- " %"
   } else {
-    symbol <- "€"
+    symbole <- "€"
   }
   
-  return(symbol)
+  return(symbole)
 }
 
 # Function to determine the height of the graph
@@ -177,11 +177,11 @@ generateWidth<- function(facteur) {
 
 # Function to create the plot
    
-generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol) {
+generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbole) {
   
   tab <- df %>%
     mutate(
-      taux_str = paste0(indicateur, symbol),
+      taux_str = paste0(indicateur, symbole),
       tooltip_value = paste0(modalité, " : " , taux_str)
     )
   
