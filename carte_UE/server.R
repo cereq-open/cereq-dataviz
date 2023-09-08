@@ -62,7 +62,7 @@ server <- function(input, output,session) {
   
   filtre_UE <- reactive({
     
-    europe %>% dplyr::filter(taille %in% input$taille & secteur %in% input$secteur_bis )
+    europe %>% dplyr::filter(taille %in% input$taille & secteur %in% input$secteur_bis & Année %in% input$annee )
   })
   
  
