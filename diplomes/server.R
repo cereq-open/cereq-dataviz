@@ -138,7 +138,7 @@ shinyServer(function(input, output, session) {
   ###################### Create Statistics ######################
 
   reactive_tx_en_emploi <- reactive({
-    infobulle_str <- "Le taux d'emploi correspond à la part des individus en emploi parmi la population totale."
+    infobulle_str <- variables_diplome %>% filter(Nom_colonne == "taux_emploi") %>% pull(Bulle)
     info_str <- "En emploi"
 
     if (is.null(input$degre3)) {
@@ -185,7 +185,7 @@ shinyServer(function(input, output, session) {
   })
 
   reactive_tx_chomage <- reactive({
-    infobulle_str <- "Le taux de chômage correspond à la part des individus sans emploi et à la recherche d'un emploi parmi les actifs (individus en emploi ou au chômage)."
+    infobulle_str <- variables_diplome %>% filter(Nom_colonne == "taux_chomage") %>% pull(Bulle)
     info_str <- "Taux de chômage"
 
     if (is.null(input$degre3)) {
@@ -232,7 +232,7 @@ shinyServer(function(input, output, session) {
   })
 
   reactive_tx_en_edi <- reactive({
-    infobulle_str <- "La proportion des individus en emploi non-salarié (personne à son compte ou aide familial), en contrat à durée indéterminée (CDI) ou avec le statut de fonctionnaire."
+    infobulle_str <- variables_diplome %>% filter(Nom_colonne == "taux_edi") %>% pull(Bulle)
     info_str <- "En emploi à durée indéterminée"
 
     if (is.null(input$degre3)) {
@@ -285,14 +285,14 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage)
-        labellize_stats_no_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
         text_info2 <- paste0(filtered_data()$part_tps_partiel, symbole_pourcentage)
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, " pour l'ensemble des sortants)"))
-        labellize_stats_no_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
         )
@@ -301,14 +301,14 @@ shinyServer(function(input, output, session) {
       req(input$niveau)
       if (input$niveau %in% ensemble_des_sortants) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage)
-        labellize_stats_no_i(
+        labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
           info_str = info_str
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$part_tps_partiel, symbole_pourcentage)
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, " pour l'ensemble des sortants)"))
-        labellize_stats_no_i(
+        labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
           info_str = info_str
         )
@@ -321,7 +321,7 @@ shinyServer(function(input, output, session) {
   })
 
   reactive_revenu_median <- reactive({
-    infobulle_str <- "Niveau de salaire ou traitement mensuel net primes incluses médian. Le revenu médian est la valeur telle que la moitié des individus de la population considérée gagne plus, l'autre moitié gagne moins."
+    infobulle_str <- variables_diplome %>% filter(Nom_colonne == "revenu_travail") %>% pull(Bulle)
     info_str <- "Revenu mensuel médian"
 
     if (is.null(input$degre3)) {
