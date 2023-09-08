@@ -167,7 +167,7 @@ generateStyledBlocks <- function(class, sortis) {
 
 concat_value <- function(df, nom_colonne) {
   if (nom_colonne != "revenu_travail") {
-    df["taux_str"] <- paste0(df[[nom_colonne]], "%")
+    df["taux_str"] <- paste0(df[[nom_colonne]], " %")
   } else {
     df["taux_str"] <- paste0(df[[nom_colonne]], " €")
   }
