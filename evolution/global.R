@@ -74,7 +74,7 @@ champ <- '<span style="color:#008B99;">Champ : </span>'
 
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
-  "Céreq, enquêtes Génération 2010, Génération 2013 et Génération 2017"
+  "Céreq, enquêtes Génération 2010, Génération 2013 et Génération 2017."
 )
 
 caption_part_1 <- paste0(
@@ -167,7 +167,7 @@ generateStyledBlocks <- function(class, sortis) {
 
 concat_value <- function(df, nom_colonne) {
   if (nom_colonne != "revenu_travail") {
-    df["taux_str"] <- paste0(df[[nom_colonne]], "%")
+    df["taux_str"] <- paste0(df[[nom_colonne]], " %")
   } else {
     df["taux_str"] <- paste0(df[[nom_colonne]], " €")
   }
