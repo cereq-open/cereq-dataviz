@@ -102,7 +102,7 @@ fluidPage(
     column(
      
       width = 6,
-      div(
+      div(id="masque",
         style = "text-align:left;",
       radioGroupButtons(
         label=h3("Choisir la taille ou le secteur :"),
@@ -136,10 +136,12 @@ fluidPage(
                 label = tags$h3("Secteur :"),
                 inputId = "secteur_bis",
                 choices = liste_secteur2,
-                selected = "Ensemble des secteurs"
-               
+                selected = "Ensemble des secteurs",
+                options = list(
+                  style = "btn-primary")
                 
               ))),
+           
            
             column(
               width = 3,
@@ -158,7 +160,7 @@ fluidPage(
                   
                 ))),
      
-            
+            htmlOutput("phrase"),
   
   br(),
   
