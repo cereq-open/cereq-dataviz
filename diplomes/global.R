@@ -39,7 +39,7 @@ couleurs_bar_chart <- c("En emploi" = "#008B99", "Au chômage" = "#EF5350", "Aut
 couleurs_donut_chart <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
 
 # Symboles pour les stats
-symbole_pourcentage <- "%"
+symbole_pourcentage <- " %"
 symbole_euro <- " €"
 
 caption_source <- paste0(
@@ -247,6 +247,15 @@ generateCaptionDonutChart <- function(niveau, libelle = NULL) {
     caption <- paste0(
       champ,
       niveau,
+      ".",
+      "<br>",
+      caption_source
+    )
+  } else if(libelle == "Ensemble") {
+    caption <- paste0(
+      champ,
+      niveau,
+      ".",
       "<br>",
       caption_source
     )
@@ -254,8 +263,9 @@ generateCaptionDonutChart <- function(niveau, libelle = NULL) {
     caption <- paste0(
       champ,
       niveau,
-      " ",
+      " - ",
       libelle,
+      ".",
       "<br>",
       caption_source
     )
