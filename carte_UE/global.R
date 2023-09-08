@@ -28,7 +28,7 @@ library(gfonts)
 #Lecture fichier : 
 
 #1- fichier indicateur
-UE <- read_parquet("data/indicateur_UE.parquet", 
+UE <- read_parquet("data/indicateur_UE0809.parquet", 
                    col_types = cols(tx_form = col_number(),heurstag = col_number(),
                                     tx_tpf = col_number()))
 
