@@ -72,7 +72,7 @@ shinyServer(function(input, output, session) {
 
     caption <- paste0(
       '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération 2017",
+      "Ensemble de la Génération 2017.",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
       "Céreq, enquête Génération 2017 à trois ans."
@@ -94,7 +94,7 @@ shinyServer(function(input, output, session) {
 
     caption <- paste0(
       '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération 2017",
+      "Ensemble de la Génération 2017.",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
       "Céreq, enquête Génération 2017 à trois ans."
