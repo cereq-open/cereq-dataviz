@@ -64,6 +64,8 @@ tab_diplome <- read_parquet("data/tab_diplome.parquet") %>%
   rename(Libelle_complet = `Libelle complet`,
          Libelle_Menu = `Libelle Menu`)
 
+variables_diplome <- read_excel("data/Variables DIPLOME.xlsx")
+
 # Keep only the levels whose code should not start with 0.
 list_degre1_2 <- as.list(filter(tab_diplome, str_sub(Code, -1, -1) == "0") %>% pull(`Libelle_Menu`))
 
