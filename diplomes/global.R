@@ -7,6 +7,7 @@ suppressPackageStartupMessages({
   library(ggiraph)
   library(gdtools)
   library(arrow)
+  library(readxl)
 })
 
 options(shiny.useragg = TRUE)
