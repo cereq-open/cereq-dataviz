@@ -32,7 +32,7 @@ fluidPage(
         class = "align-items-start",
         pickerInput(
           inputId = "indicateurs",
-          label = h1("Choisir le plus haut diplôme atteint"),
+          label = h1("Choisir le plus haut diplôme atteint :"),
           choices = vec_indicateurs,
           selected = vec_indicateurs[1],
           width = "fit",
@@ -110,7 +110,7 @@ fluidPage(
   fluidRow(
     column(
       width = 6,
-      h1("Quelles sont les conditions d’emploi des jeunes en emploi trois ans après leur sortie ?")
+      h1("Conditions d’emploi des jeunes trois ans après leur sortie de formation initiale")
     )
   ),
   br(),
