@@ -57,7 +57,26 @@ server <- function(input, output,session) {
     shinyjs::reset("taille")
     shinyjs::reset("secteur")
   })    
+  observe({
+  shinyjs::toggle(id='taille',condition = {"Taille" %in% input$taille_secteur})
+  shinyjs::toggle(id='secteur',condition = {"Secteur" %in% input$taille_secteur})
+    })
   
+  
+  
+
+  
+  x<-reactive({input$taille_secteur })
+  
+   output$phrase<-renderText({if( x()=="Taille"){
+     "secetur ensemble"
+     } else {
+       "taille ensemble"}
+     })
+  
+ 
+ 
+ 
   
   
   filtre_UE <- reactive({
