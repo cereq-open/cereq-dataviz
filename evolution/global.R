@@ -74,7 +74,7 @@ champ <- '<span style="color:#008B99;">Champ : </span>'
 
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
-  "Céreq, enquêtes Génération 2010, Génération 2013 et Génération 2017"
+  "Céreq, enquêtes Génération 2010, Génération 2013 et Génération 2017."
 )
 
 caption_part_1 <- paste0(
