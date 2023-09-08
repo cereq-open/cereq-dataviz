@@ -25,7 +25,6 @@ tab_region <- st_read("data/tab_region.shp", quiet = TRUE) %>%
     Libellé = toupper(Libellé)
   )
 
-
 # Table permettant d'afficher les stats du type "France : XX%
 #                                               (Dont DROM : xx%)"
 db_region <- read_parquet("data/tab_region.parquet")
@@ -119,8 +118,8 @@ plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
 
 concatenate_columns <- function(df, col_name) {
   if(col_name != "rvn_trv") {
-    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], "%)"))
-    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], "%")
+    df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], " %)"))
+    df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], " %")
   } else {
     df[["label"]] <- paste0(df[["Libellé"]], "\n" , paste0("(", df[[col_name]], " €)"))
     df[["tooltip_value"]] <- paste0(df[["Libellé"]], " : " ,df[[col_name]], " €")
@@ -152,7 +151,7 @@ labellize_stat <- function(stat1, stat2) {
       class = "texte-stat-info",
       stat1,
       tags$span(
-        style = "color: #C0C0C2; 
+        style = "color: #008b99; 
         font-size: 18px;
         font-weight: 300;", #light
         stat2
