@@ -45,7 +45,7 @@ shinyServer(function(input, output, session) {
 
   output$stat_residence <- renderUI({
     if (variables_residence_reactive()$Nom_colonne != "revenu_travail") {
-      symbole <- "%"
+      symbole <- " %"
     } else {
       symbole <- " €"
     }
@@ -57,8 +57,9 @@ shinyServer(function(input, output, session) {
   })
 
   output$stat_niveau <- renderUI({
-    stat_france <- paste0("France : ", db_region[ligne_fr, variables_niveau_reactive()$Nom_colonne], "%")
-    stat_drom <- paste0("(", paste0("dont ensemble des D.R.O.M. : ", db_region[ligne_drom, variables_niveau_reactive()$Nom_colonne], "%"), ")")
+    symbole <- " %"
+    stat_france <- paste0("France : ", db_region[ligne_fr, variables_niveau_reactive()$Nom_colonne], symbole)
+    stat_drom <- paste0("(", paste0("dont ensemble des D.R.O.M. : ", db_region[ligne_drom, variables_niveau_reactive()$Nom_colonne], symbole), ")")
 
     labellize_stat(stat_france, stat_drom)
   })
