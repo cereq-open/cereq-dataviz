@@ -145,9 +145,9 @@ server <- function(input, output,session) {
   })   
   
   output$frein<-   renderText({ 
-    paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$frein_non_form1,"<font color=\"#C0C0C2\">"," (",filtered()$percent_frein1," %)","<br>",
-           "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$frein_non_form2,"<font color=\"#C0C0C2\">"," (",filtered()$percent_frein2," %)","<br>",
-           "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$frein_non_form3,"<font color=\"#C0C0C2\">"," (",filtered()$percent_frein3," %)","<br>"
+    paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$frein_non_form1,"<font color=\"#008b99\">"," (",filtered()$percent_frein1," %)","<br>",
+           "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$frein_non_form2,"<font color=\"#008b99\">"," (",filtered()$percent_frein2," %)","<br>",
+           "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$frein_non_form3,"<font color=\"#008b99\">"," (",filtered()$percent_frein3," %)","<br>"
           )
     
   })   
