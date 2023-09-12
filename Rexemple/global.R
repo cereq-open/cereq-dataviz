@@ -62,9 +62,9 @@ EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
 EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs"
 EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
 
-col=rep("#F8AC00",27)
-colors2<-setNames(c("#256299","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00","#F8AC00"),unique(EFE_1$secteur))
-colors <-setNames(c("#256299",col),unique(EFE_1$secteur))
+col=rep("#7FC4CB",27)
+colors2<-setNames(c("#046B76","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB"),unique(EFE_1$secteur))
+colors <-setNames(c("#046B76",col),unique(EFE_1$secteur))
 
 
 # Couleurs des barplots
@@ -171,7 +171,7 @@ theme_set(
     plot.caption.position = "plot",
     legend.position = "top",
     legend.justification = "left",
-    plot.caption = element_textbox_simple( hjust = 100, color = "#C0C0C2", size = 10 , margin = margin(t = -1)) 
+    plot.caption = element_textbox_simple( hjust = 100, color = "#808080", size = 10 , margin = margin(t = -1)) 
   )
 )
 
