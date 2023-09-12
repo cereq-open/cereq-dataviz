@@ -239,15 +239,14 @@ ui <- fluidPage(
         div(
           class = "custom-border-box",
           tags$p(
-            class = "stat_info",
-            tags$span(
-              style = "color: #00000;font-size: 30px;font-style: bold",
-              "Taux acces"
-            ),
+            class = "texte-stat-info",
+            
+            "Taux d'acces :"
+            ,
             tags$i(
               class = "fas fa-info-circle",
-              style = "color: #008B99;",
-              title = "Le taux d'acces est blallalalalalallalalalalalalalalal"
+              style = "color: #008B99; font-size: 16px;",
+              title = "Les secteurs"
             )
           ),
           div(
@@ -265,14 +264,13 @@ ui <- fluidPage(
         div(
           class = "custom-border-box",
           tags$p(
-            class = "stat_info",
-            tags$span(
-             style = "color: #00000;font-size: 30px;font-style: bold",
+            class = "texte-stat-info",
+           
               "Part d'entreprise formatrice"
-            ),
+            ,
             tags$i(
               class = "fas fa-info-circle",
-              style = "color: #008B99;",
+              style = "color: #008B99; font-size: 16px;",
               title = "Les secteurs"
             )
           ),
@@ -293,14 +291,13 @@ ui <- fluidPage(
       div(
         class = "custom-border-box",
         tags$p(
-          class = "stat_info",
-          tags$span(
-            style = "color: #00000;font-size: 30px;font-style: bold",
-            "Taux de participation financière"
-          ),
+          class = "texte-stat-info",
+          
+          "Taux de participation financière des entreprises"
+          ,
           tags$i(
             class = "fas fa-info-circle",
-            style = "color: #008B99;",
+            style = "color: #008B99; font-size: 16px;",
             title = "Les secteurs"
           )
         ),
@@ -318,15 +315,14 @@ ui <- fluidPage(
     div(
       class = "custom-border-box",
       tags$p(
-        class = "stat_info",
-        tags$span(
-          style = "color: #00000;font-size: 30px;font-style: bold",
-          "Moyenne des heures de stage"
-        ),
+        class = "texte-stat-info",
+        
+        "Moyennes des heures de stages :"
+        ,
         tags$i(
           class = "fas fa-info-circle",
-          style = "color: #008B99;",
-          title = "Les secteurs "
+          style = "color: #008B99; font-size: 16px;",
+          title = "Les secteurs"
         )
       ),
       div(
