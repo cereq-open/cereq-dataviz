@@ -2,7 +2,7 @@
 :root {
   --main-font: "Arimo";
   --main-color: #303032;
-  --secondary-color: #ffffff;
+  --secondary-color: #7f7f7f;
   --highlight-color: #008b99;
   --base-font-size: 16px;
 }
@@ -38,6 +38,14 @@ h2 {
   font-weight: bold;
   font-size: 16px;
   color: black;
+  text-align: left;
+}
+
+
+h4 {
+  font-weight: bold;
+  font-size: 20px;
+  color: #008B99;
   text-align: left;
 }
 
