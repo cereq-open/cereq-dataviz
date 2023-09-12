@@ -141,11 +141,11 @@ server <- function(input, output,session) {
   })
   
   
-  output$legende1 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                  '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
-                                             "<br>",
-                                             '<span style="color:#008B99;">Source : </span>',
-                                            ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+  output$legende1<- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
+                                '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
+                                "<br>",
+                                '<span style="color:#008B99;">Source : </span>',
+                                ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span>'))
   # PART D ENTREPRISE FORMATRICE
   
   X=1/5
@@ -201,10 +201,10 @@ server <- function(input, output,session) {
   
   
   output$legende2 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
+                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Source : </span>',
-                                   ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span>'))
   
   # TAUX DE PARTICIPATION FINANCIERE
   
@@ -260,10 +260,10 @@ server <- function(input, output,session) {
     
   })
   output$legende3 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
+                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Source : </span>',
-                                   ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span>'))
   
   
   
@@ -327,10 +327,10 @@ server <- function(input, output,session) {
   }) 
   
   output$legende4 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
+                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Source : </span>',
-                                   ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span>'))
   }
   
   
