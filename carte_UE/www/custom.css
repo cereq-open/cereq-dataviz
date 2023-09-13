@@ -106,3 +106,10 @@ p {
 #degre3::-webkit-scrollbar-horizontal {
   display: none;
 }
+
+
+
+.legende {
+  line-height: 1.1em;
+
+}
