@@ -82,7 +82,7 @@ fluidPage(
       width = 4,
       div(
         class = "custom-border-box",
-        style = "max-width:700px; max-height:430px; margin-left:0;",
+        style = "max-width:700px; max-height:450px; margin-left:0;",
         uiOutput("tx_emploi"),
         girafeOutput("plot_tx_emploi")
       )
@@ -91,7 +91,7 @@ fluidPage(
       width = 4,
       div(
         class = "custom-border-box",
-        style = "max-width:700px; max-height:430px; margin-left:0;",
+        style = "max-width:700px; max-height:450px; margin-left:0;",
       uiOutput("part_chomage"),
       girafeOutput("plot_part_chomage")
       )
@@ -100,7 +100,7 @@ fluidPage(
       width = 4,
       div(
         class = "custom-border-box",
-        style = "max-width:700px; max-height:430px; margin-left:0;",
+        style = "max-width:700px; max-height:450px; margin-left:0;",
       uiOutput("tx_chomage"),
       girafeOutput("plot_tx_chomage")
       )
@@ -126,7 +126,7 @@ fluidPage(
       width = 4,
       div(
         class = "custom-border-box",
-        style = "max-width:700px; max-height:430px; margin-left:0;",
+        style = "max-width:700px; max-height:450px; margin-left:0;",
         uiOutput("tx_edi"),
         girafeOutput("plot_tx_edi")
       )
@@ -135,7 +135,7 @@ fluidPage(
       width = 4,
       div(
         class = "custom-border-box",
-        style = "max-width:700px; max-height:430px; margin-left:0;",
+        style = "max-width:700px; max-height:450px; margin-left:0;",
         uiOutput("part_tps_partiel"),
         girafeOutput("plot_part_tps_partiel")
       )
@@ -144,7 +144,7 @@ fluidPage(
       width = 4,
       div(
         class = "custom-border-box",
-        style = "max-width:700px; max-height:430px; margin-left:0;",
+        style = "max-width:700px; max-height:450px; margin-left:0;",
         uiOutput("revenu_travail"),
         girafeOutput("plot_revenu_travail")
       )
