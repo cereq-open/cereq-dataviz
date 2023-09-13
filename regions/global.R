@@ -12,6 +12,7 @@ suppressPackageStartupMessages({
   library(sf)
   library(rgdal)
   library(readxl)
+  library(viridis)
 })
 
 # Load data --------------------------------------------------------------------
@@ -113,8 +114,7 @@ plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
       nudge_y = c(0, -.2, rep(0, 10), -.15, 0),
       fun.geometry = sf::st_centroid
     ) +
-    labs(caption = caption_texte) 
- # + theme(legend.position = "none")
+    labs(caption = caption_texte)
 }
 
 concatenate_columns <- function(df, col_name) {
