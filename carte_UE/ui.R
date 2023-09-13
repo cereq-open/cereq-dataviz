@@ -123,7 +123,8 @@ fluidPage(
           gfontHtmlDependency(family = "Arimo"),
           fluidRow(
             column(
-              width = 6),
+              width = 6,     
+              htmlOutput("phrase")),
             column(
               width = 3,
             
@@ -160,7 +161,7 @@ fluidPage(
                   
                 ))),
      
-            htmlOutput("phrase"),
+
   
   br(),
   
