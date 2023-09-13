@@ -67,11 +67,29 @@ server <- function(input, output,session) {
 
   
   x<-reactive({input$taille_secteur })
+  y<-reactive({input$taille })
+  z<-reactive({input$secteur_bis })
   
-   output$phrase<-renderText({if( x()=="Taille"){
-     "secetur ensemble"
-     } else {
-       "taille ensemble"}
+  
+   output$phrase<-renderText({
+     if( x()=="Taille" & input$taille=="Ensemble")
+       {
+    paste0(h3("Indicateurs pour l'ensemble des secteurs, l'ensemble des tailles, et l'année ", input$annee) )
+     } 
+     else if ( ( x()=="Taille" & input$taille!="Ensemble") )
+       {
+   paste0(h3("Indicateurs pour l'ensemble des secteurs, la taille ",input$taille,"et l'année ", input$annee) )
+       }
+     
+    else if( x()=="Secteur" & input$secteur_bis=="Ensemble des secteurs")
+      {
+       paste0(h3("Indicateurs pour l'ensemble des secteurs, l'ensemble des tailles, et l'année ", input$annee)  )
+     } 
+     else if ( ( x()=="Secteur" & input$secteur_bis!="Ensemble des secteurs") )
+       {
+       paste0(h3("Indicateurs pour le secteur ",input$secteur_bis, ", l'ensemble des tailles ","et l'année ", input$annee))
+       }
+
      })
   
  
@@ -99,7 +117,7 @@ server <- function(input, output,session) {
   output$taux_acces <- renderLeaflet({
   
     
-    pal <- colorBin( palette = "Blues", domain =filtre_UE()$tx_acc1, bins = round(bins,digits = 0))
+    pal   <- colorNumeric(  palette = "Blues", domain = filtre_UE()$tx_acc1)
     class(europe)
     
     labels <- sprintf(
@@ -159,7 +177,7 @@ server <- function(input, output,session) {
   output$part_form <- renderLeaflet({
     
     
-    pal_form <- colorBin(palette = "Blues", domain =filtre_UE()$tx_form, bins = round(bins_form, digits = 0))
+    pal_form <- colorNumeric(  palette = "Blues", domain = filtre_UE()$tx_form)
     class(europe)
     
     labels_form <- sprintf(
@@ -192,11 +210,7 @@ server <- function(input, output,session) {
                   labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                            padding = "3px 8px"),
                                               textsize = "15px",
-                                              direction = "auto")) %>%
-      addLegend( pal= pal_form, values = ~tx_form,
-                 title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = " à "),
-                 opacity = 1 )
+                                              direction = "auto")) 
     
     
   })
