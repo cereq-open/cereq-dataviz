@@ -72,13 +72,6 @@ fluidPage(
   br(),
   fluidRow(
     column(
-      width = 12,
-      uiOutput("legende_part_1")
-    )
-  ),
-  br(),
-  fluidRow(
-    column(
       width = 4,
       div(
         class = "custom-border-box",
@@ -111,13 +104,6 @@ fluidPage(
     column(
       width = 6,
       h1("Conditions d’emploi des jeunes trois ans après leur sortie de formation initiale")
-    )
-  ),
-  br(),
-  fluidRow(
-    column(
-      width = 12,
-      uiOutput("legende_part_2")
     )
   ),
   br(),
