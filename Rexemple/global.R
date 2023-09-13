@@ -129,8 +129,8 @@ plot_barchart <- function(df, y_col, caption_texte, titre = NULL) {
   DT <- concat_value(df, y_col)
   ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
     geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 1),vjust= 2, size= 2, color = "white", fontface = "bold") + scale_fill_manual(values = colors2) + 
-    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salarié") 
-  
+    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salarié") +
+    scale_x_discrete(labels = c("1 à 3", "4 à 9", "10 à 19","20 à 49","50 à 249","250 à 499", "500 à 999", "1000 et +",       expression(bold("Ensemble")) ))
 }
 
 top3 <-function(y1 , y2, y3) {
@@ -160,7 +160,7 @@ theme_set(
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
-    axis.text.x = element_text(color = "#008B99", size = 8, hjust = 0.4, vjust = 8),
+    axis.text.x = element_text(color = "#008B99", size = 8, hjust = 0.4, vjust = 5),
     axis.text.y = element_blank(),
     axis.title.y = element_blank(),
     axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
