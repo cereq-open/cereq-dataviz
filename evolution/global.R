@@ -198,7 +198,6 @@ theme_set(
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
-    axis.text.x = element_blank(),
     axis.text.y = element_blank(),
     axis.title = element_blank(),
     plot.title = element_textbox_simple(hjust = 0, size = 12, color = "#008B99"),
@@ -207,7 +206,7 @@ theme_set(
     legend.key = element_blank(),
     plot.caption.position = "plot",
     legend.position = "none",
-    plot.caption = element_textbox_simple(margin = unit(c(0,0,0,-0.18), "cm"),
+    plot.caption = element_textbox_simple(margin = unit(c(0.4,0,0,-0.18), "cm"),
                                           hjust = 0,
                                           color = "#C0C0C2",
                                           size = 8
