@@ -74,7 +74,7 @@ fluidPage(
   fluidRow(column (width=6,
     sliderInput(
       inputId="annee", 
-      label=h3("Date en année :"), 
+      label=h1("Date en année :"), 
       min=2010, 
       max=2020, 
       value = 2010,
@@ -105,7 +105,7 @@ fluidPage(
       div(id="masque",
         style = "text-align:left;",
       radioGroupButtons(
-        label=h3("Choisir la taille ou le secteur :"),
+        label=h1("Choisir la taille ou le secteur :"),
         inputId = "taille_secteur",
  
         choices = c( "Secteur","Taille"),
@@ -123,7 +123,8 @@ fluidPage(
           gfontHtmlDependency(family = "Arimo"),
           fluidRow(
             column(
-              width = 6),
+              width = 6,     
+              htmlOutput("phrase")),
             column(
               width = 3,
             
@@ -133,7 +134,7 @@ fluidPage(
                pickerInput(
                 width = "fit",
                 inline = TRUE,
-                label = tags$h3("Secteur :"),
+                label = tags$h1("Secteur :"),
                 inputId = "secteur_bis",
                 choices = liste_secteur2,
                 selected = "Ensemble des secteurs",
@@ -151,7 +152,7 @@ fluidPage(
              pickerInput(
                 width = "fit",
                 inline = TRUE,
-                label = tags$h3("Taille :"),
+                label = tags$h1("Taille :"),
                 inputId = "taille",
                 choices = liste_taille2,
                 selected = "Ensemble"
@@ -160,7 +161,7 @@ fluidPage(
                   
                 ))),
      
-            htmlOutput("phrase"),
+
   
   br(),
   
@@ -172,21 +173,27 @@ fluidPage(
       div( 
       class = "custom-border-box",
       tags$p(
-        class = "stat_info",
-        tags$span(
-          style = "color: #00000;font-size: 30px;font-style: bold",
-          "Taux d’accès à la formation continue"),
+        class = "texte-stat-info",
+        
+        "Taux d'accès à la formation continue"
+        ,
         tags$i(
           class = "fas fa-info-circle",
-          style = "color: #008b99;",
-          title = "Le taux d'acces est blallalalalalallalalalalalalalalal"),
+          style = "color: #008B99; font-size: 16px;",
+          title = "Les secteurs"
+        )
+      ),
+        
+        
+        
+        
         leafletOutput("taux_acces"),
         uiOutput("legende1"),
         tags$head(tags$style("#taux_acces{color: #008b99;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-      ))),
+      )),
     
     # ESPACE 
    # column(
@@ -199,21 +206,28 @@ fluidPage(
       div(
       class = "custom-border-box",
       tags$p(
-        class = "stat_info",
-        tags$span(
-          style = "color: #00000;font-size: 30px;font-style: bold",
-          "Part d'entreprises formatrices"),
+        class = "texte-stat-info",
+        
+        "Part d'entreprises formatrices"
+        ,
         tags$i(
           class = "fas fa-info-circle",
-          style = "color: #008B99;",
-          title = "la part d'entreprise formatrice blallalalalalallalalalalalalalalal"),
+          style = "color: #008B99; font-size: 16px;",
+          title = "Les secteurs"
+        )
+      ),
+        
+        
+        
+        
+        
         leafletOutput("part_form"),
         uiOutput("legende2"),
         tags$head(tags$style("#part_form{color: #008b99;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-      ) ))),
+      ) )),
     
     #saut de ligne qui marche pas
     fluidRow(
@@ -236,21 +250,23 @@ fluidPage(
       div(  
       class = "custom-border-box",
       tags$p(
-        class = "stat_info",
-        tags$span(
-          style = "color: #00000;font-size: 30px;font-style: bold",
-          "Taux de participation financière"),
+        class = "texte-stat-info",
+        
+        "Taux de participations financières des entreprises"
+        ,
         tags$i(
           class = "fas fa-info-circle",
-          style = "color: #008B99;",
-          title = "Le taux de participation blallalalalalallalalalalalalalalal"),
+          style = "color: #008B99; font-size: 16px;",
+          title = "Les secteurs"
+        )
+      ),
         leafletOutput("TPF"),
         uiOutput("legende3"),
         tags$head(tags$style("#TPF{color: #008b99;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-      ) )),
+      ) ),
     
     
     #NOMBRE D HEURE DE COURS ET STAGES
@@ -260,14 +276,16 @@ fluidPage(
       div(
       class = "custom-border-box",
       tags$p(
-        class = "stat_info",
-        tags$span(
-          style = "color: #00000;font-size: 30px;font-style: bold",
-          "Nombre d'heures de cours et stages"),
+        class = "texte-stat-info",
+        
+        "Nombre d'heures de cours et stages"
+        ,
         tags$i(
           class = "fas fa-info-circle",
-          style = "color: #008B99;",
-          title = "Le nombre d'heure est blallalalalalallalalalalalalalalal"),
+          style = "color: #008B99; font-size: 16px;",
+          title = "Les secteurs"
+        )
+      ),
         
         leafletOutput("nb_h"),
         uiOutput("legende4"),
@@ -275,7 +293,7 @@ fluidPage(
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-      ) ))),
+      ) )),
   #saut de ligne qui marche pas
   fluidRow(
     column(width= 12,  class = "h1")
