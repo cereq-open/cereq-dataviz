@@ -67,11 +67,29 @@ server <- function(input, output,session) {
 
   
   x<-reactive({input$taille_secteur })
+  y<-reactive({input$taille })
+  z<-reactive({input$secteur_bis })
   
-   output$phrase<-renderText({if( x()=="Taille"){
-    paste0( "secteur ensemble ", input$taille , input$secteur_bis , input$annee )
-     } else {
-       "taille ensemble"}
+  
+   output$phrase<-renderText({
+     if( x()=="Taille" & input$taille=="Ensemble")
+       {
+    paste0(h3("Indicateurs pour l'ensemble des secteurs, l'ensemble des tailles, et l'année ", input$annee) )
+     } 
+     else if ( ( x()=="Taille" & input$taille!="Ensemble") )
+       {
+   paste0(h3("Indicateurs pour l'ensemble des secteurs, la taille ",input$taille,"et l'année ", input$annee) )
+       }
+     
+    else if( x()=="Secteur" & input$secteur_bis=="Ensemble des secteurs")
+      {
+       paste0(h3("Indicateurs pour l'ensemble des secteurs, l'ensemble des tailles, et l'année ", input$annee)  )
+     } 
+     else if ( ( x()=="Secteur" & input$secteur_bis!="Ensemble des secteurs") )
+       {
+       paste0(h3("Indicateurs pour le secteur ",input$secteur_bis, ", l'ensemble des tailles ","et l'année ", input$annee))
+       }
+
      })
   
  
@@ -99,12 +117,12 @@ server <- function(input, output,session) {
   output$taux_acces <- renderLeaflet({
   
     
-    pal <- colorBin( palette = "Blues", domain =filtre_UE()$tx_acc1, bins = round(bins,digits = 0))
+    pal   <- colorNumeric(  palette = "Blues", domain = filtre_UE()$tx_acc1)
     class(europe)
     
     labels <- sprintf(
       "<strong>%s</strong><br/>%g %%",
-      filtre_UE()$NAME_FREN, filtre_UE()$tx_acc1
+      filtre_UE()$NAME_FREN.x, filtre_UE()$tx_acc1
     ) %>%
       lapply(htmltools::HTML)
     
@@ -132,16 +150,23 @@ server <- function(input, output,session) {
                     labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                              padding = "3px 8px"),
                                                 textsize = "15px",
-                                                direction = "auto")) 
+                                                direction = "auto")) %>%
+      addLegend( pal = pal, values = ~tx_acc1,
+                 title = element_blank(),
+                 labFormat = labelFormat(suffix =   "%", between = " à "),
+                 opacity = 1 )
  
   })
   
   
-  output$legende1 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                  '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
-                                             "<br>",
-                                             '<span style="color:#008B99;">Source : </span>',
-                                            ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+  output$legende1<- renderUI(HTML('<div class="legende"> 
+                                   <span style="color:#008B99;">Champ : </span>',
+                                  '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
+                                  "<br>",
+                                  '<span style="color:#008B99;">Source : </span>',
+                                  ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                   </div>'
+  ))
   # PART D ENTREPRISE FORMATRICE
   
   X=1/5
@@ -152,12 +177,12 @@ server <- function(input, output,session) {
   output$part_form <- renderLeaflet({
     
     
-    pal_form <- colorBin(palette = "Blues", domain =filtre_UE()$tx_form, bins = round(bins_form, digits = 0))
+    pal_form <- colorNumeric(  palette = "Blues", domain = filtre_UE()$tx_form)
     class(europe)
     
     labels_form <- sprintf(
       "<strong>%s</strong><br/>%g %%",
-      filtre_UE()$NAME_FREN, filtre_UE()$tx_form
+      filtre_UE()$NAME_FREN.x, filtre_UE()$tx_form
     ) %>%
       lapply(htmltools::HTML)
     
@@ -185,22 +210,21 @@ server <- function(input, output,session) {
                   labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                            padding = "3px 8px"),
                                               textsize = "15px",
-                                              direction = "auto")) %>%
-      addLegend( pal= pal_form, values = ~tx_form,
-                 title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = " à "),
-                 opacity = 1 )
+                                              direction = "auto")) 
     
     
   })
   
   
   
-  output$legende2 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
+  output$legende2 <- renderUI(HTML('<div class="legende"> 
+                                   <span style="color:#008B99;">Champ : </span>',
+                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Source : </span>',
-                                   ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                   </div>'
+  ))
   
   # TAUX DE PARTICIPATION FINANCIERE
   
@@ -219,7 +243,7 @@ server <- function(input, output,session) {
     
     labels_tpf <- sprintf(
       "<strong>%s</strong><br/>%g %%",
-      filtre_UE()$NAME_FREN, filtre_UE()$tx_tpf
+      filtre_UE()$NAME_FREN.x, filtre_UE()$tx_tpf
     ) %>%
       lapply(htmltools::HTML)
     
@@ -255,11 +279,14 @@ server <- function(input, output,session) {
     
     
   })
-  output$legende3 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
+  output$legende3 <- renderUI(HTML('<div class="legende"> 
+                                   <span style="color:#008B99;">Champ : </span>',
+                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Source : </span>',
-                                   ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                   </div>'
+  ))
   
   
   
@@ -281,7 +308,7 @@ server <- function(input, output,session) {
     
     labels_heurstag <- sprintf(
       "<strong>%s</strong><br/>%g heures",
-      filtre_UE()$NAME_FREN, filtre_UE()$heurstag
+      filtre_UE()$NAME_FREN.x, filtre_UE()$heurstag
     ) %>%
       lapply(htmltools::HTML)
     
@@ -322,11 +349,14 @@ server <- function(input, output,session) {
 
   }) 
   
-  output$legende4 <- renderUI(HTML('<span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#C0C0C2;">Entreprise de 3 salariés et plus blablabla</span>',
+  output$legende4 <- renderUI(HTML('<div class="legende"> 
+                                   <span style="color:#008B99;">Champ : </span>',
+                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Source : </span>',
-                                   ' <span style="color:#C0C0C2;">Eurostat, enquête CVTS 5</span>'))
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                   </div>'
+                                  ))
   }
   
   
