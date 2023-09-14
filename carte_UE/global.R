@@ -28,7 +28,7 @@ library(gfonts)
 #Lecture fichier : 
 
 #1- fichier indicateur
-UE <- read_parquet("data/indicateur_UE.parquet", 
+UE <- read_parquet("data/Carte_UE.parquet", 
                    col_types = cols(tx_form = col_number(),heurstag = col_number(),
                                     tx_tpf = col_number()))
 
@@ -53,24 +53,32 @@ UE$tx_acc1[is.na(UE$tx_acc1)] <- 0
 Monde <- st_read("data/CNTR_RG_10M_2020_4326.shp", quiet = TRUE)
 
 
+
+UE[is.na(UE$taille),"taille"]<-"Ensemble"
+
+UE[is.na(UE$secteur),"secteur"]<-"ensemble des secteurs"
 #creation base Europe par merge de Monde et UE
-europe <-sp::merge(Monde,UE , by.x = "ISO3_CODE", by.y = "iso3_code")
+europe <-sp::merge(Monde,UE , by.x = "NAME_FREN", by.y = "NAME_FREN")
 
 #3 création liste pour menu déroulants
 
 UE_nodupkey <- UE %>% distinct(secteur, .keep_all = TRUE)
+liste_secteur <- na.omit(UE_nodupkey$secteur)
 
-ensemble = list('Ensemble des secteurs')
-liste_secteur <- as.list(sort(UE_nodupkey$secteur))
-liste_secteur[17] <- NULL
-liste_secteur2 <- c(ensemble, liste_secteur)
+liste_secteur <- as.list(sort(liste_secteur))
+
+ensemble_liste_secteur = list('ensemble des secteurs')
+liste_secteur[4] <- NULL
+liste_secteur2 <- c(ensemble_liste_secteur, liste_secteur)
 
 
 UE_nodupkey_taille <- UE %>% distinct(taille, .keep_all = TRUE)
+liste_taille <- na.omit(UE_nodupkey_taille$taille)
+liste_taille <- as.list(sort(liste_taille))
 
 ensemble_liste_taille = list('Ensemble')
-liste_taille <- as.list((UE_nodupkey_taille$taille))
-liste_taille[1] <- NULL
+
+liste_taille[4] <- NULL
 liste_taille2 <- c(ensemble_liste_taille, liste_taille)
 
 
