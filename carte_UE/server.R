@@ -122,7 +122,7 @@ server <- function(input, output,session) {
     
     labels <- sprintf(
       "<strong>%s</strong><br/>%g %%",
-      filtre_UE()$NAME_FREN.x, filtre_UE()$tx_acc1
+      filtre_UE()$NAME_FREN, filtre_UE()$tx_acc1
     ) %>%
       lapply(htmltools::HTML)
     
@@ -182,7 +182,7 @@ server <- function(input, output,session) {
     
     labels_form <- sprintf(
       "<strong>%s</strong><br/>%g %%",
-      filtre_UE()$NAME_FREN.x, filtre_UE()$tx_form
+      filtre_UE()$NAME_FREN, filtre_UE()$tx_form
     ) %>%
       lapply(htmltools::HTML)
     
@@ -238,12 +238,12 @@ server <- function(input, output,session) {
   output$TPF <- renderLeaflet({
     
     
-    pal_tpf <- colorBin(palette = "Blues", domain =filtre_UE()$tx_tpf, bins = round(bins_tpf, digits = 0))
+    pal_tpf <-      colorNumeric(  palette = "Blues", domain = filtre_UE()$tx_tpf)
     class(europe)
     
     labels_tpf <- sprintf(
       "<strong>%s</strong><br/>%g %%",
-      filtre_UE()$NAME_FREN.x, filtre_UE()$tx_tpf
+      filtre_UE()$NAME_FREN, filtre_UE()$tx_tpf
     ) %>%
       lapply(htmltools::HTML)
     
@@ -303,12 +303,12 @@ server <- function(input, output,session) {
   output$nb_h <- renderLeaflet({
     
     
-    pal_heurstag <- colorBin(palette = "Blues", domain =filtre_UE()$heurstag, bins = round(bins_nb_h, digits = 0))
+    pal_heurstag <- colorNumeric(  palette = "Blues", domain = filtre_UE()$heurstag)
     class(europe)
     
     labels_heurstag <- sprintf(
       "<strong>%s</strong><br/>%g heures",
-      filtre_UE()$NAME_FREN.x, filtre_UE()$heurstag
+      filtre_UE()$NAME_FREN, filtre_UE()$heurstag
     ) %>%
       lapply(htmltools::HTML)
     
