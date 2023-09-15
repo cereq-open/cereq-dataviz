@@ -101,7 +101,7 @@ shinyServer(function(input, output, session) {
   })
 
   output$comptence_ok <- renderUI({
-    generateTitle("La proportion de jeunes estimant être employé à leur niveau de compétence")
+    generateTitle("La proportion de jeunes estimant être employés à leur niveau de compétence")
   })
 
   # Data Viz -------------------------------------------------------------------
