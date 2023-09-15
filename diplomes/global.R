@@ -301,7 +301,8 @@ generatePlot <- function(tab_diplome, niveau) {
       legend.position = "top",
       legend.justification = "center",
       legend.box.spacing = unit(0, "cm"),
-      legend.margin = margin(0, 0, 10, 0)
+      legend.margin = margin(0, 0, 10, 0),
+      legend.text = element_text(size = 14, face = "plain")
     )
 }
 
@@ -329,7 +330,8 @@ generatePlotSpec <- function(tab_diplome, niveau, libelle) {
       legend.position = "top",
       legend.justification = "center",
       legend.box.spacing = unit(0, "cm"),
-      legend.margin = margin(0, 0, 10, 0)
+      legend.margin = margin(0, 0, 10, 0),
+      legend.text = element_text(size = 14, face = "plain")
     )
 }
 
@@ -456,8 +458,6 @@ theme_set(
     plot.title.position = "plot",
     legend.background = element_blank(),
     legend.key = element_blank(),
-    legend.text = element_text(size = 14, face = "plain"),
-    plot.title = element_textbox_simple(size = 8, color = "#008B99"),
     plot.caption = element_textbox_simple(
       hjust = 0,
       color = "#C0C0C2",
@@ -469,8 +469,9 @@ theme_set(
 )
 
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str = NULL) {
-  if (!is.null(infobulle_str)) { tagList(
-    tags$p(
+  if (!is.null(infobulle_str)) { 
+    tagList(
+      tags$p(
       class = "texte-stat-info",
       tags$span(
         style = "color: #008B99;",
