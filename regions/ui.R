@@ -36,10 +36,7 @@ fluidPage(
           choices = titre_map_residence,
           selected = titre_map_residence[1],
           width = "fit",
-          inline = TRUE,
-          options = list(
-            size = 5
-          )
+          inline = TRUE
         )
       ),
       column(
