@@ -469,29 +469,6 @@ theme_set(
 )
 
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str = NULL) {
-  tagList(
-    tags$p(
-      class = "texte-stat-info",
-      tags$span(
-        style = "color: #008B99;",
-        info_str
-      )
-    ),
-    tags$p(
-      class = "stat-info",
-      tags$span(
-        style = "color: #008B99;",
-        stat1_str
-      ),
-      if (!is.null(stat2_str)) {
-        tags$span(
-          style = "color: #C0C0C2; font-size: 16px;",
-          stat2_str
-        )
-      }
-    )
-  )
-  
   if (!is.null(infobulle_str)) { tagList(
     tags$p(
       class = "texte-stat-info",
@@ -519,7 +496,31 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
       }
     )
   ) 
-    }
+  }
+  else { 
+    tagList(
+      tags$p(
+        class = "texte-stat-info",
+        tags$span(
+          style = "color: #008B99;",
+          info_str
+        )
+      ),
+      tags$p(
+        class = "stat-info",
+        tags$span(
+          style = "color: #008B99;",
+          stat1_str
+        ),
+        if (!is.null(stat2_str)) {
+          tags$span(
+            style = "color: #C0C0C2; font-size: 16px;",
+            stat2_str
+          )
+        }
+      )
+    )
+  }
 }
 
 labellize_stats_row <- function(stat1_str, stat2_str = NULL, info_str) {

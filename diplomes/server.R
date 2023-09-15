@@ -287,14 +287,14 @@ shinyServer(function(input, output, session) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
-          info_str = info_str
+          info_str = info_str, infobulle_str = NULL
         )
       } else {
         text_info2 <- paste0(filtered_data()$part_tps_partiel, symbole_pourcentage)
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
-          info_str = info_str
+          info_str = info_str, infobulle_str = NULL
         )
       }
     } else if (!is.null(input$degre3)) {
@@ -303,14 +303,14 @@ shinyServer(function(input, output, session) {
         text_info1 <- paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage)
         labellize_stats_end_i(
           stat1_str = text_info1, stat2_str = NULL,
-          info_str = info_str
+          info_str = info_str, infobulle_str = NULL
         )
       } else {
         text_info2 <- paste0(filtered_data_level3()$part_tps_partiel, symbole_pourcentage)
         text_info3 <- paste0("(", paste0(ensemble_de_sortants_data$part_tps_partiel, symbole_pourcentage, " pour l'ensemble des sortants)"))
         labellize_stats_end_i(
           stat1_str = text_info2, stat2_str = text_info3,
-          info_str = info_str
+          info_str = info_str, infobulle_str = NULL
         )
       }
     }
