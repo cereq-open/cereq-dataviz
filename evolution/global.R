@@ -79,14 +79,14 @@ source <- paste0(
 
 caption_part_1 <- paste0(
   champ,
-  "Ensemble des sortants.",
+  "Ensemble de la Génération.",
   "<br>",
   source
 )
 
 caption_part_2 <- paste0(
   champ,
-  "Ensemble des sortants en emploi trois ans après leur sortie de formation initiale.",
+  "Ensemble de la Génération en emploi trois ans après leur sortie de formation initiale.",
   "<br>",
   source
 )
