@@ -123,7 +123,7 @@ plot_barchart <- function(df, y_col, caption_texte) {
 
   ggplot(data = DT, aes(x = !!sym(x_col), y = !!sym(y_col), fill = !!sym(x_col))) +
     geom_col_interactive(mapping = aes(data_id = !!sym(x_col), tooltip = tooltip_value)) +
-    geom_text(aes(label = taux_str),
+    geom_text(size = 3, aes(label = taux_str),
       position = position_stack(vjust = .5),
       color = "white"
     ) +
@@ -135,14 +135,12 @@ plot_barchart <- function(df, y_col, caption_texte) {
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo"),
-    text = element_text(size = 11, family = "Arimo"),
+    text = element_text(size = 10, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.y = element_blank(),
     axis.title = element_blank(),
-    plot.title = element_textbox_simple(hjust = 0, size = 12, color = "#008B99"),
     legend.title = element_blank(),
     legend.background = element_blank(),
     legend.key = element_blank(),
