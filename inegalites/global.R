@@ -246,14 +246,10 @@ theme_set(
 labellize_stats_end_i <- function(info_str, infobulle_str = NULL) {
     tags$p(
       class = "texte-stat-info",
-      tags$span(
-        style = "color: #008B99;",
-        info_str
-      ),
+      info_str,
       tags$i(
         class = "fas fa-info-circle",
-        title = infobulle_str,
-        style = "color: #008B99;"
+        title = infobulle_str
       )
     )
 }
@@ -261,10 +257,7 @@ labellize_stats_end_i <- function(info_str, infobulle_str = NULL) {
 labellize_stats_no_i <- function(info_str) {
     tags$p(
       class = "texte-stat-info",
-      tags$span(
-        style = "color: #008B99;",
-        info_str
-      )
+      info_str
       )
 }
 
