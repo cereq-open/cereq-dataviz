@@ -98,7 +98,7 @@ generateTitle <- function(title, infobulle_str = NULL) {
       title,
       if (!is.null(infobulle_str)) {
         tags$i(
-          style = "color: #008B99; font-size: 16px;",
+          style = "color: #000000; font-size: 16px;",
           class = "fas fa-info-circle",
           title = infobulle_str,
         )
