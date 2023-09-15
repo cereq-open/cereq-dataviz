@@ -127,44 +127,6 @@ generateTitle <- function(title, infobulle_str = NULL) {
   )
 }
 
-generateStyledBlocks <- function(class, sortis) {
-  tagList(
-    tags$div(
-      style = "display: flex; align-items: center;",
-      tags$div(
-        class = class,
-        style = "background-color: #F8AC00;"
-      ),
-      tags$span(
-        style = "font-size:18px;font-weight:300;",
-        sortis[1]
-      )
-    ),
-    tags$div(
-      style = "display: flex; align-items: center;",
-      tags$div(
-        class = class,
-        style = "background-color: #EF5350;"
-      ),
-      tags$span(
-        style = "font-size:18px;font-weight:300;",
-        sortis[2]
-      )
-    ),
-    tags$div(
-      style = "display: flex; align-items: center;",
-      tags$div(
-        class = class,
-        style = "background-color: #008b99;"
-      ),
-      tags$span(
-        style = "font-size:18px;font-weight:300;",
-        sortis[3]
-      )
-    )
-  )
-}
-
 concat_value <- function(df, nom_colonne) {
   if (nom_colonne != "revenu_travail") {
     df["taux_str"] <- paste0(df[[nom_colonne]], " %")
