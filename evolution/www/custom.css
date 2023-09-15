@@ -56,34 +56,7 @@ p {
 .texte-stat-info {
   font-size: 20px;
   font-weight: bold;
-  color: var(--highlight-color);
-}
-
-/* Styles pour la valeur des stats */
-.stat-info {
-  font-size: 18px;
-  font-weight: 300; /* light */
-  color: var(--highlight-color);
-}
-
-/* Styles pour les stats */
-.d-inline {
   color: var(--main-color);
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.sortis {
-  height: 50px;
-  width: 50px;
-  display: inline-block;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-.legende-inline {
-  display: flex;
-  align-items: center;
 }
 
 /* Styles pour le trait d’encadrement */
