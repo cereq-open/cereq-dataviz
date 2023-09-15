@@ -36,10 +36,7 @@ fluidPage(
           choices = titre_map_residence,
           selected = titre_map_residence[1],
           width = "fit",
-          inline = TRUE,
-          options = list(
-            size = 5
-          )
+          inline = TRUE
         )
       ),
       column(
@@ -75,7 +72,7 @@ fluidPage(
       ),
       column(
         width = 6,
-        p("Une partie des écarts observés entre région pour l’indicateur choisi s’explique par les différences de niveaux de formation atteint par les sortants de chaque région. La carte ci-dessous permet d’en donner une illustration. Choisir le niveau du plus haut diplôme :",
+        p("Une partie des écarts observés entre régions pour l’indicateur choisi s’explique par les différences de niveaux de formation atteint par les sortants de chaque région. La carte ci-dessous permet d’en donner une illustration. Choisir le niveau du plus haut diplôme :",
           class = "d-inlinenotbold",
           style = "font-size:18px;"
         ),

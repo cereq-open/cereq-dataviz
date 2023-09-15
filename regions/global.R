@@ -104,7 +104,7 @@ ligne_drom <- 3
 plot_map <- function(df, nom_colonne, col_name_text, caption_texte) {
   ggplot(df) +
     geom_sf_interactive(aes(fill = !!sym(nom_colonne), data_id = `Libellé`, tooltip = tooltip_value)) +
-    scale_fill_viridis(option = "mako") +
+    scale_fill_viridis(option = "mako", direction = -1) +
     geom_sf_text(
       aes(label = !!sym(col_name_text)),
       check_overlap = TRUE,
