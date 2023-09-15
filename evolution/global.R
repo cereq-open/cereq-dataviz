@@ -91,26 +91,6 @@ caption_part_2 <- paste0(
   source
 )
 
-labellize_row_i <- function(titre, infobulle_str = NULL) {
-  tagList(
-    tags$p(
-      class = "d-inline",
-      titre
-    ),
-    if (!is.null(infobulle_str)) {
-      tags$i(
-        class = "fas fa-info-circle",
-        style = "font-size:18px;",
-        title = infobulle_str
-      )
-    },
-    tags$p(
-      class = "d-inline",
-      "selon la région de résidence à la fin des études"
-    )
-  )
-}
-
 generateTitle <- function(title, infobulle_str = NULL) {
   tagList(
     tags$p(
