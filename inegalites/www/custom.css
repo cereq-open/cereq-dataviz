@@ -56,19 +56,7 @@ p {
 .texte-stat-info {
   font-size: 18px;
   font-weight: bold;
-}
-
-/* Styles pour la valeur des stats */
-.stat-info {
-  font-size: 18px;
-  font-weight: 300; /* light */
-}
-
-/* Styles pour les stats */
-.d-inline {
-  color: var(--highlight-color);
-  font-size: 18px;
-  font-weight: bold;
+  color: var(--main-color);
 }
 
 /* Styles pour les bulles informatives */

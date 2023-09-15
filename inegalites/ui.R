@@ -65,13 +65,18 @@ fluidPage(
     ),
   fluidRow(
     column(
-      width = 12,
+      width = 6,
       div(
-        class = "custom-border-box",
+      #  class = "custom-border-box",
         uiOutput("titre_graph"),
-        style = "max-width:1000px; margin-left:0;",
-        girafeOutput("graph", height = NULL)
+        style = "max-width:2000px; margin-left:0;",
+        girafeOutput("graph1", height = NULL)
       )
+    ),
+    column(
+      width = 6,
+      br(),
+      girafeOutput("graph2", height = NULL)
     )
   )
 )

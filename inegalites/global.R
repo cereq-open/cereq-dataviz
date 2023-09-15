@@ -70,7 +70,7 @@ generateCaption <- function(variable) {
 if (variable %in% c("taux_emploi","part_chomage","taux_chomage","traj_1","traj_2","traj_3","traj_7")){
   caption <- paste0(
     '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la génération.",
+    "Ensemble de la Génération.",
     "<br>",
     '<span style="color:#008B99;">Source : </span>',
     "Céreq, enquête Génération 2017 à trois ans."
@@ -164,7 +164,7 @@ generateHeight <- function(facteur) {
 
 # Function to determine the width of the graph
 
-generateWidth<- function(facteur) {
+generateWidth <- function(facteur) {
   
   if (facteur == "sexe" || facteur == "lieu de résidence à la fin des études") {
     width <- 6
@@ -177,7 +177,7 @@ generateWidth<- function(facteur) {
 
 # Function to create the plot
    
-generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbole) {
+generatePlot <- function(df, indicateur, colors, caption = NULL, nb_row, height, symbole, guides = NULL) {
   
   tab <- df %>%
     mutate(
@@ -189,15 +189,13 @@ generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol
                                                 "Diplômés du supérieur court","Diplômés du supérieur long"))
   tab$mod_2 <- gsub("'", " ", tab$modalité)
   
-  ggplot(data=tab, aes(x=indicateur, y=modalité, fill = modalité)) +
-    geom_col_interactive(mapping = aes(data_id = mod_2,
-                                                        tooltip = tooltip_value)) +
+  ggplot(data = tab, aes(x = indicateur, y = modalité, fill = modalité)) +
+    geom_col_interactive(mapping = aes(data_id = mod_2, tooltip = tooltip_value)) +
     facet_wrap(~Diplôme, ncol = 1) +
     theme(
       strip.background = element_blank(),
       strip.text =  element_text(face = "bold", hjust = 0.5, size = 8)
-    ) +
-   # guides(fill = "none") +
+      ) +
     scale_fill_manual(values = colors, 
                       labels = scales::label_wrap(20),
                       guide = guide_legend(nrow = nb_row, byrow = TRUE,
@@ -208,52 +206,42 @@ generatePlot <- function(df, indicateur, colors, caption, nb_row, height, symbol
               position = position_stack(vjust = .5),
               color = "white",
               size = 2
-    ) +
-    theme(axis.text.y = element_blank(),
-          legend.position = "top",
-          legend.justification="center",
-          legend.box.spacing = unit(0, "pt"),
-          legend.margin=margin(0, 0, 20, 0),
-          legend.key.height = unit(height,"line"),
-          legend.text = element_text(size = 8, face = "plain"),
-          plot.caption = element_textbox_simple(
-            hjust = 0,
-            color = "#C0C0C2",
-            size = 8
-            )
-    )
+    ) + guides +
+    theme(legend.key.height = unit(height, "line"))
   }
 
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo"),
     text = element_text(size = 10, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
     axis.title = element_blank(),
     plot.title.position = "plot",
     legend.title = element_blank(),
+    legend.position = "top",
+    legend.justification = "center",
+    legend.box.spacing = unit(0, "pt"),
+    legend.margin = margin(0, 0, 20, 0),
+    legend.text = element_text(size = 8, face = "plain"),
     legend.background = element_blank(),
     legend.key = element_blank(),
     plot.title = element_textbox_simple(size = 8, color = "#008B99"),
-    plot.caption.position = "plot"
+    plot.caption.position = "plot",
+    plot.caption = element_textbox_simple(hjust = 0, color = "#C0C0C2", size = 8)
+    )
   )
-)
 
 labellize_stats_end_i <- function(info_str, infobulle_str = NULL) {
     tags$p(
       class = "texte-stat-info",
-      tags$span(
-        style = "color: #008B99;",
-        info_str
-      ),
+      info_str,
       tags$i(
         class = "fas fa-info-circle",
-        title = infobulle_str,
-        style = "color: #008B99;"
+        title = infobulle_str
       )
     )
 }
@@ -261,10 +249,7 @@ labellize_stats_end_i <- function(info_str, infobulle_str = NULL) {
 labellize_stats_no_i <- function(info_str) {
     tags$p(
       class = "texte-stat-info",
-      tags$span(
-        style = "color: #008B99;",
-        info_str
-      )
+      info_str
       )
 }
 
