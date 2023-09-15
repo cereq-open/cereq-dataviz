@@ -101,7 +101,10 @@ shinyServer(function(input, output, session) {
   })
 
   output$comptence_ok <- renderUI({
-    generateTitle("La proportion de jeunes estimant être employé à leur niveau de compétence")
+    titre <- tab_variables_evolution %>%
+      filter(Nom_colonne == "comptence_ok") %>%
+      pull(Titre_graphique)
+    generateTitle(titre)
   })
 
   # Data Viz -------------------------------------------------------------------

@@ -79,37 +79,17 @@ source <- paste0(
 
 caption_part_1 <- paste0(
   champ,
-  "Ensemble des sortants.",
+  "Ensemble de la Génération.",
   "<br>",
   source
 )
 
 caption_part_2 <- paste0(
   champ,
-  "Ensemble des sortants en emploi trois ans après leur sortie de formation initiale.",
+  "Ensemble de la Génération en emploi trois ans après leur sortie de formation initiale.",
   "<br>",
   source
 )
-
-labellize_row_i <- function(titre, infobulle_str = NULL) {
-  tagList(
-    tags$p(
-      class = "d-inline",
-      titre
-    ),
-    if (!is.null(infobulle_str)) {
-      tags$i(
-        class = "fas fa-info-circle",
-        style = "font-size:18px;",
-        title = infobulle_str
-      )
-    },
-    tags$p(
-      class = "d-inline",
-      "selon la région de résidence à la fin des études"
-    )
-  )
-}
 
 generateTitle <- function(title, infobulle_str = NULL) {
   tagList(
@@ -118,49 +98,11 @@ generateTitle <- function(title, infobulle_str = NULL) {
       title,
       if (!is.null(infobulle_str)) {
         tags$i(
-          style = "color: #008B99; font-size: 16px;",
+          style = "color: #000000; font-size: 16px;",
           class = "fas fa-info-circle",
           title = infobulle_str,
         )
       }
-    )
-  )
-}
-
-generateStyledBlocks <- function(class, sortis) {
-  tagList(
-    tags$div(
-      style = "display: flex; align-items: center;",
-      tags$div(
-        class = class,
-        style = "background-color: #F8AC00;"
-      ),
-      tags$span(
-        style = "font-size:18px;font-weight:300;",
-        sortis[1]
-      )
-    ),
-    tags$div(
-      style = "display: flex; align-items: center;",
-      tags$div(
-        class = class,
-        style = "background-color: #EF5350;"
-      ),
-      tags$span(
-        style = "font-size:18px;font-weight:300;",
-        sortis[2]
-      )
-    ),
-    tags$div(
-      style = "display: flex; align-items: center;",
-      tags$div(
-        class = class,
-        style = "background-color: #008b99;"
-      ),
-      tags$span(
-        style = "font-size:18px;font-weight:300;",
-        sortis[3]
-      )
     )
   )
 }
@@ -181,7 +123,7 @@ plot_barchart <- function(df, y_col, caption_texte) {
 
   ggplot(data = DT, aes(x = !!sym(x_col), y = !!sym(y_col), fill = !!sym(x_col))) +
     geom_col_interactive(mapping = aes(data_id = !!sym(x_col), tooltip = tooltip_value)) +
-    geom_text(aes(label = taux_str),
+    geom_text(size = 3, aes(label = taux_str),
       position = position_stack(vjust = .5),
       color = "white"
     ) +
@@ -193,14 +135,12 @@ plot_barchart <- function(df, y_col, caption_texte) {
 theme_set(
   theme(
     line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo"),
-    text = element_text(size = 11, family = "Arimo"),
+    text = element_text(size = 10, family = "Arimo"),
     panel.background = element_blank(),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.y = element_blank(),
     axis.title = element_blank(),
-    plot.title = element_textbox_simple(hjust = 0, size = 12, color = "#008B99"),
     legend.title = element_blank(),
     legend.background = element_blank(),
     legend.key = element_blank(),
