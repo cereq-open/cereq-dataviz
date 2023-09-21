@@ -63,20 +63,20 @@ server <- function(input, output,session) {
   output$phrase<-renderText({
     if( x()=="Taille" & input$taille=="Ensemble")
     {
-      paste0(h3("Indicateurs pour l'ensemble des activités, l'ensemble des tailles, et l'année ", input$annee) )
+      paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, l'ensemble des tailles, et l'année ", input$annee) )
     } 
     else if ( ( x()=="Taille" & input$taille!="Ensemble") )
     {
-      paste0(h3("Indicateurs pour l'ensemble des activités, la taille ",input$taille,"et l'année ", input$annee) )
+      paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, la taille ",input$taille,"et l'année ", input$annee) )
     }
     
     else if( x()=="Secteur" & input$secteur_bis=="Ensemble des activités")
     {
-      paste0(h3("Indicateurs pour l'ensemble des activités, l'ensemble des tailles, et l'année ", input$annee)  )
+      paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, l'ensemble des tailles, et l'année ", input$annee)  )
     } 
     else if ( ( x()=="Secteur" & input$secteur_bis!="Ensemble des secteurs") )
     {
-      paste0(h3("Indicateurs pour l'activité ",input$secteur_bis, ", l'ensemble des tailles ","et l'année ", input$annee))
+      paste0(h3("Indicateurs pour l' ",input$secteur_bis, ", l'ensemble des tailles ","et l'année ", input$annee))
     }
     
   })
@@ -94,7 +94,7 @@ server <- function(input, output,session) {
   output$taux_acces <- renderLeaflet({
     
     
-    pal   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1)
+    pal   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1, reverse = TRUE)
     class(Europe)
     
     labels <- sprintf(
@@ -130,13 +130,14 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal = pal, values = ~tx_acc1,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = " à "),
+                 labFormat = labelFormat(suffix =   "%", between = " à ", transform = function(x)  sort(x, decreasing = TRUE)),
                  opacity = 1 )
-    
+
   })
   
   
-  output$legende1<- renderUI(HTML('<div class="legende"> 
+  output$legende1<- renderUI(HTML('<div class="legende">
+                                  <br>
                                    <span style="color:#008B99;">Champ : </span>',
                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                   "<br>",
@@ -152,7 +153,7 @@ server <- function(input, output,session) {
   output$part_form <- renderLeaflet({
     
     
-    pal_form <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_form)
+    pal_form <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_form, reverse = TRUE)
     class(Europe)
     
     labels_form <- sprintf(
@@ -188,11 +189,13 @@ server <- function(input, output,session) {
                                               direction = "auto")) 
     
     
+                  
   })
   
   
   
-  output$legende2 <- renderUI(HTML('<div class="legende"> 
+  output$legende2 <- renderUI(HTML('<div class="legende">
+                                   <br>
                                    <span style="color:#008B99;">Champ : </span>',
                                    '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
@@ -208,7 +211,7 @@ server <- function(input, output,session) {
   output$TPF <- renderLeaflet({
     
     
-    pal_tpf <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf)
+    pal_tpf <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf, reverse = TRUE)
     class(Europe)
     
     labels_tpf <- sprintf(
@@ -244,12 +247,13 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal= pal_tpf, values = ~tx_tpf,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = " à "),
+                 labFormat = labelFormat(suffix =   "%",transform = function(x)  sort(x, decreasing = TRUE)),
                  opacity = 1 )
     
     
   })
-  output$legende3 <- renderUI(HTML('<div class="legende"> 
+  output$legende3 <- renderUI(HTML('<div class="legende">
+                                   <br>
                                    <span style="color:#008B99;">Champ : </span>',
                                    '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",
@@ -266,7 +270,7 @@ server <- function(input, output,session) {
   output$nb_h <- renderLeaflet({
     
     
-    pal_heurstag <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$heurstag)
+    pal_heurstag <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$heurstag, reverse = TRUE)
     class(Europe)
     
     labels_heurstag <- sprintf(
@@ -303,7 +307,7 @@ server <- function(input, output,session) {
       addLegend( pal= pal_heurstag, values = ~heurstag,
                  
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   " heures" , between = " à "),
+                 labFormat = labelFormat(suffix =   " heures" , between = " à ",transform = function(x)  sort(x, decreasing = TRUE)),
                  opacity = 1 )
     
     
@@ -313,6 +317,7 @@ server <- function(input, output,session) {
   }) 
   
   output$legende4 <- renderUI(HTML('<div class="legende"> 
+                                   <br>
                                    <span style="color:#008B99;">Champ : </span>',
                                    '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
                                    "<br>",

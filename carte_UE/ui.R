@@ -67,32 +67,15 @@ ui <-
     ),
     br(),
     fluidRow(column (width=6,
-                     sliderInput(
-                       inputId="annee", 
-                       label=h1("Date en année :"), 
-                       min=2010, 
-                       max=2020, 
-                       value = 2010,
-                       #   timeFormat = TRUE, 
-                       
-                       animate = TRUE,
-                       sep = NULL,
-                       step=5,
-                       ticks=TRUE,
-                       
-                       animationOptions(
-                         interval = 10000,
-                         loop = FALSE,
-                         playButton = TRUE,
-                         pauseButton = TRUE
-                       ))
+                     radioGroupButtons(
+                       inputId = "annee",
+                       label = "Date en année :", 
+                       choices = c("2010", "2015", "2020"),
+                       status = "primary"
+                     )),
                      
                      
-    ),
-    
-    
-    
-    
+                    
     
     column(
       
@@ -133,8 +116,7 @@ ui <-
               inputId = "secteur_bis",
               choices = liste_secteur2,
               selected = "Ensemble des secteurs",
-              options = list(
-                style = "btn-primary")
+              
               
             ))),
       
