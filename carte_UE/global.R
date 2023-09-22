@@ -63,10 +63,11 @@ liste_secteur <- na.omit(Europe_nodupkey$secteur)
 liste_secteur <- as.list(sort(liste_secteur))
 
 ensemble_liste_secteur = list('Ensemble des secteurs')
-liste_secteur[5] <- NULL
-liste_secteur[6] <- NULL
-liste_secteur2 <- c(ensemble_liste_secteur, liste_secteur)
 
+liste_secteur[5] <- NULL
+liste_secteur2 <- c(ensemble_liste_secteur, liste_secteur)
+liste_secteur2[6] <- NULL
+liste_secteur2  
 
 Europe_nodupkey_taille <- Europe %>% distinct(taille, .keep_all = TRUE)
 liste_taille <- na.omit(Europe_nodupkey_taille$taille)

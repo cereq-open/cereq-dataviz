@@ -70,7 +70,7 @@ server <- function(input, output,session) {
       paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, la taille ",input$taille,"et l'année ", input$annee) )
     }
     
-    else if( x()=="Secteur" & input$secteur_bis=="Ensemble des activités")
+    else if( x()=="Secteur" & input$secteur_bis=="Ensemble des secteurs")
     {
       paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, l'ensemble des tailles, et l'année ", input$annee)  )
     } 
