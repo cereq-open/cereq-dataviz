@@ -41,10 +41,6 @@ Europe <- transform(Europe, tx_form = as.numeric(tx_form),
                     tx_tpf = as.numeric(tx_tpf),
                     tx_acc1 = as.numeric(tx_acc1))
 
-Europe$heurstag[is.na(Europe$heurstag)] <- 0
-Europe$tx_tpf[is.na(Europe$tx_tpf)] <- 0
-Europe$tx_form[is.na(Europe$tx_form)] <- 0
-Europe$tx_acc1[is.na(Europe$tx_acc1)] <- 0
 
 Europe$CNTR_ID <- NULL
 Europe$CNTR_NAME <- NULL
@@ -66,8 +62,9 @@ liste_secteur <- na.omit(Europe_nodupkey$secteur)
 
 liste_secteur <- as.list(sort(liste_secteur))
 
-ensemble_liste_secteur = list('Ensemble des activités')
-liste_secteur[4] <- NULL
+ensemble_liste_secteur = list('Ensemble des secteurs')
+liste_secteur[5] <- NULL
+liste_secteur[6] <- NULL
 liste_secteur2 <- c(ensemble_liste_secteur, liste_secteur)
 
 

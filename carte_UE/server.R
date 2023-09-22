@@ -130,7 +130,8 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal = pal_2, values = ~tx_acc1,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", transform = function(tx_acc1)  sort(tx_acc1, decreasing = TRUE)),
+                 labFormat = labelFormat(suffix =   " %", transform = function(tx_acc1)  sort(tx_acc1, decreasing = TRUE)),
+                 na.label = paste0("Données","<br>","manquantes"),
                  opacity = 1 )
 
   })
@@ -189,7 +190,8 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
     addLegend( pal = pal_form_2, values = ~tx_form,
                title = element_blank(),
-               labFormat = labelFormat(suffix =   "%", transform = function(x)  sort(x, decreasing = TRUE)),
+               labFormat = labelFormat(suffix =   " %", transform = function(x)  sort(x, decreasing = TRUE)),
+               na.label = paste0("Données","<br>","manquantes"),
                opacity = 1 )
     
                   
@@ -250,7 +252,8 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal= pal_tpf_2, values = ~tx_tpf,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%",transform = function(x)  sort(x, decreasing = TRUE)),
+                 labFormat = labelFormat(suffix =   " %",transform = function(x)  sort(x, decreasing = TRUE)),
+                 na.label = paste0("Données","<br>","manquantes"),
                  opacity = 1 )
     
     
@@ -310,7 +313,8 @@ server <- function(input, output,session) {
       addLegend( pal= pal_heurstag_2, values = ~heurstag,
                  
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   " heures" , between = " à ",transform = function(x)  sort(x, decreasing = TRUE)),
+                 labFormat = labelFormat(suffix =   " heures" ,transform = function(x)  sort(x, decreasing = TRUE)),
+                 na.label = paste0("Données","<br>","manquantes"),
                  opacity = 1 )
     
     
