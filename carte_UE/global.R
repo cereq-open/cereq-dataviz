@@ -75,10 +75,10 @@ Europe_nodupkey_taille <- Europe %>% distinct(taille, .keep_all = TRUE)
 liste_taille <- na.omit(Europe_nodupkey_taille$taille)
 liste_taille <- as.list(sort(liste_taille))
 
-ensemble_liste_taille = list('Total')
+ensemble_liste_taille = list('Total','10 à 49','50 à 249','250 ou plus')
 
 liste_taille[4] <- NULL
-liste_taille2 <- c(ensemble_liste_taille, liste_taille)
+liste_taille2 <- c(ensemble_liste_taille)
 
 
 DownloadButton <- function(outputId, label = label) {
