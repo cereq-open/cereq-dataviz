@@ -61,7 +61,7 @@ server <- function(input, output,session) {
   
   
   output$phrase<-renderText({
-    if( x()=="Taille" & input$taille=="Ensemble")
+    if( x()=="Taille" & input$taille=="Total")
     {
       paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, l'ensemble des tailles, et l'année ", input$annee) )
     } 
@@ -93,8 +93,8 @@ server <- function(input, output,session) {
   
   output$taux_acces <- renderLeaflet({
     
-    
-    pal   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1, reverse = TRUE)
+    pal   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1)
+    pal_2   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1, reverse = TRUE)
     class(Europe)
     
     labels <- sprintf(
@@ -128,9 +128,9 @@ server <- function(input, output,session) {
                                                            padding = "3px 8px"),
                                               textsize = "15px",
                                               direction = "auto")) %>%
-      addLegend( pal = pal, values = ~tx_acc1,
+      addLegend( pal = pal_2, values = ~tx_acc1,
                  title = element_blank(),
-                 labFormat = labelFormat(suffix =   "%", between = " à ", transform = function(x)  sort(x, decreasing = TRUE)),
+                 labFormat = labelFormat(suffix =   "%", transform = function(tx_acc1)  sort(tx_acc1, decreasing = TRUE)),
                  opacity = 1 )
 
   })
@@ -152,8 +152,8 @@ server <- function(input, output,session) {
   
   output$part_form <- renderLeaflet({
     
-    
-    pal_form <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_form, reverse = TRUE)
+    pal_form <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_form)
+    pal_form_2 <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_form, reverse = TRUE)
     class(Europe)
     
     labels_form <- sprintf(
@@ -186,8 +186,11 @@ server <- function(input, output,session) {
                   labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                            padding = "3px 8px"),
                                               textsize = "15px",
-                                              direction = "auto")) 
-    
+                                              direction = "auto")) %>%
+    addLegend( pal = pal_form_2, values = ~tx_form,
+               title = element_blank(),
+               labFormat = labelFormat(suffix =   "%", transform = function(x)  sort(x, decreasing = TRUE)),
+               opacity = 1 )
     
                   
   })
@@ -210,8 +213,8 @@ server <- function(input, output,session) {
   
   output$TPF <- renderLeaflet({
     
-    
-    pal_tpf <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf, reverse = TRUE)
+    pal_tpf <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf)
+    pal_tpf_2 <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf, reverse = TRUE)
     class(Europe)
     
     labels_tpf <- sprintf(
@@ -245,7 +248,7 @@ server <- function(input, output,session) {
                                                            padding = "3px 8px"),
                                               textsize = "15px",
                                               direction = "auto")) %>%
-      addLegend( pal= pal_tpf, values = ~tx_tpf,
+      addLegend( pal= pal_tpf_2, values = ~tx_tpf,
                  title = element_blank(),
                  labFormat = labelFormat(suffix =   "%",transform = function(x)  sort(x, decreasing = TRUE)),
                  opacity = 1 )
@@ -269,8 +272,8 @@ server <- function(input, output,session) {
   
   output$nb_h <- renderLeaflet({
     
-    
-    pal_heurstag <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$heurstag, reverse = TRUE)
+    pal_heurstag <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$heurstag)
+    pal_heurstag_2 <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$heurstag, reverse = TRUE)
     class(Europe)
     
     labels_heurstag <- sprintf(
@@ -304,7 +307,7 @@ server <- function(input, output,session) {
                                                            padding = "3px 8px"),
                                               textsize = "15px",
                                               direction = "auto")) %>%
-      addLegend( pal= pal_heurstag, values = ~heurstag,
+      addLegend( pal= pal_heurstag_2, values = ~heurstag,
                  
                  title = element_blank(),
                  labFormat = labelFormat(suffix =   " heures" , between = " à ",transform = function(x)  sort(x, decreasing = TRUE)),
