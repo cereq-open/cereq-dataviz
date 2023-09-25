@@ -6,17 +6,17 @@ symbole_pourcentage <- " %"
 
 generateDTBarChart <- function(subset_df) {
   data <- subset_df %>%
-    select(Code, Libelle_Menu, Libelle_complet, taux_emploi, taux_chomage) %>%
-    mutate(autre_situations = 100 - (taux_emploi + taux_chomage)) %>%
+    select(Code, Libelle_Menu, Libelle_complet, taux_emploi, part_chomage) %>%
+    mutate(autre_situations = 100 - (taux_emploi + part_chomage)) %>%
     pivot_longer(
-      cols = c("taux_emploi", "taux_chomage", "autre_situations"),
+      cols = c("taux_emploi", "part_chomage", "autre_situations"),
       names_to = "emploi",
       values_to = "taux"
     ) %>%
     mutate(
       emploi = case_when(
         emploi == "taux_emploi" ~ "En emploi",
-        emploi == "taux_chomage" ~ "Au chômage",
+        emploi == "part_chomage" ~ "Au chômage",
         emploi == "autre_situations" ~ "Autres situations",
         TRUE ~ emploi
       ),
