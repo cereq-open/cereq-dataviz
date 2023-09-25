@@ -1,95 +1,55 @@
 # Load packages ----------------------------------------------------------------
 
 library(shiny)
-library(dplyr)
 library(ggplot2)
-library(openxlsx)
 
 # Define Server ----------------------------------------------------------------
 
 shinyServer(function(input, output, session) {
-  
-  ###################### Define the data streams according to the levels selected ######################
+  graph_sizes <- eventReactive(input$dimension, {
+    dims <- input$dimension
 
-  filtered_data1 <- reactive({
-    req(input$facteur)
-    generateData(tab_inegalites %>% filter(Diplôme %in% c("Ensemble des sortants","Non-diplômés")), input$facteur)
-  })
-  
-  filtered_data2 <- reactive({
-    req(input$facteur)
-    generateData(tab_inegalites %>% filter(Diplôme %in% c("Diplômés du secondaire","Diplômés du supérieur court","Diplômés du supérieur long")), input$facteur)
-  })
-
-  ###################### Create the graph according to the selected levels from both scrolling menus ######################
-
-  reactive_indicateur <- reactive({
-    dplyr::filter(tab_variables_inegalites, Titre_graphique %in% input$indicateur) %>% pull(Nom_colonne)
-  })
-  
-  reactive_graph1 <- reactive({
-      indicateur <- unlist(filtered_data1()[,reactive_indicateur()])
-      DF <- filtered_data1() %>% mutate(indicateur = indicateur) %>% filter(indicateur != 0)
-      gg <- generatePlot(DF, indicateur, generateColors(input$facteur), 
-                         generateCaption(reactive_indicateur()),
-                         generate_Nb_rows(input$facteur),
-                         generate_legend_key_height(input$facteur),
-                         generateSymbol(input$indicateur),
-                         guides = NULL
-                         )
-      girafe(
-        ggobj = gg,
-        fonts = list(sans = "Arimo"),
-        width_svg = generateWidth(input$facteur),
-        height_svg = generateHeight(input$facteur)
+    if (dims[1] > 1200) {
+      list(
+        largeur_bar_chart = 15
       )
+    } else if (dims[1] > 992) {
+      list(
+        largeur_bar_chart = 10
+      )
+    } else if (dims[1] > 576) {
+      list(
+        largeur_bar_chart = 7
+      )
+    } else {
+      list(
+        largeur_bar_chart = 4.8
+      )
+    }
   })
 
-  output$graph1 <- renderGirafe({
-    reactive_graph1()
+  filtered_data <- reactive({
+    req(input$facteur, input$indicateur)
+    data_par_facteur_analyse[[input$facteur]][[input$indicateur]]
   })
 
-  reactive_graph2 <- reactive({
-    indicateur <- unlist(filtered_data2()[,reactive_indicateur()])
-    DF <- filtered_data2() %>% mutate(indicateur = indicateur) %>% filter(indicateur != 0)
-    gg <- generatePlot(DF, indicateur, generateColors(input$facteur), 
-                       caption = NULL,
-                       generate_Nb_rows(input$facteur),
-                       generate_legend_key_height(input$facteur),
-                       generateSymbol(input$indicateur),
-                       guides(fill = "none")
+  
+  output$graph <- renderGirafe({
+    dat <- filtered_data()
+    gg <- generatePlot(
+      .data = dat,
+      colors = color_palette(dat),
+      .caption = indicateur_captions[[input$indicateur]],
+      .title = indicateur_titles[[input$indicateur]]
     )
     girafe(
       ggobj = gg,
-      fonts = list(sans = "Arimo"),
-      width_svg = generateWidth(input$facteur),
-      height_svg = generateHeight(input$facteur)
+      width_svg = graph_sizes()$largeur_bar_chart,
+      height_svg = generate_height(dat)
     )
-  })
-  
-  output$graph2 <- renderGirafe({
-    reactive_graph2()
-  })
-  
-  ###################### Create the graph title ######################
-
-  reactive_titre_graph <- reactive({
-    info_str <- input$indicateur
-    infobulle_str <- dplyr::filter(tab_variables_inegalites, Titre_graphique %in% input$indicateur) %>% pull(Bulle)
-    
-    if (is.na(infobulle_str)) {
-      labellize_stats_no_i(info_str = info_str)
-    }
-    else labellize_stats_end_i(info_str = info_str,
-                               infobulle_str = infobulle_str)
-  })
-  
-  output$titre_graph <- renderUI({
-    reactive_titre_graph()
   })
 
   # Download Data --------------------------------------------------------------
-
   output$downloadData <- downloadHandler(
     filename = function() {
       paste("OpenData_Cereq-Enq_Generation-Donnees_INEGALITES", ".xlsx", sep = "")
