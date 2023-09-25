@@ -7,7 +7,9 @@ source("graphics-settings.R")
 source("shiny-elements.R")
 
 theme_replace(
-  legend.key.width = unit(.5, "in")
+  legend.key.width = unit(15, "pt"),
+  legend.key.height = unit(.5, "in"),
+  legend.position = "right"
 )
 
 # Load data -----

@@ -31,8 +31,14 @@ labellize_stat <- function(info_str, stat1_str, stat2_str) {
 gadm <- readRDS("data/map/gadm36_FRA_1_sf.rds") |>
   st_as_sf() |> # Convertis en objet sf
   st_set_crs(4326) |>
+  st_simplify(dTolerance = 2000) |> 
   # Attribue le système de coordonnées géographiques WGS 84
-  mutate(NAME_1 = stringi::stri_trans_general(NAME_1, id = "latin-ascii"))
+  mutate(NAME_1 = stringi::stri_trans_general(NAME_1, id = "latin-ascii")) |> 
+  mutate(
+    NAME_1 = ifelse(NAME_1 == "Corse", "P.A.C.A. et Corse",
+                   ifelse(NAME_1 == "Provence-Alpes-Cote d'Azur", "P.A.C.A. et Corse", NAME_1)
+    )
+  )
 
 ## stats par regions ----
 db_stats_par_regions <- arrow::read_parquet("data/tab_region.parquet") |>
@@ -66,9 +72,6 @@ db_stats_par_regions$Libellé <- gsub("Provence-Alpes-Cote-d'Azur et Corse", "Co
 db_stats_par_regions <- left_join(db_stats_par_regions, gadm, by = c("Libellé" = "NAME_1")) |>
   st_as_sf() |> # Convertis le dataframe en objet spatial sf
   mutate(
-    Libellé = ifelse(Libellé == "Corse", "P.A.C.A. et Corse",
-      ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "P.A.C.A. et Corse", Libellé)
-    ),
     Libellé = toupper(Libellé)
   )
 
