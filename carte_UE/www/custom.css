@@ -41,6 +41,13 @@ h2 {
   text-align: left;
 }
 
+h3 {
+  font-weight: normal;
+  font-size: 20px;
+  color: #008b99;
+  text-align: left;
+}
+
 /* Styles pour le paragraphe */
 p {
   color: var(--main-color);
@@ -98,4 +105,11 @@ p {
 /* Cache la barre de défilement horizontale */
 #degre3::-webkit-scrollbar-horizontal {
   display: none;
+}
+
+
+
+.legende {
+  line-height: 1.3em;
+
 }
