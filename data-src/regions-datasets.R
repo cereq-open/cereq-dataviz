@@ -28,14 +28,14 @@ labellize_stat <- function(info_str, stat1_str, stat2_str) {
 # data preparation ----
 
 ## geo processing ----
-gadm <- readRDS("data/map/gadm36_FRA_1_sf.rds") |> 
+gadm <- readRDS("data/map/gadm36_FRA_1_sf.rds") |>
   st_as_sf() |> # Convertis en objet sf
-  st_set_crs(4326) |> 
+  st_set_crs(4326) |>
   # Attribue le système de coordonnées géographiques WGS 84
   mutate(NAME_1 = stringi::stri_trans_general(NAME_1, id = "latin-ascii"))
 
 ## stats par regions ----
-db_stats_par_regions <- arrow::read_parquet("data/tab_region.parquet") |> 
+db_stats_par_regions <- arrow::read_parquet("data/tab_region.parquet") |>
   rename(pos_prof_inter = pos_prof_int)
 
 db_stats_ens_et_drom <- db_stats_par_regions %>%
@@ -63,22 +63,24 @@ db_stats_par_regions <- rbind(db_stats_par_regions, ligne_a_dupliquer)
 db_stats_par_regions$Libellé <- gsub("Provence-Alpes-Cote-d'Azur et Corse", "Corse", db_stats_par_regions$Libellé)
 
 # Jointure des deux tables
-db_stats_par_regions <- left_join(db_stats_par_regions, gadm, by = c("Libellé" = "NAME_1")) |> 
+db_stats_par_regions <- left_join(db_stats_par_regions, gadm, by = c("Libellé" = "NAME_1")) |>
   st_as_sf() |> # Convertis le dataframe en objet spatial sf
   mutate(
     Libellé = ifelse(Libellé == "Corse", "P.A.C.A. et Corse",
-                     ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "P.A.C.A. et Corse", Libellé)
+      ifelse(Libellé == "Provence-Alpes-Cote d'Azur", "P.A.C.A. et Corse", Libellé)
     ),
     Libellé = toupper(Libellé)
   )
 
 
 ### indicateurs ----
-db_indicateurs <- read_excel("data/variables REGION.xlsx") |> 
-  filter(!is.na(Ordre_menu1)) |> 
-  select(-Ordre_menu2) |> 
-  rename(indicateur = Nom_colonne,
-         label = Titre_graphique, tooltip = Bulle)
+db_indicateurs <- read_excel("data/variables REGION.xlsx") |>
+  filter(!is.na(Ordre_menu1)) |>
+  select(-Ordre_menu2) |>
+  rename(
+    indicateur = Nom_colonne,
+    label = Titre_graphique, tooltip = Bulle
+  )
 
 valeurs_indicateurs <- setNames(db_indicateurs$indicateur, db_indicateurs$label)
 
@@ -98,30 +100,33 @@ liste_label_indicateurs <- lapply(db_indicateurs$indicateur, function(colonne, d
   } else {
     symbole <- " €"
   }
-  
+
   stat_france <- paste0(db_stat[1, colonne], symbole)
   stat_drom <- paste0("(", paste0("dont ensemble des D.R.O.M. : ", db_stat[2, colonne], symbole), ")")
-  labellize_stat(info_str = "France : ",
-                 stat1_str = stat_france,
-                 stat2_str = stat_drom)
+  labellize_stat(
+    info_str = "France : ",
+    stat1_str = stat_france,
+    stat2_str = stat_drom
+  )
 }, db_stat = db_stats_ens_et_drom) |> setNames(db_indicateurs$indicateur)
 
 ### niveaux_diplomes ----
-db_niveaux_diplomes <- read_excel("data/variables REGION.xlsx") |> 
-  filter(!is.na(Ordre_menu2)) |> 
+db_niveaux_diplomes <- read_excel("data/variables REGION.xlsx") |>
+  filter(!is.na(Ordre_menu2)) |>
   select(-Ordre_menu1, -Bulle)
 
 valeurs_niveaux_diplomes <- setNames(db_niveaux_diplomes$Nom_colonne, db_niveaux_diplomes$Titre_graphique)
 
 liste_label_niveaux_diplomes <- lapply(db_niveaux_diplomes$Nom_colonne, function(colonne, db_stat) {
   symbole <- " %"
-  
+
   stat_france <- paste0(db_stat[1, colonne], symbole)
   stat_drom <- paste0("(", paste0("dont ensemble des D.R.O.M. : ", db_stat[2, colonne], symbole), ")")
-  labellize_stat(info_str = "France : ",
-                 stat1_str = stat_france,
-                 stat2_str = stat_drom)
-  
+  labellize_stat(
+    info_str = "France : ",
+    stat1_str = stat_france,
+    stat2_str = stat_drom
+  )
 }, db_stat = db_stats_ens_et_drom) |> setNames(db_niveaux_diplomes$Nom_colonne)
 
 

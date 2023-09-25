@@ -40,7 +40,8 @@ theme_set(
     strip.background = element_blank(),
     strip.text = element_text(
       hjust = 0.5, size = fs_default, face = "bold",
-      margin = margin(t = 6, r = 0, b = 3, l = 0)),
+      margin = margin(t = 6, r = 0, b = 3, l = 0)
+    ),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),

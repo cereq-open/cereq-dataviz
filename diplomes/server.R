@@ -1,7 +1,6 @@
 # Define Server ----------------------------------------------------------------
 
 shinyServer(function(input, output, session) {
-  
   graph_sizes <- eventReactive(input$dimension, {
     dims <- input$dimension
     if (dims[1] > 1200) {
@@ -33,12 +32,11 @@ shinyServer(function(input, output, session) {
       )
     }
   })
-  
+
   global <- reactiveValues(data_key_value = "100")
-  
+
   ### buttons -----
   output$sub_type_diploma <- renderUI({
-    
     req(input$level_diploma)
     subkeys <- menus_data[menus_data$key %in% input$level_diploma, "subkeys"][[1]]
     req(subkeys)
@@ -50,28 +48,31 @@ shinyServer(function(input, output, session) {
       individual = TRUE
     )
   })
-  
+
   observeEvent(input$sub_key, {
     if (isTruthy(input$sub_key)) {
       global$data_key_value <- input$sub_key
-    } else global$data_key_value <- input$level_diploma
+    } else {
+      global$data_key_value <- input$level_diploma
+    }
   })
-  
+
   observeEvent(input$level_diploma, {
     global$data_key_value <- input$level_diploma
   })
-  
+
   ###################### barplot ######################
   output$graph_situation_apres_3_ans <- renderGirafe({
     gg <- generatePlotSpec(
       .data = barchart_datasets_subsets[[global$data_key_value]],
-      .caption = barchart_captions_subsets[[global$data_key_value]])
-    
+      .caption = barchart_captions_subsets[[global$data_key_value]]
+    )
+
     height_svg <- graph_sizes()$hauteur_2_barre
     if (global$data_key_value %in% "100") {
       height_svg <- graph_sizes()$hauteur_1_barre
     }
-    
+
     girafe(
       ggobj = gg,
       width_svg = graph_sizes()$largeur_bar_chart,
@@ -83,11 +84,11 @@ shinyServer(function(input, output, session) {
 
 
   output$plot_repartition_par_profession <- renderGirafe({
-    
     gg <- generateDonutProfession(
-      .data = donut_profession_datasets_subsets[[global$data_key_value]], 
+      .data = donut_profession_datasets_subsets[[global$data_key_value]],
       .caption = donuts_captions_subsets[[global$data_key_value]],
-      .donut_col_legend = graph_sizes()$donut_col_legend)
+      .donut_col_legend = graph_sizes()$donut_col_legend
+    )
     girafe(
       ggobj = gg,
       width_svg = graph_sizes()$largeur_donut_chart,
@@ -97,9 +98,10 @@ shinyServer(function(input, output, session) {
 
   output$plot_repartition_par_secteur <- renderGirafe({
     gg <- generateDonutSecteur(
-      .data = donut_secteur_datasets_subsets[[global$data_key_value]], 
+      .data = donut_secteur_datasets_subsets[[global$data_key_value]],
       .caption = donuts_captions_subsets[[global$data_key_value]],
-      .donut_col_legend = graph_sizes()$donut_col_legend)
+      .donut_col_legend = graph_sizes()$donut_col_legend
+    )
     girafe(
       ggobj = gg,
       width_svg = graph_sizes()$largeur_donut_chart,
@@ -124,7 +126,7 @@ shinyServer(function(input, output, session) {
   output$tx_a_tps_partiel <- renderUI({
     part_tps_partiel_labels[[global$data_key_value]]
   })
-  
+
   output$revenu_median <- renderUI({
     revenu_travail_labels[[global$data_key_value]]
   })

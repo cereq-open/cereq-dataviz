@@ -1,7 +1,7 @@
 shinyServer(function(input, output, session) {
   graph_sizes <- eventReactive(input$dimension, {
     dims <- input$dimension
-    
+
     if (dims[1] > 1200) {
       list(
         largeur_map = 8,
@@ -24,7 +24,7 @@ shinyServer(function(input, output, session) {
       )
     }
   })
-  
+
   output$downloadData <- downloadHandler(
     filename = function() {
       paste("OpenData_Cereq-Enq_Generation-Donnees_REGION", ".xlsx", sep = "")
@@ -55,12 +55,14 @@ shinyServer(function(input, output, session) {
     )
 
     augmented_db_stats_par_regions <- concatenate_columns(db_stats_par_regions, input$valeur_indicateur)
-    gg <- region_map(.data = augmented_db_stats_par_regions, 
-                     column_stat_name = input$valeur_indicateur, 
-                     column_label_name = "label", 
-                     .caption = caption,
-                     .title = liste_titre_indicateurs[[input$valeur_indicateur]]$.title, 
-                     .tooltip = liste_titre_indicateurs[[input$valeur_indicateur]]$.tooltip)
+    gg <- region_map(
+      .data = augmented_db_stats_par_regions,
+      column_stat_name = input$valeur_indicateur,
+      column_label_name = "label",
+      .caption = caption,
+      .title = liste_titre_indicateurs[[input$valeur_indicateur]]$.title,
+      .tooltip = liste_titre_indicateurs[[input$valeur_indicateur]]$.tooltip
+    )
     girafe(
       ggobj = gg,
       fonts = list(sans = "Arimo"),
@@ -70,7 +72,6 @@ shinyServer(function(input, output, session) {
   })
 
   output$carte_niveau_diplome <- renderGirafe({
-    
     caption <- paste0(
       '<span style="color:#008B99;">Champ : </span>',
       "Ensemble de la Génération 2017.",
@@ -80,12 +81,14 @@ shinyServer(function(input, output, session) {
     )
     augmented_db_stats_par_regions <- concatenate_columns(db_stats_par_regions, input$valeur_diplome_niveau)
 
-    gg <- region_map(.data = augmented_db_stats_par_regions, 
-                     column_stat_name = input$valeur_diplome_niveau, 
-                     column_label_name = "label", 
-                     .caption = caption,
-                     .title = "Proportion de sortants de formation initiale ayant ce niveau", 
-                     .tooltip = NULL)
+    gg <- region_map(
+      .data = augmented_db_stats_par_regions,
+      column_stat_name = input$valeur_diplome_niveau,
+      column_label_name = "label",
+      .caption = caption,
+      .title = "Proportion de sortants de formation initiale ayant ce niveau",
+      .tooltip = NULL
+    )
     girafe(
       ggobj = gg,
       fonts = list(sans = "Arimo"),

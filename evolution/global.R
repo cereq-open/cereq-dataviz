@@ -38,7 +38,7 @@ evolution_barchart <- function(.data, colname, .caption, .title, .tooltip) {
     ) +
     scale_fill_manual(values = colors) +
     labs(
-      caption = .caption, 
+      caption = .caption,
       title = paste(
         .title,
         if (!is.null(.tooltip)) {
@@ -68,6 +68,6 @@ evolution_barchart <- function(.data, colname, .caption, .title, .tooltip) {
       )
     )
   }
-  
+
   gg
 }

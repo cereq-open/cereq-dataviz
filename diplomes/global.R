@@ -36,7 +36,6 @@ couleurs_donut_chart <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
 
 # barchart -----
 generatePlotSpec <- function(.data, .caption) {
-
   ggplot(.data, aes(fake_axis, taux, fill = emploi)) +
     geom_col_interactive(width = 1, color = "white", mapping = aes(
       data_id = emploi,
@@ -90,10 +89,10 @@ generateDonutSecteur <- function(.data, .caption, .donut_col_legend) {
       mapping = aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white"
     ) +
     scale_fill_manual(
-      values = couleurs_donut_chart, 
+      values = couleurs_donut_chart,
       guide = guide_legend(label.vjust = 1)
     ) +
     scale_y_continuous(trans = "reverse") +
     labs(caption = .caption, title = "Répartition par secteur") +
-    guides(fill = guide_legend(ncol = .donut_col_legend, byrow = TRUE)) 
+    guides(fill = guide_legend(ncol = .donut_col_legend, byrow = TRUE))
 }

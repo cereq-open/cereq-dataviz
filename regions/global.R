@@ -7,7 +7,7 @@ source("graphics-settings.R")
 source("shiny-elements.R")
 
 theme_replace(
-  legend.key.width=unit(.5,"in")
+  legend.key.width = unit(.5, "in")
 )
 
 # Load data -----
@@ -33,12 +33,12 @@ region_map <- function(.data, column_stat_name, column_label_name, .caption, .ti
     geom_sf_text(
       aes(label = !!sym(column_label_name)),
       check_overlap = FALSE,
-      size = fs_default/.pt,
+      size = fs_default / .pt,
       color = "white",
       fun.geometry = sf::st_centroid
     ) +
     labs(
-      caption = .caption, 
+      caption = .caption,
       title = paste(
         .title,
         if (!is.null(.tooltip)) {
@@ -46,7 +46,7 @@ region_map <- function(.data, column_stat_name, column_label_name, .caption, .ti
         }
       )
     )
-  
+
   if (!is.null(.tooltip)) {
     info_bulle <- sprintf("<div style=\"max-width:200px;\">%s</div>", .tooltip)
     theme_replace(
@@ -67,17 +67,17 @@ region_map <- function(.data, column_stat_name, column_label_name, .caption, .ti
       )
     )
   }
-  
+
   gg
 }
 
 concatenate_columns <- function(.data, col_name) {
-  if(col_name != "rvn_trv") {
-    .data[["label"]] <- paste0(.data[["Libellé"]], "\n" , paste0("(", .data[[col_name]], " %)"))
-    .data[["tooltip_value"]] <- paste0(.data[["Libellé"]], " : " ,.data[[col_name]], " %")
+  if (col_name != "rvn_trv") {
+    .data[["label"]] <- paste0(.data[["Libellé"]], "\n", paste0("(", .data[[col_name]], " %)"))
+    .data[["tooltip_value"]] <- paste0(.data[["Libellé"]], " : ", .data[[col_name]], " %")
   } else {
-    .data[["label"]] <- paste0(.data[["Libellé"]], "\n" , paste0("(", .data[[col_name]], " €)"))
-    .data[["tooltip_value"]] <- paste0(.data[["Libellé"]], " : " ,.data[[col_name]], " €")
+    .data[["label"]] <- paste0(.data[["Libellé"]], "\n", paste0("(", .data[[col_name]], " €)"))
+    .data[["tooltip_value"]] <- paste0(.data[["Libellé"]], " : ", .data[[col_name]], " €")
   }
   # Masque le texte pour la Corse
   .data$label[12] <- ""

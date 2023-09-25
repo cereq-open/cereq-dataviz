@@ -33,7 +33,7 @@ shinyServer(function(input, output, session) {
     data_par_facteur_analyse[[input$facteur]][[input$indicateur]]
   })
 
-  
+
   output$graph <- renderGirafe({
     dat <- filtered_data()
     gg <- generatePlot(

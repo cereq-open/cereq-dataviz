@@ -35,12 +35,13 @@ theme_set(
     panel.background = element_blank(), # element_rect(fill = "#EEEEEE", colour = "transparent"),
     plot.background = element_rect(
       fill = "transparent", colour = "#008b99",
-      linewidth = 1.3
+      linewidth = 1.5
     ),
     strip.background = element_blank(),
     strip.text = element_text(
       hjust = 0.5, size = fs_default, face = "bold",
-      margin = margin(t = 6, r = 0, b = 3, l = 0)),
+      margin = margin(t = 6, r = 0, b = 3, l = 0)
+    ),
     panel.grid = element_blank(),
     axis.ticks = element_blank(),
     axis.text.x = element_blank(),
@@ -53,12 +54,14 @@ theme_set(
       hjust = 0,
       color = "#C0C0C2",
       size = fs_caption,
-      margin = margin(t = 5, r = 2, b = 2, l = 2)
+      margin = margin(t = 5, r = 2, b = 2, l = 2),
+      lineheight = 1.3
     ),
     plot.title = element_textbox_simple(
       size = fs_title,
       margin = margin(t = 20, r = 5, b = 20, l = 5),
-      face = "bold"
+      face = "bold",
+      lineheight = 1.3
     ),
     plot.caption.position = "plot",
     legend.title = element_blank(),
