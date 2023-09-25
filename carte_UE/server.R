@@ -110,7 +110,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken="8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9")) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken=token)) %>%
       addPolygons(data=filtre_Europe(),fillColor = ~pal(tx_acc1),
                   weight = 0.3,
                   opacity = 1,
@@ -170,7 +170,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken="8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9")) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken=token)) %>%
       addPolygons(data=filtre_Europe(),fillColor = ~pal_form(tx_form),
                   weight = 0.3,
                   opacity = 1,
@@ -232,7 +232,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken="8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9")) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken=token)) %>%
       addPolygons(data=filtre_Europe(),fillColor = ~pal_tpf(tx_tpf),
                   weight = 0.3,
                   opacity = 1,
@@ -292,7 +292,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken="8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9")) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken=token)) %>%
       addPolygons(data=filtre_Europe(),fillColor = ~pal_heurstag(heurstag),
                   weight = 0.3,
                   opacity = 1,
