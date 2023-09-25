@@ -131,7 +131,7 @@ server <- function(input, output,session) {
       addLegend( pal = pal_2, values = ~tx_acc1,
                  title = element_blank(),
                  labFormat = labelFormat(suffix =   " %", transform = function(tx_acc1)  sort(tx_acc1, decreasing = TRUE)),
-                 na.label = paste0("Données","<br>","manquantes"),
+                 na.label = paste0("données","<br>","manquantes"),
                  opacity = 1 )
 
   })
@@ -170,7 +170,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles(providers$CartoDB.Positron) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken="8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9")) %>%
       addPolygons(data=filtre_Europe(),fillColor = ~pal_form(tx_form),
                   weight = 0.3,
                   opacity = 1,
@@ -191,7 +191,7 @@ server <- function(input, output,session) {
     addLegend( pal = pal_form_2, values = ~tx_form,
                title = element_blank(),
                labFormat = labelFormat(suffix =   " %", transform = function(x)  sort(x, decreasing = TRUE)),
-               na.label = paste0("Données","<br>","manquantes"),
+               na.label = paste0("données","<br>","manquantes"),
                opacity = 1 )
     
                   
@@ -232,7 +232,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles(providers$CartoDB.Positron) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken="8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9")) %>%
       addPolygons(data=filtre_Europe(),fillColor = ~pal_tpf(tx_tpf),
                   weight = 0.3,
                   opacity = 1,
@@ -253,7 +253,7 @@ server <- function(input, output,session) {
       addLegend( pal= pal_tpf_2, values = ~tx_tpf,
                  title = element_blank(),
                  labFormat = labelFormat(suffix =   " %",transform = function(x)  sort(x, decreasing = TRUE)),
-                 na.label = paste0("Données","<br>","manquantes"),
+                 na.label = paste0("données","<br>","manquantes"),
                  opacity = 1 )
     
     
@@ -292,7 +292,7 @@ server <- function(input, output,session) {
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
-      addProviderTiles(providers$CartoDB.Positron) %>%
+      addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken="8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9")) %>%
       addPolygons(data=filtre_Europe(),fillColor = ~pal_heurstag(heurstag),
                   weight = 0.3,
                   opacity = 1,
@@ -314,7 +314,7 @@ server <- function(input, output,session) {
                  
                  title = element_blank(),
                  labFormat = labelFormat(suffix =   " heures" ,transform = function(x)  sort(x, decreasing = TRUE)),
-                 na.label = paste0("Données","<br>","manquantes"),
+                 na.label = paste0("données","<br>","manquantes"),
                  opacity = 1 )
     
     
