@@ -6,6 +6,10 @@ suppressPackageStartupMessages({
 
 source("graphics-settings.R")
 source("shiny-elements.R")
+theme_replace(
+  axis.text.x = element_text(family = "Arimo", size = fs_default, hjust = .5,
+                             margin = margin(0, 0, b = 5, 0))
+)
 
 # Load data --------------------------------------------------------------------
 data_by_type_diplome <- readRDS("data/data_by_type_diplome.RDS")
@@ -23,7 +27,7 @@ augment_str_value <- function(.data, nom_colonne) {
   } else {
     .data["taux_str"] <- paste0(.data[[nom_colonne]], " €")
   }
-  .data[["tooltip_value"]] <- paste0(.data[["Année"]], " : ", .data[["taux_str"]])
+  .data[["tooltip_value"]] <- paste0(.data[["annee"]], " : ", .data[["taux_str"]])
   return(.data)
 }
 

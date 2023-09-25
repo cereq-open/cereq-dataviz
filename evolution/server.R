@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
       )
     } else {
       list(
-        largeur_bar_chart = 5,
+        largeur_bar_chart = 4.5,
         hauteur_bar_chart = 3.75
       )
     }

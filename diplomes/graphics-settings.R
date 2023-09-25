@@ -83,7 +83,7 @@ set_girafe_defaults(
   opts_tooltip = opts_tooltip(
     css = sprintf("padding:5px;background:#EEEEEE;color:black;\
                   border-radius:2px 2px 2px 2px;text-align:left;\
-                  line-height: 1.3;font-size:%.2fpx;", fs_default)
+                  line-height: 1.3;font-size:%.2fpx;max-width:300px;", fs_default)
   ),
   opts_sizing(rescale = FALSE),
   fonts = list(sans = "Arimo")

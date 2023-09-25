@@ -42,7 +42,7 @@ generatePlot <- function(.data, colors, .caption = NULL, .title = NULL) {
     facet_wrap(~diplome, ncol = 1) +
     scale_fill_manual(
       values = colors,
-      labels = scales::label_wrap(40),
+      labels = scales::label_wrap(60),
       guide = guide_legend(
         ncol = 1,
         byrow = TRUE
