@@ -35,6 +35,7 @@ region_map <- function(.data, column_stat_name, column_label_name, .caption, .ti
     geom_sf_text(
       aes(label = !!sym(column_label_name)),
       check_overlap = FALSE,
+      family = "Arimo",
       size = fs_default / .pt,
       color = "white",
       fun.geometry = sf::st_centroid

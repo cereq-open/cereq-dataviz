@@ -44,6 +44,7 @@ generatePlotSpec <- function(.data, .caption) {
     coord_flip() +
     geom_text(aes(label = taux_str),
       position = position_stack(vjust = .5),
+      family = "Arimo",
       colour = "white", size = fs_default / .pt
     ) +
     scale_fill_manual(values = couleurs_bar_chart) +
@@ -64,7 +65,8 @@ generateDonutProfession <- function(.data, .caption, .donut_col_legend) {
     geom_text(
       x = 3.5, size = fs_default / .pt,
       mapping = aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")),
-      color = "white"
+      color = "white",
+      family = "Arimo"
     ) +
     scale_fill_manual(
       values = couleurs_donut_chart,
@@ -86,6 +88,7 @@ generateDonutSecteur <- function(.data, .caption, .donut_col_legend) {
     geom_text(
       x = 3.5,
       size = fs_default / .pt,
+      family = "Arimo",
       mapping = aes(y = labelPosition, label = ifelse(taux >= seuil_donut_chart, taux_str, "")), color = "white"
     ) +
     scale_fill_manual(

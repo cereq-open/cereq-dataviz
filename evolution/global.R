@@ -34,6 +34,7 @@ evolution_barchart <- function(.data, colname, .caption, .title, .tooltip) {
     geom_text(
       size = fs_default / .pt, aes(label = taux_str),
       position = position_stack(vjust = .5),
+      family = "Arimo",
       color = "white"
     ) +
     scale_fill_manual(values = colors) +
