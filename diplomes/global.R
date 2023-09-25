@@ -23,6 +23,13 @@ revenu_travail_labels <- readRDS("data/revenu_travail_labels.RDS")
 correspondance_ok_labels <- readRDS("data/correspondance_ok_labels.RDS")
 competence_ok_labels <- readRDS("data/competence_ok_labels.RDS")
 
+theme_replace(
+  strip.text = element_text(
+    hjust = 0, size = fs_default, face = "plain",
+    margin = margin(t = 6, r = 0, b = 3, l = 0)
+  )
+)
+
 # misc. -----
 
 # Le seuil des valeurs à afficher (ici on affiche donc toutes les valeurs supérieures ou égales à 2.5%)
