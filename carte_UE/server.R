@@ -63,16 +63,16 @@ server <- function(input, output,session) {
   output$phrase<-renderText({
     if( x()=="Taille" & input$taille=="Total")
     {
-      paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, l'ensemble des tailles, et l'année ", input$annee) )
+      paste0(h3("Indicateurs pour l'ensemble des secteurs d'activité, l'ensemble des tailles, et l'année ", input$annee) )
     } 
     else if ( ( x()=="Taille" & input$taille!="Ensemble") )
     {
-      paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, la taille ",input$taille,"et l'année ", input$annee) )
+      paste0(h3("Indicateurs pour l'ensemble des secteurs d'activité, la taille ",input$taille,"et l'année ", input$annee) )
     }
     
     else if( x()=="Secteur" & input$secteur_bis=="Ensemble des secteurs")
     {
-      paste0(h3("Indicateurs pour l'ensemble des secteurs d' activité, l'ensemble des tailles, et l'année ", input$annee)  )
+      paste0(h3("Indicateurs pour l'ensemble des secteurs d'activité, l'ensemble des tailles, et l'année ", input$annee)  )
     } 
     else if ( ( x()=="Secteur" & input$secteur_bis!="Ensemble des secteurs") )
     {
