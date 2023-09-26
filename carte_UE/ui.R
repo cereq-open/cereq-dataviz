@@ -141,6 +141,9 @@ ui <-
       
       
       br(),
+      br(),
+      br(),
+      br(),
       
       
       fluidRow(
