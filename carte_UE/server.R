@@ -97,14 +97,14 @@ server <- function(input, output,session) {
     pal_2   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1, reverse = TRUE)
     class(Europe)
     
-    labels <- sprintf(
-      "<strong>%s</strong><br/>%g %%",
-      filtre_Europe()$NAME_FREN, filtre_Europe()$tx_acc1
-    ) %>%
-      lapply(htmltools::HTML)
-    
-    
-    
+   labels <- ifelse(is.na(filtre_Europe()$tx_acc1),  "données manquantes", sprintf(
+     "<strong>%s</strong><br/>%g %%",
+     filtre_Europe()$NAME_FREN, filtre_Europe()$tx_acc1
+   ) ) %>%
+     lapply(htmltools::HTML)
+       
+       
+   
     
     leaflet(filtre_Europe()) %>%
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
@@ -130,6 +130,7 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal = pal_2, values = ~tx_acc1,
                  title = element_blank(),
+                 position = "bottomright",
                  labFormat = labelFormat(suffix =   " %", transform = function(tx_acc1)  sort(tx_acc1, decreasing = TRUE)),
                  na.label = paste0("données","<br>","manquantes"),
                  opacity = 1 )
@@ -157,13 +158,16 @@ server <- function(input, output,session) {
     pal_form_2 <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_form, reverse = TRUE)
     class(Europe)
     
-    labels_form <- sprintf(
+    
+    
+    
+    labels_form <- ifelse(is.na(filtre_Europe()$tx_form),  "données manquantes", sprintf(
       "<strong>%s</strong><br/>%g %%",
       filtre_Europe()$NAME_FREN, filtre_Europe()$tx_form
-    ) %>%
+    ) ) %>%
       lapply(htmltools::HTML)
     
-    
+  
     
     
     leaflet(filtre_Europe()) %>%
@@ -190,6 +194,7 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
     addLegend( pal = pal_form_2, values = ~tx_form,
                title = element_blank(),
+               position = "bottomright",
                labFormat = labelFormat(suffix =   " %", transform = function(x)  sort(x, decreasing = TRUE)),
                na.label = paste0("données","<br>","manquantes"),
                opacity = 1 )
@@ -218,15 +223,14 @@ server <- function(input, output,session) {
     pal_tpf <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf)
     pal_tpf_2 <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf, reverse = TRUE)
     class(Europe)
+ 
     
-    labels_tpf <- sprintf(
+    
+    labels_tpf <- ifelse(is.na(filtre_Europe()$tx_tpf),  "données manquantes", sprintf(
       "<strong>%s</strong><br/>%g %%",
       filtre_Europe()$NAME_FREN, filtre_Europe()$tx_tpf
-    ) %>%
+    ) ) %>%
       lapply(htmltools::HTML)
-    
-    
-    
     
     leaflet(filtre_Europe()) %>%
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
@@ -252,6 +256,7 @@ server <- function(input, output,session) {
                                               direction = "auto")) %>%
       addLegend( pal= pal_tpf_2, values = ~tx_tpf,
                  title = element_blank(),
+                 position = "bottomright",
                  labFormat = labelFormat(suffix =   " %",transform = function(x)  sort(x, decreasing = TRUE)),
                  na.label = paste0("données","<br>","manquantes"),
                  opacity = 1 )
@@ -279,14 +284,14 @@ server <- function(input, output,session) {
     pal_heurstag_2 <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$heurstag, reverse = TRUE)
     class(Europe)
     
-    labels_heurstag <- sprintf(
-      "<strong>%s</strong><br/>%g heures",
+    
+    
+    
+    labels_heurstag <- ifelse(is.na(filtre_Europe()$heurstag),  "données manquantes", sprintf(
+      "<strong>%s</strong><br/>%g %%",
       filtre_Europe()$NAME_FREN, filtre_Europe()$heurstag
-    ) %>%
+    ) ) %>%
       lapply(htmltools::HTML)
-    
-    
-    
     
     leaflet(filtre_Europe()) %>%
       setView(lng=12.766277, lat=55,zoom = 3,8) %>%
@@ -313,6 +318,7 @@ server <- function(input, output,session) {
       addLegend( pal= pal_heurstag_2, values = ~heurstag,
                  
                  title = element_blank(),
+                 position = "bottomright",
                  labFormat = labelFormat(suffix =   " heures" ,transform = function(x)  sort(x, decreasing = TRUE)),
                  na.label = paste0("données","<br>","manquantes"),
                  opacity = 1 )
