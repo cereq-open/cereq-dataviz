@@ -76,10 +76,10 @@ region_map <- function(.data, column_stat_name, column_label_name, .caption, .ti
 
 concatenate_columns <- function(.data, col_name) {
   if (col_name != "rvn_trv") {
-    .data[["label"]] <- paste0(.data[["Libellé"]], "\n", paste0("(", .data[[col_name]], " %)"))
+    .data[["label"]] <- paste0(.data[[col_name]], " %")
     .data[["tooltip_value"]] <- paste0(.data[["Libellé"]], " : ", .data[[col_name]], " %")
   } else {
-    .data[["label"]] <- paste0(.data[["Libellé"]], "\n", paste0("(", .data[[col_name]], " €)"))
+    .data[["label"]] <- paste0(.data[[col_name]], " €")
     .data[["tooltip_value"]] <- paste0(.data[["Libellé"]], " : ", .data[[col_name]], " €")
   }
   # Masque le texte pour la Corse
