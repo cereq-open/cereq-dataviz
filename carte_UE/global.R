@@ -78,6 +78,7 @@ ensemble_liste_taille = list('Ensemble des tailles')
 liste_taille2 <- c(ensemble_liste_taille, liste_taille)
 
 ###########################################################################################
+token<-"8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9"
 
 DownloadButton <- function(outputId, label = label) {
   tags$a(
