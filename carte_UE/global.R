@@ -53,31 +53,32 @@ Europe$CC_STAT <- NULL
 Europe$NAME_GERM <- NULL
 Europe$FID <- NULL
 Europe$iso3_code <- NULL
-
+Europe$secteur <- fct_recode(Europe$secteur,
+                "Ensemble des secteurs" = "Ensemble des activités")
+Europe$taille <- fct_recode(Europe$taille,
+                             "Ensemble des tailles" = "Total")
 
 # Création liste pour menus déroulants
 
 Europe_nodupkey <- Europe %>% distinct(secteur, .keep_all = TRUE)
 liste_secteur <- na.omit(Europe_nodupkey$secteur)
-
+liste_secteur <- as.character( liste_secteur )
 liste_secteur <- as.list(sort(liste_secteur))
-
+liste_secteur[5]<-NULL
 ensemble_liste_secteur = list('Ensemble des secteurs')
-
-liste_secteur[5] <- NULL
 liste_secteur2 <- c(ensemble_liste_secteur, liste_secteur)
-liste_secteur2[6] <- NULL
-liste_secteur2  
 
+########################################################################################
 Europe_nodupkey_taille <- Europe %>% distinct(taille, .keep_all = TRUE)
 liste_taille <- na.omit(Europe_nodupkey_taille$taille)
+liste_taille <- as.character( liste_taille )
 liste_taille <- as.list(sort(liste_taille))
+liste_taille[4]<-NULL
+ensemble_liste_taille = list('Ensemble des tailles')
+liste_taille2 <- c(ensemble_liste_taille, liste_taille)
 
-ensemble_liste_taille = list('Total','10 à 49','50 à 249','250 ou plus')
-
-liste_taille[4] <- NULL
-liste_taille2 <- c(ensemble_liste_taille)
-
+###########################################################################################
+token<-"8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9"
 
 DownloadButton <- function(outputId, label = label) {
   tags$a(
