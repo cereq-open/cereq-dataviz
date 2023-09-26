@@ -69,7 +69,7 @@ ui <-
     fluidRow(column (width=6,
                      radioGroupButtons(
                        inputId = "annee",
-                       label = "Date en année :", 
+                       label = h1("Date en année :"), 
                        choices = c("2010", "2015", "2020"),
                        status = "primary"
                      )),
@@ -132,7 +132,7 @@ ui <-
               label = tags$h1("Taille :"),
               inputId = "taille",
               choices = liste_taille2,
-              selected = "Ensemble"
+              selected = "Ensemble des tailles"
               
               
               
