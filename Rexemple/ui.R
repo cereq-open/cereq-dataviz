@@ -25,7 +25,7 @@ library(gfonts)
 url <-"https://twitter.com/intent/tweet?text=La%20super%20dataviz%20du%20cereq&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/"
 url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/&title=dataviz"
 
-EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
+EFE_1 <- read_parquet("data/base_JC_2709.parquet")
 
 EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
 
