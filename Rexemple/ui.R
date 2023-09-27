@@ -76,12 +76,12 @@ ui <- fluidPage(
  
   br(),
   fluidRow(
-    column(width=5),
+    column(width=6),
     column(
-      align = "left",
+      align = "right",
       width = 6,
       div(
-        style = "text-align:left;",
+        style = "text-align:right;",
         tags$img(src = "logo-cereq.svg")#,
         #tags$p(
           #style = "font-size:14px;",
@@ -98,10 +98,6 @@ ui <- fluidPage(
       tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
       DownloadButton("downloadData", ".xlsx"),
       actionButton("downloadPDF", ".pdf", onclick = "window.print();"),
-     actionButton("twitter_share",
-                  label = "Twitter",
-                  icon = icon("twitter"),
-                  onclick = sprintf("window.open('%s')", url)),
      actionButton("linkedin_share",
                   label = "Linkedin",
                   icon = icon("linkedin"),
@@ -144,15 +140,7 @@ ui <- fluidPage(
       ))),
   
   br(),
-  fluidRow(
-    column(
-      width = 12,
-      tags$h1("Les trois premiers...")
-    )
-  ),
-  
-  br(),
-  
+ 
   
   fluidRow(
     column(
@@ -164,7 +152,7 @@ ui <- fluidPage(
           class = "stat_info",
           tags$h1(
            
-            "... domaines de formation :"),
+            "Les trois premiers domaines de formation :"),
           div(
             style = "max-width:800px; margin-left:auto; margin-right:auto;",
             uiOutput("domaine", style="#008b99")),
@@ -182,7 +170,7 @@ ui <- fluidPage(
           class = "stat_info",
           tags$h1(
             
-            "... freins à la formation :"),
+            "Les trois premiers freins à la formation :"),
           
           htmlOutput("frein"),
           tags$head(tags$style("#frein{color: #00000;
@@ -201,7 +189,7 @@ ui <- fluidPage(
           class = "stat_info",
           tags$h1(
             
-            "... domaines de non formation :"),
+            "Les trois premières raisons de non formation :"),
           div(
             style = "max-width:800px; margin-left:auto; margin-right:auto;",
             uiOutput("raison", style="#008b99")),
@@ -217,13 +205,10 @@ ui <- fluidPage(
   br(),
   fluidRow(
     column(
-      width = 3,
-      align = "right",
-   
-      tags$h1("Chiffres clés pour le secteur :")),
-    column(
-      width=4,
+      width = 12,
       align = "left",
+   
+
     
        htmlOutput("titre_secteur"))
     )
@@ -317,7 +302,7 @@ ui <- fluidPage(
       tags$p(
         class = "texte-stat-info",
         
-        "Moyennes des heures de stages :"
+        "Moyenne des heures de stages :"
         ,
         tags$i(
           class = "fas fa-info-circle",
