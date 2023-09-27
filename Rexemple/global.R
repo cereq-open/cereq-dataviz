@@ -146,7 +146,7 @@ plot_only_legend <- function(df) {
       legend.background = element_blank(),
       legend.key = element_blank(),
       legend.position = "top",
-      legend.justification = "left",
+      legend.justification = "center",
       legend.box.spacing = unit(0, "pt"),
       legend.text = element_text(size = 11, face = "plain")
     )
@@ -170,7 +170,7 @@ theme_set(
     legend.key = element_blank(),
     plot.caption.position = "plot",
     legend.position = "top",
-    legend.justification = "left",
+    legend.justification = "center",
     plot.caption = element_textbox_simple( hjust = 100, color = "#808080", size = 10 , margin = margin(t = -1)) 
   )
 )
