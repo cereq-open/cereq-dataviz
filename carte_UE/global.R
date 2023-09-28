@@ -1,5 +1,3 @@
-
-
 library(readr)
 library(ggmap)
 library(viridis)
@@ -7,7 +5,7 @@ library(shinyWidgets)
 library(DT)
 library(shinydashboardPlus)
 library(bootstrap)
-
+library(sfheaders)
 library(cli)
 library(rsconnect)
 library(leaflet)
@@ -28,127 +26,59 @@ library(gfonts)
 #Lecture fichier : 
 
 #1- fichier indicateur
-UE <- read_parquet("data/indicateur_UE0809.parquet", 
-                   col_types = cols(tx_form = col_number(),heurstag = col_number(),
-                                    tx_tpf = col_number()))
+UE <- read_parquet("data/Base_UE.parquet")
 
- 
-
-
-
-UE$tx_tpf <-as.numeric(UE$tx_tpf)
-UE$tx_form <-as.numeric(UE$tx_form)
-UE$heurstag <-as.numeric(UE$heurstag)
-
-UE$heurstag[is.na(UE$heurstag)] <- sample(x = 1:100)
-UE$tx_tpf[is.na(UE$tx_tpf)] <- 0
-UE$tx_form[is.na(UE$tx_form)] <-0
-UE$tx_acc1[is.na(UE$tx_acc1)] <- 0
-
-
-
-
-#2- fichier Shp pour carte 
-
+#2 - lecture du fichier shp pour la carte 
 Monde <- st_read("data/CNTR_RG_10M_2020_4326.shp", quiet = TRUE)
 
 
-#creation base Europe par merge de Monde et UE
-europe <-sp::merge(Monde,UE , by.x = "ISO3_CODE", by.y = "iso3_code")
+#3 - merge du fichier carte et de la base pour obtenir la base Europe
+Europe <- sp::merge(Monde , UE, by.x = "NAME_FREN", by.y = "NAME_FREN")
 
-#3 création liste pour menu déroulants
-
-UE_nodupkey <- UE %>% distinct(secteur, .keep_all = TRUE)
-
-ensemble = list('Ensemble des secteurs')
-liste_secteur <- as.list(sort(UE_nodupkey$secteur))
-liste_secteur[17] <- NULL
-liste_secteur2 <- c(ensemble, liste_secteur)
+#4 - Nettoyage de la base 
+Europe <- transform(Europe, tx_form = as.numeric(tx_form),
+                    heurstag = as.numeric(heurstag),
+                    tx_tpf = as.numeric(tx_tpf),
+                    tx_acc1 = as.numeric(tx_acc1))
 
 
-UE_nodupkey_taille <- UE %>% distinct(taille, .keep_all = TRUE)
+Europe$CNTR_ID <- NULL
+Europe$CNTR_NAME <- NULL
+Europe$NAME_ENGL <- NULL
+Europe$SVRG_UN <- NULL
+Europe$CAPT <- NULL
+Europe$EU_STAT <- NULL
+Europe$EFTA_STAT <- NULL
+Europe$CC_STAT <- NULL
+Europe$NAME_GERM <- NULL
+Europe$FID <- NULL
+Europe$iso3_code <- NULL
+Europe$secteur <- fct_recode(Europe$secteur,
+                "Ensemble des secteurs" = "Ensemble des activités")
+Europe$taille <- fct_recode(Europe$taille,
+                             "Ensemble des tailles" = "Total")
 
-ensemble_liste_taille = list('Ensemble')
-liste_taille <- as.list((UE_nodupkey_taille$taille))
-liste_taille[1] <- NULL
+# Création liste pour menus déroulants
+
+Europe_nodupkey <- Europe %>% distinct(secteur, .keep_all = TRUE)
+liste_secteur <- na.omit(Europe_nodupkey$secteur)
+liste_secteur <- as.character( liste_secteur )
+liste_secteur <- as.list(sort(liste_secteur))
+liste_secteur[5]<-NULL
+ensemble_liste_secteur = list('Ensemble des secteurs')
+liste_secteur2 <- c(ensemble_liste_secteur, liste_secteur)
+
+########################################################################################
+Europe_nodupkey_taille <- Europe %>% distinct(taille, .keep_all = TRUE)
+liste_taille <- na.omit(Europe_nodupkey_taille$taille)
+liste_taille <- as.character( liste_taille )
+liste_taille <- as.list(sort(liste_taille))
+liste_taille[4]<-NULL
+ensemble_liste_taille = list('Ensemble des tailles')
 liste_taille2 <- c(ensemble_liste_taille, liste_taille)
 
-
-
-
-
-
-
-#CREATION DE LA BASE
-
-filtre_UE <- reactive({
-  europe %>% filter(taille==input$taille & secteur==input$secteur_bis) })
-
-
-
-#4 FONCTION DE CREATION CARTE
-
-
-caption <- paste0(
-  '<span style="color:#008B99;">Champ : </span>',
-  "Ensemble de la Génération 2017",
-  "<br>",
-  '<span style="color:#008B99;">Source : </span>',
-  "Céreq, enquête Génération 2017 à trois ans."
-)
-
-
-GENE_CARTE <- function( DF, nom_colonne) {
-  
-  
- 
-  
-#CREATION DE L ECHELLE
-  X=1/6
-
-bins<- c( 0, quantile(DF$nom_colonne,X),quantile(DF$nom_colonne,X*2),quantile(DF$nom_colonne,X*3),quantile(DF$nom_colonne,X*4),max(DF$nom_colonne) )
-
-#PALETTE DE COULEUR EN FCT DE L ECHELLE
-pal <- colorBin("YlOrRd", domain =DF$nom_colonne, bins = bins)
-class(europe)
-
-labels <- sprintf(
-  "<strong>%s</strong><br/>%g %%",
-  DF$NAME_FREN.x, DF$nom_colonne
-) %>%
-  lapply(htmltools::HTML)
-
-  
- #LA CARTE 
-  leaflet(DF) %>%
-    setView(lng=12.766277, lat=55,zoom = 3,8) %>%
-    # fitBounds(-20,65,20,40) %>%
-    addTiles() %>%
-    addProviderTiles(providers$CartoDB.Positron) %>%
-    addPolygons(data=DF,fillColor = ~pal(nom_colonne),
-                weight = 2,
-                opacity = 1,
-                color = "white",
-                dashArray = "3",
-                fillOpacity = 0.7,
-                highlight = highlightOptions(weight = 1,5,
-                                             color = "Black",
-                                             dashArray = "",
-                                             fillOpacity = 0.7,
-                                             bringToFront = TRUE),
-                label = labels,
-                labelOptions = labelOptions(style = list("font-weight" = "normal",
-                                                         padding = "3px 8px"),
-                                            textsize = "15px",
-                                            direction = "auto")) %>%
-    addLegend( pal= pal, values = ~nom_colonne,
-               title = paste("Pour la taille ", taille, "et le secteur ",secteur_bis),
-               labFormat = labelFormat(suffix =   "%"),
-               opacity = 1 )
-  
-  
-}
-
+###########################################################################################
+token<-"8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9"
 
 DownloadButton <- function(outputId, label = label) {
   tags$a(
