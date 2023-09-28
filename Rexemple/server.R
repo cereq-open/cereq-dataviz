@@ -123,7 +123,7 @@ server <- function(input, output,session) {
   #################################################################
   
   output$titre_secteur <- renderText({
-    paste0("<strong>","<font size=5px>","Chiffres clés par taille d'entreprise pour le secteur : "  ,"<font color=\"#008b99\">",filtered()$secteur)
+    paste0("<strong>","<font size=5px>","Chiffres clés par taille d'entreprises pour le secteur : "  ,"<font color=\"#008b99\">",filtered()$secteur)
     })
 
   
