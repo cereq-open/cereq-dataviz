@@ -27,7 +27,7 @@ server <- function(input, output,session) {
   ################################### CL #################### CL ############################ CL #########################################################
   
   
-  EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
+  EFE_1 <- read_parquet("data/base_JC_2709.parquet")
   EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
   
   
@@ -123,7 +123,7 @@ server <- function(input, output,session) {
   #################################################################
   
   output$titre_secteur <- renderText({
-    paste0("<strong>","Chiffres clés par taille d'entreprise pour le secteur : "  ,"<font color=\"#008b99\">",filtered()$secteur)
+    paste0("<strong>","<font size=5px>","Chiffres clés par taille d'entreprise pour le secteur : "  ,"<font color=\"#008b99\">",filtered()$secteur)
     })
 
   
