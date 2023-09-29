@@ -107,7 +107,7 @@ data_par_facteur_analyse <- lapply(data_par_facteur_analyse, function(x, indicat
       ),
       data_id = gsub("'", "&apos;", modalite),
       taux_str = paste0(
-        sprintf("%02.0f", statistique),
+        sprintf("%2.0f", statistique),
         symbole
       ),
       taux_str = case_when(
