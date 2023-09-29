@@ -44,6 +44,7 @@ generatePlot <- function(.data, colors, .caption = NULL, .title = NULL) {
       values = colors,
       labels = scales::label_wrap(60),
       guide = guide_legend(
+        reverse = TRUE,
         ncol = 1,
         byrow = TRUE
       )
