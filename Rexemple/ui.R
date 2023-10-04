@@ -226,7 +226,7 @@ ui <- fluidPage(
           tags$p(
             class = "texte-stat-info",
             
-            "Taux d'acces :"
+            "Taux d'acces"
             ,
             tags$i(
               class = "fas fa-info-circle",
@@ -302,7 +302,7 @@ ui <- fluidPage(
       tags$p(
         class = "texte-stat-info",
         
-        "Moyenne des heures de stages :"
+        "Moyenne des heures de stages"
         ,
         tags$i(
           class = "fas fa-info-circle",
