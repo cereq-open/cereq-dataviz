@@ -21,6 +21,28 @@ liste_label_niveaux_diplomes <- readRDS("data/liste_label_niveaux_diplomes.RDS")
 db_stats_par_regions <- readRDS("data/db_stats_par_regions.RDS")
 
 
+# functions to prepare data ----
+generateCaption <- function(variable) {
+  if (variable %in% c("taux_emploi", "taux_chomage", "traj_1", "traj_2", "traj_3", "traj_7")) {
+    caption <- paste0(
+      '<span style="color:#008B99;">Champ : </span>',
+      "Ensemble de la Génération.",
+      "<br>",
+      '<span style="color:#008B99;">Source : </span>',
+      "Céreq, enquête Génération 2017 à trois ans."
+    )
+  } else {
+    caption <- paste0(
+      '<span style="color:#008B99;">Champ : </span>',
+      "Ensemble de la génération en emploi trois ans \
+      après leur sortie de formation initiale.",
+      "<br>",
+      '<span style="color:#008B99;">Source : </span>',
+      "EDMONDDDDDDDD Céreq, enquête Génération 2017 à trois ans."
+    )
+  }
+  caption
+}
 
 # Longeur et largeur de la carte ggiraph
 longeur_map <- 8
