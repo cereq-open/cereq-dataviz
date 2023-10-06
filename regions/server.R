@@ -46,13 +46,7 @@ shinyServer(function(input, output, session) {
 
   # cartes -----
   output$carte_indicateur <- renderGirafe({
-    caption <- paste0(
-      '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération 2017.",
-      "<br>",
-      '<span style="color:#008B99;">Source : </span>',
-      "Céreq, enquête Génération 2017 à trois ans."
-    )
+    caption <- generateCaption(input$valeur_indicateur)
 
     augmented_db_stats_par_regions <- concatenate_columns(db_stats_par_regions, input$valeur_indicateur)
     gg <- region_map(
@@ -72,13 +66,7 @@ shinyServer(function(input, output, session) {
   })
 
   output$carte_niveau_diplome <- renderGirafe({
-    caption <- paste0(
-      '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération 2017.",
-      "<br>",
-      '<span style="color:#008B99;">Source : </span>',
-      "Céreq, enquête Génération 2017 à trois ans."
-    )
+    caption <- generateCaption(input$valeur_indicateur)
     augmented_db_stats_par_regions <- concatenate_columns(db_stats_par_regions, input$valeur_diplome_niveau)
 
     gg <- region_map(
