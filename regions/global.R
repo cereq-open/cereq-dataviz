@@ -38,7 +38,7 @@ generateCaption <- function(variable) {
       après leur sortie de formation initiale.",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
-      "EDMONDDDDDDDD Céreq, enquête Génération 2017 à trois ans."
+      "Céreq, enquête Génération 2017 à trois ans."
     )
   }
   caption
