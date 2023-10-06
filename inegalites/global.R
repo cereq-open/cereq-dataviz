@@ -60,12 +60,12 @@ generatePlot <- function(.data, colors, .caption = NULL, .title = NULL) {
     ) +
     geom_label_interactive(aes(label = taux_str, data_id = data_id, tooltip = tooltip_value),
       x = 0, show.legend = FALSE,
-      hjust = 1.3,
+      hjust = 1.2,
       family = "Arimo",
       color = "white",
       size = fs_default / .pt
     ) +
-    xlim(c(-15, NA))
+    xlim(c(-18, NA))
 
   if (!is.null(.title$tooltip)) {
     info_bulle <- sprintf("<div style=\"max-width:200px;\">%s</div>", .title$tooltip)
