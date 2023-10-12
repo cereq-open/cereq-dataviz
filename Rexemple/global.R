@@ -38,7 +38,7 @@ linebreaks <- function(n){HTML(strrep(br(), n))}
 
 # Load data --------------------------------------------------------------------
 
-EFE_1 <- read_parquet("data/indicateur_JC_0409.parquet")
+EFE_1 <- read_parquet("data/base_JC_2709.parquet")
 
 
 
