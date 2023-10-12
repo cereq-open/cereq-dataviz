@@ -38,29 +38,45 @@ linebreaks <- function(n){HTML(strrep(br(), n))}
 
 # Load data --------------------------------------------------------------------
 
-EFE_1 <- read_parquet("data/base_JC_2709.parquet")
+EFE_1 <- read_parquet("data/base_EFE_1.parquet")
 
+EFE_1 <- EFE_1 %>% 
+  rename( secteur =lib_secteur)
 
+EFE_1 <- EFE_1 %>% 
+  rename(  taille= lib_taille)
 
+EFE_1$taille[EFE_1$taille == '1 à 3 salariés'] <- '1 à 3'
+EFE_1$taille[EFE_1$taille == '4 à 9 salariés'] <- '4 à 9'
+EFE_1$taille[EFE_1$taille == '10 à 19 salariés'] <- '10 à 19'
+EFE_1$taille[EFE_1$taille == '20 à 49 salariés'] <- '20 à 49'
+EFE_1$taille[EFE_1$taille == '50 à 249 salariés'] <- '50 à 249'
+EFE_1$taille[EFE_1$taille == '250 à 499 salariés'] <- '250 à 499'
+EFE_1$taille[EFE_1$taille == '500 à 999 salariés'] <- '500 à 999'
+EFE_1$taille[EFE_1$taille == '1000 salariés et plus'] <- '1000 et plus'
+EFE_1$secteur[EFE_1$secteur == 'Ensemble'] <- 'Ensemble des secteurs'
 
-
-
-donnees_tx_acces <- read_excel("data/excel_tx_accès.xlsx")
+EFE_1$tx_acc <- round(EFE_1$tx_acc, digits = 0)
+EFE_1$heurstag <- round(EFE_1$heurstag, digits = 0)
+EFE_1$tx_form <- round(EFE_1$tx_form, digits = 0)
+EFE_1$tx_tpf <- round(EFE_1$tx_tpf, digits = 1)
+EFE_1$top1_c5_tx <- round(EFE_1$top1_c5_tx, digits = 0)
+EFE_1$top2_c5_tx <- round(EFE_1$top2_c5_tx, digits = 0)
+EFE_1$top3_c5_tx <- round(EFE_1$top3_c5_tx, digits = 0)
+EFE_1$top1_d3_tx <- round(EFE_1$top1_d3_tx, digits = 0)
+EFE_1$top2_d3_tx <- round(EFE_1$top2_d3_tx, digits = 0)
+EFE_1$top3_d3_tx <- round(EFE_1$top3_d3_tx, digits = 0)
+EFE_1$top1_e1_tx <- round(EFE_1$top1_e1_tx, digits = 0)
+EFE_1$top2_e1_tx <- round(EFE_1$top2_e1_tx, digits = 0)
+EFE_1$top3_e1_tx <- round(EFE_1$top3_e1_tx, digits = 0)
 
 
 vec_secteur <- unique(EFE_1$secteur)
 
+
 # Couleurs des barplots
 
-EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
 
-
-
-
-
-
-EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs"
-EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
 
 col=rep("#7FC4CB",27)
 colors2<-setNames(c("#046B76","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB"),unique(EFE_1$secteur))
@@ -139,7 +155,7 @@ top3 <-function(y1 , y2, y3) {
 }
 
 plot_only_legend <- function(df) {
-  ggplot(data = df, aes(x = taille, y = tx_acc1 , fill = secteur)) +
+  ggplot(data = df, aes(x = taille, y = tx_acc , fill = secteur)) +
     geom_col_interactive(mapping = aes(data_id = taille)) +
     scale_fill_manual(values = colors) +
     theme(
