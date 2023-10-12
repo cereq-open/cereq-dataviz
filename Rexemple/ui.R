@@ -25,17 +25,7 @@ library(gfonts)
 url <-"https://twitter.com/intent/tweet?text=La%20super%20dataviz%20du%20cereq&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/"
 url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/&title=dataviz"
 
-EFE_1 <- read_parquet("data/base_JC_2709.parquet")
 
-EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
-
-
-
-
-
-
-EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs"
-EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
 
 EFE_1_nodupkey <- EFE_1 %>% distinct(secteur, .keep_all = TRUE)
 
@@ -236,7 +226,7 @@ ui <- fluidPage(
           ),
           div(
             style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            girafeOutput("plot_tx_acc1", height = NULL)
+            girafeOutput("plot_tx_acc", height = NULL)
           )
         )
       ), 
