@@ -6,6 +6,14 @@ library(ggplot2)
 # Define Server ----------------------------------------------------------------
 
 shinyServer(function(input, output, session) {
+  
+  add_interactive_caption <- eventReactive(input$dimension, {
+    dims <- input$dimension
+    if (dims[1] < 577)
+      FALSE
+    else TRUE
+  })
+  
   graph_sizes <- eventReactive(input$dimension, {
     dims <- input$dimension
 
@@ -40,7 +48,8 @@ shinyServer(function(input, output, session) {
       .data = dat,
       colors = color_palette(dat),
       .caption = indicateur_captions[[input$indicateur]],
-      .title = indicateur_titles[[input$indicateur]]
+      .title = indicateur_titles[[input$indicateur]],
+      interactive_caption = add_interactive_caption()
     )
     girafe(
       ggobj = gg,

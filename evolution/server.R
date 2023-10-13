@@ -1,4 +1,12 @@
 shinyServer(function(input, output, session) {
+  
+  add_interactive_caption <- eventReactive(input$dimension, {
+    dims <- input$dimension
+    if (dims[1] < 577)
+      FALSE
+    else TRUE
+  })
+  
   graph_sizes <- eventReactive(input$dimension, {
     dims <- input$dimension
 
@@ -49,7 +57,8 @@ shinyServer(function(input, output, session) {
       colname = "taux_emploi",
       .caption = caption_part_1,
       .title = columns_titles[["taux_emploi"]]$.title,
-      .tooltip = columns_titles[["taux_emploi"]]$.tooltip
+      .tooltip = columns_titles[["taux_emploi"]]$.tooltip,
+      interactive_caption = add_interactive_caption()
     )
 
     girafe(
@@ -65,7 +74,8 @@ shinyServer(function(input, output, session) {
       colname = "part_chomage",
       .caption = caption_part_1,
       .title = columns_titles[["part_chomage"]]$.title,
-      .tooltip = columns_titles[["part_chomage"]]$.tooltip
+      .tooltip = columns_titles[["part_chomage"]]$.tooltip,
+      interactive_caption = add_interactive_caption()
     )
 
     girafe(
@@ -81,7 +91,8 @@ shinyServer(function(input, output, session) {
       colname = "taux_chomage",
       .caption = caption_part_1,
       .title = columns_titles[["taux_chomage"]]$.title,
-      .tooltip = columns_titles[["taux_chomage"]]$.tooltip
+      .tooltip = columns_titles[["taux_chomage"]]$.tooltip,
+      interactive_caption = add_interactive_caption()
     )
 
     girafe(
@@ -97,7 +108,8 @@ shinyServer(function(input, output, session) {
       colname = "taux_edi",
       .caption = caption_part_2,
       .title = columns_titles[["taux_edi"]]$.title,
-      .tooltip = columns_titles[["taux_edi"]]$.tooltip
+      .tooltip = columns_titles[["taux_edi"]]$.tooltip,
+      interactive_caption = add_interactive_caption()
     )
 
     girafe(
@@ -113,7 +125,8 @@ shinyServer(function(input, output, session) {
       colname = "part_tps_partiel",
       .caption = caption_part_2,
       .title = columns_titles[["part_tps_partiel"]]$.title,
-      .tooltip = columns_titles[["part_tps_partiel"]]$.tooltip
+      .tooltip = columns_titles[["part_tps_partiel"]]$.tooltip,
+      interactive_caption = add_interactive_caption()
     )
 
     girafe(
@@ -129,7 +142,8 @@ shinyServer(function(input, output, session) {
       colname = "revenu_travail",
       .caption = caption_part_2,
       .title = columns_titles[["revenu_travail"]]$.title,
-      .tooltip = columns_titles[["revenu_travail"]]$.tooltip
+      .tooltip = columns_titles[["revenu_travail"]]$.tooltip,
+      interactive_caption = add_interactive_caption()
     )
 
     girafe(
@@ -145,7 +159,8 @@ shinyServer(function(input, output, session) {
       colname = "competence_ok",
       .caption = caption_part_2,
       .title = columns_titles[["competence_ok"]]$.title,
-      .tooltip = columns_titles[["competence_ok"]]$.tooltip
+      .tooltip = columns_titles[["competence_ok"]]$.tooltip,
+      interactive_caption = add_interactive_caption()
     )
 
     girafe(
