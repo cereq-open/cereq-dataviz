@@ -156,15 +156,14 @@ labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobul
     tags$p(
       tags$span(
         class = "stat-label",
-        info_str
-      ),
-      if (!is.null(infobulle_str) && !is.na(infobulle_str)) {
-        tags$span(
-          "\u24D8",
-          class = "stat-label",
-          title = infobulle_str
-        )
-      }
+        `data-title` = if (!is.null(infobulle_str) && !is.na(infobulle_str)) {
+          infobulle_str
+        } else "",
+        info_str,
+        if (!is.null(infobulle_str) && !is.na(infobulle_str)) {
+          "\u24D8"
+        }
+      )
     ),
     tags$p(
       tags$span(
