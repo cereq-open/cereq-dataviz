@@ -139,35 +139,43 @@ ui <- fluidPage(
       div(
         class = "custom-border-box",
         tags$p(
-          class = "stat_info",
-          tags$h1(
-           
-            "Les trois premiers domaines de formation :"),
-          div(
-            style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            uiOutput("domaine", style="#008b99")),
-          tags$head(tags$style("#domaine{color: #008b99;
+          class = "texte-stat-info",
+            "Les trois premiers domaines de formation",
+            tags$i(
+              class = "fas fa-info-circle",
+              style = "color: #008B99; font-size: 16px;",
+              title = "Pour les entreprises formatrices"
+            )),
+        htmlOutput("domaine"),
+        tags$head(tags$style("#domaine{color: #00000;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-        ) )),
+      ) ),
     # column(width =1),
     column(
       width =4,
       div(
         class = "custom-border-box",
         tags$p(
-          class = "stat_info",
-          tags$h1(
+          class = "texte-stat-info",
+       
             
-            "Les trois premiers freins à la formation :"),
+            "Les trois premiers freins à la formation",
+          
+          
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Pour les entreprises formatrices"
+          )),
           
           htmlOutput("frein"),
           tags$head(tags$style("#frein{color: #00000;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-        ) )),
+        ) ),
     
     # column(   width =1 ),
     
@@ -176,18 +184,21 @@ ui <- fluidPage(
       div(
         class = "custom-border-box",
         tags$p(
-          class = "stat_info",
-          tags$h1(
+          class = "texte-stat-info",
+      
             
-            "Les trois premières raisons de non formation :"),
-          div(
-            style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            uiOutput("raison", style="#008b99")),
-          tags$head(tags$style("#raison{color: #008b99;
+            "Les trois premières raisons de non formation",
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Pour les entreprises non formatrices"
+          )),
+        htmlOutput("raison"),
+        tags$head(tags$style("#raison{color: #00000;
                                  font-size: 20px;
                                  font-style: bold;
-                                 }" ))
-        )  ))
+                                }" ) )
+          ))
     
   ),
 
