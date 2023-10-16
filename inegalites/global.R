@@ -38,9 +38,9 @@ generate_height <- function(dat) {
 
 generatePlot <- function(.data, colors, .caption = NULL, .title = NULL,
                          interactive_caption = TRUE) {
-  non_percent <- all(.data[["statistique"]] > 100)
+  non_percent <- any(.data[["statistique"]] > 100)
   xminlim <- if(non_percent) -500 else -18
-  
+
   gg <- ggplot(data = .data, aes(x = statistique, y = modalite, fill = modalite)) +
     geom_col_interactive(mapping = aes(data_id = data_id, tooltip = tooltip_value)) +
     facet_wrap(~diplome, ncol = 1) +
