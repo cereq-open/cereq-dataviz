@@ -129,7 +129,7 @@ server <- function(input, output,session) {
   })
   
   
-  output$raison<- renderText({ 
+  output$domaine<- renderText({ 
     if (!is.na(filtered()$top3_e1)){
       out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
@@ -165,7 +165,7 @@ server <- function(input, output,session) {
   
   
   
-  output$domaine<-   renderText({
+  output$raison<-   renderText({
     if (!is.na(filtered()$top3_c5)){
       out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_c5,"<font color=\"#008b99\">"," (",filtered()$top2_c5_tx,"&#xA0;%)","<br>",

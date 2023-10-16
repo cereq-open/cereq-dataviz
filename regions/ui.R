@@ -7,100 +7,58 @@ library(shinyWidgets)
 # Define UI --------------------------------------------------------------------
 fluidPage(
   theme = bs_theme(version = 5, primary = "#008b99"),
-  tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"), # CSS personnalisé
-    tags$link(rel = "stylesheet", href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"), # Librairie font-awesome
-    tags$script(src = "https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"), # Web Font Loader
-    tags$script(
-      "
-  WebFont.load({
-    google: {
-      families: ['Arimo']
-    }
-  });
-  "
-    ) # Pour que Arimo soit toujours disponible dans le navigateur de l'utilisateur
-  ),
+  app_head,
   gfontHtmlDependency(family = "Arimo"),
+  header_div,
   fluidRow(
     div(
       class = "d-flex",
       column(
-        width = 6,
+        width = 12,
         align = "left",
-        class = "align-items-start",
+        class = "p-2 col-sm-12 col-xl-6",
         pickerInput(
-          inputId = "titre_residence",
-          label = p("Choisir l'indicateur :",
-                    class = "d-inline"),
-          choices = titre_map_residence,
-          selected = titre_map_residence[1],
+          inputId = "valeur_indicateur",
+          label = h1("Choisir l'indicateur :"),
+          choices = valeurs_indicateurs,
+          selected = valeurs_indicateurs[1],
           width = "fit",
-          inline = TRUE,
-          options = list(
-            size = 5
-          )
+          inline = TRUE
         )
-      ),
-      column(
-        width = 6,
-        align = "right",
-        class = "align-items-end",
-        tags$img(
-          src = "logo-cereq.svg"
-        ),
-        tags$p(
-          style = "font-size:14px;",
-          "Données : ",
-          tags$img(
-            src = "logo-generation.png"
-          )
-        ),
-        tags$img(
-          src = "logo-download.svg",
-          height = "50px",
-          width = "50px"
-        ),
-        tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
-        DownloadButton("downloadData", ".xlsx"),
-        actionButton("downloadPDF", ".pdf", onclick = "window.print();")
       )
     ),
-    br(),
     fluidRow(
       column(
-        width = 7,
-        align = "left",
-        uiOutput("region_de_residence"),
-        uiOutput("stat_residence"),
-        div(
-          style = "max-width:800px; margin-left:0;",
-          girafeOutput("carte_residence", height = NULL)
-        )
+        width = 12,
+        class = "p-2 col-sm-12 col-xl-6",
+        tags$table(
+          class = "stat-table",
+          tags$tr(
+            tags$td(uiOutput("stat_indicateur"))
+          )
+        ),
+        girafeOutput("carte_indicateur", height = NULL)
       ),
       column(
-        width = 5,
-        p("Niveau de formation des sortants",
-          class = "d-inline",
-          style = "font-size:18px;"
-        ),
+        width = 12,
+        class = "p-2 col-sm-12 col-xl-6",
+        p("Une partie des écarts observés entre régions pour l’indicateur choisi s’explique par les différences de niveaux de formation atteint par les sortants de chaque région. La carte ci-dessous permet d’en donner une illustration."),
         pickerInput(
-          inputId = "titre_niveau",
-          label = p("Choisir le niveau de plus haut diplôme :",
-                    class = "d-inline",
-                    style = "font-size:18px;"),
-          choices = titre_map_niveau,
-          selected = titre_map_niveau[1],
+          inputId = "valeur_diplome_niveau",
+          label = h1("Choisir le niveau du plus haut diplôme :"),
+          choices = valeurs_niveaux_diplomes,
+          selected = valeurs_niveaux_diplomes[1],
           width = "fit",
           inline = TRUE
         ),
-        uiOutput("stat_niveau"),
-        div(
-          style = "max-width:800px; margin-right:0;",
-          girafeOutput("carte_niveau", height = NULL)
-        )
+        tags$table(
+          class = "stat-table",
+          tags$tr(
+            tags$td(uiOutput("stat_niveau"))
+          )
+        ),
+        girafeOutput("carte_niveau_diplome", height = NULL)
       )
-    ),
-    br()
+    )
   )
 )

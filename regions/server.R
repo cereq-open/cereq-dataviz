@@ -1,14 +1,29 @@
-# Load packages ----------------------------------------------------------------
-
-library(shiny)
-library(dplyr)
-library(ggplot2)
-library(openxlsx)
-
-# Define Server ----------------------------------------------------------------
-
 shinyServer(function(input, output, session) {
-  # Download Data --------------------------------------------------------------
+  graph_sizes <- eventReactive(input$dimension, {
+    dims <- input$dimension
+
+    if (dims[1] > 1200) {
+      list(
+        largeur_map = 8,
+        hauteur_map = 9
+      )
+    } else if (dims[1] > 992) {
+      list(
+        largeur_map = 9,
+        hauteur_map = 10
+      )
+    } else if (dims[1] > 576) {
+      list(
+        largeur_map = 7,
+        hauteur_map = 8
+      )
+    } else {
+      list(
+        largeur_bar_chart = 5,
+        hauteur_bar_chart = 7
+      )
+    }
+  })
 
   output$downloadData <- downloadHandler(
     filename = function() {
@@ -19,96 +34,54 @@ shinyServer(function(input, output, session) {
     }
   )
 
-  # Filtered Data --------------------------------------------------------------
+  # Titres et labels ----
 
-  variables_residence_reactive <- reactive({
-    variables_residence %>%
-      filter(Titre_graphique %in% input$titre_residence)
-  })
-
-  variables_niveau_reactive <- reactive({
-    variables_niveau %>%
-      filter(Titre_graphique %in% input$titre_niveau)
-  })
-
-  # Create Title ---------------------------------------------------------------
-
-  # Titres
-
-  output$region_de_residence <- renderUI({
-    if (!is.na(variables_residence_reactive()$Bulle)) {
-      labellize_row_i(variables_residence_reactive()$Titre_graphique, variables_residence_reactive()$Bulle)
-    } else {
-      labellize_row_i(variables_residence_reactive()$Titre_graphique)
-    }
-  })
-
-  output$stat_residence <- renderUI({
-    if (variables_residence_reactive()$Nom_colonne != "revenu_travail") {
-      symbole <- "%"
-    } else {
-      symbole <- " €"
-    }
-
-    stat_france <- paste0("France : ", db_region[ligne_fr, variables_residence_reactive()$Nom_colonne], symbole)
-    stat_drom <- paste0("(", paste0("dont ensemble des D.R.O.M. : ", db_region[ligne_drom, variables_residence_reactive()$Nom_colonne], symbole), ")")
-
-    labellize_stat(stat_france, stat_drom)
+  output$stat_indicateur <- renderUI({
+    liste_label_indicateurs[[input$valeur_indicateur]]
   })
 
   output$stat_niveau <- renderUI({
-    stat_france <- paste0("France : ", db_region[ligne_fr, variables_niveau_reactive()$Nom_colonne], "%")
-    stat_drom <- paste0("(", paste0("dont ensemble des D.R.O.M. : ", db_region[ligne_drom, variables_niveau_reactive()$Nom_colonne], "%"), ")")
-
-    labellize_stat(stat_france, stat_drom)
+    liste_label_niveaux_diplomes[[input$valeur_diplome_niveau]]
   })
 
-  # Create Map -----------------------------------------------------------------
+  # cartes -----
+  output$carte_indicateur <- renderGirafe({
+    caption <- generateCaption(input$valeur_indicateur)
 
-  # Code pour créer la carte avec ggplot
-  output$carte_residence <- renderGirafe({
-    nom_col <- inv_noms_colonnes_residence[[variables_residence_reactive()$Nom_colonne]]
-
-    caption <- paste0(
-      '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération 2017",
-      "<br>",
-      '<span style="color:#008B99;">Source : </span>',
-      "Céreq, enquête Génération 2017 à trois ans.",
-      "<br>",
-      '<span style="color:#008B99;">Note : </span>',
-      "Une partie des écarts observés entre région s’explique par les différences de niveaux de formation atteint par les sortants de chaque région. La carte à droite en donne une illustration."
+    augmented_db_stats_par_regions <- concatenate_columns(db_stats_par_regions, input$valeur_indicateur)
+    gg <- region_map(
+      .data = augmented_db_stats_par_regions,
+      column_stat_name = input$valeur_indicateur,
+      column_label_name = "label",
+      .caption = caption,
+      .title = liste_titre_indicateurs[[input$valeur_indicateur]]$.title,
+      .tooltip = liste_titre_indicateurs[[input$valeur_indicateur]]$.tooltip
     )
-
-    tab_region <- concatenate_columns(tab_region, nom_col)
-    gg <- plot_map(tab_region, nom_col, "label", caption)
     girafe(
       ggobj = gg,
       fonts = list(sans = "Arimo"),
-      width_svg = longeur_map,
-      height_svg = longeur_map
+      width_svg = graph_sizes()$largeur_map,
+      height_svg = graph_sizes()$hauteur_map
     )
   })
 
-  # Code pour créer la carte avec ggplot
-  output$carte_niveau <- renderGirafe({
-    nom_col <- inv_noms_colonnes_niveau[[variables_niveau_reactive()$Nom_colonne]]
+  output$carte_niveau_diplome <- renderGirafe({
+    caption <- generateCaption(input$valeur_indicateur)
+    augmented_db_stats_par_regions <- concatenate_columns(db_stats_par_regions, input$valeur_diplome_niveau)
 
-    caption <- paste0(
-      '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération 2017",
-      "<br>",
-      '<span style="color:#008B99;">Source : </span>',
-      "Céreq, enquête Génération 2017 à trois ans."
+    gg <- region_map(
+      .data = augmented_db_stats_par_regions,
+      column_stat_name = input$valeur_diplome_niveau,
+      column_label_name = "label",
+      .caption = caption,
+      .title = "Proportion de sortants de formation initiale ayant ce niveau",
+      .tooltip = NULL
     )
-
-    tab_region <- concatenate_columns(tab_region, nom_col)
-    gg <- plot_map(tab_region, nom_col, "label", caption)
     girafe(
       ggobj = gg,
       fonts = list(sans = "Arimo"),
-      width_svg = longeur_map,
-      height_svg = longeur_map
+      width_svg = graph_sizes()$largeur_map,
+      height_svg = graph_sizes()$hauteur_map
     )
   })
 })

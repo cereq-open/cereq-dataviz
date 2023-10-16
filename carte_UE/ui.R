@@ -27,12 +27,16 @@ ui <-
     
     br(),
     fluidRow(
+
  
+
       column(
         align = "left",
         width = 12,
         div(
+
           style = "text-align:right;",
+
           tags$img(src = "logo-cereq.svg"),
           #tags$p(
           #  style = "font-size:14px;",
@@ -69,7 +73,9 @@ ui <-
     fluidRow(column (width=6,
                      radioGroupButtons(
                        inputId = "annee",
+
                        label = h1("Choisir l'année :"), 
+
                        choices = c("2010", "2015", "2020"),
                        status = "primary"
                      )),
