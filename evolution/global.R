@@ -31,7 +31,8 @@ augment_str_value <- function(.data, nom_colonne) {
   return(.data)
 }
 
-evolution_barchart <- function(.data, colname, .caption, .title, .tooltip) {
+evolution_barchart <- function(.data, colname, .caption, .title, .tooltip,
+                               interactive_caption = TRUE) {
   DT <- augment_str_value(.data, colname)
   gg <- ggplot(data = DT, aes(x = annee, y = !!sym(colname), fill = annee)) +
     geom_col_interactive(mapping = aes(data_id = annee, tooltip = tooltip_value)) +
@@ -46,14 +47,14 @@ evolution_barchart <- function(.data, colname, .caption, .title, .tooltip) {
       caption = .caption,
       title = paste(
         .title,
-        if (!is.null(.tooltip)) {
+        if (!is.null(.tooltip) && interactive_caption) {
           "\u24D8"
         }
       )
     ) +
     theme(legend.position = "none")
 
-  if (!is.null(.tooltip)) {
+  if (!is.null(.tooltip) && interactive_caption) {
     info_bulle <- sprintf("<div style=\"max-width:200px;\">%s</div>", .tooltip)
     theme_replace(
       plot.title = element_text_interactive(

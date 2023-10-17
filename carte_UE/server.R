@@ -61,22 +61,26 @@ server <- function(input, output,session) {
   
   
   output$phrase<-renderText({
-    if( x()=="Taille" & input$taille=="Total")
+
+    if( x()=="Taille" & input$taille=="Ensemble des tailles")
     {
-      paste0(h3("Indicateurs pour l'ensemble des secteurs d'activité, l'ensemble des tailles, et l'année ", input$annee) )
+      paste0(h1("Indicateurs pour tous les secteurs d'activité, toutes les tailles, en ", input$annee) )
     } 
-    else if ( ( x()=="Taille" & input$taille!="Ensemble") )
+    else if ( ( x()=="Taille" & input$taille!="Ensemble des tailles") )
     {
-      paste0(h3("Indicateurs pour l'ensemble des secteurs d'activité, la taille ",input$taille,"et l'année ", input$annee) )
+      paste0(h1("Indicateurs pour tous les secteurs d'activité, la taille ",input$taille,"en", input$annee) )
+
     }
     
     else if( x()=="Secteur" & input$secteur_bis=="Ensemble des secteurs")
     {
-      paste0(h3("Indicateurs pour l'ensemble des secteurs d'activité, l'ensemble des tailles, et l'année ", input$annee)  )
+
+      paste0(h1("Indicateurs pour tous les secteurs d'activité, toutes les tailles, en ", input$annee)  )
     } 
     else if ( ( x()=="Secteur" & input$secteur_bis!="Ensemble des secteurs") )
     {
-      paste0(h3("Indicateurs pour l' ",input$secteur_bis, ", l'ensemble des tailles ","et l'année ", input$annee))
+      paste0(h1("Indicateurs pour le secteur ",input$secteur_bis, ", toutes les tailles ","en ", input$annee))
+
     }
     
   })

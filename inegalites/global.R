@@ -36,7 +36,11 @@ generate_height <- function(dat) {
 
 # Function to create the plot
 
-generatePlot <- function(.data, colors, .caption = NULL, .title = NULL) {
+generatePlot <- function(.data, colors, .caption = NULL, .title = NULL,
+                         interactive_caption = TRUE) {
+  non_percent <- any(.data[["statistique"]] > 100)
+  xminlim <- if(non_percent) -500 else -18
+
   gg <- ggplot(data = .data, aes(x = statistique, y = modalite, fill = modalite)) +
     geom_col_interactive(mapping = aes(data_id = data_id, tooltip = tooltip_value)) +
     facet_wrap(~diplome, ncol = 1) +
@@ -53,21 +57,21 @@ generatePlot <- function(.data, colors, .caption = NULL, .title = NULL) {
       caption = .caption,
       title = paste(
         .title$title,
-        if (!is.null(.title$tooltip)) {
+        if (!is.null(.title$tooltip) && interactive_caption) {
           "\u24D8"
         }
       )
     ) +
     geom_label_interactive(aes(label = taux_str, data_id = data_id, tooltip = tooltip_value),
       x = 0, show.legend = FALSE,
-      hjust = 1.3,
+      hjust = 1.2,
       family = "Arimo",
       color = "white",
       size = fs_default / .pt
     ) +
-    xlim(c(-15, NA))
+    xlim(c(xminlim, NA))
 
-  if (!is.null(.title$tooltip)) {
+  if (!is.null(.title$tooltip) && interactive_caption) {
     info_bulle <- sprintf("<div style=\"max-width:200px;\">%s</div>", .title$tooltip)
     theme_replace(
       plot.title = element_text_interactive(

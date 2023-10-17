@@ -25,17 +25,7 @@ library(gfonts)
 url <-"https://twitter.com/intent/tweet?text=La%20super%20dataviz%20du%20cereq&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/"
 url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-data-visualisation.shinyapps.io/Rexemple/&title=dataviz"
 
-EFE_1 <- read_parquet("data/base_JC_2709.parquet")
 
-EFE_1$secteur_ensemble <-as.character(EFE_1$secteur_ensemble)
-
-
-
-
-
-
-EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "1"] <- "Ensembles des secteurs"
-EFE_1$secteur_ensemble[EFE_1$secteur_ensemble == "0"] <- "Secteur choisi"
 
 EFE_1_nodupkey <- EFE_1 %>% distinct(secteur, .keep_all = TRUE)
 
@@ -149,35 +139,43 @@ ui <- fluidPage(
       div(
         class = "custom-border-box",
         tags$p(
-          class = "stat_info",
-          tags$h1(
-           
-            "Les trois premiers domaines de formation :"),
-          div(
-            style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            uiOutput("domaine", style="#008b99")),
-          tags$head(tags$style("#domaine{color: #008b99;
+          class = "texte-stat-info",
+            "Les trois premiers domaines de formation",
+            tags$i(
+              class = "fas fa-info-circle",
+              style = "color: #008B99; font-size: 16px;",
+              title = "Pour les entreprises formatrices"
+            )),
+        htmlOutput("domaine"),
+        tags$head(tags$style("#domaine{color: #00000;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-        ) )),
+      ) ),
     # column(width =1),
     column(
       width =4,
       div(
         class = "custom-border-box",
         tags$p(
-          class = "stat_info",
-          tags$h1(
+          class = "texte-stat-info",
+       
             
-            "Les trois premiers freins à la formation :"),
+            "Les trois premiers freins à la formation",
+          
+          
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Pour les entreprises formatrices"
+          )),
           
           htmlOutput("frein"),
           tags$head(tags$style("#frein{color: #00000;
                                  font-size: 20px;
                                  font-style: bold;
                                 }" ) )
-        ) )),
+        ) ),
     
     # column(   width =1 ),
     
@@ -186,18 +184,21 @@ ui <- fluidPage(
       div(
         class = "custom-border-box",
         tags$p(
-          class = "stat_info",
-          tags$h1(
+          class = "texte-stat-info",
+      
             
-            "Les trois premières raisons de non formation :"),
-          div(
-            style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            uiOutput("raison", style="#008b99")),
-          tags$head(tags$style("#raison{color: #008b99;
+            "Les trois premières raisons de non formation",
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Pour les entreprises non formatrices"
+          )),
+        htmlOutput("raison"),
+        tags$head(tags$style("#raison{color: #00000;
                                  font-size: 20px;
                                  font-style: bold;
-                                 }" ))
-        )  ))
+                                }" ) )
+          ))
     
   ),
 
@@ -236,7 +237,7 @@ ui <- fluidPage(
           ),
           div(
             style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            girafeOutput("plot_tx_acc1", height = NULL)
+            girafeOutput("plot_tx_acc", height = NULL)
           )
         )
       ), 

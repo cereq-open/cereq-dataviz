@@ -3,6 +3,13 @@ fluidPage(
   app_head,
   gfontHtmlDependency(family = "Arimo"),
   header_div,
+  tags$div(
+    id = "tooltip_ph", 
+    style = sprintf("position: absolute; opacity: 0; padding:5px;background:#EEEEEE;color:black;\
+                    border-radius:2px 2px 2px 2px;text-align:left;z-index: 10000;\
+                    transition-property: opacity;transition-duration: 1s;\
+                    line-height: 1.3;font-size:%.2fpx;max-width:300px;", fs_default)
+  ),
   fluidRow(
     column(
       width = 12,
