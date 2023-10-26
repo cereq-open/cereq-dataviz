@@ -140,11 +140,26 @@ ui <- fluidPage(
         class = "custom-border-box",
         tags$p(
           class = "texte-stat-info",
-            "Les trois premiers domaines de formation",
+          paste0("Parmi les entreprises formatrices en cours et stages","<br>",
+            "Les trois premiers domaines de formation"),
             tags$i(
               class = "fas fa-info-circle",
               style = "color: #008B99; font-size: 16px;",
-              title = "Pour les entreprises formatrices"
+              title = "Liste des domaines de formation :
+              1.	Des compétences générales en technologie de l’information et de la communication
+2.	Des compétences spécialisées en technologie de l’information et de la communication
+3.	Des compétences en management
+4.	Des compétences de travail en équipe
+5.	Des compétences commerciales
+6.	Une capacité à résoudre des problèmes
+7.	Des compétences administratives
+8.	Des compétences en langues étrangères
+9.	Des compétences techniques et spécifiques à un métier
+10.	Des compétences en communication écrite ou orale
+11.	Savoir lire, écrire et compter
+12.	Des compétences liées à la transition écologique
+13.	D’autres compétences non mentionnées   
+              "
             )),
         htmlOutput("domaine"),
         tags$head(tags$style("#domaine{color: #00000;
@@ -161,13 +176,26 @@ ui <- fluidPage(
           class = "texte-stat-info",
        
             
-            "Les trois premiers freins à la formation",
+            "Les raisons qui ont limité l'effort de formation",
           
           
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Pour les entreprises formatrices"
+            title = "1.	Des compétences générales en technologie de l’information et de la communication
+2.	Des compétences spécialisées en technologie de l’information et de la communication
+3.	Des compétences en management
+4.	Des compétences de travail en équipe
+5.	Des compétences commerciales
+6.	Une capacité à résoudre des problèmes
+7.	Des compétences administratives
+8.	Des compétences en langues étrangères
+9.	Des compétences techniques et spécifiques à un métier
+10.	Des compétences en communication écrite ou orale
+11.	Savoir lire, écrire et compter
+12.	Des compétences liées à la transition écologique
+13.	D’autres compétences non mentionnées                       
+"
           )),
           
           htmlOutput("frein"),
@@ -227,12 +255,12 @@ ui <- fluidPage(
           tags$p(
             class = "texte-stat-info",
             
-            "Taux d'acces"
+            "Taux d'accès"
             ,
             tags$i(
               class = "fas fa-info-circle",
               style = "color: #008B99; font-size: 16px;",
-              title = "Les secteurs"
+              title = "Part de salariés formés"
             )
           ),
           div(
@@ -252,12 +280,12 @@ ui <- fluidPage(
           tags$p(
             class = "texte-stat-info",
            
-              "Part d'entreprise formatrice"
+              "Part d'entreprises formatrices en cours et stages"
             ,
             tags$i(
               class = "fas fa-info-circle",
               style = "color: #008B99; font-size: 16px;",
-              title = "Les secteurs"
+              title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
             )
           ),
           div(
@@ -284,7 +312,7 @@ ui <- fluidPage(
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Les secteurs"
+            title = "Part de la masse salariale consacrée aux dépenses de formation"
           )
         ),
         div(
@@ -303,12 +331,12 @@ ui <- fluidPage(
       tags$p(
         class = "texte-stat-info",
         
-        "Moyenne des heures de stages"
+        "Durée moyenne par stagiaire"
         ,
         tags$i(
           class = "fas fa-info-circle",
           style = "color: #008B99; font-size: 16px;",
-          title = "Les secteurs"
+          title = "Nombre d'heures de cours et stages par stagiaire"
         )
       ),
       div(
@@ -322,5 +350,8 @@ ui <- fluidPage(
 )
         
 
+# Espérance : I = Nombre d'heures de cours et stages par salarié;
+# Taux d'entreprise formatrice toutes formes de formation. 
+#I = Part d'entreprises qui ont organisé au moins une formation (cours et stages, formation en situation de trav, colloque...) pour au moins un de leurs salariés
 
 
