@@ -86,13 +86,13 @@ colors <-setNames(c("#046B76",col),unique(EFE_1$secteur))
 # Couleurs des barplots
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
-  "Céreq, enquêtes CVTS_6"
+  "Source : Céreq-Dares-France compétences, Enquête Formation Employeur – européenne (EFE-e, Données 2020)"
 )
 
 
 caption_part_1 <- paste0(
   '<span style="color:#008B99;">Champ : </span>',
-  "Entreprise de 3 salariés et plus",
+  "Ensemble des entreprises de 1 salarié et plus du secteur privé (Hors : des conneries)",
   "<br>",
   source
 )
