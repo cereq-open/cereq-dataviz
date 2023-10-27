@@ -166,7 +166,7 @@ ui <-
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Les secteurs"
+                title = "Part de salariés formés"
               )
             ),
             
@@ -199,7 +199,7 @@ ui <-
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Les secteurs"
+                title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
               )
             ),
             
@@ -243,7 +243,7 @@ ui <-
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Les secteurs"
+                title = "Part de la masse salariale consacrée aux dépenses de formation"
               )
             ),
             leafletOutput("TPF"),
@@ -269,7 +269,7 @@ ui <-
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Les secteurs"
+                title = "Durée moyenne de formation par stagiaire"
               )
             ),
             
