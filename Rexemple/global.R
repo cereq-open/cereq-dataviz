@@ -60,6 +60,7 @@ EFE_1$tx_acc <- round(EFE_1$tx_acc, digits = 0)
 EFE_1$heurstag <- round(EFE_1$heurstag, digits = 0)
 EFE_1$tx_form <- round(EFE_1$tx_form, digits = 0)
 EFE_1$tx_tpf <- round(EFE_1$tx_tpf, digits = 1)
+EFE_1$tx_courses <- round(EFE_1$tx_courses, digits = 0)
 EFE_1$top1_c5_tx <- round(EFE_1$top1_c5_tx, digits = 0)
 EFE_1$top2_c5_tx <- round(EFE_1$top2_c5_tx, digits = 0)
 EFE_1$top3_c5_tx <- round(EFE_1$top3_c5_tx, digits = 0)
@@ -86,13 +87,13 @@ colors <-setNames(c("#046B76",col),unique(EFE_1$secteur))
 # Couleurs des barplots
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
-  "Céreq, enquêtes CVTS_6"
+  "Source : Céreq-Dares-France compétences, Enquête Formation Employeur – européenne (EFE-e, Données 2020)"
 )
 
 
 caption_part_1 <- paste0(
   '<span style="color:#008B99;">Champ : </span>',
-  "Entreprise de 3 salariés et plus",
+  "Ensemble des entreprises de 1 salarié et plus du secteur privé (Hors : des conneries)",
   "<br>",
   source
 )
