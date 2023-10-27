@@ -70,11 +70,26 @@ server <- function(input, output,session) {
   })
   
   ##############################################
+  # PART ENTREPRISE FORMATRICE TTES FORMES
+  
+  output$plot_part_formatrice_courses <- renderGirafe({
+    
+    gg <- plot_only_legend(filtered_testpivot_long())
+    legende <- get_legend(gg)
+    gg1 <- as_ggplot(legende)
+    
+    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
+    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_courses", caption_part_1
+                         #                       , generateTitle(titre)
+    )
+    girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
+  })
   
   
-  # PART ENTREPRISE FORMATRICE
   
-  output$plot_part_formatrice <- renderGirafe({
+  # PART ENTREPRISE FORMATRICE TTES FORMES
+  
+  output$plot_part_formatrice_tte <- renderGirafe({
     
     gg <- plot_only_legend(filtered_testpivot_long())
     legende <- get_legend(gg)
@@ -122,6 +137,14 @@ server <- function(input, output,session) {
   output$titre_secteur <- renderText({
     paste0("<strong>","<font size=5px>","Chiffres clés par taille d'entreprises pour le secteur : "  ,"<font color=\"#008b99\">",filtered()$secteur)
     })
+  
+  output$titre_formatrice <- renderText({
+    paste0("<strong>","<font size=5px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_courses, " % ","<strong>","<font size=5px>","<font color=\"#000000\">","d'entreprises formatrices : " )
+  })
+  
+  output$titre_non_formatrice <- renderText({
+    paste0("<strong>","<font size=5px>","Parmi les "  ,"<font color=\"#008b99\">",100-filtered()$tx_courses, " % ","<strong>","<font size=5px>","<font color=\"#000000\">","d'entreprises non formatrices : " )
+  })
 
   
   filtered <- reactive({
