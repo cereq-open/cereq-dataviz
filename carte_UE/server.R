@@ -145,10 +145,10 @@ server <- function(input, output,session) {
   output$legende1<- renderUI(HTML('<div class="legende">
                                   <br>
                                    <span style="color:#008B99;">Champ : </span>',
-                                  '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
+                                  '<span style="color:#808080;">Entreprises de 10 salariés et plus du secteur privé hors agriculture, éducation et santé </span>',
                                   "<br>",
                                   '<span style="color:#008B99;">Sources : </span>',
-                                  ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                  ' <span style="color:#808080;">Eurostat, enquête CVTS</span> 
                                    </div>'
   ))
   
@@ -209,12 +209,12 @@ server <- function(input, output,session) {
   
   
   output$legende2 <- renderUI(HTML('<div class="legende">
-                                   <br>
+                                  <br>
                                    <span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
+                                   '<span style="color:#808080;">Entreprises de 10 salariés et plus du secteur privé hors agriculture, éducation et santé </span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Sources : </span>',
-                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS</span> 
                                    </div>'
   ))
   
@@ -268,12 +268,12 @@ server <- function(input, output,session) {
     
   })
   output$legende3 <- renderUI(HTML('<div class="legende">
-                                   <br>
+                                  <br>
                                    <span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
+                                   '<span style="color:#808080;">Entreprises de 10 salariés et plus du secteur privé hors agriculture, éducation et santé </span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Sources : </span>',
-                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS</span> 
                                    </div>'
   ))
   
@@ -333,13 +333,13 @@ server <- function(input, output,session) {
     
   }) 
   
-  output$legende4 <- renderUI(HTML('<div class="legende"> 
-                                   <br>
+  output$legende4 <- renderUI(HTML('<div class="legende">
+                                  <br>
                                    <span style="color:#008B99;">Champ : </span>',
-                                   '<span style="color:#808080;">Entreprise de 3 salariés et plus blablabla</span>',
+                                   '<span style="color:#808080;">Entreprises de 10 salariés et plus du secteur privé hors agriculture, éducation et santé </span>',
                                    "<br>",
                                    '<span style="color:#008B99;">Sources : </span>',
-                                   ' <span style="color:#808080;">Eurostat, enquête CVTS 5</span> 
+                                   ' <span style="color:#808080;">Eurostat, enquête CVTS</span> 
                                    </div>'
   ))
 }
