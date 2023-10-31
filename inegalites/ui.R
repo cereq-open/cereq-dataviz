@@ -17,7 +17,7 @@ fluidPage(
           label = tags$h1("Choisir un facteur d’inégalités :"),
           inputId = "facteur",
           choices = facteur_choices,
-          selected = "sexe"
+          selected = "Sexe"
         ),
         pickerInput(
           width = "fit",
