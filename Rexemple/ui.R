@@ -421,7 +421,7 @@ ui <- fluidPage(
       ),
       div(
         style = "max-width:800px; margin-left:auto; margin-right:auto;",
-        girafeOutput("", height = NULL)
+        girafeOutput("plot_heure_stage_sal", height = NULL)
       )
     )
   
