@@ -41,8 +41,9 @@ gadm <- readRDS("data/map/gadm36_FRA_1_sf.rds") |>
   )
 
 ## stats par regions ----
-db_stats_par_regions <- arrow::read_parquet("data/tab_region.parquet") |>
+db_stats_par_regions <- arrow::read_parquet("data/base_region.parquet") |>
   rename(pos_prof_inter = pos_prof_int)
+
 
 db_stats_ens_et_drom <- db_stats_par_regions %>%
   filter(Libellé %in% c("Ensemble", "DROM"))
