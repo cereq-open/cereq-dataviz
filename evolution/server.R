@@ -37,10 +37,10 @@ shinyServer(function(input, output, session) {
 
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION", ".xls", sep = "")
+      paste("OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION", ".xlsx", sep = "")
     },
     content = function(file) {
-      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xls", file)
+      file.copy("data/OpenData_Cereq-Enq_Generation-Donnees_EVOLUTION.xlsx", file)
     }
   )
 
