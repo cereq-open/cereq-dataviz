@@ -63,7 +63,7 @@ indicateur_captions <- lapply(tab_indicateurs$indicateur, generateCaption) |>
 
 ## augment tab_inegalites  ----
 
-tab_inegalites <- read_parquet("data/tab_inegalites.parquet") %>%
+tab_inegalites <- read_parquet("data/base_inegalite.parquet") %>%
   rename(
     diplome = Diplôme, ordre_graphique = `Ordre graphique`,
     modalite = modalité
@@ -86,7 +86,7 @@ tab_inegalites <- read_parquet("data/tab_inegalites.parquet") %>%
   arrange(facteur_analyse, ordre_graphique) |>
   mutate(
     diplome = factor(diplome, levels = c(
-      "Ensemble des sortants", "Non-diplômés", "Diplômés du secondaire",
+      "Ensembles des jeunes sortis de formation initiale en 2017", "Non-diplômés", "Diplômés du secondaire",
       "Diplômés du supérieur court", "Diplômés du supérieur long"
     ))
   )
