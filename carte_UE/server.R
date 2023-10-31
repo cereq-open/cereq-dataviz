@@ -97,8 +97,8 @@ server <- function(input, output,session) {
   
   output$taux_acces <- renderLeaflet({
     
-    pal   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1)
-    pal_2   <- colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_acc1, reverse = TRUE)
+    pal   <- colorNumeric(  palette = "Blues", domain = Europe$tx_acc1)
+    pal_2   <- colorNumeric(  palette = "Blues", domain = Europe$tx_acc1, reverse = TRUE)
     class(Europe)
     
    labels <- ifelse(is.na(filtre_Europe()$tx_acc1),  "données manquantes", sprintf(
@@ -115,7 +115,7 @@ server <- function(input, output,session) {
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
       addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken=token)) %>%
-      addPolygons(data=filtre_Europe(),fillColor = ~pal(tx_acc1),
+      addPolygons(data=Europe,fillColor = ~pal(tx_acc1),
                   weight = 0.3,
                   opacity = 1,
                   smoothFactor = 0.5,
