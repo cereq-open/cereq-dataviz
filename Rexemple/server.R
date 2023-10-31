@@ -132,6 +132,21 @@ server <- function(input, output,session) {
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
   })
+  
+  
+  # TAUX ACCES
+  output$plot_heure_stage_sal <- renderGirafe({
+    
+    gg <- plot_only_legend(filtered_testpivot_long())
+    legende <- get_legend(gg)
+    gg1 <- as_ggplot(legende)
+    
+    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
+    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag_sal", caption_part_1
+                         #                       , generateTitle(titre)
+    )
+    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
+  })
   #################################################################
   
   output$titre_secteur <- renderText({
