@@ -172,7 +172,7 @@ ui <- fluidPage(
             )),
         htmlOutput("domaine"),
         tags$head(tags$style("#domaine{color: #00000;
-                                 font-size: 20px;
+                                 font-size: 16px;
                                  font-style: bold;
                                 }" ) )),
   
@@ -206,7 +206,7 @@ ui <- fluidPage(
           
           htmlOutput("frein"),
           tags$head(tags$style("#frein{color: #00000;
-                                 font-size: 20px;
+                                 font-size: 16px;
                                  font-style: bold;
                                 }" ) )))))
     
@@ -254,7 +254,7 @@ ui <- fluidPage(
         
         htmlOutput("raison"),
         tags$head(tags$style("#raison{color: #00000;
-                                 font-size: 20px;
+                                 font-size: 16px;
                                  font-style: bold;
                                 }" ) )
           )
