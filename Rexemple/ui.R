@@ -316,7 +316,7 @@ ui <- fluidPage(
             tags$i(
               class = "fas fa-info-circle",
               style = "color: #008B99; font-size: 16px;",
-              title = "Part d'entreprises qui ont organisé au une formation pour au moins un de leurs salariés"
+              title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés"
             )
           ),
           div(
