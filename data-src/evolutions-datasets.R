@@ -7,7 +7,7 @@ library(htmltools)
 
 ## augment tab_inegalites  ----
 
-tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
+tab_evolution <- read_parquet("data/base_evolution.parquet") %>%
   rename(diplome = Libelle_Menu, annee = Année) |>
   mutate(
     annee = factor(annee),
@@ -20,8 +20,8 @@ tab_evolution <- read_parquet("data/tab_evolution.parquet") %>%
       annee == "2017" ~ "Sortis en 2017",
       TRUE ~ annee
     )
-  ) |>
-  na.omit()
+  ) 
+
 
 ## captions ----
 champ <- '<span style="color:#008B99;">Champ : </span>'
@@ -46,7 +46,7 @@ caption_part_2 <- paste0(
 
 data_by_type_diplome <- split(tab_evolution, tab_evolution$diplome)
 
-tab_variables_evolution <- read_excel("data/variables EVOLUTIONS.xlsx") |>
+tab_variables_evolution <- read_excel("data/variables EVOLUTIONS_OJ.xlsx") |>
   filter(`Variable affichée` %in% "Oui") |>
   select(-`Variable affichée`)
 
