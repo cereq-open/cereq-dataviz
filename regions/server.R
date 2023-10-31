@@ -74,7 +74,7 @@ shinyServer(function(input, output, session) {
       column_stat_name = input$valeur_diplome_niveau,
       column_label_name = "label",
       .caption = caption2,
-      .title = "Proportion de sortants de formation initiale ayant ce niveau",
+      .title = paste0("Proportion de sortants de formation initiale ayant ce niveau"),
       .tooltip = NULL
     )
     girafe(
