@@ -151,7 +151,7 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Taux d'acces par age et CS"
+          "Taux d'acces par age et sexe"
           ,
           tags$i(
             class = "fas fa-info-circle",
