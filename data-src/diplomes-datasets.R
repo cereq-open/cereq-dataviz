@@ -142,13 +142,21 @@ generateCaptionBarChart <- function(DT) {
 generateCaptionDonutChart <- function(niveau) {
   caption <- paste0(
     '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017 en emploi en octobre 2020 :",
-    shQuote(niveau),
-    ".",
+    "Ensemble de la Génération 2017 en emploi en octobre 2020",
     "<br>",
     caption_source
   )
   caption
+}
+titre<-'Conditions d’emploi des jeunes trois ans après leur sortie de formation initiale pour : '
+generateCaptionTitre <- function(niveau) {
+  caption_titre <- paste0(
+    titre,
+    niveau,
+    "."
+  
+  )
+  caption_titre
 }
 
 labellize_stats_end_i <- function(stat1_str, stat2_str = NULL, info_str, infobulle_str = NULL) {
@@ -324,10 +332,21 @@ donut_profession_datasets_subsets <- lapply(datasets_subsets, generateDTDonutCha
 ### datasets for secteur donuts ----
 donut_secteur_datasets_subsets <- lapply(datasets_subsets, generateDTDonutChartSecteur)
 ### captions for donuts ----
+
+
 donuts_captions_subsets <- tab_diplome |>
   mutate(donut_caption = generateCaptionDonutChart(Libelle_complet)) |>
   select(Code, donut_caption)
 donuts_captions_subsets <- setNames(as.list(donuts_captions_subsets$donut_caption), donuts_captions_subsets$Code)
+
+### TITRE ----
+donuts_captions_titre <- tab_diplome |>
+  mutate(donut_titre = generateCaptionTitre(Libelle_complet)) |>
+  select(Code,donut_titre)
+donuts_captions_titre <- setNames(as.list(donuts_captions_titre$donut_titre),donuts_captions_titre$Code)
+
+
+
 
 # labels and stats preparation ----
 variables_diplome <- readxl::read_excel("data/Variables_DIPLOME_OJ.xlsx")
