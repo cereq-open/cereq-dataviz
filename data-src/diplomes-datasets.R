@@ -118,7 +118,7 @@ generateDTDonutChartSecteur <- function(dat) {
 
 caption_source <- paste0(
   '<span style="color:#008B99;">Source : </span>',
-  "Céreq, enquête Génération 2017 à trois ans."
+  "Céreq, enquête Génération 2017."
 )
 generateCaptionBarChart <- function(DT) {
   caption <- paste0(
@@ -232,10 +232,9 @@ generate_stat_comment_2 <- function(x, info_str, column, symbole) {
 ## augment tab_diplome  ----
 ## with calculated columns that help distinguish what goes where
 
-tab_diplome <- arrow::read_parquet("data/tab_diplome.parquet") %>%
+tab_diplome <- arrow::read_parquet("data/base_diplome.parquet") %>%
   rename(
-    Libelle_complet = `Libelle complet`,
-    Libelle_Menu = `Libelle Menu`
+    Libelle_complet = `Libelle complet`
   )
 
 tab_diplome <- tab_diplome |>
@@ -331,7 +330,7 @@ donuts_captions_subsets <- tab_diplome |>
 donuts_captions_subsets <- setNames(as.list(donuts_captions_subsets$donut_caption), donuts_captions_subsets$Code)
 
 # labels and stats preparation ----
-variables_diplome <- readxl::read_excel("data/Variables DIPLOME.xlsx")
+variables_diplome <- readxl::read_excel("data/Variables_DIPLOME_OJ.xlsx")
 
 ## tx_en_emploi ----
 tx_en_emploi_labels <- lapply(
