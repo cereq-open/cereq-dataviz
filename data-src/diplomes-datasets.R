@@ -142,7 +142,7 @@ generateCaptionBarChart <- function(DT) {
 generateCaptionDonutChart <- function(niveau) {
   caption <- paste0(
     '<span style="color:#008B99;">Champ : </span>',
-    "Ensemble de la Génération 2017 en emploi trois ans après leur sortie de formation ayant atteint au plus le niveau de diplôme sélectionné : ",
+    "Ensemble de la Génération 2017 en emploi en octobre 2020 :",
     shQuote(niveau),
     ".",
     "<br>",
