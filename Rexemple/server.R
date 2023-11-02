@@ -132,6 +132,21 @@ server <- function(input, output,session) {
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
   })
+  
+  
+  # TAUX ACCES
+  output$plot_heure_stage_sal <- renderGirafe({
+    
+    gg <- plot_only_legend(filtered_testpivot_long())
+    legende <- get_legend(gg)
+    gg1 <- as_ggplot(legende)
+    
+    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
+    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag_sal", caption_part_1
+                         #                       , generateTitle(titre)
+    )
+    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
+  })
   #################################################################
   
   output$titre_secteur <- renderText({
@@ -154,7 +169,7 @@ server <- function(input, output,session) {
   
   output$raison<- renderText({ 
     if (!is.na(filtered()$top3_e1)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
+     out<-paste0("<font color=\"#008b99\">","<font-size=\"40px\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$top3_e1,"<font color=\"#008b99\">"," (",filtered()$top3_e1_tx,"&#xA0;%)","<br>")
     }

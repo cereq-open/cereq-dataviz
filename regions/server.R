@@ -66,15 +66,15 @@ shinyServer(function(input, output, session) {
   })
 
   output$carte_niveau_diplome <- renderGirafe({
-    caption <- generateCaption(input$valeur_indicateur)
+
     augmented_db_stats_par_regions <- concatenate_columns(db_stats_par_regions, input$valeur_diplome_niveau)
 
     gg <- region_map(
       .data = augmented_db_stats_par_regions,
       column_stat_name = input$valeur_diplome_niveau,
       column_label_name = "label",
-      .caption = caption,
-      .title = "Proportion de sortants de formation initiale ayant ce niveau",
+      .caption = caption2,
+      .title = paste0("Proportion de sortants de formation initiale ayant ce niveau"),
       .tooltip = NULL
     )
     girafe(

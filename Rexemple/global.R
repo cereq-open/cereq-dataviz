@@ -60,6 +60,7 @@ EFE_1$tx_acc <- round(EFE_1$tx_acc, digits = 0)
 EFE_1$heurstag <- round(EFE_1$heurstag, digits = 0)
 EFE_1$tx_form <- round(EFE_1$tx_form, digits = 0)
 EFE_1$tx_tpf <- round(EFE_1$tx_tpf, digits = 1)
+EFE_1$heurstag_sal <- round(EFE_1$heurstag_sal, digits = 0)
 EFE_1$tx_courses <- round(EFE_1$tx_courses, digits = 0)
 EFE_1$top1_c5_tx <- round(EFE_1$top1_c5_tx, digits = 0)
 EFE_1$top2_c5_tx <- round(EFE_1$top2_c5_tx, digits = 0)
@@ -93,7 +94,7 @@ source <- paste0(
 
 caption_part_1 <- paste0(
   '<span style="color:#008B99;">Champ : </span>',
-  "Ensemble des entreprises de 1 salarié et plus du secteur privé (Hors : des conneries)",
+  "Ensemble des entreprises de 1 salarié et plus du secteur privé (Hors activités des ménages et extraterritoriales)",
   "<br>",
   source
 )

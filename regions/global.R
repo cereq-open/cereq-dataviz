@@ -9,6 +9,7 @@ source("shiny-elements.R")
 theme_replace(
   legend.key.width = unit(15, "pt"),
   legend.key.height = unit(.5, "in"),
+  
   legend.position = "right"
 )
 
@@ -26,7 +27,7 @@ generateCaption <- function(variable) {
   if (variable %in% c("taux_emploi", "taux_chomage", "traj_1", "traj_2", "traj_3", "traj_7")) {
     caption <- paste0(
       '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération.",
+      "Ensemble de la Génération 2017.",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
       "Céreq, enquête Génération 2017 à trois ans."
@@ -34,8 +35,7 @@ generateCaption <- function(variable) {
   } else {
     caption <- paste0(
       '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la génération en emploi trois ans \
-      après leur sortie de formation initiale.",
+      "Ensemble de la Génération 2017 en emploi en octobre 2020.",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
       "Céreq, enquête Génération 2017 à trois ans."
@@ -44,6 +44,19 @@ generateCaption <- function(variable) {
   caption
 }
 
+# functions to prepare data ----
+
+   
+    caption2 <- paste0(
+      '<span style="color:#008B99;">Champ : </span>',
+      "Ensemble de la Génération 2017.",
+      "<br>",
+      '<span style="color:#008B99;">Source : </span>',
+      "Céreq, enquête Génération 2017 à trois ans."
+    )
+   
+  
+
 # Longeur et largeur de la carte ggiraph
 longeur_map <- 8
 largeur_map <- 8
@@ -51,9 +64,10 @@ largeur_map <- 8
 
 # Fonction pour tracer la carte
 region_map <- function(.data, column_stat_name, column_label_name, .caption, .title, .tooltip) {
+
   gg <- ggplot(data = .data) +
     geom_sf_interactive(aes(fill = !!sym(column_stat_name), data_id = `Libellé`, tooltip = tooltip_value)) +
-    scale_fill_viridis(option = "mako", direction = -1) +
+    scale_fill_gradient(low = "#85C1E9", high = "#154360")+
     geom_sf_text(
       aes(label = !!sym(column_label_name)),
       check_overlap = FALSE,
@@ -97,7 +111,7 @@ region_map <- function(.data, column_stat_name, column_label_name, .caption, .ti
 }
 
 concatenate_columns <- function(.data, col_name) {
-  if (col_name != "rvn_trv") {
+  if (col_name != "revenu_travail") {
     .data[["label"]] <- paste0(.data[[col_name]], " %")
     .data[["tooltip_value"]] <- paste0(.data[["Libellé"]], " : ", .data[[col_name]], " %")
   } else {

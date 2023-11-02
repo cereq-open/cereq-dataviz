@@ -172,7 +172,7 @@ ui <- fluidPage(
             )),
         htmlOutput("domaine"),
         tags$head(tags$style("#domaine{color: #00000;
-                                 font-size: 20px;
+                                 font-size: 16px;
                                  font-style: bold;
                                 }" ) )),
   
@@ -206,7 +206,7 @@ ui <- fluidPage(
           
           htmlOutput("frein"),
           tags$head(tags$style("#frein{color: #00000;
-                                 font-size: 20px;
+                                 font-size: 16px;
                                  font-style: bold;
                                 }" ) )))))
     
@@ -254,7 +254,7 @@ ui <- fluidPage(
         
         htmlOutput("raison"),
         tags$head(tags$style("#raison{color: #00000;
-                                 font-size: 20px;
+                                 font-size: 16px;
                                  font-style: bold;
                                 }" ) )
           )
@@ -316,7 +316,7 @@ ui <- fluidPage(
             tags$i(
               class = "fas fa-info-circle",
               style = "color: #008B99; font-size: 16px;",
-              title = "Part d'entreprises qui ont organisé au une formation pour au moins un de leurs salariés"
+              title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés"
             )
           ),
           div(
@@ -421,7 +421,7 @@ ui <- fluidPage(
       ),
       div(
         style = "max-width:800px; margin-left:auto; margin-right:auto;",
-        girafeOutput("", height = NULL)
+        girafeOutput("plot_heure_stage_sal", height = NULL)
       )
     )
   

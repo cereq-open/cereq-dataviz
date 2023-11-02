@@ -16,7 +16,7 @@ library(paletteer)
 library(rnaturalearth)
 library(readr)
 library(ggmap)
-library(viridis)
+
 library(shinyjs)
 library(leaflet)
 library(DT)

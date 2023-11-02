@@ -8,7 +8,7 @@ generateCaption <- function(variable) {
   if (variable %in% c("taux_emploi", "part_chomage", "taux_chomage", "traj_1", "traj_2", "traj_3", "traj_7")) {
     caption <- paste0(
       '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la Génération.",
+      "Ensemble de la Génération 2017",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
       "Céreq, enquête Génération 2017 à trois ans."
@@ -16,8 +16,7 @@ generateCaption <- function(variable) {
   } else {
     caption <- paste0(
       '<span style="color:#008B99;">Champ : </span>',
-      "Ensemble de la génération en emploi trois ans \
-      après leur sortie de formation initiale.",
+      "Ensemble de la Génération 2017 en emploi en octobre 2020",
       "<br>",
       '<span style="color:#008B99;">Source : </span>',
       "Céreq, enquête Génération 2017 à trois ans."
@@ -63,7 +62,7 @@ indicateur_captions <- lapply(tab_indicateurs$indicateur, generateCaption) |>
 
 ## augment tab_inegalites  ----
 
-tab_inegalites <- read_parquet("data/tab_inegalites.parquet") %>%
+tab_inegalites <- read_parquet("data/base_inegalite.parquet") %>%
   rename(
     diplome = Diplôme, ordre_graphique = `Ordre graphique`,
     modalite = modalité
@@ -86,7 +85,7 @@ tab_inegalites <- read_parquet("data/tab_inegalites.parquet") %>%
   arrange(facteur_analyse, ordre_graphique) |>
   mutate(
     diplome = factor(diplome, levels = c(
-      "Ensemble des sortants", "Non-diplômés", "Diplômés du secondaire",
+      "Ensembles des jeunes sortis de formation initiale en 2017", "Non-diplômés", "Diplômés du secondaire",
       "Diplômés du supérieur court", "Diplômés du supérieur long"
     ))
   )
