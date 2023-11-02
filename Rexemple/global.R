@@ -94,7 +94,7 @@ source <- paste0(
 
 caption_part_1 <- paste0(
   '<span style="color:#008B99;">Champ : </span>',
-  "Ensemble des entreprises de 1 salarié et plus du secteur privé (Hors : des conneries)",
+  "Ensemble des entreprises de 1 salarié et plus du secteur privé (Hors activités des ménages et extraterritoriales)",
   "<br>",
   source
 )
