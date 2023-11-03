@@ -430,6 +430,7 @@ saveRDS(barchart_captions_subsets, "diplomes/data/barchart_captions_subsets.RDS"
 saveRDS(donut_profession_datasets_subsets, "diplomes/data/donut_profession_datasets_subsets.RDS")
 saveRDS(donut_secteur_datasets_subsets, "diplomes/data/donut_secteur_datasets_subsets.RDS")
 saveRDS(donuts_captions_subsets, "diplomes/data/donuts_captions_subsets.RDS")
+saveRDS(donuts_captions_titre, "diplomes/data/donuts_captions_titre.RDS")
 saveRDS(tx_en_emploi_labels, "diplomes/data/tx_en_emploi_labels.RDS")
 saveRDS(tx_chomage_labels, "diplomes/data/tx_chomage_labels.RDS")
 saveRDS(taux_edi_labels, "diplomes/data/taux_edi_labels.RDS")
