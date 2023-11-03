@@ -14,6 +14,7 @@ theme_replace(
 )
 
 # Load data -----
+liste_titre_diplome<- readRDS("data/liste_titre_diplome.RDS")
 valeurs_indicateurs <- readRDS("data/valeurs_indicateurs.RDS")
 liste_titre_indicateurs <- readRDS("data/liste_titre_indicateurs.RDS")
 liste_label_indicateurs <- readRDS("data/liste_label_indicateurs.RDS")
@@ -21,7 +22,7 @@ valeurs_niveaux_diplomes <- readRDS("data/valeurs_niveaux_diplomes.RDS")
 liste_label_niveaux_diplomes <- readRDS("data/liste_label_niveaux_diplomes.RDS")
 db_stats_par_regions <- readRDS("data/db_stats_par_regions.RDS")
 
-
+niveaux_diplomes<- as.list(valeurs_niveaux_diplomes)
 # functions to prepare data ----
 generateCaption <- function(variable) {
   if (variable %in% c("taux_emploi", "taux_chomage", "traj_1", "traj_2", "traj_3", "traj_7")) {
