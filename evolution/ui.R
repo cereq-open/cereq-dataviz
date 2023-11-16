@@ -38,10 +38,6 @@ fluidPage(
     column(
       width = 4, class = "p-2 col-sm-12 col-lg-6",
       girafeOutput("plot_tx_chomage")
-    ),
-    column(
-      width = 4, class = "p-2 col-sm-12 col-lg-6",
-      girafeOutput("plot_part_tps_partiel")
     )
   ),
   h1("Conditions d’emploi des jeunes trois ans après leur sortie de formation initiale"),
@@ -58,6 +54,11 @@ fluidPage(
     column(
       width = 4, class = "p-2 col-sm-12 col-lg-6",
       girafeOutput("plot_comptence_ok")
+    ),
+    
+    column(
+      width = 4, class = "p-2 col-sm-12 col-lg-6",
+      girafeOutput("plot_part_tps_partiel")
     )
   )
 )
