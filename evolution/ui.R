@@ -46,10 +46,7 @@ fluidPage(
       width = 4, class = "p-2 col-sm-12 col-lg-6",
       girafeOutput("plot_tx_edi")
     ),
-    column(
-      width = 4, class = "p-2 col-sm-12 col-lg-6",
-      girafeOutput("plot_part_tps_partiel")
-    ),
+    
     column(
       width = 4, class = "p-2 col-sm-12 col-lg-6",
       girafeOutput("plot_revenu_travail")
@@ -57,6 +54,11 @@ fluidPage(
     column(
       width = 4, class = "p-2 col-sm-12 col-lg-6",
       girafeOutput("plot_comptence_ok")
+    ),
+    
+    column(
+      width = 4, class = "p-2 col-sm-12 col-lg-6",
+      girafeOutput("plot_part_tps_partiel")
     )
   )
 )

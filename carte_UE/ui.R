@@ -238,15 +238,15 @@ ui <-
             tags$p(
               class = "texte-stat-info",
               
-              "Taux de participations financières des entreprises"
+              "Taux de formation autres formes"
               ,
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Part de la masse salariale consacrée aux dépenses de formation"
+                title = "Taux d'entreprises formatrices hors cours et stages"
               )
             ),
-            leafletOutput("TPF"),
+            leafletOutput("Autre_forme"),
             uiOutput("legende3"),
             tags$head(tags$style("#TPF{color: #008b99;
                                  font-size: 20px;

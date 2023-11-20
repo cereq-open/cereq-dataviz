@@ -98,6 +98,7 @@ liste_titre_indicateurs <- split(db_indicateurs, db_indicateurs$indicateur) |>
   })
 
 
+
 liste_label_indicateurs <- lapply(db_indicateurs$indicateur, function(colonne, db_stat) {
   if (colonne != "revenu_travail") {
     symbole <- " %"
@@ -119,6 +120,14 @@ db_niveaux_diplomes <- read_excel("data/variables REGION.xlsx") |>
   filter(!is.na(Ordre_menu2)) |>
   select(-Ordre_menu1, -Bulle)
 
+liste_titre_diplome <- split(db_niveaux_diplomes, db_niveaux_diplomes$Nom_colonne) |>
+  lapply(function(x) {
+    z<- list(.title = paste0("Proportion de sortants de formation initiale ayant le niveau : ",x$Titre_graphique))
+    
+    
+    z
+  })
+
 valeurs_niveaux_diplomes <- setNames(db_niveaux_diplomes$Nom_colonne, db_niveaux_diplomes$Titre_graphique)
 
 liste_label_niveaux_diplomes <- lapply(db_niveaux_diplomes$Nom_colonne, function(colonne, db_stat) {
@@ -138,6 +147,7 @@ liste_label_niveaux_diplomes <- lapply(db_niveaux_diplomes$Nom_colonne, function
 # with no calculation to do later
 saveRDS(valeurs_indicateurs, file = "regions/data/valeurs_indicateurs.RDS")
 saveRDS(liste_titre_indicateurs, file = "regions/data/liste_titre_indicateurs.RDS")
+saveRDS(liste_titre_diplome, file = "regions/data/liste_titre_diplome.RDS")
 saveRDS(liste_label_indicateurs, file = "regions/data/liste_label_indicateurs.RDS")
 saveRDS(valeurs_niveaux_diplomes, file = "regions/data/valeurs_niveaux_diplomes.RDS")
 saveRDS(liste_label_niveaux_diplomes, file = "regions/data/liste_label_niveaux_diplomes.RDS")

@@ -116,7 +116,7 @@ data_par_facteur_analyse <- lapply(data_par_facteur_analyse, function(x, indicat
         )
       ),
       taux_str = case_when(
-        statistique < 1 ~ "% ns",
+        statistique < 1 ~ "NS",
         TRUE ~ taux_str
       ),
       tooltip_value = paste0(modalite, " : ", taux_str),

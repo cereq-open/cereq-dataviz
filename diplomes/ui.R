@@ -46,13 +46,14 @@ fluidPage(
       girafeOutput("graph_situation_apres_3_ans", height = NULL)
     )
   ),
-  tags$h1("Conditions d’emploi des jeunes trois ans après leur sortie de formation initiale"),
+  tags$h1( uiOutput("titre_2")),
   fluidRow(
     column(
       width = 12, class = "p-2",
       tags$table(
         class = "stat-table",
         tags$tr(
+     
           tags$td(uiOutput("tx_en_edi")),
           tags$td(uiOutput("tx_a_tps_partiel")),
           tags$td(uiOutput("revenu_median"))

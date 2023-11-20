@@ -108,7 +108,12 @@ shinyServer(function(input, output, session) {
       height_svg = graph_sizes()$hauteur_donut_chart
     )
   })
-
+  
+  ################### Titre #############################################
+output$titre_2 <- renderUI({
+donuts_captions_titre[[global$data_key_value]]
+  
+  })
   ###################### Create Statistics ######################
 
   output$tx_en_emploi <- renderUI({
