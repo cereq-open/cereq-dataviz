@@ -222,17 +222,17 @@ server <- function(input, output,session) {
   
   
   
-  output$TPF <- renderLeaflet({
+  output$Autre_forme <- renderLeaflet({
     
-    pal_tpf <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf)
-    pal_tpf_2 <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$tx_tpf, reverse = TRUE)
+    pal_autre_form <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$TX_autre_form)
+    pal_autre_form_2 <-      colorNumeric(  palette = "Blues", domain = filtre_Europe()$TX_autre_form, reverse = TRUE)
     class(Europe)
  
     
     
-    labels_tpf <- ifelse(is.na(filtre_Europe()$tx_tpf),  "données manquantes", sprintf(
+    labels_autre_form <- ifelse(is.na(filtre_Europe()$TX_autre_form),  "données manquantes", sprintf(
       "<strong>%s</strong><br/>%g %%",
-      filtre_Europe()$NAME_FREN, filtre_Europe()$tx_tpf
+      filtre_Europe()$NAME_FREN, filtre_Europe()$TX_autre_form
     ) ) %>%
       lapply(htmltools::HTML)
     
@@ -241,7 +241,7 @@ server <- function(input, output,session) {
       # fitBounds(-20,65,20,40) %>%
       addTiles() %>%
       addProviderTiles("Jawg.Light", options = providerTileOptions(accessToken=token)) %>%
-      addPolygons(data=filtre_Europe(),fillColor = ~pal_tpf(tx_tpf),
+      addPolygons(data=filtre_Europe(),fillColor = ~pal_autre_form(TX_autre_form),
                   weight = 0.3,
                   opacity = 1,
                   smoothFactor = 0.5,
@@ -253,12 +253,12 @@ server <- function(input, output,session) {
                                                dashArray = "",
                                                fillOpacity = 0.7,
                                                bringToFront = TRUE),
-                  label = labels_tpf,
+                  label = labels_autre_form,
                   labelOptions = labelOptions(style = list("font-weight" = "normal",
                                                            padding = "3px 8px"),
                                               textsize = "15px",
                                               direction = "auto")) %>%
-      addLegend( pal= pal_tpf_2, values = ~tx_tpf,
+      addLegend( pal= pal_autre_form_2, values = ~TX_autre_form,
                  title = element_blank(),
                  position = "bottomright",
                  labFormat = labelFormat(suffix =   " %",transform = function(x)  sort(x, decreasing = TRUE)),
