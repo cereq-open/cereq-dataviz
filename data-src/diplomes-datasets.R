@@ -291,36 +291,58 @@ code_empty_level1 <- data_menu |>
 
 subset_dat_eds <- tab_diplome |> filter(Code %in% 100)
 
+#######################      CHOIX PRINCIPAL ##############################################
+
 subset_dat_without_subchoice <- bind_rows(
   tab_diplome |> filter(level0, !Code %in% 100),
   tab_diplome |> filter(Code %in% code_empty_level1)
 )
 rm(code_empty_level1)
-
-subset_dat_without_subchoice <- lapply(split(subset_dat_without_subchoice, subset_dat_without_subchoice$Code), function(x, x0) {
+########################Pour BARCHART choix principal#####################################################
+subset_dat_without_subchoice_barchart <- lapply(split(subset_dat_without_subchoice, subset_dat_without_subchoice$Code), function(x, x0) {
   z <- bind_rows(x, x0) |> arrange(Code)
   z$Libelle_Menu <- factor(z$Libelle_Menu, levels = z$Libelle_Menu)
   z
 }, subset_dat_eds)
 
+########################Pour DONNUTS  choix principal#####################################################
+subset_dat_without_subchoice_donuts <- split(subset_dat_without_subchoice, subset_dat_without_subchoice$Code)
+
+##############################CHOIX SECONDAIRE############################################
 subset_dat_with_subchoice <- tab_diplome |>
   filter(!level0, !level1) |>
   mutate(CodeParent = Code %/% 10 * 10)
 
-subset_dat_with_subchoice <- lapply(split(subset_dat_with_subchoice, subset_dat_with_subchoice$Code), function(x, x0) {
+
+
+########################Pour DONNUTS  choix secondaire#####################################################
+
+
+subset_dat_with_subchoice_donuts <- split(subset_dat_with_subchoice, subset_dat_with_subchoice$Code)
+
+########################Pour BARCHART choix secondaire#####################################################
+
+subset_dat_with_subchoice_barchart <- lapply(split(subset_dat_with_subchoice, subset_dat_with_subchoice$Code), function(x, x0) {
   z <- bind_rows(x, x0)
   z$Libelle_Menu <- factor(z$Libelle_Menu, levels = z$Libelle_Menu)
   z
 }, subset_dat_eds)
 
-datasets_subsets <- append(subset_dat_without_subchoice, subset_dat_with_subchoice)
 
-datasets_subsets[["100"]] <- subset_dat_eds
-rm(subset_dat_eds, subset_dat_without_subchoice, subset_dat_with_subchoice)
 
+
+
+##################merge choix principaux choix secondaire ###################################
+datasets_subsets_donuts<- append(subset_dat_without_subchoice_donuts, subset_dat_with_subchoice_donuts)
+datasets_subsets_barchart <- append(subset_dat_without_subchoice_barchart, subset_dat_with_subchoice_barchart)
+
+datasets_subsets_donuts[["100"]] <- subset_dat_eds
+datasets_subsets_barchart[["100"]] <- subset_dat_eds
+rm(subset_dat_eds, subset_dat_without_subchoice_donuts, subset_dat_with_subchoice_donuts)
+rm(subset_dat_eds, subset_dat_without_subchoice_barchart, subset_dat_with_subchoice_barchart)
 ### datasets for barchart plots ----
-barchart_datasets_subsets <- lapply(datasets_subsets, generateDTBarChart)
-rm(generateDTBarChart)
+barchart_datasets_subsets <- lapply(datasets_subsets_barchart, generateDTBarChart)
+
 
 ### captions for barchart ----
 barchart_captions_subsets <- lapply(barchart_datasets_subsets, generateCaptionBarChart)
@@ -328,9 +350,9 @@ barchart_captions_subsets <- lapply(barchart_datasets_subsets, generateCaptionBa
 
 ## datasets for donuts ----
 ### datasets for profession donuts ----
-donut_profession_datasets_subsets <- lapply(datasets_subsets, generateDTDonutChartProfession)
+donut_profession_datasets_subsets <- lapply(datasets_subsets_donuts, generateDTDonutChartProfession)
 ### datasets for secteur donuts ----
-donut_secteur_datasets_subsets <- lapply(datasets_subsets, generateDTDonutChartSecteur)
+donut_secteur_datasets_subsets <- lapply(datasets_subsets_donuts, generateDTDonutChartSecteur)
 ### captions for donuts ----
 
 
@@ -353,7 +375,7 @@ variables_diplome <- readxl::read_excel("data/Variables_DIPLOME_OJ.xlsx")
 
 ## tx_en_emploi ----
 tx_en_emploi_labels <- lapply(
-  datasets_subsets,
+  datasets_subsets_barchart,
   generate_stat_comment_1,
   infobulle_str = variables_diplome %>%
     filter(Nom_colonne == "taux_emploi") %>% pull(Bulle),
@@ -364,7 +386,7 @@ tx_en_emploi_labels <- lapply(
 
 ## taux_chomage ----
 tx_chomage_labels <- lapply(
-  datasets_subsets,
+  datasets_subsets_barchart,
   generate_stat_comment_1,
   infobulle_str = variables_diplome %>%
     filter(Nom_colonne == "taux_chomage") %>% pull(Bulle),
@@ -375,7 +397,7 @@ tx_chomage_labels <- lapply(
 
 ## taux_edi ----
 taux_edi_labels <- lapply(
-  datasets_subsets,
+  datasets_subsets_barchart,
   generate_stat_comment_1,
   infobulle_str = variables_diplome %>%
     filter(Nom_colonne == "taux_edi") %>% pull(Bulle),
@@ -386,7 +408,7 @@ taux_edi_labels <- lapply(
 
 ## part_tps_partiel ----
 part_tps_partiel_labels <- lapply(
-  datasets_subsets,
+  datasets_subsets_barchart,
   generate_stat_comment_1,
   infobulle_str = variables_diplome %>%
     filter(Nom_colonne == "part_tps_partiel") %>% pull(Bulle),
@@ -396,7 +418,7 @@ part_tps_partiel_labels <- lapply(
 )
 ## revenu_travail ----
 revenu_travail_labels <- lapply(
-  datasets_subsets,
+  datasets_subsets_barchart,
   generate_stat_comment_1,
   infobulle_str = variables_diplome %>%
     filter(Nom_colonne == "revenu_travail") %>% pull(Bulle),
@@ -406,7 +428,7 @@ revenu_travail_labels <- lapply(
 )
 ## correspondance_ok ----
 correspondance_ok_labels <- lapply(
-  datasets_subsets,
+  datasets_subsets_barchart,
   generate_stat_comment_2,
   info_str = "jugent leur emploi cohérent avec leur formation initiale",
   column = "correspondance_ok",
@@ -414,7 +436,7 @@ correspondance_ok_labels <- lapply(
 )
 ## competence_ok ----
 competence_ok_labels <- lapply(
-  datasets_subsets,
+  datasets_subsets_barchart,
   generate_stat_comment_2,
   info_str = "estiment être employés sous leur niveau de compétence",
   column = "competence_ok",
