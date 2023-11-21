@@ -238,12 +238,17 @@ ui <-
             tags$p(
               class = "texte-stat-info",
               
-              "Taux de formation autres formes"
+              "Part d'entreprises formatrices autres formes"
               ,
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Taux d'entreprises formatrices hors cours et stages"
+                title = "Taux d'entreprises formatrices hors cours et stages :
+                - formation sur le tas, encadrée;
+                - rotation organisée sur les postes de travail, échanges ou détachements;
+                -formation dans le cadre de congrès, d'ateliers, de foires commerciales ou de conférences;
+                - cercles d'apprentissage ou de qualité;
+                - autoformation"
               )
             ),
             leafletOutput("Autre_forme"),
