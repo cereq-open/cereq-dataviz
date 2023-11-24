@@ -115,7 +115,7 @@ ui <- fluidPage(
             
           )
         )))
-      ,
+    ,
     
     column(
       width = 3,
@@ -130,13 +130,13 @@ ui <- fluidPage(
       ))),
   
   br(),
- 
+  
   
   fluidRow(
     column(
       
       width =8,
-  
+      
       div(
         class = "custom-border-box",
         tags$p(
@@ -144,17 +144,17 @@ ui <- fluidPage(
           htmlOutput("titre_formatrice")
         ),
         fluidRow(
-        column(
-          width=6,
-       
-        tags$p(
-          class = "texte-stat-info",
-      
-            "Les principaux domaines de formation",
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "color: #008B99; font-size: 16px;",
-              title = "Liste des domaines de formation :
+          column(
+            width=6,
+            
+            tags$p(
+              class = "texte-stat-info",
+              
+              "Les principaux domaines de formation",
+              tags$i(
+                class = "fas fa-info-circle",
+                style = "color: #008B99; font-size: 16px;",
+                title = "Liste des domaines de formation :
 - Technologie de l’information et de la communication
 - Management
 - Travail en équipe
@@ -169,27 +169,27 @@ ui <- fluidPage(
 - Autres domaines
 
               "
-            )),
-        htmlOutput("domaine"),
-        tags$head(tags$style("#domaine{color: #00000;
+              )),
+            htmlOutput("domaine"),
+            tags$head(tags$style("#domaine{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
                                 }" ) )),
-  
-     column(
-       width=6,
-     
-        tags$p(
-          class = "texte-stat-info",
-       
+          
+          column(
+            width=6,
             
-            "Les principales raisons qui ont limité l'effort de formation",
-          
-          
-          tags$i(
-            class = "fas fa-info-circle",
-            style = "color: #008B99; font-size: 16px;",
-            title = "Liste des raisons limitantes :
+            tags$p(
+              class = "texte-stat-info",
+              
+              
+              "Les principales raisons qui ont limité l'effort de formation",
+              
+              
+              tags$i(
+                class = "fas fa-info-circle",
+                style = "color: #008B99; font-size: 16px;",
+                title = "Liste des raisons limitantes :
 - Effort de formation approprié aux besoins
 - Recrutement de personnes ayant les qualifications et compétences requises
 - Difficulté d’évaluation des besoins en formation
@@ -202,10 +202,10 @@ ui <- fluidPage(
 - Autres raisons 
                       
 "
-          )),
-          
-          htmlOutput("frein"),
-          tags$head(tags$style("#frein{color: #00000;
+              )),
+            
+            htmlOutput("frein"),
+            tags$head(tags$style("#frein{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
                                 }" ) )))))
@@ -221,9 +221,9 @@ ui <- fluidPage(
     
     
     
-        ,
+    ,
     
-   
+    
     
     column(
       width =4,
@@ -232,9 +232,9 @@ ui <- fluidPage(
         htmlOutput("titre_non_formatrice"),
         tags$p(
           class = "texte-stat-info",
-      
-            
-            "Les principales raisons de non formation",
+          
+          
+          "Les principales raisons de non formation",
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
@@ -257,75 +257,75 @@ ui <- fluidPage(
                                  font-size: 16px;
                                  font-style: bold;
                                 }" ) )
-          )
-    
-  )),
-
+      )
+      
+    )),
+  
   
   br(),
   fluidRow(
     column(
       width = 12,
       align = "left",
-   
-
-    
-       htmlOutput("titre_secteur"))
-    )
+      
+      
+      
+      htmlOutput("titre_secteur"))
+  )
   ,
   
-
   
-    #PART FORMATRICE COURS ET STAGE 
-    br(),
-    fluidRow(
-      column(
-        width = 6,
-        div(
-          class = "custom-border-box",
-          tags$p(
-            class = "texte-stat-info",
-            
-            "Part d'entreprises formatrices en cours et stages"
-            ,
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "color: #008B99; font-size: 16px;",
-              title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
-            )
-          ),
-          div(
-            style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            girafeOutput("plot_part_formatrice_courses", height = NULL)
+  
+  #PART FORMATRICE COURS ET STAGE 
+  br(),
+  fluidRow(
+    column(
+      width = 6,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class = "texte-stat-info",
+          
+          "Part d'entreprises formatrices en cours et stages"
+          ,
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
           )
-        )
-      ), 
-      
-      
-      #PART FROMATRICE TOUTES FORMES 
-      br(),
-      column(
-        width = 6,
+        ),
         div(
-          class = "custom-border-box",
-          tags$p(
-            class = "texte-stat-info",
-           
-              "Part d'entreprises formatrices toutes formes"
-            ,
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "color: #008B99; font-size: 16px;",
-              title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés"
-            )
-          ),
-          div(
-            style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            girafeOutput("plot_part_formatrice_tte", height = NULL)
-          )
+          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          girafeOutput("plot_part_formatrice_courses", height = NULL)
         )
       )
-    ),
+    ), 
+    
+    
+    #PART FROMATRICE TOUTES FORMES 
+    br(),
+    column(
+      width = 6,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class = "texte-stat-info",
+          
+          "Part d'entreprises formatrices toutes formes"
+          ,
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés"
+          )
+        ),
+        div(
+          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          girafeOutput("plot_part_formatrice_tte", height = NULL)
+        )
+      )
+    )
+  ),
   
   #TPF
   br(),
@@ -377,58 +377,58 @@ ui <- fluidPage(
       )
     )
   ),
-    #DURE MOYENNE PAR STAGIAIRE
-    br(),
-    fluidRow(
-      column(
-        width = 6,
-        div(
-          class = "custom-border-box",
-          tags$p(
-            class = "texte-stat-info",
-            
-            "Durée moyenne de formation par stagiaire"
-            ,
-            tags$i(
-              class = "fas fa-info-circle",
-              style = "color: #008B99; font-size: 16px;",
-              title = "Nombre d'heures de cours et stages par stagiaire"
-            )
-          ),
-          div(
-            style = "max-width:800px; margin-left:auto; margin-right:auto;",
-            girafeOutput("plot_H_stage", height = NULL)
-        )
-      )
-    
-  ),
-  #NOMBRE D HEURE DE FORMATION PAR SALARIE
+  #DURE MOYENNE PAR STAGIAIRE
   br(),
-  column(
-    width = 6,
-    div(
-      class = "custom-border-box",
-      tags$p(
-        class = "texte-stat-info",
-        
-        "Durée moyenne de formation par salarié"
-        ,
-        tags$i(
-          class = "fas fa-info-circle",
-          style = "color: #008B99; font-size: 16px;",
-          title = "Nombre d'heures de cours et stages par salarié"
-        )
-      ),
+  fluidRow(
+    column(
+      width = 6,
       div(
-        style = "max-width:800px; margin-left:auto; margin-right:auto;",
-        girafeOutput("plot_heure_stage_sal", height = NULL)
+        class = "custom-border-box",
+        tags$p(
+          class = "texte-stat-info",
+          
+          "Durée moyenne de formation par stagiaire"
+          ,
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Nombre d'heures de cours et stages par stagiaire"
+          )
+        ),
+        div(
+          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          girafeOutput("plot_H_stage", height = NULL)
+        )
       )
-    )
+      
+    ),
+    #NOMBRE D HEURE DE FORMATION PAR SALARIE
+    br(),
+    column(
+      width = 6,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class = "texte-stat-info",
+          
+          "Durée moyenne de formation par salarié"
+          ,
+          tags$i(
+            class = "fas fa-info-circle",
+            style = "color: #008B99; font-size: 16px;",
+            title = "Nombre d'heures de cours et stages par salarié"
+          )
+        ),
+        div(
+          style = "max-width:800px; margin-left:auto; margin-right:auto;",
+          girafeOutput("plot_heure_stage_sal", height = NULL)
+        )
+      )
+      
+    ))
   
-  ))
-
 )
-        
+
 
 # Espérance : I = Nombre d'heures de cours et stages par salarié;
 # Taux d'entreprise formatrice toutes formes de formation. 
