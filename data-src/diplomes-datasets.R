@@ -55,20 +55,20 @@ generateDTDonutChartProfession <- function(dat) {
         profession == "pos_cadres" ~ "Cadres",
         profession == "pos_prof_int" ~ "Professions intermédiaires",
         profession == "pos_emp_ouv_q" ~ "Employés ou ouvriers qualifiés",
-        profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers non qualifiés",
+        profession == "pos_emp_ouv_nq" ~ "Employés ou ouvriers peu qualifiés",
         profession == "pos_autres" ~ "Autres",
         TRUE ~ profession
       ),
       profession = factor(profession, levels = c(
         "Cadres", "Professions intermédiaires",
         "Employés ou ouvriers qualifiés",
-        "Employés ou ouvriers non qualifiés",
+        "Employés ou ouvriers peu qualifiés",
         "Autres"
       )),
       taux_str = paste0(taux, symbole_pourcentage),
       tooltip_value = paste0(profession, " : ", taux_str)
     )
-
+  
   data
 }
 
@@ -112,7 +112,7 @@ generateDTDonutChartSecteur <- function(dat) {
       taux_str = paste0(taux, symbole_pourcentage),
       tooltip_value = paste0(secteur, " : ", taux_str)
     )
-
+  
   data
 }
 
@@ -154,7 +154,7 @@ generateCaptionTitre <- function(niveau) {
     titre,
     niveau,
     "."
-  
+    
   )
   caption_titre
 }
@@ -196,7 +196,7 @@ generate_stat_comment_1 <- function(x, infobulle_str, info_str, column, symbole)
   } else {
     text_info2 <- NULL
   }
-
+  
   labellize_stats_end_i(
     stat1_str = text_info1, stat2_str = text_info2, info_str = info_str, infobulle_str = infobulle_str
   )
@@ -323,7 +323,7 @@ subset_dat_with_subchoice_donuts <- split(subset_dat_with_subchoice, subset_dat_
 ########################Pour BARCHART choix secondaire#####################################################
 
 subset_dat_with_subchoice_barchart <- lapply(split(subset_dat_with_subchoice, subset_dat_with_subchoice$Code), function(x, x0) {
-  z <- bind_rows(x, x0)
+  z <- bind_rows(x, x0)|> arrange(Code)
   z$Libelle_Menu <- factor(z$Libelle_Menu, levels = z$Libelle_Menu)
   z
 }, subset_dat_eds)
@@ -379,7 +379,7 @@ tx_en_emploi_labels <- lapply(
   generate_stat_comment_1,
   infobulle_str = variables_diplome %>%
     filter(Nom_colonne == "taux_emploi") %>% pull(Bulle),
-  info_str = "En emploi",
+  info_str = "Taux d'emploi",
   column = "taux_emploi",
   symbole = " %"
 )
@@ -430,7 +430,7 @@ revenu_travail_labels <- lapply(
 correspondance_ok_labels <- lapply(
   datasets_subsets_barchart,
   generate_stat_comment_2,
-  info_str = "jugent leur emploi cohérent avec leur formation initiale",
+  info_str = "jugent leur emploi en correspondance avec leur formation initiale",
   column = "correspondance_ok",
   symbole = " %"
 )
@@ -438,7 +438,7 @@ correspondance_ok_labels <- lapply(
 competence_ok_labels <- lapply(
   datasets_subsets_barchart,
   generate_stat_comment_2,
-  info_str = "estiment être employés sous leur niveau de compétence",
+  info_str = "estiment être employés à leur niveau de compétence",
   column = "competence_ok",
   symbole = " %"
 )
@@ -462,15 +462,15 @@ saveRDS(correspondance_ok_labels, "diplomes/data/correspondance_ok_labels.RDS")
 saveRDS(competence_ok_labels, "diplomes/data/competence_ok_labels.RDS")
 
 file.copy("src-templates/graphics-settings.R",
-  "diplomes/graphics-settings.R",
-  overwrite = TRUE
+          "diplomes/graphics-settings.R",
+          overwrite = TRUE
 )
 file.copy("src-templates/shiny-elements.R",
-  "diplomes/shiny-elements.R",
-  overwrite = TRUE
+          "diplomes/shiny-elements.R",
+          overwrite = TRUE
 )
 file.copy("src-templates/www",
-  "diplomes",
-  recursive = TRUE,
-  overwrite = TRUE
+          "diplomes",
+          recursive = TRUE,
+          overwrite = TRUE
 )
