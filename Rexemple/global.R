@@ -111,7 +111,7 @@ caption_part_2 <- paste0(
 )
 #TOOLTIP
 concat_value <- function(df, nom_colonne) {
-  if (nom_colonne != "heurstag") {
+  if (nom_colonne != "heurstag" & nom_colonne!="heurstag_sal") {
     df["taux_str"] <- paste0(df[[nom_colonne]], "%")
   } else {
     df["taux_str"] <- paste0(df[[nom_colonne]], "h")
