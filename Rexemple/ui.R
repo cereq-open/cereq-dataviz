@@ -311,7 +311,7 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Part d'entreprises formatrices toutes formes"
+          "Part d'entreprises formatrices cours et stages et autres formes"
           ,
           tags$i(
             class = "fas fa-info-circle",
