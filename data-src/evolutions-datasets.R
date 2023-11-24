@@ -7,7 +7,7 @@ library(htmltools)
 
 ## augment tab_inegalites  ----
 
-tab_evolution <- read_parquet("data/base_evolution.parquet") %>%
+tab_evolution <- read_excel("data/tab_evolution vf.xlsx") %>%
   rename(diplome = Libelle_Menu, annee = Année) |>
   mutate(
     annee = factor(annee),
