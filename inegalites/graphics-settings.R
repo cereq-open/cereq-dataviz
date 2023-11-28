@@ -70,7 +70,7 @@ theme_set(
     legend.box.spacing = unit(0, "cm"),
     legend.margin = margin(10, 10, 10, 10),
     legend.text = element_text(size = fs_legend),
-    plot.margin = unit(c(t = 0, r = 10, l = 10, b = 10), "pt")
+    plot.margin = unit(c(t = 10, r = 10, l = 10, b = 10), "pt")
   )
 )
 

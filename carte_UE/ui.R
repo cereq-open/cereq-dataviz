@@ -70,7 +70,8 @@ ui <-
       )
     ),
     br(),
-    fluidRow(column (width=6,
+    fluidRow(
+      column (width=6,
                      radioGroupButtons(
                        inputId = "annee",
 
