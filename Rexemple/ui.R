@@ -279,6 +279,9 @@ ui <- fluidPage(
   #PART FORMATRICE COURS ET STAGE 
   br(),
   fluidRow(
+    
+  
+    
     column(
       width = 6,
       div(
@@ -300,10 +303,10 @@ ui <- fluidPage(
         )
       )
     ), 
-    
+
     
     #PART FROMATRICE TOUTES FORMES 
-    br(),
+
     column(
       width = 6,
       div(
@@ -325,11 +328,13 @@ ui <- fluidPage(
         )
       )
     )
+ 
   ),
-  
-  #TPF
   br(),
+  #TPF
+
   fluidRow(
+  
     column(
       width = 6,
       div(
@@ -354,7 +359,7 @@ ui <- fluidPage(
     
     
     #TAUX ACCES
-    br(),
+
     column(
       width = 6,
       div(
@@ -377,9 +382,11 @@ ui <- fluidPage(
       )
     )
   ),
-  #DURE MOYENNE PAR STAGIAIRE
   br(),
+  #DURE MOYENNE PAR STAGIAIRE
+
   fluidRow(
+   
     column(
       width = 6,
       div(
@@ -403,7 +410,7 @@ ui <- fluidPage(
       
     ),
     #NOMBRE D HEURE DE FORMATION PAR SALARIE
-    br(),
+ 
     column(
       width = 6,
       div(
