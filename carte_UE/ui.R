@@ -147,10 +147,7 @@ ui <-
       
       
       
-      br(),
-      br(),
-      br(),
-      br(),
+  
       
       
       fluidRow(
@@ -217,16 +214,15 @@ ui <-
         #  width =1),
         
 
-      
-      #saut de ligne qui marche pas
+
       fluidRow(
         column(width= 12,  class = "h1")
       ),
-      #saut de ligne qui marche pas
+   
       fluidRow(
         column(width= 12,  class = "h1")
       ),
-      #saut de ligne qui marche pas
+     
       fluidRow(
         column(width= 12,  class = "h1")
       ),
