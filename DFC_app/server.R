@@ -109,11 +109,13 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_courses", caption_part_1
-                         #                       , generateTitle(titre)
-    )
-    girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
+    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_courses", caption_part_1)
+    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
+    else {
+      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_courses", caption_part_1)
+      girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
+ 
   })
   
   
@@ -126,11 +128,13 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_form", caption_part_1
-                         #                       , generateTitle(titre)
-    )
-    girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
+    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_form", caption_part_1)
+    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
+    else {
+      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_form", caption_part_1)
+      girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
+    
   })
   
   
@@ -141,11 +145,13 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_tpf", caption_part_1
-                         #                       , generateTitle(titre)
-    )
-    girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
+    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_tpf", caption_part_1)
+    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
+    else {
+      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_tpf", caption_part_1)
+      girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
+    
   })
   
   
@@ -157,11 +163,13 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag", caption_part_1
-                         #                       , generateTitle(titre)
-    )
-    girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
+    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag", caption_part_1)
+    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
+    else {
+      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "heurstag", caption_part_1)
+      girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
+    
   })
   
   
@@ -171,12 +179,14 @@ server <- function(input, output,session) {
     gg <- plot_only_legend(filtered_testpivot_long())
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
-    
-    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag_sal", caption_part_1
-                         #                       , generateTitle(titre)
-    )
-    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
+
+   
+   if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+   { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag_sal", caption_part_1)
+   girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
+   else {
+     gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "heurstag_sal", caption_part_1)
+     girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
   })
   #################################################################
   

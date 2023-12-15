@@ -49,6 +49,7 @@ caption_part_1  <- readRDS("data/caption_part_1.RDS")
 colors2 <- readRDS("data/colors2.RDS")
 colors  <- readRDS("data/colors.RDS")
 colors_large  <- readRDS("data/colors_large.RDS")
+colors_fin  <- readRDS("data/colors_fin.RDS")
 # Couleurs des barplots
 
 
