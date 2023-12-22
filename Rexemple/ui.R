@@ -27,22 +27,6 @@ url_link<-"https://www.linkedin.com/shareArticle?mini=true&url=https://cereq-dat
 
 
 
-EFE_1_nodupkey <- EFE_1 %>% distinct(secteur, .keep_all = TRUE)
-
-ensemble = list('Ensemble des secteurs')
-liste_secteur <- as.list(sort(EFE_1_nodupkey$secteur))
-liste_secteur[17] <- NULL
-liste_secteur2 <- c(ensemble, liste_secteur)
-
-
-EFE_1_nodupkey_taille <- EFE_1 %>% distinct(taille, .keep_all = TRUE)
-
-ensemble_liste_taille = list('Ensemble')
-liste_taille <- as.list((EFE_1_nodupkey_taille$taille))
-liste_taille[1] <- NULL
-liste_taille2 <- c(ensemble_liste_taille, liste_taille)
-
-
 ui <- fluidPage(
   theme = bs_theme(version = 5, primary = "#008b99"),
   tags$head(
@@ -135,19 +119,15 @@ ui <- fluidPage(
   fluidRow(
     column(
       
-      width =8,
+      width =4,
       
       div(
         class = "custom-border-box",
         tags$p(
           class= "texte-stat-info",
-          htmlOutput("titre_formatrice")
-        ),
-        fluidRow(
-          column(
-            width=6,
-            
-            tags$p(
+          htmlOutput("titre_formatrice_CS"),
+          htmlOutput("sous_titre_formatrice_CS"),
+                tags$p(
               class = "texte-stat-info",
               
               "Les principaux domaines de formation",
@@ -166,26 +146,25 @@ ui <- fluidPage(
 - Communication écrite ou orale
 - Savoir lire écrire compter 
 - Transition écologique
-- Autres domaines
-
-              "
-              )),
+- Autres domaines ")),
             htmlOutput("domaine"),
             tags$head(tags$style("#domaine{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
-                                }" ) )),
-          
-          column(
-            width=6,
-            
+                                }" ) )))),
+    
+        column(
+          width =4,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class= "texte-stat-info",
+          htmlOutput("titre_formatrice"),
+          htmlOutput("sous_titre_formatrice"),
             tags$p(
               class = "texte-stat-info",
               
-              
               "Les principales raisons qui ont limité l'effort de formation",
-              
-              
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
@@ -199,29 +178,14 @@ ui <- fluidPage(
 - Efforts de formation importants antérieurment 
 - Charge de travail trop lourde ou manque de temps 
 - Crise sanitaire
-- Autres raisons 
-                      
-"
-              )),
+- Autres raisons ")),
             
             htmlOutput("frein"),
             tags$head(tags$style("#frein{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
-                                }" ) )))))
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    ,
+                                }" ) ))))
+,
     
     
     
@@ -230,6 +194,7 @@ ui <- fluidPage(
       div(
         class = "custom-border-box",
         htmlOutput("titre_non_formatrice"),
+        htmlOutput("sous_titre_non_formatrice"),
         tags$p(
           class = "texte-stat-info",
           
@@ -342,17 +307,17 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Taux de participation financière des entreprises"
+          "Part d'entreprises formatrices uniquement en autres formes"
           ,
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Part de la masse salariale consacrée aux dépenses de formation"
+            title =  "Part d'entreprises formatrices qui ont organisé uniquement des formations de type autres formes"
           )
         ),
         div(
           style = "max-width:800px; margin-left:auto; margin-right:auto;",
-          girafeOutput("plot_TPF", height = NULL)
+          girafeOutput("plot_autres_formes", height = NULL)
         )
       )
     ), 

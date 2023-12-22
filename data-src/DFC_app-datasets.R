@@ -173,13 +173,166 @@ EFE_1$secteur_large  <- fct_relevel(EFE_1$secteur_large, c(
 
 
 
-colors_fin<-setNames(c("#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB",
+EFE_1$secteur  <- fct_relevel(EFE_1$secteur, c( 
+  "Ensemble des secteurs",  "Service ensemble", "Commerce ensemble",   "Industrie ensemble",  
+  "Activités auxiliaires de services financiers et d'assurance",
+  "Activités créatives, artistiques et de spectacle",
+  "Activités de location",                                     
+  "Activités des organisations associatives",   
+  "Activités des services financiers"   ,                       
+  "Activités immobilières",                                     
+  "Activités juridiques et comptables"   ,                      
+  "Administration publique et santé" ,
+  "Agriculture, sylviculture et pêche",
+  "Cockefaction et raffinage"   ,                               
+  "Commerce de détail",                    
+  "Commerce de gros"  ,                                         
+  "Commerce et réparation d'automobiles" ,         
+  "Construction" ,                                             
+  "Edition, Production de films cinématographiques"  ,  
+  "Enseignement",   
+  "Fabrication de meubles"     ,                                
+  "Fabrication de produits informatiques"    ,                  
+  "Fabrication de textiles"    ,   
+  "Hébergement, Restauration"      ,                            
+  "Industrie automobile"    ,   
+  "Industrie du papier et du carton" ,                          
+  "Industries alimentaire" ,                
+  "Industries extractives"   ,                                  
+  "Métallurgie"  ,                     
+  "Production et distribution d'électricité",              
+  "Transports"))
+
+colors_fin<-setNames(c("#046B76","#046B76","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB",
                        "#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#046B76","#7FC4CB",
                        "#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB","#7FC4CB",
                        "#7FC4CB","#046B76"),unique(EFE_1$secteur))
 
 colors_large<-setNames(c("#7FC4CB","#7FC4CB","#046B76","#7FC4CB"),unique(EFE_1_large$secteur))
 
+
+choix_service <- c( 
+  "Service ensemble",
+  "Activités auxiliaires de services financiers et d'assurance",
+  "Activités créatives, artistiques et de spectacle",
+  "Activités de location",
+  "Activités des organisations associatives",
+  "Activités des services financiers",
+  "Activités immobilières",
+  "Activités juridiques et comptables",
+  "Administration publique et santé",
+  "Edition, Production de films cinématographiques",
+  "Enseignement",
+  "Hébergement, Restauration")
+
+choix_industrie <- c( 
+  "Industrie ensemble", 
+  "Cockefaction et raffinage",
+  "Construction",
+  "Fabrication de meubles",
+  "Fabrication de produits informatiques",
+  "Fabrication de textiles",
+  "Industrie automobile",
+  "Industrie du papier et du carton",
+  "Industries alimentaire",
+  "Industries extractives",
+  "Métallurgie",
+  "Production et distribution d'électricité")
+
+choix_commerce <- c( 
+  "Commerce ensemble", 
+  "Agriculture, sylviculture et pêche",
+  "Commerce de détail",
+  "Commerce de gros",
+  "Commerce et réparation d'automobiles",
+  "Transports")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+plot_barchart_large <- function(df, y_col, caption_texte, titre = NULL) {
+  DT <- concat_value(df, y_col)
+  ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
+    geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 0.9),vjust= 2, size= 2, color = "white") + scale_fill_manual(values = colors_large) + 
+    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +
+    scale_x_discrete(labels = c("1 à 3", "4 à 9", "10 à 19","20 à 49","50 à 249","250 à 499", "500 à 999", "1000 et +", expression(bold("Ensemble")) )) 
+}
+    
+    
+ theme_large<- theme_set(
+      theme(
+        line = element_line(colour = "black", linewidth = 0.1),
+        title = element_text(family = "Arimo", size = 6),
+        text = element_text(size = 11, family = "Arimo"),
+        panel.background = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(color = "#008B99", size = 10, hjust = 0.4, vjust = 2.5),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+        plot.title = element_textbox_simple(hjust = 0, size = 17, color = "#008B99"),
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.key = element_blank(),
+        plot.caption.position = "plot",
+        legend.position = "top",
+        legend.justification = "center",
+        plot.caption = element_textbox_simple( hjust = 100, color = "#808080", size = 10 , margin = margin(t = -1)) 
+      )
+    )
+
+
+
+plot_barchart_fin <- function(df, y_col, caption_texte, titre = NULL) {
+  DT <- concat_value(df, y_col)
+  ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
+    geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 0.9),vjust= 2, size= 2, color = "white") + scale_fill_manual(values = colors_fin) + 
+    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +
+    scale_x_discrete(labels = c("moins de 50", "50 et plus"  , expression(bold("Ensemble")) )) }
+  
+  
+  theme_fin<-  theme_set(
+    theme(
+      line = element_line(colour = "black", linewidth = 0.1),
+      title = element_text(family = "Arimo", size = 6),
+      text = element_text(size = 11, family = "Arimo"),
+      panel.background = element_blank(),
+      panel.grid = element_blank(),
+      axis.ticks = element_blank(),
+      axis.text.x = element_text(color = "#008B99", size = 8 , hjust = 0.4, vjust = 5),
+      axis.text.y = element_blank(),
+      axis.title.y = element_blank(),
+      axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+      plot.title = element_textbox_simple(hjust = 0, size = 17, color = "#008B99"),
+      legend.title = element_blank(),
+      legend.background = element_blank(),
+      legend.key = element_blank(),
+      plot.caption.position = "plot",
+      legend.position = "top",
+      legend.justification = "center",
+      plot.caption = element_textbox_simple( hjust = 100, color = "#808080", size = 10 , margin = margin(t = -1)) 
+    )
+  )
+  
+     
+       
+  
+
+
+
+saveRDS(plot_barchart_fin, file = "DFC_app/data/plot_barchart_fin.RDS")
+saveRDS(plot_barchart_large, file = "DFC_app/data/plot_barchart_large.RDS")
 
 
 saveRDS(EFE_1_large, file = "DFC_app/data/EFE_1_large.RDS")
@@ -192,16 +345,23 @@ saveRDS(source, file = "DFC_app/data/source.RDS")
 saveRDS(caption_part_1, file = "DFC_app/data/caption_part_1.RDS")
 
 
+saveRDS(choix_commerce, file = "DFC_app/data/choix_commerce.RDS")
+
+saveRDS(choix_industrie, file = "DFC_app/data/choix_industrie.RDS")
+
+saveRDS(choix_service, file = "DFC_app/data/choix_service.RDS")
 
 
-saveRDS(colors2, file = "DFC_app/data/colors2.RDS")
+
 saveRDS(colors, file = "DFC_app/data/colors.RDS")
 
 saveRDS(colors_large, file = "DFC_app/data/colors_large.RDS")
 
+saveRDS(colors_fin, file = "DFC_app/data/colors_fin.RDS")
 
 
+saveRDS(theme_fin, file = "DFC_app/data/theme_fin.RDS")
 
-
+saveRDS(theme_large, file = "DFC_app/data/theme_large.RDS")
 
 
