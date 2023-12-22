@@ -87,7 +87,7 @@ ui <- fluidPage(
   fluidRow(
     column(
       width = 8,
-      headerPanel("Menu Secteur"),
+      headerPanel("Choisir un secteur"),
       
       # Sidebar with a slider input for number of observations
    

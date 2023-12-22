@@ -46,8 +46,11 @@ server <- function(input, output,session) {
     dplyr::filter(EFE_1_large, secteur  %in% c("Ensemble des secteurs", input$Secteur_fin ) )
   })
   
+  
+  
+  
   output$Secteur_large <- renderUI({
-    radioGroupButtons("Secteur_large",  choices = unique(EFE_1$secteur_large),
+    radioGroupButtons("Secteur_large",  choices = c("Ensemble","Commerce", "Industrie","Service"),
                  status = "primary",
                  selected = "Ensemble",
                  checkIcon = list(
@@ -59,46 +62,30 @@ server <- function(input, output,session) {
   
   
   
-  
+
   
   
   
   output$Secteur_fin <- renderUI({
-    x <- input$Secteur_large
-    if (any(
-      is.null(x)
-    )) 
-      return("Select")
-    choice2 <- EFE_1[EFE_1$secteur_large == x, 
-                  "secteur"]
-    selectInput("Secteur_fin", "Secteur fin", choices =choice2, selected = "Ensemble des secteurs")
+  
+   if  (input$Secteur_large == "Ensemble")
+     pickerInput("Secteur_fin", "Ensemble des secteurs", choices =c("Ensemble des secteurs"), selected = "Ensemble des secteurs")
+    
+    
+    else if  (input$Secteur_large == "Service")
+      pickerInput("Secteur_fin", h1("Service secteur fin"), choices =choix_service, selected = "Service ensemble" 
+       )
+    
+    
+    else  if  (input$Secteur_large == "Commerce")
+      pickerInput("Secteur_fin", "Commerce secteur fin", choices =choix_commerce, selected = "Commerce ensemble")
+    
+    
+    else  if  (input$Secteur_large == "Industrie")
+      pickerInput("Secteur_fin", "Industrie secteur fin", choices =choix_industrie, selected = "Industrie ensemble")
   })
   
   
-  # TAUX ACCES
-  output$plot_tx_acc <- renderGirafe({
-    
-    gg <- plot_only_legend(filtered_testpivot_long())
-    legende <- get_legend(gg)
-    gg1 <- as_ggplot(legende)
-    
-   
-                               
-   
-                               
-                               
-    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
-    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_acc", caption_part_1)
-      girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
-    else {
-      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_acc", caption_part_1)
-      girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
-
-   
-                                             
-    
-    
-  })
   
   ##############################################
   # PART ENTREPRISE FORMATRICE TTES FORMES
@@ -113,12 +100,31 @@ server <- function(input, output,session) {
     { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_courses", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
-      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_courses", caption_part_1)
+      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_courses", caption_part_1) 
       girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
  
   })
   
   
+  # TAUX ACCES
+  output$plot_tx_acc <- renderGirafe({
+    
+    gg <- plot_only_legend(filtered_testpivot_long())
+    legende <- get_legend(gg)
+    gg1 <- as_ggplot(legende)
+    
+    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_acc", caption_part_1)
+    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
+    else {
+      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_acc", caption_part_1)
+      girafe(ggobj =gg2_bis , height_svg = 5, width_svg  = 6)}
+    
+    
+    
+    
+    
+  })
   
   # PART ENTREPRISE FORMATRICE TTES FORMES
   

@@ -50,6 +50,21 @@ colors2 <- readRDS("data/colors2.RDS")
 colors  <- readRDS("data/colors.RDS")
 colors_large  <- readRDS("data/colors_large.RDS")
 colors_fin  <- readRDS("data/colors_fin.RDS")
+
+
+choix_industrie <-readRDS("data/choix_industrie.RDS")
+
+
+choix_service<-readRDS("data/choix_service.RDS")
+
+
+choix_commerce<-readRDS("data/choix_commerce.RDS")
+
+plot_barchart_fin<-readRDS("data/plot_barchart_fin.RDS")
+plot_barchart_large<-readRDS("data/plot_barchart_large.RDS")
+theme_large <- readRDS("data/theme_large.RDS")
+theme_fin <- readRDS("data/theme_fin.RDS")
+
 # Couleurs des barplots
 
 
@@ -89,73 +104,10 @@ generateTitle <- function(title, infobulle_str = NULL) {
 }
 
 
-theme_large <- theme_set(
-  theme(
-    line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo", size = 6),
-    text = element_text(size = 11, family = "Arimo"),
-    panel.background = element_blank(),
-    panel.grid = element_blank(),
-    axis.ticks = element_blank(),
-    axis.text.x = element_text(color = "#008B99", size = 10, hjust = 0.4, vjust = 2.5),
-    axis.text.y = element_blank(),
-    axis.title.y = element_blank(),
-    axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
-    plot.title = element_textbox_simple(hjust = 0, size = 17, color = "#008B99"),
-    legend.title = element_blank(),
-    legend.background = element_blank(),
-    legend.key = element_blank(),
-    plot.caption.position = "plot",
-    legend.position = "top",
-    legend.justification = "center",
-    plot.caption = element_textbox_simple( hjust = 100, color = "#808080", size = 10 , margin = margin(t = -1)) 
-  )
-)
 
 
 
 
-theme_fin <- theme_set(
-  theme(
-    line = element_line(colour = "black", linewidth = 0.1),
-    title = element_text(family = "Arimo", size = 6),
-    text = element_text(size = 11, family = "Arimo"),
-    panel.background = element_blank(),
-    panel.grid = element_blank(),
-    axis.ticks = element_blank(),
-    axis.text.x = element_text(color = "#008B99", size = 8, hjust = 0.4, vjust = 5),
-    axis.text.y = element_blank(),
-    axis.title.y = element_blank(),
-    axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
-    plot.title = element_textbox_simple(hjust = 0, size = 17, color = "#008B99"),
-    legend.title = element_blank(),
-    legend.background = element_blank(),
-    legend.key = element_blank(),
-    plot.caption.position = "plot",
-    legend.position = "top",
-    legend.justification = "center",
-    plot.caption = element_textbox_simple( hjust = 100, color = "#808080", size = 10 , margin = margin(t = -1)) 
-  )
-)
-
-plot_barchart_large <- function(df, y_col, caption_texte, titre = NULL) {
-  DT <- concat_value(df, y_col)
-  ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
-    geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 0.9),vjust= 2, size= 2, color = "white") + scale_fill_manual(values = colors_large) + 
-    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +
-    scale_x_discrete(labels = c("1 à 3", "4 à 9", "10 à 19","20 à 49","50 à 249","250 à 499", "500 à 999", "1000 et +", expression(bold("Ensemble")) )) +
-    theme_large
-}
-
-
-plot_barchart_fin <- function(df, y_col, caption_texte, titre = NULL) {
-  DT <- concat_value(df, y_col)
-  ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
-    geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 0.9),vjust= 2, size= 2, color = "white") + scale_fill_manual(values = colors_fin) + 
-    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +
-    scale_x_discrete(labels = c("moins de 50", "50 et plus"  , expression(bold("Ensemble")) )) +
-    theme_fin
-}
 
 
 
