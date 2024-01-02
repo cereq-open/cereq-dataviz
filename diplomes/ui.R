@@ -53,7 +53,7 @@ fluidPage(
       tags$table(
         class = "stat-table",
         tags$tr(
-     
+          
           tags$td(uiOutput("tx_en_edi")),
           tags$td(uiOutput("tx_a_tps_partiel")),
           tags$td(uiOutput("revenu_median"))

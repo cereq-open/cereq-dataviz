@@ -31,10 +31,10 @@ server <- function(input, output,session) {
   
   output$downloadData <- downloadHandler(
     filename = function() {
-      paste("base_load_europe", ".xlsx", sep = "")
+      paste("téléchargement_indicateur_européens", ".xlsx", sep = "")
     },
     content = function(file) {
-      file.copy("data/base_load_europe.xlsx", file)
+      file.copy("data/téléchargement_indicateur_européens.xlsx", file)
     }
   )
   

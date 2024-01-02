@@ -48,7 +48,7 @@ shinyServer(function(input, output, session) {
       individual = TRUE
     )
   })
-
+  
   observeEvent(input$sub_key, {
     if (isTruthy(input$sub_key)) {
       global$data_key_value <- input$sub_key
@@ -56,33 +56,34 @@ shinyServer(function(input, output, session) {
       global$data_key_value <- input$level_diploma
     }
   })
-
+  
   observeEvent(input$level_diploma, {
     global$data_key_value <- input$level_diploma
   })
-
+  
   ###################### barplot ######################
   output$graph_situation_apres_3_ans <- renderGirafe({
+
     gg <- generatePlotSpec(
       .data = barchart_datasets_subsets[[global$data_key_value]],
       .caption = barchart_captions_subsets[[global$data_key_value]]
     )
-
+    
     height_svg <- graph_sizes()$hauteur_2_barre
     if (global$data_key_value %in% "100") {
       height_svg <- graph_sizes()$hauteur_1_barre
     }
-
+    
     girafe(
       ggobj = gg,
       width_svg = graph_sizes()$largeur_bar_chart,
       height_svg = height_svg
     )
   })
-
+  
   ###################### Donut Charts ######################
-
-
+  
+  
   output$plot_repartition_par_profession <- renderGirafe({
     gg <- generateDonutProfession(
       .data = donut_profession_datasets_subsets[[global$data_key_value]],
@@ -95,7 +96,7 @@ shinyServer(function(input, output, session) {
       height_svg = graph_sizes()$hauteur_donut_chart
     )
   })
-
+  
   output$plot_repartition_par_secteur <- renderGirafe({
     gg <- generateDonutSecteur(
       .data = donut_secteur_datasets_subsets[[global$data_key_value]],
@@ -110,42 +111,42 @@ shinyServer(function(input, output, session) {
   })
   
   ################### Titre #############################################
-output$titre_2 <- renderUI({
-donuts_captions_titre[[global$data_key_value]]
-  
+  output$titre_2 <- renderUI({
+    donuts_captions_titre[[global$data_key_value]]
+    
   })
   ###################### Create Statistics ######################
-
+  
   output$tx_en_emploi <- renderUI({
     tx_en_emploi_labels[[global$data_key_value]]
   })
-
+  
   output$tx_chomage <- renderUI({
     tx_chomage_labels[[global$data_key_value]]
   })
-
+  
   output$tx_en_edi <- renderUI({
     taux_edi_labels[[global$data_key_value]]
   })
-
+  
   output$tx_a_tps_partiel <- renderUI({
     part_tps_partiel_labels[[global$data_key_value]]
   })
-
+  
   output$revenu_median <- renderUI({
     revenu_travail_labels[[global$data_key_value]]
   })
-
+  
   output$tx_jugent_coherent <- renderUI({
     correspondance_ok_labels[[global$data_key_value]]
   })
-
+  
   output$tx_estiment_ss_employes <- renderUI({
     competence_ok_labels[[global$data_key_value]]
   })
-
+  
   # Download Data --------------------------------------------------------------
-
+  
   output$downloadData <- downloadHandler(
     filename = function() {
       paste("OpenData_Cereq-Enq_Generation-Donnees_DIPLOME", ".xlsx", sep = "")

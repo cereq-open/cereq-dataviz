@@ -33,7 +33,7 @@ fluidPage(
   fluidRow(
     column(
       width = 12,
-      class = "p-2",
+      class = "td",
       girafeOutput("graph", height = NULL)
     )
   )

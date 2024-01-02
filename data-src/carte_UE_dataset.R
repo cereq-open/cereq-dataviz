@@ -45,6 +45,10 @@ Europe$taille <- fct_recode(Europe$taille,
 
 Europe_2 <- sp::merge(Europe , tx_form, by.x = "KEY", by.y = "KEY")
 
+
+Europe_3 <- sp::merge(UE , tx_form, by.x = "KEY", by.y = "KEY")
+write.xlsx(Europe_3,"data/Europe_3.xlsx", sep=";")
+
 # Création liste pour menus déroulants
 
 Europe_nodupkey <- Europe %>% distinct(secteur, .keep_all = TRUE)

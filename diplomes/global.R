@@ -44,6 +44,46 @@ couleurs_donut_chart <- c("#008B99", "#256299", "#EF5350", "#F8AC00", "#7B9A62")
 
 # barchart -----
 generatePlotSpec <- function(.data, .caption) {
+  
+  .data$Libelle_complet <- factor(.data$Libelle_complet,                                    # Change ordering manually
+                    levels = c( "Non-diplômés",
+                                "Diplômes du supérieur long",
+                                "Diplômes du supérieur court",
+                                "Diplômes du secondaire",
+                                "Diplômes Bac+2 à Bac+4 Santé/Social",
+                                "Baccalauréats généraux",
+                                "CAP et autres diplômes de niveau 3",
+                          
+                                "CAP et autres diplômes de niveau 3 - spécialité industrielle",
+                                "CAP et autres diplômes de niveau 3 - spécialité tertiaire",
+                                "Baccalauréats professionnels, BP-BT",
+                                "Bac professionnels, BP-BT - spécialité industrielle",
+                                "Bac professionnels, BP-BT - spécialité tertiaire",
+                                "Bacccalauréats technologiques",
+                                "Bac technologiques - spécialité industrielle",
+                                "Bac technologiques - spécialité tertiaire",
+                                "BTS-DUT - autre Bac+2 hors Santé Social",
+                                "BTS-DUT - autre Bac+2 - spécialité industrielle",
+                                "BTS-DUT - autre Bac+2 - spécialité tertiaire",
+                                "Licences professionnelles",
+                                "Licences pro. - domaine LSH, gestion, droit",
+                                "Licences pro. - domaine maths, sciences et techniques, STAPS",
+                                "Diplômes Bac+3 et Bac+4",
+                                "Diplômes Bac+3 et Bac+4 - domaine LSH, gestion, droit",
+                                "Diplômes Bac+3 et Bac+4 - domaine maths, sciences et techniques, STAPS",
+                                "Masters",
+                                "Master - domaine LSH, gestion, droit",
+                                "Master - domaine maths, sciences et techniques, STAPS",
+                                "Diplômes d'Ecoles",
+                                "Ecoles de commerce",
+                                "Ecoles d'ingénieurs",
+                                "Doctorats",
+                                "Doctorats du domaine de la Santé",
+                                "Doctorats hors Santé",
+                                
+                                
+                                "Ensemble des jeunes sortis de formation intiale en 2017"))
+  
   ggplot(.data, aes(fake_axis, taux, fill = emploi)) +
     geom_col_interactive(width = 1, color = "white", mapping = aes(
       data_id = emploi,

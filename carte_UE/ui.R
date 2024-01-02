@@ -70,7 +70,8 @@ ui <-
       )
     ),
     br(),
-    fluidRow(column (width=6,
+    fluidRow(
+      column (width=6,
                      radioGroupButtons(
                        inputId = "annee",
 
@@ -146,11 +147,87 @@ ui <-
       
       
       
-      br(),
-      br(),
-      br(),
-      br(),
+  
       
+      
+      fluidRow(
+        #PART D ENTREPRISE FORMATRICE 
+        
+        column(
+          width =6,
+          div(
+            class = "custom-border-box",
+            tags$p(
+              class = "texte-stat-info",
+              
+              "Part d'entreprises formatrices cours et stages"
+              ,
+              tags$i(
+                class = "fas fa-info-circle",
+                style = "color: #008B99; font-size: 16px;",
+                title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
+              )
+            ),
+            
+            
+            
+            
+            
+            leafletOutput("part_form"),
+            uiOutput("legende2"),
+            tags$head(tags$style("#part_form{color: #008b99;
+                                 font-size: 20px;
+                                 font-style: bold;
+                                }" ) )
+          ) ),
+        column(
+          width =6,
+          div(  
+            class = "custom-border-box",
+            tags$p(
+              class = "texte-stat-info",
+              
+              "Part d'entreprises formatrices autres formes"
+              ,
+              tags$i(
+                class = "fas fa-info-circle",
+                style = "color: #008B99; font-size: 16px;",
+                title = "Taux d'entreprises formatrices hors cours et stages :
+                - formation sur le tas, encadrée;
+                - rotation organisée sur les postes de travail, échanges ou détachements;
+                -formation dans le cadre de congrès, d'ateliers, de foires commerciales ou de conférences;
+                - cercles d'apprentissage ou de qualité;
+                - autoformation"
+              )
+            ),
+            leafletOutput("Autre_forme"),
+            uiOutput("legende3"),
+            tags$head(tags$style("#TPF{color: #008b99;
+                                 font-size: 20px;
+                                 font-style: bold;
+                                }" ) )
+          ) )),
+       
+        
+        # ESPACE 
+        # column(
+        #  width =1),
+        
+
+
+      fluidRow(
+        column(width= 12,  class = "h1")
+      ),
+   
+      fluidRow(
+        column(width= 12,  class = "h1")
+      ),
+     
+      fluidRow(
+        column(width= 12,  class = "h1")
+      ),
+      
+      #Part d'entreprises formatrices autres formes
       
       fluidRow(
         #TAUX ACCES
@@ -180,79 +257,6 @@ ui <-
                                  font-style: bold;
                                 }" ) )
           )),
-        
-        # ESPACE 
-        # column(
-        #  width =1),
-        
-        #PART D ENTREPRISE FORMATRICE 
-        
-        column(
-          width =6,
-          div(
-            class = "custom-border-box",
-            tags$p(
-              class = "texte-stat-info",
-              
-              "Part d'entreprises formatrices"
-              ,
-              tags$i(
-                class = "fas fa-info-circle",
-                style = "color: #008B99; font-size: 16px;",
-                title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
-              )
-            ),
-            
-            
-            
-            
-            
-            leafletOutput("part_form"),
-            uiOutput("legende2"),
-            tags$head(tags$style("#part_form{color: #008b99;
-                                 font-size: 20px;
-                                 font-style: bold;
-                                }" ) )
-          ) )),
-      
-      #saut de ligne qui marche pas
-      fluidRow(
-        column(width= 12,  class = "h1")
-      ),
-      #saut de ligne qui marche pas
-      fluidRow(
-        column(width= 12,  class = "h1")
-      ),
-      #saut de ligne qui marche pas
-      fluidRow(
-        column(width= 12,  class = "h1")
-      ),
-      
-      #TAUX DE PARTICIPATION FINANCIERE
-      
-      fluidRow(
-        column(
-          width =6,
-          div(  
-            class = "custom-border-box",
-            tags$p(
-              class = "texte-stat-info",
-              
-              "Taux de formation autres formes"
-              ,
-              tags$i(
-                class = "fas fa-info-circle",
-                style = "color: #008B99; font-size: 16px;",
-                title = "Taux d'entreprises formatrices hors cours et stages"
-              )
-            ),
-            leafletOutput("Autre_forme"),
-            uiOutput("legende3"),
-            tags$head(tags$style("#TPF{color: #008b99;
-                                 font-size: 20px;
-                                 font-style: bold;
-                                }" ) )
-          ) ),
         
         
         #NOMBRE D HEURE DE COURS ET STAGES

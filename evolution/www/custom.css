@@ -66,6 +66,7 @@ p {
 .texte-stat-info {
   font-size: 18px;
   font-weight: bold;
+  text-align: left;
 }
 
 /* Styles pour la valeur des stats */

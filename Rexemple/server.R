@@ -32,27 +32,10 @@ server <- function(input, output,session) {
   
 
   
-  EFE_1$taille <- fct_relevel(EFE_1$taille, c("1 à 3", "4 à 9", "10 à 19","20 à 49","50 à 249","250 à 499", "500 à 999", "1000 et plus","Ensemble" ))
-  
-  EFE_1_nodupkey <- EFE_1 %>% distinct(secteur, .keep_all = TRUE)
-  
-  ensemble = list('Ensemble des secteurs')
-  liste_secteur <- as.list(sort(EFE_1_nodupkey$secteur))
-  liste_secteur[17] <- NULL
-  liste_secteur2 <- c(ensemble, liste_secteur)
   
   filtered_testpivot_long <- reactive({
     dplyr::filter(EFE_1, secteur  %in% c("Ensemble des secteurs", input$secteur ))
   })
-  
-  
-  
-  EFE_1_nodupkey_taille <- EFE_1 %>% distinct(taille, .keep_all = TRUE)
-  
-  ensemble_liste_taille = list('Ensemble')
-  liste_taille <- as.list((EFE_1_nodupkey_taille$taille))
-  liste_taille[1] <- NULL
-  liste_taille2 <- c(ensemble_liste_taille, liste_taille)
   
   
   # TAUX ACCES
@@ -63,7 +46,7 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_acc", caption_part_1
+    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_acc","ns_txacc",caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
@@ -79,7 +62,7 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_courses", caption_part_1
+    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_courses","ns_txcourses" ,caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
@@ -96,22 +79,22 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_form", caption_part_1
+    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_form","ns_txform", caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
   })
   
   
-  #TPF
-  output$plot_TPF <- renderGirafe({
+  #autres formes
+  output$plot_autres_formes <- renderGirafe({
     
     gg <- plot_only_legend(filtered_testpivot_long())
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_tpf", caption_part_1
+    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_autres","ns_txautres", caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
@@ -127,7 +110,7 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag", caption_part_1
+    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag","ns_heurstag" ,caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
@@ -142,7 +125,7 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag_sal", caption_part_1
+    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag_sal","ns_heurstag_sal" ,caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
@@ -153,14 +136,26 @@ server <- function(input, output,session) {
     paste0("<strong>","<font size=5px>","Chiffres clés par taille d'entreprises pour le secteur : "  ,"<font color=\"#008b99\">",filtered()$secteur)
     })
   
-  output$titre_formatrice <- renderText({
-    paste0("<strong>","<font size=5px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_courses, " % ","<strong>","<font size=5px>","<font color=\"#000000\">","d'entreprises formatrices : " )
+  output$titre_formatrice_CS <- renderText({
+    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_courses, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises formatrices en cours et stages" )
+  })
+  output$sous_titre_formatrice_CS <- renderText({
+    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
   })
   
+  output$titre_formatrice <- renderText({
+    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_form, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises formatrices toutes formes" )
+  })
+  output$sous_titre_formatrice <- renderText({
+    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+  })
   output$titre_non_formatrice <- renderText({
-    paste0("<strong>","<font size=5px>","Parmi les "  ,"<font color=\"#008b99\">",100-filtered()$tx_courses, " % ","<strong>","<font size=5px>","<font color=\"#000000\">","d'entreprises non formatrices : " )
+    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",100-filtered()$tx_form, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises non formatrices" )
   })
 
+  output$sous_titre_non_formatrice <- renderText({
+    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+  })
   
   filtered <- reactive({
     EFE_1 %>% filter(taille==input$taille & secteur==input$secteur) 
@@ -168,6 +163,7 @@ server <- function(input, output,session) {
   
   
   output$raison<- renderText({ 
+    if (100-filtered()$tx_form!=0){
     if (!is.na(filtered()$top3_e1)){
      out<-paste0("<font color=\"#008b99\">","<font-size=\"40px\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
@@ -194,9 +190,9 @@ server <- function(input, output,session) {
     }
     
     
+    }
     
-    
-    
+    else {out<-paste0("")}
     out
     
   })
@@ -204,6 +200,7 @@ server <- function(input, output,session) {
   
   
   output$domaine<-   renderText({
+    if (filtered()$tx_courses!=0){
     if (!is.na(filtered()$top3_c5)){
       out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_c5,"<font color=\"#008b99\">"," (",filtered()$top2_c5_tx,"&#xA0;%)","<br>",
@@ -231,7 +228,8 @@ server <- function(input, output,session) {
     
     
     
-    
+    }
+    else {out<-paste0("")}
     
     out
     
@@ -239,7 +237,7 @@ server <- function(input, output,session) {
   
   output$frein<-   renderText({  
     
-    
+    if (filtered()$tx_form!=0){
     if (!is.na(filtered()$top3_d3)){
       out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_d3,"<font color=\"#008b99\">"," (",filtered()$top1_d3_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_d3,"<font color=\"#008b99\">"," (",filtered()$top2_d3_tx,"&#xA0;%)","<br>",
@@ -267,8 +265,8 @@ server <- function(input, output,session) {
     
     
   
-   
-    
+    }
+    else {out<-paste0("")}
     out
     
   })
