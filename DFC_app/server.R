@@ -27,7 +27,9 @@ server <- function(input, output,session) {
   ################################### CL #################### CL ############################ CL #########################################################
   
   
-
+  filtered <- reactive({
+    EFE_1 %>% filter(taille %in% input$taille & secteur %in% input$Secteur_fin) 
+  })
 
   
   filtered_testpivot_long <- reactive({
@@ -62,26 +64,36 @@ server <- function(input, output,session) {
   
   
   
-
+  
+  
+  
+  output$taille <- renderUI({
+    
+    if  (isTRUE(input$secteur_large  %in% "Ensemble" || input$Secteur_fin  %in% "Ensemble des secteurs" || input$Secteur_fin  %in% "Service ensemble" ||input$Secteur_fin  %in% "Commerce ensemble" || input$Secteur_fin  %in% "Industrie ensemble"))
+      pickerInput("taille", choices =c("1 à 3 salariés", "4 à 9 salariés", "10 à 19 salariés","20 à 49 salariés","50 à 249 salariés","250 à 499 salariés", "500 à 999 salariés", "1000 salariés et plus", "Ensemble"), selected = "Ensemble")
+    
+    else 
+      pickerInput("taille", choices =c("Moins de 50 salariés", "50 et plus", "Ensemble"), selected = "Ensemble")
+  })
   
   
   
   output$Secteur_fin <- renderUI({
   
-   if  (input$Secteur_large == "Ensemble")
+   if  (isTRUE(input$Secteur_large == "Ensemble"))
      pickerInput("Secteur_fin", "Ensemble des secteurs", choices =c("Ensemble des secteurs"), selected = "Ensemble des secteurs")
     
     
-    else if  (input$Secteur_large == "Service")
+    else if  (isTRUE(input$Secteur_large == "Service"))
       pickerInput("Secteur_fin", h1("Service secteur fin"), choices =choix_service, selected = "Service ensemble" 
        )
     
     
-    else  if  (input$Secteur_large == "Commerce")
+    else  if  (isTRUE(input$Secteur_large == "Commerce"))
       pickerInput("Secteur_fin", "Commerce secteur fin", choices =choix_commerce, selected = "Commerce ensemble")
     
     
-    else  if  (input$Secteur_large == "Industrie")
+    else  if  (isTRUE(input$Secteur_large == "Industrie"))
       pickerInput("Secteur_fin", "Industrie secteur fin", choices =choix_industrie, selected = "Industrie ensemble")
   })
   
@@ -96,7 +108,7 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
     { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_courses", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
@@ -113,7 +125,7 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
     { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_acc", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
@@ -134,7 +146,7 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
     { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_form", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
@@ -151,7 +163,7 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
     { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_tpf", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
@@ -169,7 +181,7 @@ server <- function(input, output,session) {
     legende <- get_legend(gg)
     gg1 <- as_ggplot(legende)
     
-    if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+    if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
     { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
@@ -187,7 +199,7 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
 
    
-   if (input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) 
+   if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag_sal", caption_part_1)
    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
    else {
@@ -209,41 +221,40 @@ server <- function(input, output,session) {
   })
 
   
-  filtered <- reactive({
-    EFE_1 %>% filter(taille==input$taille & secteur==input$Secteur_fin) 
-  })
+
   
   
   output$raison<- renderText({ 
-    if (!is.na(filtered()$top3_e1)){
-     out<-paste0("<font color=\"#008b99\">","<font-size=\"40px\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$top3_e1,"<font color=\"#008b99\">"," (",filtered()$top3_e1_tx,"&#xA0;%)","<br>")
+    if (isTRUE(100-filtered()$tx_form!=0)){
+      if (!is.na(filtered()$top3_e1)){
+        out<-paste0("<font color=\"#008b99\">","<font-size=\"40px\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$top3_e1,"<font color=\"#008b99\">"," (",filtered()$top3_e1_tx,"&#xA0;%)","<br>")
+      }
+      
+      if (is.na(filtered()$top3_e1)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      if (is.na(filtered()$top2_e1)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      
+      if (is.na(filtered()$top1_e1)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      
     }
     
-    if (is.na(filtered()$top3_e1)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    if (is.na(filtered()$top2_e1)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    
-    if (is.na(filtered()$top1_e1)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    
-    
-    
-    
+    else {out<-paste0("")}
     out
     
   })
@@ -251,34 +262,36 @@ server <- function(input, output,session) {
   
   
   output$domaine<-   renderText({
-    if (!is.na(filtered()$top3_c5)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_c5,"<font color=\"#008b99\">"," (",filtered()$top2_c5_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$top3_c5,"<font color=\"#008b99\">"," (",filtered()$top3_c5_tx,"&#xA0;%)","<br>")
+    if (isTRUE(filtered()$tx_courses!=0)){
+      if (!is.na(filtered()$top3_c5)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_c5,"<font color=\"#008b99\">"," (",filtered()$top2_c5_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$top3_c5,"<font color=\"#008b99\">"," (",filtered()$top3_c5_tx,"&#xA0;%)","<br>")
+      }
+      
+      if (is.na(filtered()$top3_c5)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_c5,"<font color=\"#008b99\">"," (",filtered()$top2_c5_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      if (is.na(filtered()$top2_c5)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      
+      if (is.na(filtered()$top1_c5)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      
+      
     }
-    
-    if (is.na(filtered()$top3_c5)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_c5,"<font color=\"#008b99\">"," (",filtered()$top2_c5_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    if (is.na(filtered()$top2_c5)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    
-    if (is.na(filtered()$top1_c5)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    
-    
-    
+    else {out<-paste0("")}
     
     out
     
@@ -286,40 +299,39 @@ server <- function(input, output,session) {
   
   output$frein<-   renderText({  
     
-    
-    if (!is.na(filtered()$top3_d3)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_d3,"<font color=\"#008b99\">"," (",filtered()$top1_d3_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_d3,"<font color=\"#008b99\">"," (",filtered()$top2_d3_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$top3_d3,"<font color=\"#008b99\">"," (",filtered()$top3_d3_tx,"&#xA0;%)","<br>")
+    if (isTRUE(filtered()$tx_form!=0)){
+      if (!is.na(filtered()$top3_d3)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_d3,"<font color=\"#008b99\">"," (",filtered()$top1_d3_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_d3,"<font color=\"#008b99\">"," (",filtered()$top2_d3_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">",filtered()$top3_d3,"<font color=\"#008b99\">"," (",filtered()$top3_d3_tx,"&#xA0;%)","<br>")
+      }
+      
+      if (is.na(filtered()$top3_d3)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_d3,"<font color=\"#008b99\">"," (",filtered()$top1_d3_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_d3,"<font color=\"#008b99\">"," (",filtered()$top2_d3_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      if (is.na(filtered()$top2_d3)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_d3,"<font color=\"#008b99\">"," (",filtered()$top1_d3_tx,"&#xA0;%)","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      
+      if (is.na(filtered()$top1_d3)){
+        out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
+                    "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
+      }
+      
+      
+      
     }
-    
-    if (is.na(filtered()$top3_d3)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_d3,"<font color=\"#008b99\">"," (",filtered()$top1_d3_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_d3,"<font color=\"#008b99\">"," (",filtered()$top2_d3_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    if (is.na(filtered()$top2_d3)){
-      out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_d3,"<font color=\"#008b99\">"," (",filtered()$top1_d3_tx,"&#xA0;%)","<br>",
-                  "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                  "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-    }
-    
-    
-    if (is.na(filtered()$top1_d3)){
-    out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">","Données non disponibles","<br>",
-                "<font color=\"#008b99\">","#3 ", "<font color=\"#00000\">","Données non disponibles","<br>")
-  }
-    
-    
-  
-   
-    
+    else {out<-paste0("")}
     out
     
   })
-  
   
   
   
