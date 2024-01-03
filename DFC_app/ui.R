@@ -101,15 +101,16 @@ ui <- fluidPage(
     
     column(
       width = 3,
-      pickerInput(
-        width = "fit",
-        inline = TRUE,
-        label = tags$h1("Choisir la taille :"),
-        inputId = "taille",
-        choices = liste_taille2,
-        selected = "Ensemble"
-        
-      ))),
+      headerPanel("Choisir une taille"),
+      
+      # Sidebar with a slider input for number of observations
+      
+      uiOutput("taille"),
+ 
+      
+      
+      
+    )),
   
   br(),
   
