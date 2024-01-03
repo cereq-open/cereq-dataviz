@@ -138,7 +138,7 @@ ui <-
               inline = TRUE,
               label = tags$h1("Taille :"),
               inputId = "taille",
-              choices = liste_taille2,
+              choices = c("Ensemble des tailles", "10 à 49", "50 à 249","250 ou plus"),
               selected = "Ensemble des tailles"
               
               
