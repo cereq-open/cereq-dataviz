@@ -114,30 +114,25 @@ ui <- fluidPage(
   
   br(),
   
-  
   fluidRow(
     column(
       
-      width =8,
+      width =4,
       
       div(
         class = "custom-border-box",
         tags$p(
           class= "texte-stat-info",
-          htmlOutput("titre_formatrice")
-        ),
-        fluidRow(
-          column(
-            width=6,
+          htmlOutput("titre_formatrice_CS"),
+          htmlOutput("sous_titre_formatrice_CS"),
+          tags$p(
+            class = "texte-stat-info",
             
-            tags$p(
-              class = "texte-stat-info",
-              
-              "Les principaux domaines de formation",
-              tags$i(
-                class = "fas fa-info-circle",
-                style = "color: #008B99; font-size: 16px;",
-                title = "Liste des domaines de formation :
+            "Les principaux domaines de formation",
+            tags$i(
+              class = "fas fa-info-circle",
+              style = "color: #008B99; font-size: 16px;",
+              title = "Liste des domaines de formation :
 - Technologie de l’information et de la communication
 - Management
 - Travail en équipe
@@ -149,30 +144,29 @@ ui <- fluidPage(
 - Communication écrite ou orale
 - Savoir lire écrire compter 
 - Transition écologique
-- Autres domaines
-
-              "
-              )),
-            htmlOutput("domaine"),
-            tags$head(tags$style("#domaine{color: #00000;
+- Autres domaines ")),
+          htmlOutput("domaine"),
+          tags$head(tags$style("#domaine{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
-                                }" ) )),
-          
-          column(
-            width=6,
+                                }" ) )))),
+    
+    column(
+      width =4,
+      div(
+        class = "custom-border-box",
+        tags$p(
+          class= "texte-stat-info",
+          htmlOutput("titre_formatrice"),
+          htmlOutput("sous_titre_formatrice"),
+          tags$p(
+            class = "texte-stat-info",
             
-            tags$p(
-              class = "texte-stat-info",
-              
-              
-              "Les principales raisons qui ont limité l'effort de formation",
-              
-              
-              tags$i(
-                class = "fas fa-info-circle",
-                style = "color: #008B99; font-size: 16px;",
-                title = "Liste des raisons limitantes :
+            "Les principales raisons qui ont limité l'effort de formation",
+            tags$i(
+              class = "fas fa-info-circle",
+              style = "color: #008B99; font-size: 16px;",
+              title = "Liste des raisons limitantes :
 - Effort de formation approprié aux besoins
 - Recrutement de personnes ayant les qualifications et compétences requises
 - Difficulté d’évaluation des besoins en formation
@@ -182,28 +176,13 @@ ui <- fluidPage(
 - Efforts de formation importants antérieurment 
 - Charge de travail trop lourde ou manque de temps 
 - Crise sanitaire
-- Autres raisons 
-                      
-"
-              )),
-            
-            htmlOutput("frein"),
-            tags$head(tags$style("#frein{color: #00000;
+- Autres raisons ")),
+          
+          htmlOutput("frein"),
+          tags$head(tags$style("#frein{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
-                                }" ) )))))
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+                                }" ) ))))
     ,
     
     
@@ -213,6 +192,7 @@ ui <- fluidPage(
       div(
         class = "custom-border-box",
         htmlOutput("titre_non_formatrice"),
+        htmlOutput("sous_titre_non_formatrice"),
         tags$p(
           class = "texte-stat-info",
           
