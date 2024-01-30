@@ -34,16 +34,52 @@ server <- function(input, output,session) {
   
   
   filtered_testpivot_long <- reactive({
-    dplyr::filter(EFE_1, secteur  %in% c("Ensemble des secteurs", input$secteur ))
+    dplyr::filter(EFE_1, secteur  %in% c("Ensemble", input$secteur ))
   })
+  
+  
+  ##############################################
+  # PART ENTREPRISE FORMATRICE TTES FORMES
+  
+  output$plot_part_formatrice_courses <- renderGirafe({
+    
+ 
+    
+    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
+    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_courses","ns_txcourses" ,caption_part_1
+                         #                       , generateTitle(titre)
+    ) +
+      theme_set(
+        theme(
+          line = element_line(colour = "black", linewidth = 0.1),
+          title = element_text(family = "Arimo", size = 6),
+          text = element_text(size = 11, family = "Arimo"),
+          panel.background = element_blank(),
+          panel.grid = element_blank(),
+          axis.ticks = element_blank(),
+          axis.text.x = element_text(color = "#008B99", size = 8, hjust = 0.4, vjust = 5),
+          axis.text.y = element_blank(),
+          axis.title.y = element_blank(),
+          axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+          plot.title = element_textbox_simple(hjust = 0, size = 17, color = "#008B99"),
+          legend.title = element_blank(),
+          legend.background = element_blank(),
+          legend.key = element_blank(),
+          plot.caption.position = "plot",
+          legend.position = "top",
+          legend.justification = "center",
+          plot.caption = element_textbox_simple( hjust = 100, color = "#808080", size = 10 , margin = margin(t = -1)) 
+        ))
+    girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
+  })
+  
+  
   
   
   # TAUX ACCES
   output$plot_tx_acc <- renderGirafe({
     
-    gg <- plot_only_legend(filtered_testpivot_long())
-    legende <- get_legend(gg)
-    gg1 <- as_ggplot(legende)
+ 
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
     gg2 <- plot_barchart(filtered_testpivot_long(), "tx_acc","ns_txacc",caption_part_1
@@ -51,32 +87,11 @@ server <- function(input, output,session) {
     )
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
   })
-  
-  ##############################################
-  # PART ENTREPRISE FORMATRICE TTES FORMES
-  
-  output$plot_part_formatrice_courses <- renderGirafe({
-    
-    gg <- plot_only_legend(filtered_testpivot_long())
-    legende <- get_legend(gg)
-    gg1 <- as_ggplot(legende)
-    
-    #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_courses","ns_txcourses" ,caption_part_1
-                         #                       , generateTitle(titre)
-    )
-    girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
-  })
-  
-  
-  
   # PART ENTREPRISE FORMATRICE TTES FORMES
   
   output$plot_part_formatrice_tte <- renderGirafe({
     
-    gg <- plot_only_legend(filtered_testpivot_long())
-    legende <- get_legend(gg)
-    gg1 <- as_ggplot(legende)
+  
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
     gg2 <- plot_barchart(filtered_testpivot_long(), "tx_form","ns_txform", caption_part_1
@@ -88,10 +103,7 @@ server <- function(input, output,session) {
   
   #autres formes
   output$plot_autres_formes <- renderGirafe({
-    
-    gg <- plot_only_legend(filtered_testpivot_long())
-    legende <- get_legend(gg)
-    gg1 <- as_ggplot(legende)
+
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
     gg2 <- plot_barchart(filtered_testpivot_long(), "tx_autres","ns_txautres", caption_part_1
@@ -105,9 +117,7 @@ server <- function(input, output,session) {
   # HEURE DE STAGE
   output$plot_H_stage <- renderGirafe({
     
-    gg <- plot_only_legend(filtered_testpivot_long())
-    legende <- get_legend(gg)
-    gg1 <- as_ggplot(legende)
+
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
     gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag","ns_heurstag" ,caption_part_1
@@ -117,12 +127,10 @@ server <- function(input, output,session) {
   })
   
   
-  # TAUX ACCES
+  # heure stage sal
   output$plot_heure_stage_sal <- renderGirafe({
     
-    gg <- plot_only_legend(filtered_testpivot_long())
-    legende <- get_legend(gg)
-    gg1 <- as_ggplot(legende)
+ 
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
     gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag_sal","ns_heurstag_sal" ,caption_part_1
@@ -137,24 +145,40 @@ server <- function(input, output,session) {
     })
   
   output$titre_formatrice_CS <- renderText({
-    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_courses, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises formatrices en cours et stages" )
+    if (input$taille=="1000 salariés et plus" & input$secteur=="Agriculture, sylviculture, pêche") {
+      paste0(" " )
+    }
+    else
+    paste0("<font color=\"#008b99\">","<font size=2px>","Champ : "  ,"<font color=\"#000000\">","Les ","<font color=\"#008b99\">",filtered()$tx_courses, " % " ,"<font size=2px>","<font color=\"#000000\">","d'entreprises formatrices en cours et stages" )
   })
   output$sous_titre_formatrice_CS <- renderText({
-    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+    paste0("<font size=2px>","Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=2px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=2px>" )
   })
   
   output$titre_formatrice <- renderText({
-    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_form, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises formatrices toutes formes" )
+    if (input$taille=="1000 salariés et plus" & input$secteur=="Agriculture, sylviculture, pêche") {
+      paste0(" " )
+    }
+    else
+      paste0("<font color=\"#008b99\">","<font size=2px>","Champ : "  ,"<font color=\"#000000\">","Les ","<font color=\"#008b99\">",filtered()$tx_form," % " ,"<font size=2px>","<font color=\"#000000\">","d'entreprises formatrices toutes formes" )
   })
   output$sous_titre_formatrice <- renderText({
-    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+    paste0("<font size=2px>","Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=2px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=2px>" )
   })
   output$titre_non_formatrice <- renderText({
-    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",100-filtered()$tx_form, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises non formatrices" )
-  })
+    if (input$taille=="1000 salariés et plus" & input$secteur=="Agriculture, sylviculture, pêche") {
+      paste0(" " )
+    }
+    else
+    if (100-filtered()$tx_form==0){
+      paste0("<font color=\"#008b99\">","<font size=2px>","Champ : "  ,"<font color=\"#000000\">","","<font color=\"#008b99\">",100-filtered()$tx_form, " % " ,"<font size=2px>","<font color=\"#000000\">","d'entreprise non formatrices" )
+    }
+    else {
+    paste0("<font color=\"#008b99\">","<font size=2px>","Champ : "  ,"<font color=\"#000000\">","Les ","<font color=\"#008b99\">",100-filtered()$tx_form, " % " ,"<font size=2px>","<font color=\"#000000\">","d'entreprises non formatrices" )
+  }})
 
   output$sous_titre_non_formatrice <- renderText({
-    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+    paste0("<font size=2px>","Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=2px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=2px>" )
   })
   
   filtered <- reactive({
@@ -163,7 +187,10 @@ server <- function(input, output,session) {
   
   
   output$raison<- renderText({ 
-    if (100-filtered()$tx_form!=0){
+    if (input$taille=="1000 salariés et plus" & input$secteur=="Agriculture, sylviculture, pêche") {
+      out<-paste0("Données non disponible")
+    }
+    else if (100-filtered()$tx_form!=0){
     if (!is.na(filtered()$top3_e1)){
      out<-paste0("<font color=\"#008b99\">","<font-size=\"40px\">","#1 ", "<font color=\"#00000\">",filtered()$top1_e1,"<font color=\"#008b99\">"," (",filtered()$top1_e1_tx,"&#xA0;%)","<br>",
                   "<font color=\"#008b99\">","#2 ", "<font color=\"#00000\">",filtered()$top2_e1,"<font color=\"#008b99\">"," (",filtered()$top2_e1_tx,"&#xA0;%)","<br>",
@@ -200,6 +227,10 @@ server <- function(input, output,session) {
   
   
   output$domaine<-   renderText({
+    if (input$taille=="1000 salariés et plus" & input$secteur=="Agriculture, sylviculture, pêche") {
+      out<-paste0("Données non disponible")
+    }
+    else
     if (filtered()$tx_courses!=0){
     if (!is.na(filtered()$top3_c5)){
       out<-paste0("<font color=\"#008b99\">","#1 ", "<font color=\"#00000\">",filtered()$top1_c5,"<font color=\"#008b99\">"," (",filtered()$top1_c5_tx,"&#xA0;%)","<br>",
@@ -236,6 +267,10 @@ server <- function(input, output,session) {
   })
   
   output$frein<-   renderText({  
+    if (input$taille=="1000 salariés et plus" & input$secteur=="Agriculture, sylviculture, pêche") {
+      out<-paste0("Données non disponible")
+    }
+    else
     
     if (filtered()$tx_form!=0){
     if (!is.na(filtered()$top3_d3)){
