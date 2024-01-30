@@ -264,7 +264,7 @@ plot_barchart_large <-  function(df, y_col, caption_texte, titre = NULL) {
   DT <- concat_value(df, y_col)
   ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
     geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 0.9),vjust= 2, size= 2, color = "white") + 
-    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +
+    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +scale_fill_manual(values = colors_large) +
     scale_x_discrete(labels = c("1 à 3", "4 à 9", "10 à 19","20 à 49","50 à 249","250 à 499", "500 à 999", "1000 et +",       expression(bold("Ensemble")) )) +
     theme_set(
       theme(
@@ -300,7 +300,7 @@ plot_barchart_fin <- function(df, y_col, caption_texte, titre = NULL) {
   DT <- concat_value(df, y_col)
   ggplot(data = DT, aes(x = taille, y = !!sym(y_col), fill = as.factor(secteur), tooltip =tooltip_value, data_id = taille )) + geom_bar_interactive(stat = "identity", position = "dodge")  +
     geom_text(aes(x= taille, label = taux_str),  position = position_dodge(width = 0.9),vjust= 2, size= 2, color = "white") +
-    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +
+    labs(caption = caption_texte, title = titre,x = "Taille de l'entreprise en nombre de salariés") +scale_fill_manual(values = colors_fin) +
     scale_x_discrete(labels = c("moins de 50", "50 et plus"  , expression(bold("Ensemble")) )) }
 
   
