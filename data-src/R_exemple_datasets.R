@@ -109,12 +109,6 @@ EFE_1$top2_e1[EFE_1$top2_e1 == 'e1i'] <- 'Crise sanitaire'
 
 
 
-EFE_1$taille[EFE_1$taille == '1 à 10 salariés'] <- '1 à 10'
-EFE_1$taille[EFE_1$taille == '11 à 49 salariés'] <- '11 à 49'
-EFE_1$taille[EFE_1$taille == '50 à 299 salariés'] <- '50 à 299'
-EFE_1$taille[EFE_1$taille == '300 à 999 salariés'] <- '300 à 999'
-EFE_1$taille[EFE_1$taille == '1000 salariés et plus'] <- '1000 et plus'
-EFE_1$secteur[EFE_1$secteur == 'Ensemble'] <- 'Ensemble des secteurs'
 
 EFE_1$tx_acc <- round(EFE_1$tx_acc, digits = 0)
 EFE_1$heurstag <- round(EFE_1$heurstag, digits = 0)
@@ -155,9 +149,17 @@ EFE_1$ns_txautres= case_when(
   EFE_1$ns_txautres==1~"NS",
   TRUE ~  paste0(as.character(EFE_1$tx_autres), " %"))
 
-EFE_1$ns_heurstag=paste0(as.character(EFE_1$heurstag), " h")
+EFE_1$ns_heurstag= case_when(
+  EFE_1$ns_heurstag==1~"NS",
+  TRUE ~  paste0(as.character(EFE_1$heurstag), " h"))
 
-EFE_1$ns_heurstag_sal=  paste0(as.character(EFE_1$heurstag_sal), " h")
+EFE_1$ns_heurstag_sal= case_when(
+  EFE_1$ns_heurstag_sal==1~"NS",
+  TRUE ~  paste0(as.character(EFE_1$heurstag_sal), " h"))
+
+
+
+
 
 
 
@@ -219,7 +221,7 @@ EFE_1$secteur  <- fct_relevel(EFE_1$secteur, c(
   "Commerce, transports et services divers",
   "Enseignement, santé et action sociale",
 
-  "Ensemble des secteurs"))
+  "Ensemble"))
 
 EFE_1_nodupkey_taille <- EFE_1 %>% distinct(taille, .keep_all = TRUE)
 
@@ -229,16 +231,16 @@ liste_taille[1] <- NULL
 liste_taille2 <- c(ensemble_liste_taille, liste_taille)
 
 EFE_1$taille  <- fct_relevel(EFE_1$taille, c( 
-  '1 à 10','11 à 49', '50 à 299','300 à 999','1000 et plus', 'Ensemble'))
+  '1 à 10 salariés','11 à 49 salariés', '50 à 299 salariés','300 à 999 salariés','1000 salariés et plus', 'Ensemble'))
 
 
 
 
-view(EFE_1)
+
 
 write.xlsx(EFE_1,"EFE_1_clair.xlsx", encoding="UTF-8", sep=";")
 
-ensemble = list('Ensemble des secteurs')
+ensemble = list('Ensemble')
 liste_secteur <- as.list(sort(EFE_1_nodupkey$secteur))
 
 liste_secteur[5] <- NULL
@@ -260,7 +262,7 @@ liste_secteur2 <- c(ensemble, liste_secteur)
 # Couleurs des barplots
 source <- paste0(
   '<span style="color:#008B99;">Sources : </span>',
-  "Source : Céreq-Dares-France compétences, Enquête Formation Employeur – européenne (EFE-e, Données 2020)"
+  "Céreq-Dares-France compétences, Enquête Formation Employeur – européenne (EFE-e, Données 2020)"
 )
 
 
