@@ -22,6 +22,10 @@ server <- function(input, output,session) {
     }
   )
   
+
+
+    
+    
   
   ################################### CL #################### CL ############################ CL #########################################################
   ################################### CL #################### CL ############################ CL #########################################################
@@ -109,7 +113,14 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
-    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_courses", caption_part_1)
+    {     
+      theme_replace(
+    
+        axis.text.x = element_text(color = "#008B99", size = 9, hjust = 0.5, vjust = 4.5),
+        axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+  
+      )
+      gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_courses", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
       gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_courses", caption_part_1) 
@@ -126,7 +137,14 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
-    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_acc", caption_part_1)
+    { 
+      theme_replace(
+        
+        axis.text.x = element_text(color = "#008B99", size = 9, hjust = 0.5, vjust = 4.5),
+        axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+        
+      )
+      gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_acc", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
       gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_acc", caption_part_1)
@@ -147,7 +165,14 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
-    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_form", caption_part_1)
+    { 
+      theme_replace(
+        
+        axis.text.x = element_text(color = "#008B99", size = 9, hjust = 0.5, vjust = 4.5),
+        axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+        
+      )
+      gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_form", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
       gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_form", caption_part_1)
@@ -164,7 +189,14 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
-    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_tpf", caption_part_1)
+    { 
+      theme_replace(
+        
+        axis.text.x = element_text(color = "#008B99", size = 9, hjust = 0.5, vjust = 4.5),
+        axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+        
+      )
+      gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "tx_tpf", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
       gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "tx_tpf", caption_part_1)
@@ -182,7 +214,14 @@ server <- function(input, output,session) {
     gg1 <- as_ggplot(legende)
     
     if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
-    { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag", caption_part_1)
+    {
+      theme_replace(
+        
+        axis.text.x = element_text(color = "#008B99", size = 9, hjust = 0.5, vjust = 4.5),
+        axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+        
+      )
+      gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag", caption_part_1)
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
     else {
       gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "heurstag", caption_part_1)
@@ -200,7 +239,14 @@ server <- function(input, output,session) {
 
    
    if (isTRUE(input$Secteur_fin== "Service ensemble"  || input$Secteur_fin== "Industrie ensemble" || input$Secteur_fin== "Commerce ensemble"   || input$Secteur_fin== "Ensemble des secteurs"  ) )
-   { gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag_sal", caption_part_1)
+   { 
+     theme_replace(
+       
+       axis.text.x = element_text(color = "#008B99", size = 9, hjust = 0.5, vjust = 4.5),
+       axis.title.x = element_text(color = "#008B99", size = 10, vjust = 4),
+       
+     )
+     gg2 <- plot_barchart_large(filtered_testpivot_long_large(), "heurstag_sal", caption_part_1)
    girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)}
    else {
      gg2_bis <- plot_barchart_fin(filtered_testpivot_long_fin(), "heurstag_sal", caption_part_1)
@@ -210,18 +256,28 @@ server <- function(input, output,session) {
   
   output$titre_secteur <- renderText({
     paste0("<strong>","<font size=5px>","Chiffres clés par taille d'entreprises pour le secteur : "  ,"<font color=\"#008b99\">",filtered()$secteur)
-    })
+  })
+  
+  output$titre_formatrice_CS <- renderText({
+    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_courses, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises formatrices en cours et stages" )
+  })
+  output$sous_titre_formatrice_CS <- renderText({
+    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+  })
   
   output$titre_formatrice <- renderText({
-    paste0("<strong>","<font size=5px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_courses, " % ","<strong>","<font size=5px>","<font color=\"#000000\">","d'entreprises formatrices : " )
+    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",filtered()$tx_form, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises formatrices toutes formes" )
   })
-  
+  output$sous_titre_formatrice <- renderText({
+    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+  })
   output$titre_non_formatrice <- renderText({
-    paste0("<strong>","<font size=5px>","Parmi les "  ,"<font color=\"#008b99\">",100-filtered()$tx_courses, " % ","<strong>","<font size=5px>","<font color=\"#000000\">","d'entreprises non formatrices : " )
+    paste0("<strong>","<font size=3px>","Parmi les "  ,"<font color=\"#008b99\">",100-filtered()$tx_form, " % ","<strong>","<font size=3px>","<font color=\"#000000\">","d'entreprises non formatrices" )
   })
-
   
-
+  output$sous_titre_non_formatrice <- renderText({
+    paste0("Secteur : ","<font color=\"#008b99\">",filtered()$secteur,"<font size=3px>","<font color=\"#000000\">"," Taille : ",  "<font color=\"#008b99\">",filtered()$taille,"<font size=3px>" )
+  })
   
   
   output$raison<- renderText({ 
