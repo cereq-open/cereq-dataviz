@@ -292,8 +292,8 @@ server <- function(input, output,session) {
     
     
     labels_heurstag <- ifelse(is.na(filtre_Europe()$heurstag),  "données manquantes", sprintf(
-      "<strong>%s</strong><br/>%g %%",
-      filtre_Europe()$NAME_FREN, filtre_Europe()$heurstag
+      "<strong>%s</strong><br/>%g heures",
+      filtre_Europe()$NAME_FREN, filtre_Europe()$heurstag, "heures"
     ) ) %>%
       lapply(htmltools::HTML)
     
