@@ -77,7 +77,8 @@ ui <-
 
                        label = h1("Choisir l'année :"), 
 
-                       choices = c("2010", "2015", "2020"),
+                       choices = c("2020", "2015", "2010"),
+                      
                        status = "primary"
                      )),
                      
@@ -138,7 +139,7 @@ ui <-
               inline = TRUE,
               label = tags$h1("Taille :"),
               inputId = "taille",
-              choices = c("Ensemble des tailles", "10 à 49", "50 à 249","250 ou plus"),
+              choices = c("Ensemble des tailles", "10 à 49 salariés", "50 à 249 salariés","250 salariés ou plus"),
               selected = "Ensemble des tailles"
               
               
@@ -165,7 +166,7 @@ ui <-
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
+                title = "Part d'entreprises qui ont organisé au moins un cours et stage pour au moins un de leurs salariés au cours de l'année"
               )
             ),
             
@@ -187,7 +188,7 @@ ui <-
             tags$p(
               class = "texte-stat-info",
               
-              "Part d'entreprises formatrices autres formes"
+              "Part d'entreprises formatrices autres formes au cours de l'année"
               ,
               tags$i(
                 class = "fas fa-info-circle",
@@ -238,7 +239,7 @@ ui <-
             tags$p(
               class = "texte-stat-info",
               
-              "Taux d'accès à la formation continue"
+              "Taux d'accès à la formation continue au cours de l'année"
               ,
               tags$i(
                 class = "fas fa-info-circle",
@@ -273,7 +274,7 @@ ui <-
               tags$i(
                 class = "fas fa-info-circle",
                 style = "color: #008B99; font-size: 16px;",
-                title = "Durée moyenne de formation par stagiaire"
+                title = "Durée moyenne de formation par stagiaire au cours de l'année"
               )
             ),
             
