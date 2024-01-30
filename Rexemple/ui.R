@@ -4,7 +4,6 @@ library(viridis)
 library(shinyWidgets)
 library(DT)
 library(shinydashboardPlus)
-
 library(cli)
 library(rsconnect)
 library(leaflet)
@@ -48,36 +47,6 @@ ui <- fluidPage(
   br(),
   gfontHtmlDependency(family = "Arimo"),
  
-  br(),
-  fluidRow(
-    column(width=6),
-    column(
-      align = "right",
-      width = 6,
-      div(
-        style = "text-align:right;",
-        tags$img(src = "logo-cereq.svg")#,
-        #tags$p(
-          #style = "font-size:14px;",
-         # "Données : ",
-         # tags$img(src = "logo-generation.png")
-       # )
-      ))),
-    fluidRow(column( width = 12, class='h1')),
-    fluidRow(
-      column(
-        align ="right", 
-        width = 12,
-     # tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
-      tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
-      DownloadButton("downloadData", ".xlsx"),
-      actionButton("downloadPDF", ".pdf", onclick = "window.print();"),
-     actionButton("linkedin_share",
-                  label = "Linkedin",
-                  icon = icon("linkedin"),
-                  onclick = sprintf("window.open('%s')", url_link))
-      )
-      ),
   
   
  
@@ -125,8 +94,7 @@ ui <- fluidPage(
         class = "custom-border-box",
         tags$p(
           class= "texte-stat-info",
-          htmlOutput("titre_formatrice_CS"),
-          htmlOutput("sous_titre_formatrice_CS"),
+       
                 tags$p(
               class = "texte-stat-info",
               
@@ -148,6 +116,8 @@ ui <- fluidPage(
 - Transition écologique
 - Autres domaines ")),
             htmlOutput("domaine"),
+          htmlOutput("titre_formatrice_CS"),
+          htmlOutput("sous_titre_formatrice_CS"),
             tags$head(tags$style("#domaine{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
@@ -159,8 +129,7 @@ ui <- fluidPage(
         class = "custom-border-box",
         tags$p(
           class= "texte-stat-info",
-          htmlOutput("titre_formatrice"),
-          htmlOutput("sous_titre_formatrice"),
+      
             tags$p(
               class = "texte-stat-info",
               
@@ -181,6 +150,8 @@ ui <- fluidPage(
 - Autres raisons ")),
             
             htmlOutput("frein"),
+          htmlOutput("titre_formatrice"),
+          htmlOutput("sous_titre_formatrice"),
             tags$head(tags$style("#frein{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
@@ -193,8 +164,7 @@ ui <- fluidPage(
       width =4,
       div(
         class = "custom-border-box",
-        htmlOutput("titre_non_formatrice"),
-        htmlOutput("sous_titre_non_formatrice"),
+   
         tags$p(
           class = "texte-stat-info",
           
@@ -218,6 +188,8 @@ ui <- fluidPage(
           )),
         
         htmlOutput("raison"),
+        htmlOutput("titre_non_formatrice"),
+        htmlOutput("sous_titre_non_formatrice"),
         tags$head(tags$style("#raison{color: #00000;
                                  font-size: 16px;
                                  font-style: bold;
@@ -254,12 +226,12 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Part d'entreprises formatrices en cours et stages"
+          "Part d'entreprises formatrices en cours ou stages"
           ,
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Part d'entreprises qui ont organisé au moins un cours et stages pour au moins un de leurs salariés"
+            title = "Part d'entreprises qui ont organisé au moins un cours ou stage pour au moins un de leurs salariés au cours de l'année"
           )
         ),
         div(
@@ -279,12 +251,12 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Part d'entreprises formatrices cours et stages et autres formes"
+          "Part d'entreprises formatrices en cours ou stages ou en autres formes"
           ,
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés"
+            title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés au cours de l'année"
           )
         ),
         div(
@@ -307,12 +279,12 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Part d'entreprises formatrices uniquement en autres formes"
+          "Part d'entreprises formatrices sous d'autres formes que les cours ou stages"
           ,
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title =  "Part d'entreprises formatrices qui ont organisé uniquement des formations de type autres formes"
+            title =  "Part d'entreprises formatrices qui ont organisé uniquement des formations de type autres formes au cours de l'année"
           )
         ),
         div(
@@ -359,12 +331,12 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Durée moyenne de formation par stagiaire"
+          "Durée moyenne de formation par stagiaire au cours de l'année"
           ,
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Nombre d'heures de cours et stages par stagiaire"
+            title = "Nombre d'heures de cours ou stages par stagiaire"
           )
         ),
         div(
@@ -388,7 +360,7 @@ ui <- fluidPage(
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Nombre d'heures de cours et stages par salarié"
+            title = "Nombre d'heures de cours ou stage par salarié au cours de l'année"
           )
         ),
         div(
@@ -397,7 +369,44 @@ ui <- fluidPage(
         )
       )
       
-    ))
+    ),
+    
+    
+    br(),
+    br(), 
+    br(),
+    fluidRow(column( width = 12, class='h1')),
+    fluidRow(
+      column(width=6),
+      column(
+        align = "right",
+        width = 6,
+        div(
+          style = "text-align:right;",
+          tags$img(src = "logo-cereq.svg")#,
+          #tags$p(
+          #style = "font-size:14px;",
+          # "Données : ",
+          # tags$img(src = "logo-generation.png")
+          # )
+        ))),
+    fluidRow(column( width = 12, class='h1')),
+    fluidRow(
+      column(
+        align ="right", 
+        width = 12,
+        # tags$img(src = "logo-download.svg", height = "50px", width = "50px"),
+        tags$head(tags$style(".btn{background:#FFFFFF;} .btn{color: #008b99;}; @media print{@page {size: landscape}};")),
+        DownloadButton("downloadData", ".xlsx"),
+        actionButton("downloadPDF", ".pdf", onclick = "window.print();"),
+        actionButton("linkedin_share",
+                     label = "Linkedin",
+                     icon = icon("linkedin"),
+                     onclick = sprintf("window.open('%s')", url_link))
+      )
+    )
+    
+    )
   
 )
 
