@@ -43,7 +43,6 @@ generatePlot <- function(.data, colors, .caption = NULL, .title = NULL,
 
   gg <- ggplot(data = .data, aes(x = statistique, y = modalite, fill = modalite)) +
     geom_col_interactive(mapping = aes(data_id = data_id, tooltip = tooltip_value)) +
-    coord_cartesian(xlim = c(-20, 100))+
     facet_wrap(~diplome, scales="free_y", ncol = 1) +
     scale_fill_manual(
       values = colors,
