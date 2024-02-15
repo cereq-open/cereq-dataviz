@@ -26,6 +26,7 @@ library(gfonts)
 Europe <- readRDS("data/Europe.RDS")
 liste_secteur2 <- readRDS("data/liste_secteur2.RDS")
 liste_taille2 <- readRDS("data/liste_taille2.RDS")
+token<-readRDS("data/token.RDS")
 
 Europe$taille <- fct_recode(Europe$taille,
                              "10 à 49 salariés" = "10 à 49")
@@ -53,7 +54,7 @@ concat_value <- function(df, nom_colonne) {
 
 
 ###########################################################################################
-token<-"8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9"
+
 
 DownloadButton <- function(outputId, label = label) {
   tags$a(

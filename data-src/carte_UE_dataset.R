@@ -75,7 +75,9 @@ liste_taille2 <- c(ensemble_liste_taille, liste_taille)
 
 
 
+token<-"8C2gU8pSutHVOkE3id0L7olcMCYjc2Aoh3GdmmneYDBw6bX4m1gBzw9t3JMM0EU9"
 
+saveRDS(token, file="carte_UE/data/token.RDS")
 
 
 saveRDS(Europe_2, file = "carte_UE/data/Europe.RDS")
