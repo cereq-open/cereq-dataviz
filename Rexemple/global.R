@@ -43,8 +43,8 @@ linebreaks <- function(n){HTML(strrep(br(), n))}
 
 
 
-plot_barchart<- readRDS(file = "data/plot_barchart.RDS")
-
+plot_barchart_moins10<- readRDS(file = "data/plot_barchart_moins10.RDS")
+plot_barchart_plus10<- readRDS(file = "data/plot_barchart_plus10.RDS")
 
 EFE_1<-readRDS( file = "data/EFE_1.RDS")
 
@@ -55,6 +55,7 @@ liste_taille2 <- readRDS( file = "data/liste_taille2.RDS")
 
 source <- readRDS( file = "data/source.RDS")
 caption_part_1 <- readRDS( file = "data/caption_part_1.RDS")
+caption_part_10plus<- readRDS( file = "data/caption_part_10plus.RDS")
 concat_value <- readRDS( file = "data/concat_value.RDS")
 
 colors <- readRDS( file = "data/colors.RDS")
