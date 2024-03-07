@@ -28,9 +28,13 @@ server <- function(input, output,session) {
   
   
 
-
+  EFE_1_plus10<- EFE_1 %>%
+    filter(taille != "1 à 10 salariés")
   
 
+  filtered_testpivot_long_plus10 <- reactive({
+    dplyr::filter(EFE_1_plus10, secteur  %in% c("Ensemble", input$secteur ))
+  })
   
   
   filtered_testpivot_long <- reactive({
@@ -39,14 +43,14 @@ server <- function(input, output,session) {
   
   
   ##############################################
-  # PART ENTREPRISE FORMATRICE TTES FORMES
+  # PART ENTREPRISE Cours et stages
   
   output$plot_part_formatrice_courses <- renderGirafe({
     
  
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_courses","ns_txcourses" ,caption_part_1
+    gg2 <- plot_barchart_moins10(filtered_testpivot_long(), "tx_courses","ns_txcourses" ,caption_part_1
                          #                       , generateTitle(titre)
     ) +
       theme_set(
@@ -82,7 +86,7 @@ server <- function(input, output,session) {
  
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_acc","ns_txacc",caption_part_1
+    gg2 <- plot_barchart_moins10(filtered_testpivot_long(), "tx_acc","ns_txacc",caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
@@ -94,19 +98,19 @@ server <- function(input, output,session) {
   
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_form","ns_txform", caption_part_1
+    gg2 <- plot_barchart_plus10(filtered_testpivot_long_plus10(), "tx_form","ns_txform", caption_part_10plus
                          #                       , generateTitle(titre)
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
   })
   
   
-  #autres formes
+  #Autres formes
   output$plot_autres_formes <- renderGirafe({
 
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "tx_autres","ns_txautres", caption_part_1
+    gg2 <- plot_barchart_plus10(filtered_testpivot_long_plus10(), "tx_autres","ns_txautres", caption_part_10plus
                          #                       , generateTitle(titre)
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
@@ -120,7 +124,7 @@ server <- function(input, output,session) {
 
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag","ns_heurstag" ,caption_part_1
+    gg2 <- plot_barchart_moins10(filtered_testpivot_long(), "heurstag","ns_heurstag" ,caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj = gg2, height_svg = 5, width_svg  = 6)
@@ -133,7 +137,7 @@ server <- function(input, output,session) {
  
     
     #  titre <- tab_variables_evolution %>% filter(Nom_colonne == "taux_emploi") %>% pull(Titre_graphique)
-    gg2 <- plot_barchart(filtered_testpivot_long(), "heurstag_sal","ns_heurstag_sal" ,caption_part_1
+    gg2 <- plot_barchart_moins10(filtered_testpivot_long(), "heurstag_sal","ns_heurstag_sal" ,caption_part_1
                          #                       , generateTitle(titre)
     )
     girafe(ggobj =gg2 , height_svg = 5, width_svg  = 6)
