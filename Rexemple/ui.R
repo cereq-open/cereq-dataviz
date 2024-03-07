@@ -78,7 +78,7 @@ ui <- fluidPage(
         label = tags$h1("Choisir la taille :"),
         inputId = "taille",
         choices = liste_taille2,
-        selected = "Ensemble"
+        selected = "11 salariés et plus"
         
       ))),
   
@@ -241,9 +241,8 @@ ui <- fluidPage(
       )
     ), 
 
+    #TAUX ACCES
     
-    #PART FROMATRICE TOUTES FORMES 
-
     column(
       width = 6,
       div(
@@ -251,23 +250,23 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Part d'entreprises formatrices en cours ou stages ou en autres formes"
+          "Taux d'accès aux cours et stages"
           ,
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés au cours de l'année"
+            title = "Part de salariés formés"
           )
         ),
         div(
           style = "max-width:800px; margin-left:auto; margin-right:auto;",
-          girafeOutput("plot_part_formatrice_tte", height = NULL)
+          girafeOutput("plot_tx_acc", height = NULL)
         )
       )
     )
- 
   ),
-  br(),
+br(),
+    
   #TPF
 
   fluidRow(
@@ -295,8 +294,8 @@ ui <- fluidPage(
     ), 
     
     
-    #TAUX ACCES
-
+    #PART FROMATRICE TOUTES FORMES 
+    
     column(
       width = 6,
       div(
@@ -304,22 +303,23 @@ ui <- fluidPage(
         tags$p(
           class = "texte-stat-info",
           
-          "Taux d'accès"
+          "Part d'entreprises formatrices en cours ou stages ou en autres formes"
           ,
           tags$i(
             class = "fas fa-info-circle",
             style = "color: #008B99; font-size: 16px;",
-            title = "Part de salariés formés"
+            title = "Part d'entreprises qui ont organisé au moins une formation pour au moins un de leurs salariés au cours de l'année"
           )
         ),
         div(
           style = "max-width:800px; margin-left:auto; margin-right:auto;",
-          girafeOutput("plot_tx_acc", height = NULL)
+          girafeOutput("plot_part_formatrice_tte", height = NULL)
         )
       )
     )
+    
   ),
-  br(),
+br(),
   #DURE MOYENNE PAR STAGIAIRE
 
   fluidRow(
